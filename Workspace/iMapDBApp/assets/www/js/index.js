@@ -16,8 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var app = {
-    // Application Constructor
+var debugOut = true;
+
+var iMapApp = {
+    
+	userParams: null,
+	
+	// Application Constructor
     initialize: function() {
         this.bindEvents();
     },
@@ -33,17 +38,29 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+    	console.log("onDeviceReady made it here.");
+    	iMapApp.loadParameters();
     },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
+    // load the parameters file.
+    loadParameters: function() {
+    	console.log('loading parameters');
+    	var request = new XMLHttpRequest();
+        request.open("GET", "res/parameters.json", false);
+        request.onreadystatechange = function(){
+        	iMapApp.debugMsg("state = " + request.readyState);
+            if (request.readyState == 4) {
+                if (request.status == 200 || request.status == 0) {
+                	iMapApp.debugMsg('read: ' + request.responseText);
+                	iMapApp.userParams = $.parseJSON(request.responseText);
+                	iMapApp.debugMsg('user params read: ' + $.toJSON(iMapApp.userParams));
+                }
+            }
+        }
+        request.send();
+    },
+    // Output debug messages.
+    debugMsg: function(msg) {
+    	if (debugOut)
+    		console.log( msg );
     }
 };

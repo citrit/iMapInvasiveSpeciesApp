@@ -1,0 +1,19 @@
+{
+   "Name":"Test",
+   "Age":25,
+   "array":[
+      1,
+      2,
+      3
+   ],
+   "object":{
+      "property":"Jack",
+      "subobj":{
+         "arr":[
+            "php",
+            "java"
+         ],
+         "numero":1
+      }
+   }
+}
