@@ -40,6 +40,7 @@ var iMapApp = {
     onDeviceReady: function() {
     	console.log("onDeviceReady made it here.");
     	iMapApp.loadParameters();
+    	iMapApp.loadDatabase();
     },
     // load the parameters file.
     loadParameters: function() {
@@ -57,6 +58,10 @@ var iMapApp = {
             }
         }
         request.send();
+    },
+    // Load the database.
+    loadDatabase: function() {
+    	DBFuncs.init();
     },
     // Output debug messages.
     debugMsg: function(msg) {
