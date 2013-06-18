@@ -17,11 +17,11 @@ var DBFuncs = {
     	
     	if (results.rows.length == 0) {
     		iMapApp.debugMsg('time to init database');
-    		loadStateSpeciesList(tx);
+    		DBFuncs.loadStateSpeciesList(tx);
     	}
     },
     // Load the state species list
-	loadStateSpeciesList(tx) {
+	loadStateSpeciesList: function(tx) {
     	var request = new XMLHttpRequest();
     	iMapApp.debugMsg("Loading species list");
         request.open("GET", "res/state_species_list.sql", false);
@@ -30,10 +30,25 @@ var DBFuncs = {
             if (request.readyState == 4) {
                 if (request.status == 200 || request.status == 0) {
                     var sqlQueries = request.responseText.split("\n");
+                    $.each(sqlQueries, function(index, val) {
+                    	iMapApp.debugMsg("val: " + val);
+						if (val.substr(0,5) == "CREATE") {
+							tx.executeSql(val);
+						}
+						else {
+							DBFuncs.execInsertCmd(tx,val);
+						}
+                    });
                 }
             }
         }
-    }
+        request.send();
+    },
+    // Exec insert command
+    execInsertCmd: function(tx, val) {
+    	vals = val.split("	");
+    	iMapApp.debugMsg("execInsert: " + $.toJSON(vals));
+    },
     //Transaction error callback
     //
     errorCB: function(err) {
