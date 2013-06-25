@@ -31,6 +31,10 @@
             
             <a  href="index-new.html">Jquery Mobile</a>
         </div>
+        Sql:  <input type="text" name="sqlStr">
+         <input type="button" value="Run" onclick="DBFuncs.execSQL($("sqlStr").value)">
+        <div name="sqlOutput">
+        </div>
         <script type="text/javascript" src="js/cordova-2.7.0.js"></script>
         <script type="text/javascript" src="js/jquery-1.10.1.js"></script>
         <script type="text/javascript" src="js/json.js"></script>
