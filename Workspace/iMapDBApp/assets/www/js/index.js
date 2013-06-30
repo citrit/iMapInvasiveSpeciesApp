@@ -51,12 +51,10 @@ var iMapPrefs = {
 		init: function() {
 			var parms = localStorage.getItem("userParams");
 	    	if (parms != null) {
-	    		iMapApp.debugMsg("found existing user Params: " + parms);
-	    		iMapPrefs.params = $.parseJSON(parms);
+	    		iMapPrefs.loadParams();
 	    	}
 	    	else {
-	    		iMapApp.debugMsg("need to init user Params");
-	    		localStorage.setItem("userParams", $.toJSON(iMapPrefs.params));
+	    		iMapPrefs.saveParams();
 	    	}
 		},
 		saveParams: function() {
