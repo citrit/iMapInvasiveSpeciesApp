@@ -1,6 +1,8 @@
 var DBFuncs = {
 	
 	iMapDB: null,
+	ProjectList: new Array(),
+	SpeciesList: new Array(),
 	
 	// Application Constructor
     init: function() {
@@ -9,6 +11,28 @@ var DBFuncs = {
     		   name : "iMapInvasives"  
     	 });
     	iMapDB.transaction(DBFuncs.checkForUpdates, DBFuncs.errorCB);
+    	iMapDB.transaction(DBFuncs.loadProjectList, DBFuncs.errorCB);
+    	iMapDB.transaction(DBFuncs.loadSpeciesList, DBFuncs.errorCB);
+    },
+    // load the projects into the DB class
+    loadProjectList: function(tx, results) {
+    	iMapApp.debugMsg("Load the project list");
+    	tx.executeSql("SELECT projectName from imiadmin_project", [], function(tx, results) {
+    		for (var i=0;i<results.rows.length;i++) {
+    			DBFuncs.ProjectList[i] = results.rows.item(i).projectName;
+    		}
+    		//iMapApp.debugMsg("iMapDB.ProjectList: " + $.toJSON(DBFuncs.ProjectList));
+    	}, DBFuncs.errorCB);
+    },
+    // load the projects into the DB class
+    loadSpeciesList: function(tx, results) {
+    	iMapApp.debugMsg("Load the species list");
+    	tx.executeSql("SELECT stateCommonName, state_scientific_name from imiadmin_state_species_list", [], function(tx, results) {
+    		for (var i=0;i<results.rows.length;i++) {
+    			DBFuncs.SpeciesList[i] = [ results.rows.item(i).stateCommonName, results.rows.item(i).state_scientific_name];
+    		}
+    		//iMapApp.debugMsg("iMapDB.SpeciesList: " + $.toJSON(DBFuncs.SpeciesList));
+    	}, DBFuncs.errorCB);
     },
     // check if the database has been loaded.
     checkForUpdates: function(tx, results) {
