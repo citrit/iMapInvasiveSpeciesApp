@@ -1,7 +1,10 @@
-
+var pictureSource; // picture source
+var destinationType; // sets the format of returned value 
 var iMapApp = {
 	
 	debugOut: true,
+	 
+
 	
 	// Application Constructor
     initialize: function() {
@@ -22,6 +25,9 @@ var iMapApp = {
     	console.log("onDeviceReady made it here.");
     	iMapPrefs.init();
     	iMapApp.loadDatabase();
+    	pictureSource=navigator.camera.PictureSourceType;
+    	destinationType=navigator.camera.DestinationType;
+    	tabPhoto();
     },
     // Load the database.
     loadDatabase: function() {
