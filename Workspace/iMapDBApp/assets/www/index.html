@@ -17,6 +17,8 @@
   <script type="text/javascript" src="js/jquery.mobile-1.3.1.js"></script>
   <script type="text/javascript" src="js/json.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript" src="js/observation.js"></script>
+  <script type="text/javascript" src="js/prefs.js"></script>
   <script type="text/javascript" src="js/SQLitePlugin.js"></script>
   <script type="text/javascript" src="js/db.js"></script>
   <script type="text/javascript" src="js/photo.js"></script>
@@ -51,7 +53,7 @@
 		$('#head').append($(selected)).trigger( "create" );
 	}
 	function tabWhen(){
-		selected = "<h2>Date Recorded</h2><div data-role='fieldcontain' id='date'><label for='textinput1'>Date</label><input name='' id='textinput1' placeholder='' value='' type='text'></div>";
+		selected = "<h2>Date Recorded</h2><div data-role='fieldcontain' id='date'><label for='textinput1'>Date</label><input name='' id='textinput1' placeholder='' value='" + new Date().toLocaleString() + "' type='text'></div>";
 		$('#head').empty();
 		$('#head').append($(selected)).trigger( "create" );
 		tab = 'when';

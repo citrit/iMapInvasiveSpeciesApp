@@ -171,7 +171,7 @@
       console.log("success not null:" + sql);
       successcb = function(execres) {
         var res, saveres;
-        console.log("executeSql callback:" + JSON.stringify(execres));
+        //console.log("executeSql callback:" + JSON.stringify(execres));
         res = void 0;
         saveres = void 0;
         saveres = execres;
