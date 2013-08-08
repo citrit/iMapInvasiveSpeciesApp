@@ -8,6 +8,9 @@ function iMapObservation(){
 	iMapObservation.prototype.Species = new Array();
 	iMapObservation.prototype.When = new Date().toLocaleString();
 	iMapObservation.prototype.Where = [ 0.0, 0.0 ];
+	iMapObservation.prototype.Objectid = 0;
+	iMapObservation.prototype.ObsState = "NY";
+	iMapObservation.prototype.ObsCounty = "Albany";
 	navigator.geolocation.getCurrentPosition(function (position) {
 			this.Where = [ position.coords.longitude, position.coords.latitude];
 			iMapApp.debugMsg("Position: " + $.toJSON(position));
@@ -25,28 +28,40 @@ iMapObservation.prototype.save = function(){
 	var obsv = this;
 	
 	iMapDB.transaction(function (tx) {
-		var sqlStr = 'INSERT INTO imiadmin_observation (Objectid, Obsid,Obsorg,Observername,Imapdataentrypersonid,Imapdataentrydate, Obsdate,obsstate,projectid,statespeciesid,commonname,scientificname,obsorigxcoord,obsorigycoord, repositoryavailable,digitalphoto,imapdataentrymethod,obsdatastatus,obscountyname) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-		var parms = [-1, -1, "Org", obsv.Who, obsv.Who, obsv.When, obsv.When, "NY", obsv.Project, 
-		             obsv.Species[0], obsv.Species[1], obsv.Species[2],
-		             obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, "Albany"];
+		tx.executeSql("Select objectid from imiadmin_observation where objectid=?" , [obsv.Objectid], function(tx, results) {
+			if (results.rows.length == 0) {
+				var sqlStr = 'INSERT INTO imiadmin_observation (objectid, obsid,Obsorg,observername,Imapdataentrypersonid,Imapdataentrydate, Obsdate,obsstate,projectid,statespeciesid,commonname,scientificname,obsorigxcoord,obsorigycoord, repositoryavailable,digitalphoto,imapdataentrymethod,obsdatastatus,obscountyname) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+				var parms = [obsv.Objectid, obsv.Objectid, "Org", obsv.Who, obsv.Who, obsv.When, obsv.When, obsv.ObsState, obsv.Project, 
+				             obsv.Species[0], obsv.Species[1], obsv.Species[2],
+				             obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty];
 
-		//repositoryavailable (set to 2 for all data)
-		//digitalphoto (0 if there are no photos, otherwise 1)
-		//imapdataentrymethod (set to “app” for all data)
-		//obsdatastatus (set to ‘1000’ for all data)
-		//shape
-		 
-		//geometry columns (something to talk about in the future.  We have a point in polygon routine that assigns up to 14 values based on where the point falls.  There is a table that contains the names of the layers that the state has chosen.  Lets just skip this for now.
-		//obscountyname
-		tx.executeSql(sqlStr, parms);
-	}, DBFuncs.errorCB);
+				//repositoryavailable (set to 2 for all data)
+				//digitalphoto (0 if there are no photos, otherwise 1)
+				//imapdataentrymethod (set to “app” for all data)
+				//obsdatastatus (set to ‘1000’ for all data)
+				//shape
+				 
+				//geometry columns (something to talk about in the future.  We have a point in polygon routine that assigns up to 14 values based on where the point falls.  There is a table that contains the names of the layers that the state has chosen.  Lets just skip this for now.
+				//obscountyname
+				tx.executeSql(sqlStr, parms);
+			}
+			else {
+				var sqlStr = 'UPDATE imiadmin_observation SET obsid=?,Obsorg=?,observername=?,Imapdataentrypersonid=?,Imapdataentrydate=?, Obsdate=?,obsstate=?,projectid=?,statespeciesid=?,commonname=?,scientificname=?,obsorigxcoord=?,obsorigycoord=?, repositoryavailable=?,digitalphoto=?,imapdataentrymethod=?,obsdatastatus=?,obscountyname=? WHERE objectid=?';
+				var parms = [obsv.Objectid, "Org", obsv.Who, obsv.Who, obsv.When, obsv.When, obsv.ObsState, obsv.Project, 
+				             obsv.Species[0], obsv.Species[1], obsv.Species[2],
+				             obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty,obsv.Objectid];
+	            			iMapApp.debugMsg("Updating Obs: " + $.toJSON(obsv.Objectid));					
+				tx.executeSql(sqlStr, parms);
+			}
+		}, DBFuncs.errorCB);
+	});
 }
 
 //Save the current observation to the internal table.
 iMapObservation.prototype.loadObservations = function(obsvs){
 	var ret = null;
 	iMapDB.transaction(function (tx) {
-		var sqlStr = "select Objectid, Obsid,Obsorg,Observername,Imapdataentrypersonid,Imapdataentrydate, Obsdate,obsstate,projectid,statespeciesid,commonname,scientificname,obsorigxcoord,obsorigycoord, repositoryavailable,digitalphoto,imapdataentrymethod,obsdatastatus,obscountyname from imiadmin_observation";
+		var sqlStr = "select objectid, obsid,Obsorg,Observername,Imapdataentrypersonid,Imapdataentrydate, Obsdate,obsstate,projectid,statespeciesid,commonname,scientificname,obsorigxcoord,obsorigycoord, repositoryavailable,digitalphoto,imapdataentrymethod,obsdatastatus,obscountyname from imiadmin_observation";
 		tx.executeSql(sqlStr, [], 
 			function(tx, results) {
 				for (var i=0;i<results.rows.length;i++) {
@@ -60,6 +75,9 @@ iMapObservation.prototype.loadObservations = function(obsvs){
 		            obsv.Species[2] = results.rows.item(i).scientificname;
 		            obsv.Where[0] = results.rows.item(i).obsorigxcoord; 
 		            obsv.Where[1] = results.rows.item(i).obsorigycoord;
+		            obsv.Objectid = results.rows.item(i).objectid;
+		            obsv.ObsState = results.rows.item(i).obsstate;
+		            obsv.ObsCounty = results.rows.item(i).obscountyname;
 		            obsvs.push(obsv);
 		            iMapApp.debugMsg("load observation: " + $.toJSON(obsv));
 	    		}
