@@ -27,12 +27,12 @@ var iMapApp = {
     	DBFuncs.init();
     	pictureSource=navigator.camera.PictureSourceType;
     	destinationType=navigator.camera.DestinationType;
-    	tabPhoto();
+    	goHome();
     	if (iMapPrefs.loginToMainSite()) {
-    		alert('logged in to main site');
+    		//alert('logged in to main site');
     	}
     	else {
-    		alert('not logged in to main site');
+    		//alert('not logged in to main site');
     	}
     },
     // Output debug messages.
