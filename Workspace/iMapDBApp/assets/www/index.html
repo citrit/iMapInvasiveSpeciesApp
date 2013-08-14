@@ -10,8 +10,11 @@
   
   <!-- Extra Codiqa features -->
   <link rel="stylesheet" href="css/codiqa.ext.css">
+  <link rel="stylesheet" href="css/jquery.ui.datepicker.mobile.css">
   
   <!-- jQuery and jQuery Mobile -->
+  <script type="text/javascript" src="js/jQuery.datepicker.js"></script>
+  <script type="text/javascript" src="js/jQuery.datepicker.mobile.js"></script>
   <script type="text/javascript" src="js/cordova-2.7.0.js"></script>
   <script type="text/javascript" src="js/jquery-1.10.1.js"></script>
   <script type="text/javascript" src="js/jquery.mobile-1.3.1.js"></script>
@@ -28,13 +31,16 @@
   var tab;
   	iMapApp.initialize();
   	function goHome(){
+  		chooseSpec();
   		$('#getLoca').hide();
 		$('#takePic').hide();
 		$('#getDate').hide();
 		$('#getProj').hide();
 		$('#getSpec').hide();
+		$('#listProj').hide();
 		$('#navi').hide();
-		$('#content').show();
+		$('#listSpec').hide();
+		$('#homescreen').show();
   	}
   	function tabPhoto(){
   		//selected = "<h2>Select or Take a Photo</h2><input onClick='previewPhoto()' type='file'  id='imageName' name='image' accept='image/*' capture><p><button onClick='getPhoto()'>Take Photo</button><img style='display:none;width:160px;height:200px;' id='largeImage' src='' />";
@@ -43,9 +49,11 @@
 		tab='photo';
 		$('#pic').addClass("ui-btn-active").trigger("create");
 		$('#navi').show();
-		$('#content').hide();
+		$('#homescreen').hide();
+		$('#listProj').hide();
 		$('#getLoca').hide();
 		$('#takePic').show();
+		$('#listSpec').hide();
 		$('#getDate').hide();
 		$('#getProj').hide();
 		$('#getSpec').hide();
@@ -56,7 +64,9 @@
   		//$('#head').append($(selected)).trigger( "create" );
   		tab='where';
   		$('#getLoca').show();
+  		$('#listProj').hide();
 		$('#takePic').hide();
+		$('#listSpec').hide();
 		$('#getDate').hide();
 		$('#getProj').hide();
 		$('#getSpec').hide();
@@ -65,12 +75,15 @@
 		//selected = "<h2>What Species</h2><div data-role='fieldcontain' id='what'><label for='selectmenu1'>Choose:</label><select id='selectmenu1' name=''><option value='option1'>Specie 1</option><option value='value'>Specie 2</option></select></div>";
 		//$('#head').empty();
 		//$('#head').append($(selected)).trigger( "create" );
+		
+  		
 		tab='what';
 		$('#getLoca').hide();
+		$('#listProj').hide();
 		$('#takePic').hide();
+		$('#listSpec').show();
 		$('#getDate').hide();
 		$('#getProj').hide();
-		$('#getSpec').show();
 	}
 	function tabProject(){
 		//selected = "<h2>Project</h2><div data-role='fieldcontain' id='proj'><fieldset data-role='controlgroup' data-type='vertical'><legend>Is this entry part of a project?</legend><input id='radioYes' name='' value='yes' data-theme='c' type='radio'><label for='radioYes'>Yes</label><input id='radioNo' name='' value='radioNo' data-theme='c' type='radio'><label for='radioNo'>No</label></fieldset></div>";
@@ -79,6 +92,8 @@
 		//$('#head').append($(selected)).trigger( "create" );
 		$('#getLoca').hide();
 		$('#takePic').hide();
+		$('#listSpec').hide();
+		$('#listProj').show();
 		$('#getDate').hide();
 		$('#getProj').show();
 		$('#getSpec').hide();
@@ -90,6 +105,8 @@
 		tab = 'when';
 		$('#getLoca').hide();
 		$('#takePic').hide();
+		$('#listProj').hide();
+		$('#listSpec').hide();
 		$('#getDate').show();
 		$('#getProj').hide();
 		$('#getSpec').hide();
@@ -140,16 +157,65 @@
 			  tabWhere();
 		  }
 	  })
+	  function chooseSpec(){
+		//if(iMapPrefs.params.Plants.UseCommon == "true" && iMapPrefs.params.Plants.UseScientific == "true" && iMapPrefs.params.Plants.MyPlants.length == 0){
+			$('#listSpec').show();
+			selected = "<h2>What Specie are you Recording?</h2><div data-role='fieldcontain' id='what'><label for='selectmenu1'>Choose:</label><select id='selectmenu1' name=''>";
+			for(var i=0;i<DBFuncs.SpeciesList.length;i++){
+				selected+="<option value='option"+i+"'>"+DBFuncs.SpeciesList[i]+"</option>";
+			}
+			selected += "</select></div>";
+		//}
+		if(iMapPrefs.params.Plants.UseCommon == "false" && iMapPrefs.params.Plants.UseScientific == "true" && iMapPrefs.params.Plants.MyPlants.length == 0){
+			$('#listSpec').show();
+			selected = "<h2>What Specie are you Recording?</h2><div data-role='fieldcontain' id='what'><label for='selectmenu1'>Choose:</label><select id='selectmenu1' name=''>";
+			for(var i=0;i<DBFuncs.SpeciesList.length;i++){
+				selected+="<option value='option"+i+"'>"+DBFuncs.SpeciesList[i][1]+"</option>";
+			}
+			selected += "</select></div>";
+		}
+		if(iMapPrefs.params.Plants.UseCommon == "true" && iMapPrefs.params.Plants.UseScientific == "false" && iMapPrefs.params.Plants.MyPlants.length == 0){
+			$('#listSpec').show();
+			selected = "<h2>What Specie are you Recording?</h2><div data-role='fieldcontain' id='what'><label for='selectmenu1'>Choose:</label><select id='selectmenu1' name=''>";
+			for(var i=0;i<DBFuncs.SpeciesList.length;i++){
+				selected+="<option value='option"+i+"'>"+DBFuncs.SpeciesList[i]+"</option>";
+			}
+			selected += "</select></div>";
+		}
+		if(iMapPrefs.params.Plants.MyPlants.length != 0){
+			$('#listSpec').show();
+			selected = "<h2>What Specie are you Recording?</h2><div data-role='fieldcontain' id='what'><label for='selectmenu1'>Choose:</label><select id='selectmenu1' name=''>";
+			for(var i=0;i<DBFuncs.MyPlants.length;i++){
+				selected+="<option value='option"+i+"'>"+iMapPrefs.params.Plants.MyPlants[i]+"</option>";
+			}
+			selected += "</select></div>";
+		}
+		$('#listSpec').empty();
+  		$('#listSpec').append($(selected)).trigger( "create" );
+	}
+	  function chooseProj(){
+		$('#listProj').show();
+		selected = "<div data-role='fieldcontain' id='what'><label for='selectmenu1'>Choose:</label><select id='selectmenu1' name=''>";
+		for(var i=0;i<DBFuncs.ProjectList.length;i++){
+			selected+="<option value='option"+i+"'>"+DBFuncs.ProjectList[i]+"</option>";
+		}
+		selected += "</select></div>";
+		$('#listProj').empty();
+  		$('#listProj').append($(selected)).trigger( "create" );
+	}
+	function noChoose(){
+		$('#listProj').hide();
+	}
  	function editObs(){}
 	function prefsHome(){}
     </script>
 </head>
 <body>
 <div data-role="page" id="page1">
-
+<img src="http://imapinvasives.org/images/header.gif" style="width:99.5%; height: 60px; TOP:0px; LEFT:0px">
+            
 <div data-theme="a" data-role="header">
         <span class="ui-title">
-            <img src="http://imapinvasives.org/images/header.gif" style="width:99.5%; height: 60px; position:absolute; TOP:0px; LEFT:0px">
             
         </span>
             
@@ -190,7 +256,7 @@
         
         <div id="takePic">
         <h2>Select or Take a Photo</h2>
-        <input onClick='previewPhoto()' type='file'  id='imageName' name='image' accept='image/*' capture>
+        <input onClick='previewPhoto()' type='file'  id='imageName' name='image' accept='image/*'>
         <p><button onClick='getPhoto()'>Take Photo</button>
         <img style='display:none;width:160px;height:200px;' id='largeImage' src='' />
         </div>
@@ -201,17 +267,18 @@
         <div id="getDate">
         <h2>Date Recorded</h2>
         <div data-role='fieldcontain' id='date'>
-        <label for='textinput1'>Date</label>
-        <input name='' id='textinput1' placeholder='' value='' type='text'></div>
+        <label for="date">Date Recorded:</label>
+		<input type="date" name="date" id="date" value=""  />	
+        </div>
         </div>
         <div id="getProj">
         <h2>Project</h2>
         <div data-role='fieldcontain' id='proj'>
         <fieldset data-role='controlgroup' data-type='vertical'>
         <legend>Is this entry part of a project?</legend>
-        <input id='radioYes' name='' value='yes' data-theme='c' type='radio'>
+        <input id='radioYes' name='' value='yes' data-theme='c' type='radio' onClick="chooseProj()">
         <label for='radioYes'>Yes</label>
-        <input id='radioNo' name='' value='radioNo' data-theme='c' type='radio'>
+        <input id='radioNo' name='' value='radioNo' data-theme='c' type='radio' onClick="noChoose()">
         <label for='radioNo'>No</label></fieldset></div>		
         </div>
         <div id="getSpec">
@@ -222,11 +289,13 @@
         <option value='option1'>Specie 1</option>
         <option value='value'>Specie 2</option></select></div>		
         </div>
-        <div id=content>
+        <div id="homescreen">
         <button onClick="tabPhoto()">Make Observation</button>
         <button onClick="editObs()">Edit Observation</button>  
         <button onClick="prefsHome()">Preferences</button>
         </div>
+        <div id="listProj"></div>
+        <div id="listSpec"></div>
         </div>
     </div>
 </body>
