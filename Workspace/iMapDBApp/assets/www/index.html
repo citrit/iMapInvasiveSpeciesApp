@@ -32,6 +32,7 @@
   	iMapApp.initialize();
   	function goHome(){
   		chooseSpec();
+  		$('#prefsScreen').hide();
   		$('#getLoca').hide();
 		$('#takePic').hide();
 		$('#getDate').hide();
@@ -207,7 +208,10 @@
 		$('#listProj').hide();
 	}
  	function editObs(){}
-	function prefsHome(){}
+	function prefsHome(){
+		$('#prefsScreen').show();
+		$('#homescreen').hide();
+	}
     </script>
 </head>
 <body>
@@ -296,6 +300,36 @@
         </div>
         <div id="listProj"></div>
         <div id="listSpec"></div>
+        <div id="prefsScreen">
+        <h2>Preferences</h2>
+        <div data-role="fieldcontain">
+    	<label for="fname">First Name:</label>
+    	<input type="text" name="fname" id="fname" value=""  />
+    	<label for="lname">Last Name:</label>
+    	<input type="text" name="lname" id="lname" value=""  />
+    	<label for="uname">User Name:</label>
+    	<input type="text" name="uname" id="uname" value=""  />
+    	<label for="pword">Password:</label>
+    	<input type="text" name="pword" id="pword" value=""  />
+    	<fieldset data-role="controlgroup">
+		<legend>Choose Specie Names Displayed:</legend>
+		<input type="checkbox" name="checkbox-scientific" id="checkbox-scientific" class="custom" />
+		<label for="checkbox-scientific">Scientific</label>
+		<input type="checkbox" name="checkbox-common" id="checkbox-common" class="custom" />
+		<label for="checkbox-common">Common</label>
+    	</fieldset>
+		<button onClick="ChooseMySpecies()">Choose Specific Species</button>
+		<fieldset data-role='controlgroup' data-type='vertical'>
+        <legend>Picture Size:</legend>
+        <input id='small' name='small' value='medium' data-theme='c' type='radio'>
+        <label for='small'>Small</label>
+        <input id='medium' name='medium' value='medium' data-theme='c' type='radio'>
+        <label for='medium'>Medium</label>
+        <input id='large' name='large' value='large' data-theme='c' type='radio'>
+        <label for='large'>Large</label></fieldset>
+        <button onClick="goHome()">Save</button>
+		</div>	
+        </div>
         </div>
     </div>
 </body>
