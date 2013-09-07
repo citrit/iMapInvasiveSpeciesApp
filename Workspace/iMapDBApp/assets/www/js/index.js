@@ -34,6 +34,7 @@ var iMapApp = {
     	else {
     		//alert('not logged in to main site');
     	}
+    	iMapMap.init();
     },
     // Output debug messages.
     debugMsg: function(msg) {

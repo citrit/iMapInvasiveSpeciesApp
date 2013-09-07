@@ -5,8 +5,11 @@
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <title>iMapInvasives App</title>
   <link rel="stylesheet" href="css/jquery.mobile-1.3.1.css">
+  <link rel="stylesheet" href="css/style.mobile.css" type="text/css">
   
   <!-- Extra Codiqa features -->
   <link rel="stylesheet" href="css/codiqa.ext.css">
@@ -25,10 +28,13 @@
   <script type="text/javascript" src="js/SQLitePlugin.js"></script>
   <script type="text/javascript" src="js/db.js"></script>
   <script type="text/javascript" src="js/photo.js"></script>
+  <script type="text/javascript" src="js/OpenLayers.mobile.js"></script>
+  <script type="text/javascript" src="js/MapStuff.js"></script>
   <script type="text/javascript">
   var selected;
   var screenCon;
   var tab;
+  var curObservation;
   	iMapApp.initialize();
   	function goHome(){
   		chooseSpec();
@@ -48,6 +54,7 @@
   		//$('#head').empty();
   		//$('#head').append($(selected)).trigger( "create" );
 		tab='photo';
+		curObservation = new iMapObservation();
 		$('#pic').addClass("ui-btn-active").trigger("create");
 		$('#navi').show();
 		$('#homescreen').hide();
@@ -76,8 +83,6 @@
 		//selected = "<h2>What Species</h2><div data-role='fieldcontain' id='what'><label for='selectmenu1'>Choose:</label><select id='selectmenu1' name=''><option value='option1'>Specie 1</option><option value='value'>Specie 2</option></select></div>";
 		//$('#head').empty();
 		//$('#head').append($(selected)).trigger( "create" );
-		
-  		
 		tab='what';
 		$('#getLoca').hide();
 		$('#listProj').hide();
@@ -104,6 +109,7 @@
 		//$('#head').empty();
 		//$('#head').append($(selected)).trigger( "create" );
 		tab = 'when';
+		$('#date').val(curObservation.When);
 		$('#getLoca').hide();
 		$('#takePic').hide();
 		$('#listProj').hide();
@@ -213,6 +219,37 @@
 		$('#homescreen').hide();
 	}
     </script>
+    <style>
+    html, body {
+         margin  : 0;
+         padding : 0;
+         height  : 100%;
+         width   : 100%;
+     }
+     @media only screen and (max-width: 600px) {
+         html, body {
+             height  : 117%;
+         }
+     }
+     #iMapMapdiv {
+         width    : 400px;
+         position : relative;
+         height   : 600px;
+     }
+     .olControlAttribution {
+         position      : absolute;
+         font-size     : 10px;
+         bottom        : 0 !important;
+         right         : 0 !important;
+         background    : rgba(0,0,0,0.1);
+         font-family   : Arial;
+         padding       : 2px 4px;
+         border-radius : 5px 0 0 0;
+     }
+     #title, #tags, #shortdesc {
+         display: none;
+     }
+    </style>
 </head>
 <body>
 <div data-role="page" id="page1">
@@ -266,7 +303,7 @@
         </div>
         <div id="getLoca">
         <h2>Your Location</h2>
-        <img src='https://maps.googleapis.com/maps/api/staticmap?center=Albany, NY&amp;zoom=10&amp;size=288x200&amp;markers=Albany,NY&amp;sensor=false'width='288' height='200'>
+        <div id="iMapMapdiv" style="height:260px;width:280px;"></div>
         </div>
         <div id="getDate">
         <h2>Date Recorded</h2>
