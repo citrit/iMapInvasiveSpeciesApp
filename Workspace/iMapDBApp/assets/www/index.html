@@ -19,8 +19,8 @@
   <script type="text/javascript" src="js/jQuery.datepicker.js"></script>
   <script type="text/javascript" src="js/jQuery.datepicker.mobile.js"></script>
   <script type="text/javascript" src="js/cordova-2.7.0.js"></script>
-  <script type="text/javascript" src="js/jquery-1.10.1.js"></script>
-  <script type="text/javascript" src="js/jquery.mobile-1.3.1.js"></script>
+  <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="js/jquery.mobile-1.3.2.min.js"></script>
   <script type="text/javascript" src="js/json.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
   <script type="text/javascript" src="js/observation.js"></script>
@@ -54,7 +54,6 @@
   		//$('#head').empty();
   		//$('#head').append($(selected)).trigger( "create" );
 		tab='photo';
-		curObservation = new iMapObservation();
 		$('#pic').addClass("ui-btn-active").trigger("create");
 		$('#navi').show();
 		$('#homescreen').hide();
@@ -109,7 +108,7 @@
 		//$('#head').empty();
 		//$('#head').append($(selected)).trigger( "create" );
 		tab = 'when';
-		$('#date').val(curObservation.When);
+		$('#dateField').val(curObservation.When);
 		$('#getLoca').hide();
 		$('#takePic').hide();
 		$('#listProj').hide();
@@ -253,7 +252,7 @@
 </head>
 <body>
 <div data-role="page" id="page1">
-<img src="http://imapinvasives.org/images/header.gif" style="width:99.5%; height: 60px; TOP:0px; LEFT:0px">
+<img src="img/iMapHeader.gif" style="width:99.5%; height: 60px; TOP:0px; LEFT:0px">
             
 <div data-theme="a" data-role="header">
         <span class="ui-title">
@@ -303,13 +302,13 @@
         </div>
         <div id="getLoca">
         <h2>Your Location</h2>
-        <div id="iMapMapdiv" style="height:260px;width:280px;"></div>
+        <div id="iMapMapdiv" style="height:300px;width:300px;"></div>
         </div>
         <div id="getDate">
         <h2>Date Recorded</h2>
-        <div data-role='fieldcontain' id='date'>
-        <label for="date">Date Recorded:</label>
-		<input type="date" name="date" id="date" value=""  />	
+        <div data-role='fieldcontain' id='dateDiv'>
+        <label for="dateField">Date Recorded:</label>
+		<input type="date" name="dateField" id="dateField" value=""  />	
         </div>
         </div>
         <div id="getProj">
@@ -331,7 +330,7 @@
         <option value='value'>Specie 2</option></select></div>		
         </div>
         <div id="homescreen">
-        <button onClick="tabPhoto()">Make Observation</button>
+        <button onClick="curObservation = new iMapObservation();tabPhoto()">Make Observation</button>
         <button onClick="editObs()">Edit Observation</button>  
         <button onClick="prefsHome()">Preferences</button>
         </div>

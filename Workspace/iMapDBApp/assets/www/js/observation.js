@@ -6,17 +6,31 @@ function iMapObservation(){
 	iMapObservation.prototype.Who = iMapPrefs.params.Username;
 	iMapObservation.prototype.Project = "";
 	iMapObservation.prototype.Species = new Array();
-	iMapObservation.prototype.When = new Date().toLocaleString();
+	var date = new Date();
+
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var today = year + "-" + month + "-" + day;       
+    
+	iMapObservation.prototype.When = today;
 	iMapObservation.prototype.Where = [ 0.0, 0.0 ];
 	iMapObservation.prototype.Objectid = 0;
 	iMapObservation.prototype.ObsState = "NY";
 	iMapObservation.prototype.ObsCounty = "Albany";
 	navigator.geolocation.getCurrentPosition(function (position) {
 			this.Where = [ position.coords.longitude, position.coords.latitude];
-			iMapApp.debugMsg("Position: " + $.toJSON(position));
+			iMapApp.debugMsg("Position: " + $.toJSON(this.Where));
+			alert('location: ' + $.toJSON(this.Where));
+			iMapMap.setPosition(this.Where);
 		}, 
 		function() {
+			this.Where = [ -73.8648, 42.7186 ];
 			iMapApp.debugMsg("Position: " + $.toJSON(this.Where));
+			alert('location: ' + $.toJSON(this.Where));
+			iMapMap.setPosition(this.Where);
 		}//,
 		//{maximumAge: 300000, timeout:10000, enableHighAccuracy : true}
 	);
@@ -37,8 +51,8 @@ iMapObservation.prototype.save = function(){
 
 				//repositoryavailable (set to 2 for all data)
 				//digitalphoto (0 if there are no photos, otherwise 1)
-				//imapdataentrymethod (set to “app” for all data)
-				//obsdatastatus (set to ‘1000’ for all data)
+				//imapdataentrymethod (set to â€œappâ€� for all data)
+				//obsdatastatus (set to â€˜1000â€™ for all data)
 				//shape
 				 
 				//geometry columns (something to talk about in the future.  We have a point in polygon routine that assigns up to 14 values based on where the point falls.  There is a table that contains the names of the layers that the state has chosen.  Lets just skip this for now.

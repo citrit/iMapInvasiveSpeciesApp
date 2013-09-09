@@ -1,5 +1,6 @@
 var iMapMap = {
 	olMap: null,
+	locLayer: null,
 	init: function() {
 	    // create map
 		olMap = new OpenLayers.Map({
@@ -28,6 +29,16 @@ var iMapMap = {
 		        ), 11);
 		//var markers = new OpenLayers.Layer.Markers( "Markers" );
 	    //map.addLayer(markers);
+		locLayer = new OpenLayers.Layer.Vector("locLayer", {
+	        styleMap: new OpenLayers.StyleMap({
+	            externalGraphic: "img/mobile-loc.png",
+	            graphicOpacity: 1.0,
+	            graphicWidth: 16,
+	            graphicHeight: 26,
+	            graphicYOffset: -26
+	        })
+	    });
+		olMap.addLayer(locLayer);
 	},
 	// Get rid of address bar on iphone/ipod
 	fixSize: function() {
@@ -44,14 +55,21 @@ var iMapMap = {
 		var lonLat = new OpenLayers.LonLat( pos[0], pos[1] )
 	        .transform(
 	          new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-	          map.getProjectionObject() // to Spherical Mercator Projection
+	          olMap.getProjectionObject() // to Spherical Mercator Projection
 	        );
-		//var markerLayer = olMap.getLayers("Markers");
-		//markerLayer.markers.length = 0;
-		//markerLayer.addMarker(new OpenLayers.Marker(lonLat));
-	    map.setCenter (lonLat, zoom);
+		 var features = {
+            "type": "FeatureCollection",
+            "features": [
+                { "type": "Feature", "geometry": {"type": "Point", "coordinates": [lonLat.lon, lonLat.lat]},
+                    "properties": {"Name": "Current Location"}}
+            ]
+		 };
+		 locLayer.removeAllFeatures();
+		 var reader = new OpenLayers.Format.GeoJSON();
+		 locLayer.addFeatures(reader.read(features));
+		 olMap.setCenter (lonLat, 12);
 	}
 }
 
-setTimeout(iMapMap.fixSize, 700);
-setTimeout(iMapMap.fixSize, 1500);
+//setTimeout(iMapMap.fixSize, 700);
+//setTimeout(iMapMap.fixSize, 1500);
