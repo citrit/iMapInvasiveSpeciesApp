@@ -217,6 +217,14 @@
 		$('#prefsScreen').show();
 		$('#homescreen').hide();
 	}
+	// Save the current observation.
+	// First set the curObservation fieldw then call save.
+	function saveObservation() {
+		curObservation.Project = $("#selectmenu1 :selected").text(); // $("selectmenu1");
+		curObservation.When = $('#dateField').val();
+		curObservation.save();
+		goHome();
+	}
     </script>
     <style>
     html, body {
@@ -260,7 +268,12 @@
         </span>
             
        <div id="getout">
+                 
         <div id="navi" data-role="navbar" data-iconpos="left">
+	        <div data-role="controlgroup" data-type="horizontal" data-theme="a" style="font-size:0.7em; margin-left:auto; margin-right:auto;width:100%; ">
+	            <a href="#page1" data-role="button" data-theme="" onClick="saveObservation()">Save</a>
+	            <a href="#page1" data-role="button" data-theme="" onClick="goHome()">Cancel</a>
+	        </div>
             <ul>
                 <li>
                     <a id="pic" href="#page1" data-transition="none" data-theme=""   onClick="tabPhoto()">
