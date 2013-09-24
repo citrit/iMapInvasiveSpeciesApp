@@ -1,75 +1,172 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <title>jQuery mobile test page</title>
-	<script type="text/javascript" src="js/cordova-2.7.0.js"></script>
-	<script type="text/javascript" src="js/index.js"></script>
-  <link rel="stylesheet" type="text/css" href="js/jquery.mobile-1.3.1.min.css">
-  
-  <!-- Extra Codiqa features -->
-  <link rel="stylesheet" type="text/css" href="css/codiqa.ext.css">
-  
-  <!-- jQuery and jQuery Mobile -->
-  <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
-  <script type="text/javascript" src="js/jquery.mobile-1.3.1.min.js"></script>
 
-  <!-- Extra Codiqa features -->
-  <script type="text/javascript" src="js/codiqa.ext.js"></script>
-   
-</head>
-<body>
-<!-- Home -->
-<div data-role="page" id="page1">
-    <div data-theme="a" data-role="header">
-        <h3>
-            iMap Data Entry
-        </h3>
-    </div>
-    <div data-role="content">
-        <div data-role="navbar" data-iconpos="right">
-            <ul>
-                <li>
-                    <a href="#page1" data-transition="fade" data-theme="" data-icon="">
-                        Step 1
-                    </a>
-                </li>
-                <li>
-                    <a href="#page1" data-transition="fade" data-theme="" data-icon="">
-                        Step 2
-                    </a>
-                </li>
-                <li>
-                    <a href="#page1" data-transition="fade" data-theme="" data-icon="">
-                        Step 3
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div data-role="collapsible-set">
-            <div data-role="collapsible" data-collapsed="false">
-                <h3>
-                    Section 1
-                </h3>
-            </div>
-            <div data-role="collapsible" data-collapsed="false">
-                <h3>
-                    Section 2
-                </h3>
-            </div>
-            <div data-role="collapsible" data-collapsed="false">
-                <h3>
-                    Section 3
-                </h3>
-            </div>
-        </div>
-    </div>
-</div>
-	<script type="text/javascript">
-	    app.initialize();
-	</script>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Multi-page template</title> 
+	<title>iMapInvasives App</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.3.1.css">
+	<link rel="stylesheet" href="css/style.mobile.css" type="text/css">
+	
+	<!-- Extra Codiqa features -->
+	<link rel="stylesheet" href="css/codiqa.ext.css">
+	<link rel="stylesheet" href="css/jquery.ui.datepicker.mobile.css">
+	
+	<!-- jQuery and jQuery Mobile -->
+	<script type="text/javascript" src="js/jQuery.datepicker.js"></script>
+	<script type="text/javascript" src="js/jQuery.datepicker.mobile.js"></script>
+	<script type="text/javascript" src="js/cordova-2.7.0.js"></script>
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/json.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/observation.js"></script>
+	<script type="text/javascript" src="js/prefs.js"></script>
+	<script type="text/javascript" src="js/SQLitePlugin.js"></script>
+	<script type="text/javascript" src="js/db.js"></script>
+	<script type="text/javascript" src="js/photo.js"></script>
+	<script type="text/javascript" src="js/OpenLayers.mobile.js"></script>
+	<script type="text/javascript" src="js/MapStuff.js"></script>
+</head> 
+
+	
+<body> 
+
+<!-- Start of first page: #one -->
+<div data-role="page" id="one">
+
+	<div data-role="header">
+		<h1>iMapInvasives App</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" >	
+		<div id="homescreen">
+				<a href="#two" data-role="button">Record Observation</a>
+				<a href="#one" data-role="button">Edit Observation</a>
+				<a href="#three" data-role="button">Preferences</a>
+				<!-- <button onClick="curObservation = new iMapObservation();tabPhoto()">Make
+					Observation</button>
+				<button onClick="editObs()">Edit Observation</button>
+				<button onClick="prefsHome()">Preferences</button> -->
+			</div>
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-theme="d">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page one -->
+
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="two" data-theme="a">
+
+	<div data-role="header">
+		<h1>Two</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="a">	
+					<div id="takePic">
+				<h2>Select or Take a Photo</h2>
+				<input onClick='previewPhoto()' type='file' id='imageName'
+					name='image' accept='image/*'>
+				<p>
+					<button onClick='getPhoto()'>Take Photo</button>
+					<img style='display: none; width: 160px; height: 200px;'
+						id='largeImage' src='' />
+			</div>
+			<div id="getLoca">
+				<h2>Your Location</h2>
+				<div id="iMapMapdiv" style="height: 300px; width: 300px;"></div>
+			</div>
+			<div id="getDate">
+				<h2>Date Recorded</h2>
+				<div data-role='fieldcontain' id='dateDiv'>
+					<label for="dateField">Date Recorded:</label> <input type="date"
+						name="dateField" id="dateField" value="" />
+				</div>
+			</div>
+			<div id="getProj">
+				<h2>Project</h2>
+				<div data-role='fieldcontain' id='proj'>
+					<fieldset data-role='controlgroup' data-type='vertical'>
+						<legend>Is this entry part of a project?</legend>
+						<input id='radioYes' name='' value='yes' data-theme='c'
+							type='radio' onClick="chooseProj()"> <label
+							for='radioYes'>Yes</label> <input id='radioNo' name=''
+							value='radioNo' data-theme='c' type='radio' onClick="noChoose()">
+						<label for='radioNo'>No</label>
+					</fieldset>
+				</div>
+			</div>
+			<div id="getSpec">
+				<h2>What Species</h2>
+				<div data-role='fieldcontain' id='what'>
+					<label for='selectmenu1'>Choose:</label> <select id='selectmenu1'
+						name=''>
+						<option value='option1'>Specie 1</option>
+						<option value='value'>Specie 2</option>
+					</select>
+				</div>
+			</div>
+			<div id="listProj"></div>
+			<div id="listSpec"></div>
+	</div><!-- /content -->
+	
+	<div data-role="footer">
+			<a href='#page1' data-role='button' onclick="saveObservation()">Save</a>
+			<a href='#page1' data-role='button' onclick="goHome()">Cancel</a>
+	</div><!-- /footer -->
+</div><!-- /page two -->
+
+
+<!-- Start of third page: #popup -->
+<div data-role="page" id="popup">
+
+	<div data-role="header" data-theme="e">
+		<h1>Dialog</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">	
+				<h2>Preferences</h2>
+				<div data-role="fieldcontain">
+					<label for="fname">First Name:</label> 
+					<input type="text"	name="fname" id="fname" value="" /> 
+					<label for="lname">Last	Name:</label> 
+					<input type="text" name="lname" id="lname" value="" /> 
+					<label for="uname">User Name:</label> 
+					<input type="text" name="uname"	id="uname" value="" /> 
+					<label for="pword">Password:</label> 
+					<input type="password" name="pword" id="pword" value="" />
+					<fieldset data-role="controlgroup">
+						<legend>What should we display:</legend>
+						<input type="checkbox" name="checkbox-scientific" id="checkbox-scientific" class="custom" /> 
+						<label for="checkbox-scientific">Scientific</label> 
+						<input type="checkbox" name="checkbox-common" id="checkbox-common" class="custom" /> 
+						<label for="checkbox-common">Common</label>
+					</fieldset>
+					<button onClick="ChooseMySpecies()">Choose Specific	Species</button>
+					<fieldset data-role='controlgroup' data-type='vertical'	id='pictureSize'>
+						<legend>Picture Size:</legend>
+						<input id='small' name='radio-choice-size' value='small' data-theme='c' type='radio'> 
+						<label for='small'>Small</label>
+						<input id='medium' name='radio-choice-size' value='medium' data-theme='c' type='radio'> 
+						<label for='medium'>Medium</label>
+						<input id='large' name='radio-choice-size' value='large' data-theme='c' type='radio'> 
+						<label for='large'>Large</label>
+					</fieldset>
+					<div id='button-prefs' data-role='footer' class="ui-bar">
+						<a href='#page1' data-role='button' onclick="savePrefs()">Save</a>
+						<a href='#page1' data-role='button' onclick="goHome()">Cancel</a>
+					</div>
+				</div>	
+	</div><!-- /content -->
+	
+	<div data-role="footer">
+		<a href='#page1' data-role='button' onclick="savePrefs()">Save</a>
+		<a href='#page1' data-role='button' onclick="goHome()">Cancel</a>
+	</div><!-- /footer -->
+</div><!-- /page popup -->
+
 </body>
 </html>

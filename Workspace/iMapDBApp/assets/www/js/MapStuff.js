@@ -39,6 +39,9 @@ var iMapMap = {
 	        })
 	    });
 		olMap.addLayer(locLayer);
+		var dragCtl = new OpenLayers.Control.ModifyFeature(locLayer);
+		olMap.addControl(dragCtl);
+		dragCtl.activate();
 	},
 	// Get rid of address bar on iphone/ipod
 	fixSize: function() {
