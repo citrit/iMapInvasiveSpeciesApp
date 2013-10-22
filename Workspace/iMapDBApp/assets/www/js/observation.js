@@ -1,6 +1,6 @@
 
 // Hold the iMap Observation and define methods to to save to the DB the records.
-function iMapObservation(){
+function iMapObservation(dontDoWhere){
 
 	this.Photos = new Array();
 	this.Who = iMapPrefs.params.Username;
@@ -17,37 +17,40 @@ function iMapObservation(){
     
     this.When = today;
     this.Where = [ 0.0, 0.0 ];
-    this.Objectid = 0;
+    var obsvs = [];
+    loadObservations(obsvs);
+    this.Objectid = obsvs.length+1;
     this.ObsState = "NY";
     this.ObsCounty = "Albany";
     var curobs = this;
-	navigator.geolocation.getCurrentPosition(function (position) {
-			curobs.Where = [ position.coords.longitude, position.coords.latitude];
-			iMapApp.debugMsg("Position: " + $.toJSON(curobs.Where));
-			alert('location: ' + $.toJSON(curobs.Where));
-			iMapMap.setPosition(curobs.Where);
-		},
-		function() {
-			curobs.Where = [ -73.8648, 42.7186 ];
-			iMapApp.debugMsg("Position: " + $.toJSON(curobs.Where));
-			alert('location: ' + $.toJSON(curobs.Where));
-			iMapMap.setPosition(curobs.Where);
-		}//,
-		//{maximumAge: 300000, timeout:10000, enableHighAccuracy : true}
-	);
-
+    if (typeof dontDoWhere === "undefined") {
+		navigator.geolocation.getCurrentPosition(function (position) {
+				curobs.Where = [ position.coords.longitude, position.coords.latitude];
+				iMapApp.debugMsg("Position: " + $.toJSON(curobs.Where));
+				//alert('found location: ' + $.toJSON(curobs.Where));
+				iMapMap.setPosition(curobs.Where);
+			},
+			function(err) {
+				curobs.Where = [ -73.8648, 42.7186 ];
+				iMapApp.debugMsg("Position: " + $.toJSON(curobs.Where));
+				//alert('error location: ' + $.toJSON(curobs.Where));
+				iMapMap.setPosition(curobs.Where);
+			},
+			{maximumAge: 300000, timeout:20000, enableHighAccuracy : true}
+		);
+	}
 	// Save the current observation to the internal table.
 	this.save = function(){
 		
 		var obsv = this;
-		alert("Obs: " + $.toJSON(this));
+		//alert("Obs: " + $.toJSON(this));
 		iMapDB.transaction(function (tx) {
 			tx.executeSql("Select objectid from imiadmin_observation where objectid=?" , [obsv.Objectid], function(tx, results) {
 				if (results.rows.length == 0) {
-					var sqlStr = 'INSERT INTO imiadmin_observation (objectid, obsid,Obsorg,observername,Imapdataentrypersonid,Imapdataentrydate, Obsdate,obsstate,projectid,statespeciesid,commonname,scientificname,obsorigxcoord,obsorigycoord, repositoryavailable,digitalphoto,imapdataentrymethod,obsdatastatus,obscountyname) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+					var sqlStr = 'INSERT INTO imiadmin_observation (objectid, obsid,Obsorg,observername,Imapdataentrypersonid,Imapdataentrydate, Obsdate,obsstate,projectid,statespeciesid,commonname,scientificname,obsorigxcoord,obsorigycoord, repositoryavailable,digitalphoto,imapdataentrymethod,obsdatastatus,obscountyname, photourl1) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 					var parms = [obsv.Objectid, obsv.Objectid, "Org", obsv.Who, obsv.Who, obsv.When, obsv.When, obsv.ObsState, obsv.Project, 
-					             obsv.Species[0], obsv.Species[1], obsv.Species[2],
-					             obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty];
+					             obsv.Species[0], obsv.Species[0], obsv.Species[1],
+					             obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty, obsv.Photos[0]];
 
 					//repositoryavailable (set to 2 for all data)
 					//digitalphoto (0 if there are no photos, otherwise 1)
@@ -60,10 +63,10 @@ function iMapObservation(){
 					tx.executeSql(sqlStr, parms);
 				}
 				else {
-					var sqlStr = 'UPDATE imiadmin_observation SET obsid=?,Obsorg=?,observername=?,Imapdataentrypersonid=?,Imapdataentrydate=?, Obsdate=?,obsstate=?,projectid=?,statespeciesid=?,commonname=?,scientificname=?,obsorigxcoord=?,obsorigycoord=?, repositoryavailable=?,digitalphoto=?,imapdataentrymethod=?,obsdatastatus=?,obscountyname=? WHERE objectid=?';
+					var sqlStr = 'UPDATE imiadmin_observation SET obsid=?,Obsorg=?,observername=?,Imapdataentrypersonid=?,Imapdataentrydate=?, Obsdate=?,obsstate=?,projectid=?,statespeciesid=?,commonname=?,scientificname=?,obsorigxcoord=?,obsorigycoord=?, repositoryavailable=?,digitalphoto=?,imapdataentrymethod=?,obsdatastatus=?,obscountyname=?,photourl1=? WHERE objectid=?';
 					var parms = [obsv.Objectid, "Org", obsv.Who, obsv.Who, obsv.When, obsv.When, obsv.ObsState, obsv.Project, 
-					             obsv.Species[0], obsv.Species[1], obsv.Species[2],
-					             obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty,obsv.Objectid];
+					             obsv.Species[0], obsv.Species[0], obsv.Species[1],
+					             obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty, obsv.Photos[0], obsv.Objectid];
 		            			iMapApp.debugMsg("Updating Obs: " + $.toJSON(obsv.Objectid));					
 					tx.executeSql(sqlStr, parms);
 				}
@@ -74,32 +77,73 @@ function iMapObservation(){
 }
 
 //Save the current observation to the internal table.
-iMapObservation.prototype.loadObservations = function(obsvs){
+function loadObservations(obsvs){
 	var ret = null;
 	iMapDB.transaction(function (tx) {
-		var sqlStr = "select objectid, obsid,Obsorg,Observername,Imapdataentrypersonid,Imapdataentrydate, Obsdate,obsstate,projectid,statespeciesid,commonname,scientificname,obsorigxcoord,obsorigycoord, repositoryavailable,digitalphoto,imapdataentrymethod,obsdatastatus,obscountyname from imiadmin_observation";
+		var sqlStr = "select objectid, obsid,obsorg,observername,imapdataentrypersonid,imapdataentrydate, obsdate,obsstate,projectid,statespeciesid,commonname,scientificname,obsorigxcoord,obsorigycoord, repositoryavailable,digitalphoto,imapdataentrymethod,obsdatastatus,obscountyname,photourl1 from imiadmin_observation";
 		tx.executeSql(sqlStr, [], 
 			function(tx, results) {
 				for (var i=0;i<results.rows.length;i++) {
-					var obsv = new iMapObservation();
-	    			//DBFuncs.ProjectList[i] = results.rows.item(i).projectName;
-	    			obsv.Who = results.rows.item(i).Observername;
-	    			obsv.When = results.rows.item(i).Imapdataentrydate;
+					var obsv = Object();
+					obsv.Objectid = results.rows.item(i).objectid;
+	    			obsv.Who = results.rows.item(i).observername;
+	    			obsv.When = results.rows.item(i).imapdataentrydate;
 	    			obsv.Project = results.rows.item(i).projectid;
+	    			obsv.Species = [];
 		            obsv.Species[0] = results.rows.item(i).statespeciesid;
 		            obsv.Species[1] = results.rows.item(i).commonname;
 		            obsv.Species[2] = results.rows.item(i).scientificname;
+		            obsv.Where = [];
 		            obsv.Where[0] = results.rows.item(i).obsorigxcoord; 
 		            obsv.Where[1] = results.rows.item(i).obsorigycoord;
 		            obsv.Objectid = results.rows.item(i).objectid;
 		            obsv.ObsState = results.rows.item(i).obsstate;
 		            obsv.ObsCounty = results.rows.item(i).obscountyname;
+		            obsv.Photos = [];
+		            obsv.Photos.push(results.rows.item(i).photourl1);
 		            obsvs.push(obsv);
-		            iMapApp.debugMsg("load observation: " + $.toJSON(obsv));
+		            //iMapApp.debugMsg("load observation: " + $.toJSON(obsv));
 	    		}
 			}, 
 		DBFuncs.errorCB);
 	});
+}
+
+function delObservation() {
+	var obs = curObservation;
+	console.log("Deleting observation: " + obs.Objectid);
+	iMapDB.transaction(function (tx) {
+		var sqlStr = "delete from imiadmin_observation where obsid=?";
+		tx.executeSql(sqlStr, [obs.Objectid], 
+			function(tx, results) {
+				if (results.rows.length > 0) {
+					console.log("Deleted observation: " + obs.Objectid + ' => ' + JSON.stringify(results.rows.item(0)));
+	    		}
+			}, 
+			DBFuncs.errorCB
+		);
+	});		
+}
+
+function delObservationOld() {
+	var obs = curObservation;
+	areYouSure('Delete observation: ' + obs.When + ' : ' + obs.Species[0],
+			function () {
+				console.log("Deleting observation: " + obs.Objectid);
+				iMapDB.transaction(function (tx) {
+					var sqlStr = "delete from imiadmin_observation where obsid=?";
+					tx.executeSql(sqlStr, [obs.Objectid], 
+						function(tx, results) {
+							if (results.rows.length > 0) {
+								console.log("Deleted observation: " + obs.Objectid + ' => ' + JSON.stringify(results.rows.item(0)));
+				    		}
+						}, 
+						DBFuncs.errorCB
+					);
+				});
+			},
+			goHome
+	);
 }
 
 //onError Callback receives a PositionError object
