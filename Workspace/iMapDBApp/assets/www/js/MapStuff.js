@@ -39,7 +39,7 @@ var iMapMap = {
 	        })
 	    });
 		olMap.addLayer(locLayer);
-		var dragCtl = new OpenLayers.Control.ModifyFeature(locLayer);
+		var dragCtl = new OpenLayers.Control.ModifyFeature(locLayer); //dragComplete: function(	vertex	)
 		olMap.addControl(dragCtl);
 		dragCtl.activate();
 	},
@@ -71,6 +71,14 @@ var iMapMap = {
 		 var reader = new OpenLayers.Format.GeoJSON();
 		 locLayer.addFeatures(reader.read(features));
 		 olMap.setCenter (lonLat, 12);
+	},
+	getObsLocation: function () {
+		var pt = new OpenLayers.LonLat(locLayer.features[0].geometry.x, locLayer.features[0].geometry.y)
+				.transform(
+						olMap.getProjectionObject(), // to Spherical Mercator Projection,
+						new OpenLayers.Projection("EPSG:4326") // transform from WGS 1984
+		        );
+		return [ pt.lon, pt.lat ];
 	}
 }
 

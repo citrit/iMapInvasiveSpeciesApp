@@ -43,7 +43,7 @@ function iMapObservation(dontDoWhere){
 	this.save = function(){
 		
 		var obsv = this;
-		//alert("Obs: " + $.toJSON(this));
+		console.log("Saving Obs: " + $.toJSON(this));
 		iMapDB.transaction(function (tx) {
 			tx.executeSql("Select objectid from imiadmin_observation where objectid=?" , [obsv.Objectid], function(tx, results) {
 				if (results.rows.length == 0) {
@@ -90,9 +90,8 @@ function loadObservations(obsvs){
 	    			obsv.When = results.rows.item(i).imapdataentrydate;
 	    			obsv.Project = results.rows.item(i).projectid;
 	    			obsv.Species = [];
-		            obsv.Species[0] = results.rows.item(i).statespeciesid;
-		            obsv.Species[1] = results.rows.item(i).commonname;
-		            obsv.Species[2] = results.rows.item(i).scientificname;
+		            obsv.Species[0] = results.rows.item(i).commonname;
+		            obsv.Species[1] = results.rows.item(i).scientificname;
 		            obsv.Where = [];
 		            obsv.Where[0] = results.rows.item(i).obsorigxcoord; 
 		            obsv.Where[1] = results.rows.item(i).obsorigycoord;
