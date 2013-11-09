@@ -45,8 +45,8 @@ var iMapPrefs = {
 				//alert ("found form");
 				iMapApp.debugMsg("logingIntoToMainSite[" + $('input.id_username') + "]: ");
 				var userName = $('input.id_username');
-				userName.val('tomcitriniti');
-				$('input.id_password').val('changeme2013');
+				userName.val(iMapPrefs.Username);
+				$('input.id_password').val(iMapPrefs.Password);
 				iMapApp.debugMsg("Before submit");
 				strReturn = subForm.submit();
 				iMapApp.debugMsg("after submit");

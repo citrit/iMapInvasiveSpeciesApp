@@ -2,6 +2,19 @@ var selected;
 var screenCon;
 var tab;
 var curObservation;
+
+function uiInit() {
+	updateOrientation();
+}
+
+function updateOrientation() {
+	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    var height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+    $('#iMapMapdiv').height(height - 200);
+    $('#iMapMapdiv').width(width - 25);
+    $('#iMapMapdiv').trigger('create');
+}
+
 function goHome(){
 	$('#header-text').text('');
 	$('#navi').hide();
@@ -181,6 +194,35 @@ function prefsHome(){
 	$('#homescreen').hide();
 }
 
+function uploadObs() {
+	var obsvs = [];
+	loadObservations(obsvs);
+	if (obsvs.length > 0) {
+		lStr = "";
+		$(obsvs).each(function (ind, val) {
+			lStr+="<li>"+val.When + " : " + val.Species[0]+"</li>";
+		});
+		//console.log("Upload Obs: ");
+		$("#obsUploadList").empty();
+		$("#obsUploadList").append(lStr);
+		$("#uploadObs").dialog({});
+		var networkState = navigator.connection.type;
+
+		$("#uploadButton").attr("disabled","disabled");
+    	$("#uploadButton").text("No Connection");
+    	$("#uploadButton").click(function () {});
+		if ((networkState != Connection.UNKNOWN) && (networkState != Connection.NONE)) {
+        	$("#uploadButton").removeAttr("disabled");
+        	$("#uploadButton").click(UploadUtils.doUpload());
+            $("#uploadButton").text("Upload Obs");
+        }
+		//navigator.network.isReachable('fsu.edu', UploadUtils.reachableCallback);
+		$.mobile.changePage('#uploadObs',  { role: "dialog" });
+	}
+	else 
+		alert("No obeservations to save");
+}
+
 function writeImageFile() {
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, DBFuncs.errorCB);
 }
@@ -219,12 +261,7 @@ function savePrefs() {
 function areYouSure(msg, yes, no) {
 	console.log("Are you sure: " + msg);
 	//$("#confirmDialog").text(msg).trigger( "create" );;
-	$("#confirmDialog").dialog({
-		buttons : {
-			"Confirm" : yes,
-			"Cancel" : no
-		}
-	});
+	$("#confirmDialog").dialog({});
 	console.log('Poping up dialog');
 	$.mobile.changePage('#confirmDialog',  { role: "dialog" });
 	//$("#confirmDialog").dialog();
