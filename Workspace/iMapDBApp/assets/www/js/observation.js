@@ -110,39 +110,31 @@ function loadObservations(obsvs){
 
 function delObservation() {
 	var obs = curObservation;
-	console.log("Deleting observation: " + obs.Objectid);
-	iMapDB.transaction(function (tx) {
-		var sqlStr = "delete from imiadmin_observation where obsid=?";
-		tx.executeSql(sqlStr, [obs.Objectid], 
-			function(tx, results) {
-				if (results.rows.length > 0) {
-					console.log("Deleted observation: " + obs.Objectid + ' => ' + JSON.stringify(results.rows.item(0)));
-	    		}
-			}, 
-			DBFuncs.errorCB
-		);
-	});		
-}
-
-function delObservationOld() {
-	var obs = curObservation;
-	areYouSure('Delete observation: ' + obs.When + ' : ' + obs.Species[0],
-			function () {
-				console.log("Deleting observation: " + obs.Objectid);
-				iMapDB.transaction(function (tx) {
-					var sqlStr = "delete from imiadmin_observation where obsid=?";
-					tx.executeSql(sqlStr, [obs.Objectid], 
-						function(tx, results) {
-							if (results.rows.length > 0) {
-								console.log("Deleted observation: " + obs.Objectid + ' => ' + JSON.stringify(results.rows.item(0)));
-				    		}
-						}, 
-						DBFuncs.errorCB
-					);
-				});
-			},
-			goHome
-	);
+	navigator.notification.confirm(
+			'Delete observation: ' + obs.When + ' : ' + obs.Species[0], // message
+			function (butt) {
+				switch (butt) {
+				case 1:
+					console.log("Deleting observation: " + obs.Objectid);
+					iMapDB.transaction(function (tx) {
+						var sqlStr = "delete from imiadmin_observation where obsid=?";
+						tx.executeSql(sqlStr, [obs.Objectid], 
+							function(tx, results) {
+								if (results.rows.length > 0) {
+									console.log("Deleted observation: " + obs.Objectid + ' => ' + JSON.stringify(results.rows.item(0)));
+					    		}
+							}, 
+							DBFuncs.errorCB
+						);
+					});
+					break;
+				case 2:
+					break;
+				}
+			},            // callback to invoke with index of button pressed
+            'Delete Obs?',           // title
+            ['Delete','Cancel']         // buttonLabels
+        );
 }
 
 //onError Callback receives a PositionError object

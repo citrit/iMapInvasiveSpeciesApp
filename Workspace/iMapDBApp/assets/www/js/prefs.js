@@ -43,17 +43,16 @@ var iMapPrefs = {
 			var subForm = $('login_request_wrapper').find('form');
 			if (subForm != null) {
 				//alert ("found form");
-				iMapApp.debugMsg("logingIntoToMainSite[" + $('input.id_username') + "]: ");
-				var userName = $('input.id_username');
-				userName.val(iMapPrefs.Username);
-				$('input.id_password').val(iMapPrefs.Password);
+				iMapApp.debugMsg("logingIntoToMainSite[" + $('#id_username') + "]: " + iMapPrefs.Username);
+				$('#id_username').val(iMapPrefs.Username);
+				$('#id_password').val(iMapPrefs.Password);
 				iMapApp.debugMsg("Before submit");
 				strReturn = subForm.submit();
 				iMapApp.debugMsg("after submit");
 				$( "#outputStuff" ).innerHTML = strReturn ;
 				ret = true;
 			}
-			iMapApp.debugMsg("loginToMainSite[" + $('input.id_username').val() + "]: ");
+			iMapApp.debugMsg("loginToMainSite[" + $('#id_username').val() + "]: ");
 			
 			return ret;
 		}

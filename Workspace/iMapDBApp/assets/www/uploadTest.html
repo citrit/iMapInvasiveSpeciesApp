@@ -1,37 +1,43 @@
-var UploadUtils = {
-	
-	debugOut: true,
-	
-	// Application Constructor
-    initialize: function() {
-        
-    },
-    
-    login: function () {
-    	//if (iMapPrefs.loginToMainSite()) {
-		//alert('logged in to main site');
-		//}
-		//else {
-			//alert('not logged in to main site');
-		//}
-    },
-    
-    reachableCallback: function(reachability) {
-        // There is no consistency on the format of reachability
-        var networkState = reachability.code || reachability;
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-        var states = {};
-        states[NetworkStatus.NOT_REACHABLE]                      = 'No network connection';
-        states[NetworkStatus.REACHABLE_VIA_CARRIER_DATA_NETWORK] = 'Carrier data connection';
-        states[NetworkStatus.REACHABLE_VIA_WIFI_NETWORK]         = 'WiFi connection';
+<title>iMapInvasives App</title>
+<link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css">
+<link rel="stylesheet" href="css/style.mobile.css" type="text/css">
 
-        if (networkState != NetworkStatus.NOT_REACHABLE) {
-        	$("#uploadButton").removeAttr("disabled");
-        	$("#uploadButton").text("Upload Obs");
-        }
-    },
-    
-    doUpload: function () {
+<!-- Extra Codiqa features -->
+<link rel="stylesheet" href="css/codiqa.ext.css">
+<link rel="stylesheet" href="css/jquery.ui.datepicker.mobile.css">
+
+<link rel="stylesheet" href="css/style.css">
+
+<!-- jQuery and jQuery Mobile -->
+<script type="text/javascript" src="js/dist/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/dist/jquery.mobile-1.3.2.min.js"></script>
+<script type="text/javascript" src="js/dist/jQuery.datepicker.js"></script>
+<script type="text/javascript" src="js/dist/jQuery.datepicker.mobile.js"></script>
+<script type="text/javascript" src="js/dist/json.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/observation.js"></script>
+<script type="text/javascript" src="js/prefs.js"></script>
+<script type="text/javascript" src="js/dist/SQLitePlugin.js"></script>
+<script type="text/javascript" src="js/db.js"></script>
+<script type="text/javascript" src="js/photo.js"></script>
+<script type="text/javascript" src="js/dist/OpenLayers.mobile.js"></script>
+<script type="text/javascript" src="js/MapStuff.js"></script>
+<script type="text/javascript" src="js/dist/jquery.jstree.js"></script>
+<script type="text/javascript" src="js/UIUtils.js"></script>
+<script type="text/javascript" src="js/upLoad.js"></script>
+<script type="text/javascript">
+	//iMapApp.initialize();
+	
+	function doUpload() {
 		var url = 'http://hermes.freac.fsu.edu/nyimi/dataentry/submit/';
 		iMapPrefs.init();
 		iMapPrefs.Username = 'tomcitriniti';
@@ -90,9 +96,18 @@ var UploadUtils = {
 			    }
 			});
 		}
-	},
+	}
 	
-	success: function (data, textStatus, jqXHR) {
+	function success(data, textStatus, jqXHR) {
 		console.log('success: ' + JSON.stringify(data) + " -> " + JSON.stringify(textStatus));
 	}
-}
+</script>
+</style>
+</head>
+<body>
+	<button onClick="doUpload()">Upload Observations</button>
+				
+	<div id=outputMsg> </div>
+
+</body>
+</html>
