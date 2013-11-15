@@ -33,12 +33,13 @@ var UploadUtils = {
     
     doUpload: function () {
 		var url = 'http://hermes.freac.fsu.edu/nyimi/dataentry/submit/';
-		iMapPrefs.init();
-		iMapPrefs.Username = 'tomcitriniti';
-		iMapPrefs.Password = 'changeme2013';
-		var ok = iMapPrefs.loginToMainSite();
+//		iMapPrefs.init();
+//		iMapPrefs.Username = 'tomcitriniti';
+//		iMapPrefs.Password = '';
+		var ok = true; //iMapPrefs.loginToMainSite();
 		
 		if (ok) {
+			console.log('Going to upload: ' + ok );
 			var postData = { 
 				csrfmiddlewaretoken: 'f966559df6661be0bf04594bdc3aabf2',
 				photourl1: 'photourl1_2013_11_11_tomcitriniti_95hu9wh2.jpg',
@@ -82,11 +83,11 @@ var UploadUtils = {
 			  type: "POST",
 			  url: url,
 			  data: postData,
-			  success: success,
+			  success: UploadUtils.success,
 			  //dataType: dataType,
 			  error: function (jqXHR, textStatus, errorThrown)
 			    {
-				  console.log('error: ' + JSON.stringify(jqXHR) + " -> " + JSON.stringify(textStatus)+ " -> " + JSON.stringify(errorThrown));
+				  console.log('Upload error: ' + JSON.stringify(jqXHR) + " -> " + JSON.stringify(textStatus)+ " -> " + JSON.stringify(errorThrown));
 			    }
 			});
 		}

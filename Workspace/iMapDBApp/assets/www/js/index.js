@@ -148,15 +148,24 @@ function saveObservation() {
 function initObsList() {
 	var obsvs = [];
 	loadObservations(obsvs);
-	var htmlStr = '<ul data-role="listview" data-inset="true" id="loadObsList">';
-	htmlStr += '<li data-role="divider" data-theme="b">Observation</li>';
-	$.each(obsvs, function(ind, val) {
-		htmlStr += '<li><a href="#" onclick="return editObs(' + ind + ')">' + val.When + " : " + val.Species[0] + '</a></li>';
-	});
-	htmlStr += '</ul>';
-	$('#selectObsPage').html(htmlStr).trigger( "create" );
-	//$('#selectObsPage').selectmenu();
-	var ret = $("#selectObsPage").popup("open");
+	if (obsvs.length > 0) {
+		var htmlStr = '<ul data-role="listview" data-inset="true" id="loadObsList">';
+		htmlStr += '<li data-role="divider" data-theme="b">Observation</li>';
+		$.each(obsvs, function(ind, val) {
+			htmlStr += '<li><a href="#" onclick="return editObs(' + ind + ')">' + val.When + " : " + val.Species[0] + '</a></li>';
+		});
+		htmlStr += '</ul>';
+		$('#selectObsPage').html(htmlStr).trigger( "create" );
+		//$('#selectObsPage').selectmenu();
+		var ret = $("#selectObsPage").popup("open");
+	}
+	else 
+		navigator.notification.alert(
+		            'No observations to edit',  // message
+		            function () {},         // callback
+		            'Notification',            // title
+		            'Ok'                  // buttonName
+		        );
 	return false;
 }
 

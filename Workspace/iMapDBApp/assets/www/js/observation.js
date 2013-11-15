@@ -135,6 +135,7 @@ function delObservation() {
             'Delete Obs?',           // title
             ['Delete','Cancel']         // buttonLabels
         );
+	goHome();
 }
 
 //onError Callback receives a PositionError object

@@ -108,7 +108,7 @@ html,body {
 				<a href="#" id="openSelectPopup" data-role="button" data-transition="pop">Edit Observation</a>
 				<div data-role="popup" id="selectObsPage" >
 				</div>
-				<button onClick="uploadObs()">Upload Observations</button>
+				<button onClick="uploadObsDialog()">Upload Observations</button>
 				<button onClick="prefsHome()">Preferences</button>
 			</div>
 			<div id="takePic">
@@ -201,9 +201,10 @@ html,body {
 			</ul>
 		</div>
 		<div data-role="footer">
-			<a data-role="button" id="uploadButton" >Not connected</a>
+			<a data-role="button" id="uploadButton" onclick='$( "#uploadObs" ).dialog( "close" );UploadUtils.doUpload();'>Not connected</a>
 			<a data-role="button" id="cancelUpload" onclick='$( "#uploadObs" ).dialog( "close" );goHome();'>Cancel</a>
 		</div>
 	</div>
+	<iframe id='hiddenLoginDiv' style="visibility: hidden"></iframe>
 </body>
 </html>

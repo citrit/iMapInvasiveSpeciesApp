@@ -40,19 +40,25 @@ var iMapPrefs = {
 			var ret = false;
 			// strUrl is whatever URL you need to call
 			var strUrl = "http://hermes.freac.fsu.edu/nyimi/login/", strReturn = "";
-			var subForm = $('login_request_wrapper').find('form');
-			if (subForm != null) {
-				//alert ("found form");
-				iMapApp.debugMsg("logingIntoToMainSite[" + $('#id_username') + "]: " + iMapPrefs.Username);
-				$('#id_username').val(iMapPrefs.Username);
-				$('#id_password').val(iMapPrefs.Password);
-				iMapApp.debugMsg("Before submit");
-				strReturn = subForm.submit();
-				iMapApp.debugMsg("after submit");
-				$( "#outputStuff" ).innerHTML = strReturn ;
-				ret = true;
-			}
-			iMapApp.debugMsg("loginToMainSite[" + $('#id_username').val() + "]: ");
+			//$( "#hiddenLoginDiv" ).load( strUrl + ' #login_request_wrapper', function () {
+			document.getElementById("hiddenLoginDiv").onload = function() {
+				console.log('Login: ' + $( "#hiddenLoginDiv" ).html());
+				var subForm = $("#hiddenLoginDiv").contents().find("form"); //$('#hiddenLoginDiv').find('form');
+				if (subForm != null) {
+					//alert ("found form");
+					iMapApp.debugMsg("logingIntoToMainSite[" + $('#id_username') + "]: " + iMapPrefs.params.Username);
+					$(subForm).find('#id_username').val(iMapPrefs.params.Username);
+					$(subForm).find('#id_password').val(iMapPrefs.params.Password);
+					iMapApp.debugMsg("Before submit");
+					strReturn = subForm.submit();
+					iMapApp.debugMsg("after submit");
+					console.log(typeof strReturn) ;
+					document.getElementById("hiddenLoginDiv").onload = null;
+					ret = true;
+				}
+				iMapApp.debugMsg("loginToMainSite[" + $(subForm).find('#id_username').val() + "]: ");
+			};
+			$("#hiddenLoginDiv").attr("src", strUrl);
 			
 			return ret;
 		}
