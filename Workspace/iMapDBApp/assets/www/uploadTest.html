@@ -20,8 +20,8 @@
 <!-- jQuery and jQuery Mobile -->
 <script type="text/javascript" src="js/dist/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/dist/jquery.mobile-1.3.2.min.js"></script>
-<script type="text/javascript" src="js/dist/jQuery.datepicker.js"></script>
-<script type="text/javascript" src="js/dist/jQuery.datepicker.mobile.js"></script>
+<script type="text/javascript" src="js/dist/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="js/dist/jquery.ui.datepicker.mobile.js"></script>
 <script type="text/javascript" src="js/dist/json.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/observation.js"></script>
@@ -47,7 +47,7 @@
 		if (ok) {
 			var postData = { 
 				csrfmiddlewaretoken: 'f966559df6661be0bf04594bdc3aabf2',
-				photourl1: 'photourl1_2013_11_11_tomcitriniti_95hu9wh2.jpg',
+				photourl1: $('#photoUrl').val(),
 				photourl2: '',
 				photourl3: '',
 				photourl4: '',
@@ -60,12 +60,12 @@
 				step_1_data_observer: 'Yes',
 				step_1_existing_user: '',
 				step_2_project: 'Yes',
-				step_2_project_list: '',
+				step_2_project_list: $('#projName').val(),
 				species_select_type: 'Plant',
 				step_3_species_list_common: '-1',
 				step_3_species_list_common: '-1',
 				step_3_species_list_common: 'NY-2-136391',
-				step_3_species_common_name: 'Amur%20Maple',
+				step_3_species_common_name: $('#speciesId').val(),
 				step_3_species_list_scientific: '-1',
 				step_3_species_list_scientific: '-1',
 				step_3_species_list_scientific: 'NY-2-136391',
@@ -105,9 +105,13 @@
 </style>
 </head>
 <body>
+	
+	<label for='projName'>Project:</label><input type="text" id="projName" />
+	<label for='speciesId'>Species:</label><input type="text" id="speciesId" />
+	<label for='photoUrl'>Photo URL:</label><input type="text" id="photoUrl" />
 	<button onClick="doUpload()">Upload Observations</button>
 				
 	<div id=outputMsg> </div>
-
+	<iframe id='hiddenLoginDiv' style="visibility: hidden"></iframe>
 </body>
 </html>

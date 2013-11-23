@@ -195,47 +195,53 @@ function prefsHome(){
 }
 
 function uploadObsDialog() {
-	var ok = iMapPrefs.loginToMainSite();
-	if (ok) {
-		var obsvs = [];
-		loadObservations(obsvs);
-		if (obsvs.length > 0) {
-			lStr = "";
-			$(obsvs).each(function(ind, val) {
-				lStr += "<li>" + val.When + " : " + val.Species[0] + "</li>";
+	iMapPrefs.loginToMainSite(function (okStat) {
+		if (okStat) {
+			console.log('logged in, time to upload');
+			$("#uploadButton").removeAttr("disabled");
+			$("#uploadButton").click(function () {
+				$( "#uploadObs" ).dialog( "close" );
+				UploadUtils.doUpload();
 			});
-			console.log("Upload Obs: " + obsvs);
-			$("#obsUploadList").empty();
-			$("#obsUploadList").append(lStr);
-			$("#uploadObs").dialog({});
-			var networkState = navigator.connection.type;
-
-			$("#uploadButton").attr("disabled", "disabled");
-			$("#uploadButton").text("No Connection");
-			$("#uploadButton").click(function() {
-			});
-			if ((networkState != Connection.UNKNOWN)
-					&& (networkState != Connection.NONE)) {
-				$("#uploadButton").removeAttr("disabled");
-				// $("#uploadButton").click(UploadUtils.doUpload());
-				$("#uploadButton").text("Upload Obs");
-			}
-			// navigator.network.isReachable('fsu.edu',
-			// UploadUtils.reachableCallback);
-			$.mobile.changePage('#uploadObs', {
-				role : "dialog"
-			});
-		} else
-			navigator.notification.alert('No observations to save', // message
+			//'
+			$("#uploadButton").text("Upload Obs");
+		} 
+		else {
+			console.log('Login failed');
+			navigator.notification.alert('Unable to login, is your password correct?', // message
 				function() {}, // callback
-				'Notification', // title
+				'Login error', // title
 				'Ok' // buttonName
 			);
+		}
+	});
+	var obsvs = [];
+	loadObservations(obsvs);
+	if (obsvs.length > 0) {
+		lStr = "";
+		$(obsvs).each(function(ind, val) {
+			lStr += "<li>" + val.When + " : " + val.Species[0] + "</li>";
+		});
+		console.log("Upload Obs: " + obsvs);
+		$("#obsUploadList").empty();
+		$("#obsUploadList").append(lStr);
+		$("#uploadObs").dialog({});
+		var networkState = navigator.connection.type;
+
+		$("#uploadButton").attr("disabled", "disabled");
+		$("#uploadButton").text("No Connection");
+		$("#uploadButton").click(function() {
+		});
+		// navigator.network.isReachable('fsu.edu',
+		// UploadUtils.reachableCallback);
+		$.mobile.changePage('#uploadObs', {
+			role : "dialog"
+		});
 	}
 	else
-		navigator.notification.alert('Not able to login, is your password correct?', // message
+		navigator.notification.alert('No observations to save', // message
 			function() {}, // callback
-			'Login error', // title
+			'Notification', // title
 			'Ok' // buttonName
 		);
 }

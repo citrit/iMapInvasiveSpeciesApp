@@ -34,8 +34,8 @@ var iMapPrefs = {
 			iMapPrefs.params = $.parseJSON(localStorage.getItem("userParams"));
 		},
 		// login to the site
-		loginToMainSite: function() {
-			iMapApp.debugMsg("Logging into main site");
+		loginToMainSite: function(okCallBack) {
+			console.log("Logging into FSU");
 			// id='csrfmiddlewaretoken' name='csrfmiddlewaretoken' value='ebd4f9d9b0aa51f599d96c229ddc955f'
 			var ret = false;
 			// strUrl is whatever URL you need to call
@@ -46,7 +46,7 @@ var iMapPrefs = {
 				var subForm = $("#hiddenLoginDiv").contents().find("form"); //$('#hiddenLoginDiv').find('form');
 				if (subForm != null) {
 					//alert ("found form");
-					iMapApp.debugMsg("logingIntoToMainSite[" + $('#id_username') + "]: " + iMapPrefs.params.Username);
+					console.log("logingIntoToMainSite[" + $('#id_username') + "]: " + iMapPrefs.params.Username);
 					$(subForm).find('#id_username').val(iMapPrefs.params.Username);
 					$(subForm).find('#id_password').val(iMapPrefs.params.Password);
 					iMapApp.debugMsg("Before submit");
@@ -57,9 +57,8 @@ var iMapPrefs = {
 					ret = true;
 				}
 				iMapApp.debugMsg("loginToMainSite[" + $(subForm).find('#id_username').val() + "]: ");
+				okCallBack(ret);
 			};
 			$("#hiddenLoginDiv").attr("src", strUrl);
-			
-			return ret;
 		}
 }
