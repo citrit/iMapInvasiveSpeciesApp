@@ -22,6 +22,7 @@ var iMapApp = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
     	console.log("onDeviceReady made it here.");
+    	//navigator.splashscreen.show();
     	iMapPrefs.init();
     	DBFuncs.init();
     	pictureSource=navigator.camera.PictureSourceType;

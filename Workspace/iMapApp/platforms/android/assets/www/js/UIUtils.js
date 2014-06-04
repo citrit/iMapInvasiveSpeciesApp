@@ -136,36 +136,13 @@ function chooseSpec(){
 	}
 	selected += "</select></div>";
 	//}
-	/* if(iMapPrefs.params.Plants.UseCommon == "false" && iMapPrefs.params.Plants.UseScientific == "true" && iMapPrefs.params.Plants.MyPlants.length == 0){
-			$('#listSpec').show();
-			selected = "<h2>What Specie are you Recording?</h2><div data-role='fieldcontain' id='what'><label for='speciesSelect'>Choose:</label><select id='speciesSelect' name=''>";
-			for(var i=0;i<DBFuncs.SpeciesList.length;i++){
-				selected+="<option value='option"+i+"'>"+DBFuncs.SpeciesList[i][1]+"</option>";
-			}
-			selected += "</select></div>";
-		}
-		if(iMapPrefs.params.Plants.UseCommon == "true" && iMapPrefs.params.Plants.UseScientific == "false" && iMapPrefs.params.Plants.MyPlants.length == 0){
-			$('#listSpec').show();
-			selected = "<h2>What Specie are you Recording?</h2><div data-role='fieldcontain' id='what'><label for='speciesSelect'>Choose:</label><select id='speciesSelect' name=''>";
-			for(var i=0;i<DBFuncs.SpeciesList.length;i++){
-				selected+="<option value='option"+i+"'>"+DBFuncs.SpeciesList[i]+"</option>";
-			}
-			selected += "</select></div>";
-		}
-		if(iMapPrefs.params.Plants.MyPlants.length != 0){
-			$('#listSpec').show();
-			selected = "<h2>What Specie are you Recording?</h2><div data-role='fieldcontain' id='what'><label for='speciesSelect'>Choose:</label><select id='selectmenu1' name=''>";
-			for(var i=0;i<DBFuncs.MyPlants.length;i++){
-				selected+="<option value='option"+i+"'>"+iMapPrefs.params.Plants.MyPlants[i]+"</option>";
-			}
-			selected += "</select></div>";
-		} */
+	
 	$('#listSpec').empty();
 	$('#listSpec').append($(selected)).trigger( "create" );
 }
 function chooseProj(){
 	$('#listProj').show();
-	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect'>Choose:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b'>";
+	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect'>Choose:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected += "<option value='option-1'>No Project</option>";
 	for(var i=0;i<DBFuncs.ProjectList.length;i++){
 		selected+="<option value='option"+i+"'>"+DBFuncs.ProjectList[i]+"</option>";

@@ -80,7 +80,7 @@ var UploadUtils = {
 			};
 			
 			$.ajax({
-			  type: "POST",
+			  type: "GET",
 			  url: url,
 			  data: postData,
 			  success: UploadUtils.success,
