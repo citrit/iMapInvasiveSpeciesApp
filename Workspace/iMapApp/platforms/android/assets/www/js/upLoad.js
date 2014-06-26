@@ -41,7 +41,6 @@ var UploadUtils = {
 		if (ok) {
 			console.log('Going to upload: ' + ok );
 			var postData = { 
-				csrfmiddlewaretoken: 'f966559df6661be0bf04594bdc3aabf2',
 				photourl1: 'photourl1_2013_11_11_tomcitriniti_95hu9wh2.jpg',
 				photourl2: '',
 				photourl3: '',
