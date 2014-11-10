@@ -18,9 +18,9 @@ var DBFuncs = {
     // load the projects into the DB class
     loadProjectList: function(tx, results) {
     	iMapApp.debugMsg("Load the project list");
-    	tx.executeSql("SELECT projectName from imiadmin_project ORDER BY projectName ASC", [], function(tx, results) {
+    	tx.executeSql("SELECT projectName, id from imiadmin_project ORDER BY projectName ASC", [], function(tx, results) {
     		for (var i=0;i<results.rows.length;i++) {
-    			DBFuncs.ProjectList[i] = results.rows.item(i).projectName;
+    			DBFuncs.ProjectList[i] = [ results.rows.item(i).projectName, results.rows.item(i).id];
     		}
     		//iMapApp.debugMsg("iMapDB.ProjectList: " + $.toJSON(DBFuncs.ProjectList));
     	}, DBFuncs.errorCB);
@@ -28,9 +28,9 @@ var DBFuncs = {
     // load the projects into the DB class
     loadSpeciesList: function(tx, results) {
     	iMapApp.debugMsg("Load the species list");
-    	tx.executeSql("SELECT stateCommonName, state_scientific_name from imiadmin_state_species_list ORDER BY stateCommonName ASC", [], function(tx, results) {
+    	tx.executeSql("SELECT stateCommonName, state_scientific_name, stateSpeciesID from imiadmin_state_species_list ORDER BY stateCommonName ASC", [], function(tx, results) {
     		for (var i=0;i<results.rows.length;i++) {
-    			DBFuncs.SpeciesList[i] = [ results.rows.item(i).stateCommonName, results.rows.item(i).state_scientific_name];
+    			DBFuncs.SpeciesList[i] = [ results.rows.item(i).stateCommonName, results.rows.item(i).state_scientific_name, results.rows.item(i).stateSpeciesID];
     		}
     		//iMapApp.debugMsg("iMapDB.SpeciesList: " + $.toJSON(DBFuncs.SpeciesList));
     	}, DBFuncs.errorCB);

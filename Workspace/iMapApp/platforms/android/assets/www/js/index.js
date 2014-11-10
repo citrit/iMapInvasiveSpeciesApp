@@ -89,9 +89,15 @@ function editObs(arg) {
 	iMapMap.setPosition(curObservation.Where);
 	
 	$('#projectSelect').val('');
-	var idx = jQuery.inArray(curObservation.Project, DBFuncs.ProjectList);
-	//alert(idx);
-	var opt = $('#projectSelect').find('option[value=option'+idx+']');
+	/*var idx = -1;
+	jQuery.each( DBFuncs.ProjectList, function( i, val ) {
+		if (val[0] ===curObservation.Project) {
+			idx = val[1];
+			return false;
+		}
+	});
+	alert(idx);*/
+	var opt = $('#projectSelect').find('option[value='+curObservation.Project+']');
 	//alert(curObservation.Project + ' = ' + opt.text());
 	opt.attr("selected",true);
 	$('#projectSelect').selectmenu("refresh");
@@ -135,8 +141,9 @@ function saveObservation() {
 		obj = $('#listSpec').find('#speciesSelect :selected');
 	//alert(obj.val());
 	curObservation.Species = DBFuncs.SpeciesList[obj.val()];
+	console.log("Species: " + JSON.stringify(curObservation.Species));
 	
-	curObservation.Project = $("#listProj :selected").text(); // $("speciesSelect");
+	curObservation.Project = $("#listProj :selected").val(); // $("speciesSelect");
 	
 	curObservation.When = $('#dateField').val();
 	curObservation.Where = iMapMap.getObsLocation();

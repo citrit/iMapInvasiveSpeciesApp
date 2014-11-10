@@ -31,17 +31,19 @@ var UploadUtils = {
         }
     },
     
-    doUpload: function () {
-		var url = 'http://hermes.freac.fsu.edu/nyimi/dataentry/submit/';
+    doUpload: function (obs) {
+		var url = 'http://hermes.freac.fsu.edu/requests/uploadObservation/uploadTool';
 //		iMapPrefs.init();
 //		iMapPrefs.Username = 'tomcitriniti';
 //		iMapPrefs.Password = '';
+		var ret = false;
 		var ok = true; //iMapPrefs.loginToMainSite();
-		
+		var stShp = "ST_GEOMETRY('POINT("+obs.Where[0]+" "+obs.Where[1]+")',8)";
+		console.log("ST_GEOM: " +stShp);
 		if (ok) {
-			console.log('Going to upload: ' + ok );
+			console.log('Going to upload: ' + JSON.stringify(obs) );
 			var postData = { 
-				photourl1: 'photourl1_2013_11_11_tomcitriniti_95hu9wh2.jpg',
+				photourl1: obs.Photos[0],
 				photourl2: '',
 				photourl3: '',
 				photourl4: '',
@@ -51,45 +53,66 @@ var UploadUtils = {
 				photocredit3: '',
 				photocredit4: '',
 				photocredit5: '',
-				step_1_data_observer: 'Yes',
-				step_1_existing_user: '',
-				step_2_project: 'Yes',
-				step_2_project_list: '',
-				species_select_type: 'Plant',
-				step_3_species_list_common: '-1',
-				step_3_species_list_common: '-1',
-				step_3_species_list_common: 'NY-2-136391',
-				step_3_species_common_name: 'Amur%20Maple',
-				step_3_species_list_scientific: '-1',
-				step_3_species_list_scientific: '-1',
-				step_3_species_list_scientific: 'NY-2-136391',
-				step_3_species_scientific_name: 'Acer%20ginnala',
-				step_3_species_id: 'NY-2-136391',
-				step_4_observed_date: '2013-11-11',
-				step_5_coordinate_system: 'latlon',
-				step_5_coord_x: '-75.41016',
-				step_5_coord_y: '43.40667',
-				step_5_current_coordinate_x: '466789.8428462542',
-				step_5_current_coordinate_x_lon_lat: '-75.41016000000012',
-				step_5_current_coordinate_y: '4806058.103717405',
-				step_5_current_coordinate_y_lon_lat: '43.40667000000026',
-				step_5_current_coordinate_x_mercator: '-8394620.6118393',
-				step_5_current_coordinate_y_mercator: '5374077.4478864',
-				data_entry_method: 'On-Line'
+				digitalphoto: 0,
+				obsdatastatus: 1000,
+				imapdataentrypersonid: obs.Who,
+				observername: obs.Who,
+				obsstate: obs.ObsState,
+				projectid: obs.Project,
+				statespeciesid: obs.Species[2],
+				commonname: obs.Species[0],
+				scientificname: obs.Species[1],
+				imapdataentrydate: obs.When, //2013-11-11
+				obsdate: obs.When, //2013-11-11
+				obsorigxcoord: obs.Where[0], //-75.41016000000012
+				obsorigycoord: obs.Where[1], //43.40667000000026
+				imapdataentrymethod: 'Mobile-App',
+				repositoryavailable: 2//,
+				//shape: stShp
 			};
-			
+			console.log("Do ajax call");
 			$.ajax({
 			  type: "GET",
 			  url: url,
 			  data: postData,
-			  success: UploadUtils.success,
+			  async: false,
+			  success: function (jqXHR, textStatus, errorThrown)
+			    {
+				  console.log("URL request success: " + typeof jqXHR);
+				  try {
+					  ret = eval("(" + jqXHR + ")");
+					  if (ret.code === 0) {
+						  console.log('Upload successful: ' + obs.When + ' : ' + obs.Species[0] + " => " + textStatus);
+						  console.log('return: ' + JSON.stringify(ret));
+						  rmObservation(obs);
+						  ret = true;
+					  }
+					  else {
+						  console.log('Upload error: ' + JSON.stringify(ret));
+						  alert('Upload error: ' + JSON.stringify(ret));
+					  }
+				  }
+				  catch (err) {
+					  console.log('Upload error[' + err + ']: ' + jqXHR);
+					  alert('Upload error[' + err + ']: ' + jqXHR);
+				  }
+				  
+				 
+			    },
 			  //dataType: dataType,
 			  error: function (jqXHR, textStatus, errorThrown)
 			    {
 				  console.log('Upload error: ' + JSON.stringify(jqXHR) + " -> " + JSON.stringify(textStatus)+ " -> " + JSON.stringify(errorThrown));
+				  if (errorThrown.code == 19) {
+					  alert('Connection error: ' + errorThrown.message);
+				  }
+				  else {
+					  alert('Upload error[' + textStatus + ']: ' + errorThrown.message);
+				  }
 			    }
 			});
 		}
+		return ret;
 	},
 	
 	success: function (data, textStatus, jqXHR) {

@@ -29,18 +29,27 @@ function goHome(){
 	$('#deleteObsButton').hide();
 }
 function tabPhoto(){
-	tab='photo';
-	$('#header-text').text('Select Photo');
-	$('#pic').addClass('ui-btn-active');
-	$('#navi').show();
-	$('#homescreen').hide();
-	$('#prefsScreen').hide();
-	$('#takePic').show();
-	$('#getLoca').hide();
-	$('#getDate').hide();
-	$('#getProj').hide();
-	$('#getSpec').hide();
-	$('#button-footer').show();
+	console.log("Username: " + JSON.stringify(iMapPrefs.params.Username));
+	if (iMapPrefs.params.Username !== "") {
+		tab='photo';
+		$('#header-text').text('Select Photo');
+		$('#pic').addClass('ui-btn-active');
+		$('#navi').show();
+		$('#homescreen').hide();
+		$('#prefsScreen').hide();
+		$('#takePic').show();
+		$('#getLoca').hide();
+		$('#getDate').hide();
+		$('#getProj').hide();
+		$('#getSpec').hide();
+		$('#button-footer').show();
+	}
+	else
+		navigator.notification.alert('Please fill out Preferences first', // message
+			function() {prefsHome();}, // callback
+			'Notification', // title
+			'Ok' // buttonName
+		);
 }
 function tabWhere(){
 	tab='where';
@@ -145,7 +154,7 @@ function chooseProj(){
 	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect'>Choose:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected += "<option value='option-1'>No Project</option>";
 	for(var i=0;i<DBFuncs.ProjectList.length;i++){
-		selected+="<option value='option"+i+"'>"+DBFuncs.ProjectList[i]+"</option>";
+		selected+="<option value="+DBFuncs.ProjectList[i][1]+">"+DBFuncs.ProjectList[i][0]+"</option>";
 	}
 	selected += "</select></div>";
 	$('#listProj').empty();
@@ -175,26 +184,26 @@ function uploadObsDialog() {
 	var obsvs = [];
 	loadObservations(obsvs);
 	if (obsvs.length > 0) {
-		iMapPrefs.loginToMainSite(function (okStat) {
-			if (okStat) {
-				console.log('logged in, time to upload');
-				$("#uploadButton").removeAttr("disabled");
-				$("#uploadButton").click(function () {
-					$( "#uploadObs" ).dialog( "close" );
-					UploadUtils.doUpload();
-				});
-				//'
-				$("#uploadButton").text("Upload Obs");
-			} 
-			else {
-				console.log('Login failed');
-				navigator.notification.alert('Unable to login, is your password correct?', // message
-					function() {}, // callback
-					'Login error', // title
-					'Ok' // buttonName
-				);
-			}
-		});
+//		iMapPrefs.loginToMainSite(function (okStat) {
+//			if (okStat) {
+//				console.log('logged in, time to upload');
+//				$("#uploadButton").removeAttr("disabled");
+//				$("#uploadButton").click(function () {
+//					$( "#uploadObs" ).dialog( "close" );
+//					UploadUtils.doUpload();
+//				});
+//				//'
+//				$("#uploadButton").text("Upload Obs");
+//			} 
+//			else {
+//				console.log('Login failed');
+//				navigator.notification.alert('Unable to login, is your password correct?', // message
+//					function() {}, // callback
+//					'Login error', // title
+//					'Ok' // buttonName
+//				);
+//			}
+//		});
 		lStr = "";
 		$(obsvs).each(function(ind, val) {
 			lStr += "<li>" + val.When + " : " + val.Species[0] + "</li>";
@@ -205,9 +214,20 @@ function uploadObsDialog() {
 		$("#uploadObs").dialog({});
 		var networkState = navigator.connection.type;
 
-		$("#uploadButton").attr("disabled", "disabled");
-		$("#uploadButton").text("No Connection");
+//		$("#uploadButton").attr("disabled", "disabled");
+//		$("#uploadButton").text("No Connection");
 		$("#uploadButton").click(function() {
+			var upCnt = 0;
+			$( "#uploadObs" ).dialog( "close" );
+			$(obsvs).each(function(ind, val) {
+				if (UploadUtils.doUpload(val)) 
+					upCnt++;
+				else
+					return false;
+			});
+			if (upCnt > 0)
+				alert('Uploaded [' + upCnt + '] records.');
+			
 		});
 		// navigator.network.isReachable('fsu.edu',
 		// UploadUtils.reachableCallback);
