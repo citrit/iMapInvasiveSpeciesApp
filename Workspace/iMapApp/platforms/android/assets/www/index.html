@@ -205,6 +205,19 @@ html,body {
 			<a data-role="button" id="cancelUpload" onclick='$( "#uploadObs" ).dialog( "close" );goHome();'>Cancel</a>
 		</div>
 	</div>
+	<div data-role="dialog" id="uploadModal" data-title="Upload Status">
+		<div data-role="header">
+			<h1>Uploading</h1>
+		</div>
+		<div data-role="content">
+			<ul data-role="listview" id="obsUploadList" data-inset="true">
+				<li>List Item</li>
+			</ul>
+		</div>
+		<div data-role="footer">
+			
+		</div>
+	</div>
 	<iframe id='hiddenLoginDiv' style="visibility: hidden"></iframe>
 </body>
 </html>

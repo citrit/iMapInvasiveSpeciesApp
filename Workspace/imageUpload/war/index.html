@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+
+<html>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Hello App Engine</title>
+  </head>
+
+  <body>
+    <h1>Hello App Engine!</h1>
+	
+    <table>
+      <tr>
+        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
+      </tr>
+      <tr>
+        <td><a href="imageupload">ImageUpload</a></td>
+      </tr>
+    </table>
+    
+    <script type="text/javascript">
+   
+	function uploadJquery() {
+		// Create a formdata object and add the files
+		var fd = new FormData();
+		var files = document.getElementById('fileToUpload').files;
+		for (var i = 0; i < files.length; i++) {
+			fd.append("file" + i, files[i]);
+			console.log("FileS: " + JSON.stringify(files[i]));
+		}
+
+		$.ajax({
+			url : 'imageupload',
+			type : 'POST',
+			data : fd,
+			cache : false,
+			dataType : 'json',
+			async: false,
+			processData : false, // Don't process the files
+			contentType : false, // Set content type to false as jQuery will tell the server its a query string request
+			success : function(data, textStatus, jqXHR) {
+				alert("Return: " + JSON.stringify(data));
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				// Handle errors here
+				console.log('ERRORS: ' + textStatus);
+				// STOP LOADING SPINNER
+			}
+		});
+	}
+
+	function uploadFile() {
+		if (window.File && window.FileList) {
+			var fd = new FormData();
+			var files = document.getElementById('fileToUpload').files;
+			for (var i = 0; i < files.length; i++) {
+				fd.append("file" + i, files[i]);
+			}
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", document
+					.getElementById('uploadForm').action);
+			xhr.send(fd);
+		} else {
+			document.getElementById('uploadForm').submit(); //no html5
+		}
+	}
+</script> 
+
+	<form id="uploadForm" enctype="multipart/form-data" method="post"
+	        action="/imageupload" >
+	   <input type="file" name="fileToUpload" id="fileToUpload" />
+	   <input type="button" onclick="uploadFile();" value="UploadFile" />
+	</form>
+<hr>
+<span>File</span>
+<input id="uploadbutton" type="button" value="UploadThingy" onclick="uploadJquery()"/>
+  </body>
+</html>

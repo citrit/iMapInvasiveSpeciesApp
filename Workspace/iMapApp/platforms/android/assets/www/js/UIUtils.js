@@ -208,7 +208,7 @@ function uploadObsDialog() {
 		$(obsvs).each(function(ind, val) {
 			lStr += "<li>" + val.When + " : " + val.Species[0] + "</li>";
 		});
-		console.log("Upload Obs: " + obsvs);
+		//console.log("Upload Obs: " + obsvs);
 		$("#obsUploadList").empty();
 		$("#obsUploadList").append(lStr);
 		$("#uploadObs").dialog({});
