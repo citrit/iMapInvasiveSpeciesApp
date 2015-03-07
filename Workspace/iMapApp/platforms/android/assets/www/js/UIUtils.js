@@ -5,6 +5,21 @@ var curObservation;
 
 function uiInit() {
 	updateOrientation();
+	$("#uploadButton").click(function() {
+		var upCnt = 0;
+		var obsvs = [];
+		loadObservations(obsvs);
+		$( "#uploadObs" ).dialog( "close" );
+		$(obsvs).each(function(ind, val) {
+			if (UploadUtils.doUpload(val)) 
+				upCnt++;
+			else
+				return false;
+		});
+		if (upCnt > 0)
+			alert('Uploaded [' + upCnt + '] records.');
+		
+	});
 }
 
 function updateOrientation() {
@@ -141,7 +156,14 @@ function chooseSpec(){
 	//if(iMapPrefs.params.Plants.UseCommon == "true" && iMapPrefs.params.Plants.UseScientific == "true" && iMapPrefs.params.Plants.MyPlants.length == 0){
 	selected = "<div data-role='fieldcontain' id='whatDiv'><label for='speciesSelect'>Choose:</label><select id='speciesSelect' name='' data-overlay-theme='d' data-theme='b'>";
 	for(var i=0;i<DBFuncs.SpeciesList.length;i++){
-		selected+="<option value="+i+">"+DBFuncs.SpeciesList[i]+"</option>";
+		var lStr = "";
+		if (iMapPrefs.params.Plants.UseCommon)
+			lStr = DBFuncs.SpeciesList[i][0];
+		if (iMapPrefs.params.Plants.UseCommon && iMapPrefs.params.Plants.UseScientific)
+			lStr += ": ";
+		if (iMapPrefs.params.Plants.UseScientific)
+			lStr += DBFuncs.SpeciesList[i][1];
+		selected+="<option value="+i+">"+lStr+"</option>";
 	}
 	selected += "</select></div>";
 	//}
@@ -216,19 +238,7 @@ function uploadObsDialog() {
 
 //		$("#uploadButton").attr("disabled", "disabled");
 //		$("#uploadButton").text("No Connection");
-		$("#uploadButton").click(function() {
-			var upCnt = 0;
-			$( "#uploadObs" ).dialog( "close" );
-			$(obsvs).each(function(ind, val) {
-				if (UploadUtils.doUpload(val)) 
-					upCnt++;
-				else
-					return false;
-			});
-			if (upCnt > 0)
-				alert('Uploaded [' + upCnt + '] records.');
-			
-		});
+
 		// navigator.network.isReachable('fsu.edu',
 		// UploadUtils.reachableCallback);
 		$.mobile.changePage('#uploadObs', {
@@ -275,6 +285,7 @@ function savePrefs() {
 	iMapPrefs.params.PictureSize = $("input[name=radio-choice-size]:checked").val();
 	//alert($.toJSON(iMapPrefs));
 	iMapPrefs.saveParams();
+	initSpeciesList();
 	goHome();
 }
 

@@ -71,6 +71,7 @@ function iMapObservation(dontDoWhere){
 //Save the current observation to the internal table.
 function loadObservations(obsvs){
 	var ret = null;
+	obsvs.length = 0;
 	iMapDB.transaction(function (tx) {
 		var sqlStr = "select objectid, obsid,obsorg,observername,imapdataentrypersonid,imapdataentrydate, obsdate,obsstate,projectid,statespeciesid,commonname,scientificname,obsorigxcoord,obsorigycoord, repositoryavailable,digitalphoto,imapdataentrymethod,obsdatastatus,obscountyname,photourl1 from imiadmin_observation";
 		tx.executeSql(sqlStr, [], 

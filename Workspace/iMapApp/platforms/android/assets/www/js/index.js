@@ -199,6 +199,7 @@ function initSpeciesList() {
 		}
 	});
 	htmlDiv += "</ul>";
+	$('#speciesListDiv').empty();
 	$('#speciesListDiv').html(htmlDiv);
 	$('#speciesListDiv').selectmenu();
 	//console.log($('#speciesListDiv').html());
