@@ -6,10 +6,10 @@ var curObservation;
 function uiInit() {
 	updateOrientation();
 	$("#uploadButton").click(function() {
+		$( "#uploadObs" ).dialog( "close" );
 		var upCnt = 0;
 		var obsvs = [];
 		loadObservations(obsvs);
-		$( "#uploadObs" ).dialog( "close" );
 		$(obsvs).each(function(ind, val) {
 			if (UploadUtils.doUpload(val)) 
 				upCnt++;
@@ -154,7 +154,8 @@ $(document).on("swipeleft", function(){
 });
 function chooseSpec(){
 	//if(iMapPrefs.params.Plants.UseCommon == "true" && iMapPrefs.params.Plants.UseScientific == "true" && iMapPrefs.params.Plants.MyPlants.length == 0){
-	selected = "<div data-role='fieldcontain' id='whatDiv'><label for='speciesSelect'>Choose:</label><select id='speciesSelect' name='' data-overlay-theme='d' data-theme='b'>";
+	selected = "<div data-role='fieldcontain' id='whatDiv'><label for='speciesSelect'>Choose:</label><select id='speciesSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
+	selected += "<option value='-1'></option>";
 	for(var i=0;i<DBFuncs.SpeciesList.length;i++){
 		var lStr = "";
 		if (iMapPrefs.params.Plants.UseCommon)
@@ -170,17 +171,19 @@ function chooseSpec(){
 	
 	$('#listSpec').empty();
 	$('#listSpec').append($(selected)).trigger( "create" );
+	$('#listSpec').val(-1);
 }
 function chooseProj(){
 	$('#listProj').show();
 	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect'>Choose:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
-	selected += "<option value='option-1'>No Project</option>";
+	selected += "<option value='-1'></option>";
 	for(var i=0;i<DBFuncs.ProjectList.length;i++){
 		selected+="<option value="+DBFuncs.ProjectList[i][1]+">"+DBFuncs.ProjectList[i][0]+"</option>";
 	}
 	selected += "</select></div>";
 	$('#listProj').empty();
 	$('#listProj').append($(selected)).trigger( "create" );
+	$('#listProj').val(-1);
 }
 function noChoose(){
 	$('#listProj').hide();
@@ -285,7 +288,8 @@ function savePrefs() {
 	iMapPrefs.params.PictureSize = $("input[name=radio-choice-size]:checked").val();
 	//alert($.toJSON(iMapPrefs));
 	iMapPrefs.saveParams();
-	initSpeciesList();
+	DBFuncs.loadSpeciesList();
+	chooseSpec();
 	goHome();
 }
 

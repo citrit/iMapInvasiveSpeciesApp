@@ -88,7 +88,7 @@ function editObs(arg) {
 	$('#dateField').val(curObservation.When);
 	iMapMap.setPosition(curObservation.Where);
 	
-	$('#projectSelect').val('');
+	$('#projectSelect').val('-1');
 	/*var idx = -1;
 	jQuery.each( DBFuncs.ProjectList, function( i, val ) {
 		if (val[0] ===curObservation.Project) {
@@ -103,7 +103,7 @@ function editObs(arg) {
 	$('#projectSelect').selectmenu("refresh");
 	
 	// Set the species list
-	$('#speciesSelect').val('');
+	$('#speciesSelect').val('-1');
 	var indx = 0;
 	$.grep(DBFuncs.SpeciesList, function(v,i) {
 		if (v[0] === curObservation.Species[0] &&
@@ -126,9 +126,9 @@ function editObs(arg) {
 
 function clearObservation() {
 	onPhotoURISuccess('');
-	$('#projectSelect').val(0);
+	$('#projectSelect').val("-1");
 	$('#projectSelect').selectmenu("refresh");
-	$('#speciesSelect').val(0);
+	$('#speciesSelect').val("-1");
 	$('#speciesSelect').selectmenu("refresh");
 }
 
@@ -177,7 +177,7 @@ function initObsList() {
 	return false;
 }
 
-function initSpeciesList() {
+function initSpeciesList() { /// not used.
 	var curIndex = null;
 	var htmlDiv = "<ul>";
 	//console.log($('#speciesListDiv').html());

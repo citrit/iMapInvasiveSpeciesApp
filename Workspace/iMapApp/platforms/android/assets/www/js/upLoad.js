@@ -57,6 +57,7 @@ var UploadUtils = {
 
 	doSendToServer : function(obs) {
 		var url = 'http://hermes.freac.fsu.edu/requests/uploadObservation/uploadTool';
+		console.log("Do image: " + (obs.Photos[0].length > 0?1:0));
 		console.log("Do sendToServer: " + JSON.stringify(obs));
 		var postData = {
 				photourl1 : obs.Photos[0],
@@ -69,7 +70,7 @@ var UploadUtils = {
 				photocredit3 : '',
 				photocredit4 : '',
 				photocredit5 : '',
-				digitalphoto : 0,
+				digitalphoto : (obs.Photos[0].length > 0?1:0),
 				obsdatastatus : 1000,
 				imapdataentrypersonid : obs.Who,
 				observername : obs.Who,
@@ -107,8 +108,8 @@ var UploadUtils = {
 						alert('Upload error: ' + JSON.stringify(ret));
 					}
 				} catch (err) {
-					console.log('Upload error[' + err + ']: ' + jqXHR);
-					alert('Upload error[' + err + ']: ' + jqXHR);
+					console.log('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
+					alert('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
 				}
 
 			},
