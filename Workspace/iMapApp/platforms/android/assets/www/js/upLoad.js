@@ -56,7 +56,7 @@ var UploadUtils = {
 	},
 
 	doSendToServer : function(obs) {
-		var url = 'http://hermes.freac.fsu.edu/requests/uploadObservation/uploadTool';
+		var url = 'https://hermes.freac.fsu.edu/requests/uploadObservation/uploadTool';
 		console.log("Do image: " + (obs.Photos[0].length > 0?1:0));
 		console.log("Do sendToServer: " + JSON.stringify(obs));
 		var postData = {
@@ -79,7 +79,7 @@ var UploadUtils = {
 				statespeciesid : obs.Species[2],
 				commonname : obs.Species[0],
 				scientificname : obs.Species[1],
-				imapdataentrydate : obs.When, //2013-11-11
+				imapdataentrydate : UploadUtils.getDateTime(), //2013-11-11
 				obsdate : obs.When, //2013-11-11
 				obsorigxcoord : obs.Where[0], //-75.41016000000012
 				obsorigycoord : obs.Where[1], //43.40667000000026
@@ -194,5 +194,33 @@ var UploadUtils = {
 	success : function(data, textStatus, jqXHR) {
 		console.log('success: ' + JSON.stringify(data) + " -> "
 				+ JSON.stringify(textStatus));
+	},
+	
+	getDateTime: function() {
+	    var now     = new Date(); 
+	    var year    = now.getFullYear();
+	    var month   = now.getMonth()+1; 
+	    var day     = now.getDate();
+	    var hour    = now.getHours();
+	    var minute  = now.getMinutes();
+	    var second  = now.getSeconds(); 
+	    if(month.toString().length == 1) {
+	        var month = '0'+month;
+	    }
+	    if(day.toString().length == 1) {
+	        var day = '0'+day;
+	    }   
+	    if(hour.toString().length == 1) {
+	        var hour = '0'+hour;
+	    }
+	    if(minute.toString().length == 1) {
+	        var minute = '0'+minute;
+	    }
+	    if(second.toString().length == 1) {
+	        var second = '0'+second;
+	    }   
+	    var dateTime = year+'-'+month+'-'+day;//+' '+hour+':'+minute+':'+second; 
+	    console.log("Current date: " + dateTime);
+	     return dateTime;
 	}
 }

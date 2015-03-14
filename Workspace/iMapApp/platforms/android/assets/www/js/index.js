@@ -124,15 +124,6 @@ function editObs(arg) {
 	return false;
 }
 
-function clearObservation() {
-	onPhotoURISuccess('');
-	$('#projectSelect').val("-1");
-	$('#projectSelect').selectmenu("refresh");
-	$('#speciesSelect').val("-1");
-	$('#speciesSelect').selectmenu("refresh");
-}
-
-
 //Save the current observation.
 //First set the curObservation fieldw then call save.
 function saveObservation() {

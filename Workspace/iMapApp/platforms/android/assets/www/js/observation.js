@@ -15,7 +15,7 @@ function iMapObservation(dontDoWhere){
     if (day < 10) day = "0" + day;
     var today = year + "-" + month + "-" + day;       
     
-    this.When = today;
+    this.When = UploadUtils.getDateTime();
     this.Where = [ 0.0, 0.0 ];
     var obsvs = [];
     loadObservations(obsvs);

@@ -30,6 +30,15 @@ function updateOrientation() {
     $('#iMapMapdiv').trigger('create');
 }
 
+function clearObservation() {
+	onPhotoURISuccess('');
+	$('#projectSelect').val("-1");
+	$('#projectSelect').selectmenu("refresh");
+	$('#speciesSelect').val("-1");
+	$('#speciesSelect').selectmenu("refresh");
+	$('#dateField').val(curObservation.When);
+}
+
 function goHome(){
 	$('#header-text').text('');
 	$('#navi').hide();
