@@ -32,8 +32,12 @@ function updateOrientation() {
 
 function clearObservation() {
 	onPhotoURISuccess('');
-	$('#projectSelect').val("-1");
-	$('#projectSelect').selectmenu("refresh");
+	$("#projectSelect").val(iMapPrefs.params.Project);
+	//$('#projectPrefSelect option[value="'+iMapPrefs.params.Project+'"]').attr("selected",true);
+	$('#projectSelect').selectmenu('refresh', true);
+	
+	//$('#projectSelect').val("-1");
+	//$('#projectSelect').selectmenu("refresh");
 	$('#speciesSelect').val("-1");
 	$('#speciesSelect').selectmenu("refresh");
 	$('#dateField').val(curObservation.When);
@@ -215,7 +219,7 @@ function prefsHome(){
 	//iMapPrefs.params.Projects = $('#fname').val();
 	console.log("Project: " + iMapPrefs.params.Project);
 	$("#projectPrefSelect").val(iMapPrefs.params.Project);
-	$('#projectPrefSelect option[value="'+iMapPrefs.params.Project+'"]').attr("selected",true);
+	//$('#projectPrefSelect option[value="'+iMapPrefs.params.Project+'"]').attr("selected",true);
 	$('#projectPrefSelect').selectmenu('refresh', true);
 	
 	$('#checkbox-common').attr('checked', iMapPrefs.params.Plants.UseCommon).checkboxradio("refresh");
