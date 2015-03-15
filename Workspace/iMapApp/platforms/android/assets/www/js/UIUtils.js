@@ -186,13 +186,21 @@ function chooseProj(){
 	$('#listProj').show();
 	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect'>Choose:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected += "<option value='-1'></option>";
+	selected2 = "<div data-role='fieldcontain' id='projPrefDiv'><label for='projectPrefSelect'>Choose default project:</label><select id='projectPrefSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
+	selected2 += "<option value='-1'></option>";
 	for(var i=0;i<DBFuncs.ProjectList.length;i++){
 		selected+="<option value="+DBFuncs.ProjectList[i][1]+">"+DBFuncs.ProjectList[i][0]+"</option>";
+		selected2+="<option value="+DBFuncs.ProjectList[i][1]+">"+DBFuncs.ProjectList[i][0]+"</option>";
 	}
 	selected += "</select></div>";
+	selected2 += "</select></div>";
 	$('#listProj').empty();
 	$('#listProj').append($(selected)).trigger( "create" );
 	$('#listProj').val(-1);
+	
+	$('#listPrefProj').empty();
+	$('#listPrefProj').append($(selected2)).trigger( "create" );
+	$('#listPrefProj').val(-1);
 }
 function noChoose(){
 	$('#listProj').hide();
@@ -203,7 +211,13 @@ function prefsHome(){
 	$('#lname').val(iMapPrefs.params.Lastname);
 	$('#uname').val(iMapPrefs.params.Username);
 	$('#pword').val(iMapPrefs.params.Password);
+	
 	//iMapPrefs.params.Projects = $('#fname').val();
+	console.log("Project: " + iMapPrefs.params.Project);
+	$("#projectPrefSelect").val(iMapPrefs.params.Project);
+	$('#projectPrefSelect option[value="'+iMapPrefs.params.Project+'"]').attr("selected",true);
+	$('#projectPrefSelect').selectmenu('refresh', true);
+	
 	$('#checkbox-common').attr('checked', iMapPrefs.params.Plants.UseCommon).checkboxradio("refresh");
 	$('#checkbox-scientific').attr('checked', iMapPrefs.params.Plants.UseScientific).checkboxradio("refresh");
 	//iMapPrefs.params.Plants.MyPlants = $('#fname').val();
@@ -290,7 +304,7 @@ function savePrefs() {
 	iMapPrefs.params.Lastname = $('#lname').val();
 	iMapPrefs.params.Username = $('#uname').val();	
 	iMapPrefs.params.Password = $('#pword').val();
-	//iMapPrefs.params.Projects = $('#fname').val();
+	iMapPrefs.params.Project = $("#listPrefProj :selected").val();
 	iMapPrefs.params.Plants.UseCommon = $('#checkbox-common').is(':checked'); 
 	iMapPrefs.params.Plants.UseScientific = $('#checkbox-scientific').is(':checked');
 	//iMapPrefs.params.Plants.MyPlants = $('#fname').val();

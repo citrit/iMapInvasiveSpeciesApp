@@ -6,7 +6,7 @@ var iMapPrefs = {
 			Lastname: "",
 			Username: "",
 			Password: "",
-			Projects: [],
+			Project: "",
 			Plants: {
 				UseCommon: true,
 				UseScientific: true,
@@ -25,13 +25,13 @@ var iMapPrefs = {
 		},
 		// Save the current prefs to localstorage
 		saveParams: function() {
-			iMapApp.debugMsg("iMapPrefs: saving user Params");
+			console.log("iMapPrefs: saving user Params: " + $.toJSON(iMapPrefs.params));
     		localStorage.setItem("userParams", $.toJSON(iMapPrefs.params));
 		},
 		// load the prefs from localstorage
 		loadParams: function() {
-			iMapApp.debugMsg("iMapPrefs: loading user Params");
 			iMapPrefs.params = $.parseJSON(localStorage.getItem("userParams"));
+			iMapApp.debugMsg("iMapPrefs: loading user Params: " + $.toJSON(iMapPrefs.params));
 		},
 		// login to the site
 		loginToMainSite: function(okCallBack) {
