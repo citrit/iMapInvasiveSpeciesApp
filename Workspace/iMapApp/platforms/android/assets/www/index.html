@@ -72,6 +72,13 @@ html,body {
 #title,#tags,#shortdesc {
 	display: none;
 }
+
+img.center {
+  /* display: block;
+  margin-left: auto;
+  margin-right: auto; */
+}
+
 </style>
 </head>
 <body>
@@ -103,13 +110,13 @@ html,body {
 		</div>
 
 		<div id='page-content-div' data-role="content">
-			<div id="homescreen">
-				<a onClick="clearObservation();tabPhoto()"><img src="img/NewObservation.png"/ style="text-align: center;"></a>
-				<a href="#" id="openSelectPopup"  data-transition="pop"><img src="img/EditObservation.png" style="text-align: center;"/></a>
+			<div id="homescreen"  class="vcenter">
+				<a onClick="clearObservation();tabPhoto()"><img src="img/NewObservation.png" class="center" /></a>
+				<a href="#" id="openSelectPopup"  data-transition="pop"><img src="img/EditObservation.png" class="center" /></a>
 				<div data-role="popup" id="selectObsPage" >
 				</div>
-				<a onClick="uploadObsDialog()"><img src="img/Upload.png" style="text-align: center;"/></a>
-				<a onClick="prefsHome()"><img src="img/Preferences.png" style="text-align: center;"/></a>
+				<a onClick="uploadObsDialog()"><img src="img/Upload.png" class="center" /></a>
+				<a onClick="prefsHome()"><img src="img/Preferences.png" class="center" /></a>
 			</div>
 			<div id="takePic">
 				<!-- <input onClick='previewPhoto()' type='file' id='imageName'
