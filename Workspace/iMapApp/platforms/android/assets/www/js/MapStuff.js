@@ -84,6 +84,7 @@ var iMapMap = {
 	},
 	setMapType: function(typ) {
 		if (mapLayer) {
+			console.log("Removing layer");
 		   olMap.removeLayer(mapLayer);
 		}
 		console.log("Setting mapType: " + typ);
@@ -93,14 +94,10 @@ var iMapMap = {
 	            });
 		}
 		else {
-			mapLayer = new OpenLayers.Layer.XYZ(
-		            "Imagery",
-		            [
-		                "http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
-		                "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
-		                "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
-		                "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png"
-		            ],
+			mapLayer = new OpenLayers.Layer.OSM("OpenCycleMap",
+					  ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
+					   "http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
+					   "http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png"],
 		            {
 		                transitionEffect: "resize"
 		            }
