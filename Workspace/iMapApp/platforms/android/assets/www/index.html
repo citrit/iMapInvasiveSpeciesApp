@@ -74,9 +74,18 @@ html,body {
 }
 
 img.center {
-  /* display: block;
+  display: block;
   margin-left: auto;
-  margin-right: auto; */
+  margin-right: auto; 
+}
+table {
+  border-spacing: 10px;
+  width: 100%;
+  height: 200px;
+  cell-padding: 20px;
+}
+.bgimg {
+    /* background-image: url("img/iMapHeader.gif");*/
 }
 
 </style>
@@ -109,14 +118,20 @@ img.center {
 
 		</div>
 
-		<div id='page-content-div' data-role="content">
+		<div id='page-content-div' data-role="content" class="bgimg">
 			<div id="homescreen"  class="vcenter">
-				<a onClick="clearObservation();tabPhoto()"><img src="img/NewObservation.png" class="center" /></a>
-				<a href="#" id="openSelectPopup"  data-transition="pop"><img src="img/EditObservation.png" class="center" /></a>
+				<TABLE BORDER="0" >
+				<TR>
+				<TD><a onClick="clearObservation();tabPhoto()"><img src="img/NewObservation.png" class="center" /></a></TD>
+				<TD><a href="#" id="openSelectPopup"  data-transition="pop"><img src="img/EditObservation.png" class="center" /></a></TD>
+				</TR>
+				<TR>
+				<TD><a onClick="uploadObsDialog()"><img src="img/Upload.png" class="center" /></a></TD>
+				<TD><a onClick="prefsHome()"><img src="img/Preferences.png" class="center" /></a></TD>
+				</TR>
+				</TABLE>
 				<div data-role="popup" id="selectObsPage" >
 				</div>
-				<a onClick="uploadObsDialog()"><img src="img/Upload.png" class="center" /></a>
-				<a onClick="prefsHome()"><img src="img/Preferences.png" class="center" /></a>
 			</div>
 			<div id="takePic">
 				<!-- <input onClick='previewPhoto()' type='file' id='imageName'
