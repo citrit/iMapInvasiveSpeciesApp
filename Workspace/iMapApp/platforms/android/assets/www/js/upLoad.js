@@ -103,6 +103,8 @@ var UploadUtils = {
 						console.log('return: ' + JSON.stringify(ret));
 						rmObservation(obs);
 						ret = true;
+					} else if (ret.code === 2) {
+						alert("Bad username or password")
 					} else {
 						console.log('Upload error: ' + JSON.stringify(ret));
 						alert('Upload error: ' + JSON.stringify(ret));
@@ -219,7 +221,7 @@ var UploadUtils = {
 	    if(second.toString().length == 1) {
 	        var second = '0'+second;
 	    }   
-	    var dateTime = year+'-'+month+'-'+day;//+' '+hour+':'+minute+':'+second; 
+	    var dateTime = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second; 
 	    console.log("Current date: " + dateTime);
 	     return dateTime;
 	}

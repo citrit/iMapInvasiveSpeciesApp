@@ -40,6 +40,8 @@ function clearObservation() {
 	//$('#projectSelect').selectmenu("refresh");
 	$('#speciesSelect').val("-1");
 	$('#speciesSelect').selectmenu("refresh");
+	iMapMap.clearMap();
+	curObservation = new iMapObservation();
 	$('#dateField').val(curObservation.When);
 }
 
@@ -92,6 +94,9 @@ function tabWhere(){
 	$('#getProj').hide();
 	$('#getSpec').hide();
 	$('#button-footer').show();
+	var wid = $("#getLoca").width();
+	var hei = $("#getLoca").height();
+	iMapMap.fixSize(wid, hei);
 }
 function tabWhat(){
 	tab='what';
@@ -309,14 +314,19 @@ function savePrefs() {
 	iMapPrefs.params.Username = $('#uname').val();	
 	iMapPrefs.params.Password = $('#pword').val();
 	iMapPrefs.params.Project = $("#listPrefProj :selected").val();
+	
+	if (iMapPrefs.params.Plants.UseCommon !== $('#checkbox-common').is(':checked') ||
+			iMapPrefs.params.Plants.UseScientific !== $('#checkbox-scientific').is(':checked')) {
+		DBFuncs.loadSpeciesList();
+		chooseSpec();
+	}
+	
 	iMapPrefs.params.Plants.UseCommon = $('#checkbox-common').is(':checked'); 
 	iMapPrefs.params.Plants.UseScientific = $('#checkbox-scientific').is(':checked');
 	//iMapPrefs.params.Plants.MyPlants = $('#fname').val();
 	iMapPrefs.params.PictureSize = $("input[name=radio-choice-size]:checked").val();
 	//alert($.toJSON(iMapPrefs));
 	iMapPrefs.saveParams();
-	DBFuncs.loadSpeciesList();
-	chooseSpec();
 	goHome();
 }
 

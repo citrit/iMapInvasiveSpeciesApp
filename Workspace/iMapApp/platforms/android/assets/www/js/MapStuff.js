@@ -1,6 +1,7 @@
 var iMapMap = {
 	olMap: null,
 	locLayer: null,
+	dragCtl: null,
 	init: function() {
 	    // create map
 		olMap = new OpenLayers.Map({
@@ -12,8 +13,8 @@ var iMapMap = {
 	                dragPanOptions: {
 	                    enableKinetic: true
 	                }
-	            }),
-	            new OpenLayers.Control.Zoom()
+	            })//,
+	            //new OpenLayers.Control.Zoom()
 	        ],
 	        layers: [
 	            new OpenLayers.Layer.OSM("OpenStreetMap", null, {
@@ -39,19 +40,15 @@ var iMapMap = {
 	        })
 	    });
 		olMap.addLayer(locLayer);
-		var dragCtl = new OpenLayers.Control.ModifyFeature(locLayer); //dragComplete: function(	vertex	)
+		dragCtl = new OpenLayers.Control.ModifyFeature(locLayer); //dragComplete: function(	vertex	)
 		olMap.addControl(dragCtl);
 		dragCtl.activate();
 	},
-	// Get rid of address bar on iphone/ipod
-	fixSize: function() {
-	    window.scrollTo(0,0);
-	    document.body.style.height = '100%';
-	    if (!(/(iphone|ipod)/.test(navigator.userAgent.toLowerCase()))) {
-	        if (document.body.parentNode) {
-	            document.body.parentNode.style.height = '100%';
-	        }
-	    }
+	// resize div
+	fixSize: function(wid, hei) {
+		console.log("MapResize W:"+wid+" H:"+hei);
+		$("#iMapMapdiv").width(wid).height(hei);
+		olMap.updateSize();
 	},
 	// Set the position pin in the map
 	setPosition: function(pos) {
@@ -71,6 +68,11 @@ var iMapMap = {
 		 var reader = new OpenLayers.Format.GeoJSON();
 		 locLayer.addFeatures(reader.read(features));
 		 olMap.setCenter (lonLat, 12);
+	},
+	clearMap: function() {
+		console.log("====== ClearMap");
+		locLayer.removeAllFeatures();
+		dragCtl.resetVertices();
 	},
 	getObsLocation: function () {
 		var pt = new OpenLayers.LonLat(locLayer.features[0].geometry.x, locLayer.features[0].geometry.y)

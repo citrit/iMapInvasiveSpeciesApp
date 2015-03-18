@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -104,24 +104,24 @@ html,body {
 
 		<div id='page-content-div' data-role="content">
 			<div id="homescreen">
-				<button onClick="curObservation = new iMapObservation();clearObservation();tabPhoto()">Make	Observation</button>
-				<a href="#" id="openSelectPopup" data-role="button" data-transition="pop">Edit Observation</a>
+				<button onClick="clearObservation();tabPhoto()"><img src="img/NewObservation.png"/></button>
+				<a href="#" id="openSelectPopup" data-role="button" data-transition="pop"><img src="img/EditObservation.png"/></a>
 				<div data-role="popup" id="selectObsPage" >
 				</div>
-				<button onClick="uploadObsDialog()">Upload Observations</button>
-				<button onClick="prefsHome()">Preferences</button>
+				<button onClick="uploadObsDialog()"><img src="img/Upload.png"/></button>
+				<button onClick="prefsHome()"><img src="img/Preferences.png"/></button>
 			</div>
 			<div id="takePic">
 				<!-- <input onClick='previewPhoto()' type='file' id='imageName'
 					name='image' accept='image/*'> -->
 				<!-- <button onClick='getPhoto(Camera.PictureSourceType.PHOTOLIBRARY)'>Get Local Picture</button> -->
 				<p>
-				<button onClick='getPhoto(Camera.PictureSourceType.CAMERA)'>Take Photo</button>
+				<button onClick='getPhoto(Camera.PictureSourceType.CAMERA)'><img src="img/TakePhoto.png"/></button>
 				<img style='display: none; width:100%'
 						id='largeImage' src='' />
 			</div>
 			<div id="getLoca">
-				<div id="iMapMapdiv" style="height: 300px; width: 300px;"></div>
+				<div id="iMapMapdiv"></div>
 			</div>
 			<div id="getDate">
 				<div data-role='fieldcontain' id='dateDiv'>
