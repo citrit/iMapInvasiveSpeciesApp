@@ -97,6 +97,7 @@ function tabWhere(){
 	var wid = $("#getLoca").width();
 	var hei = $("#getLoca").height();
 	iMapMap.fixSize(wid, hei);
+	iMapMap.setMapType(iMapPrefs.params.MapType);
 }
 function tabWhat(){
 	tab='what';
@@ -232,6 +233,8 @@ function prefsHome(){
 	//iMapPrefs.params.Plants.MyPlants = $('#fname').val();
 	//iMapPrefs.params.PictureSize = $("input[name=radio-choice-size]:checked").val();
 	$('#'+iMapPrefs.params.PictureSize).attr('checked', true).checkboxradio("refresh");
+	$('#'+iMapPrefs.params.MapType).attr('checked', true).checkboxradio("refresh");
+
 	//alert($.toJSON(iMapPrefs));
 	$('#prefsScreen').show();
 	$('#homescreen').hide();
@@ -325,6 +328,7 @@ function savePrefs() {
 	iMapPrefs.params.Plants.UseScientific = $('#checkbox-scientific').is(':checked');
 	//iMapPrefs.params.Plants.MyPlants = $('#fname').val();
 	iMapPrefs.params.PictureSize = $("input[name=radio-choice-size]:checked").val();
+	iMapPrefs.params.MapType = $("input[name=map-type]:checked").val();
 	//alert($.toJSON(iMapPrefs));
 	iMapPrefs.saveParams();
 	goHome();

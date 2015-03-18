@@ -2,8 +2,12 @@ var iMapMap = {
 	olMap: null,
 	locLayer: null,
 	dragCtl: null,
+	mapLayer: null,
 	init: function() {
 	    // create map
+		mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", null, {
+            transitionEffect: 'resize'
+        });
 		olMap = new OpenLayers.Map({
 	        div: "iMapMapdiv",
 	        theme: null,
@@ -16,11 +20,7 @@ var iMapMap = {
 	            })//,
 	            //new OpenLayers.Control.Zoom()
 	        ],
-	        layers: [
-	            new OpenLayers.Layer.OSM("OpenStreetMap", null, {
-	                transitionEffect: 'resize'
-	            })
-	        ],
+	        layers: [ mapLayer ],
 	        zoom: 12
 	    });
 		olMap.setCenter( new OpenLayers.LonLat( -73.75, 42.68 )
@@ -81,6 +81,32 @@ var iMapMap = {
 						new OpenLayers.Projection("EPSG:4326") // transform from WGS 1984
 		        );
 		return [ pt.lon, pt.lat ];
+	},
+	setMapType: function(typ) {
+		if (mapLayer) {
+		   olMap.removeLayer(mapLayer);
+		}
+		console.log("Setting mapType: " + typ);
+		if (typ == "road") {
+			mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", null, {
+	                transitionEffect: 'resize'
+	            });
+		}
+		else {
+			mapLayer = new OpenLayers.Layer.XYZ(
+		            "Imagery",
+		            [
+		                "http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
+		                "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
+		                "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
+		                "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png"
+		            ],
+		            {
+		                transitionEffect: "resize"
+		            }
+		        );
+		}
+		olMap.addLayer(mapLayer);
 	}
 }
 

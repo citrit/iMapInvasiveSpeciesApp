@@ -13,6 +13,7 @@ var iMapPrefs = {
 				MyPlants: []
 			},
 			PictureSize: "Medium",
+			MapType: "road",
 		},
 		init: function() {
 			var parms = localStorage.getItem("userParams");

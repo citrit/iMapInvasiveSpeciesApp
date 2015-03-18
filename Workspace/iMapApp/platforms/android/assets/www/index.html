@@ -166,6 +166,13 @@ html,body {
 						<input id='large' name='radio-choice-size' value='large' data-theme='c' type='radio'> 
 						<label for='large'>Large</label>
 					</fieldset>
+					<fieldset data-role='controlgroup' data-type='vertical'	id='mapType'>
+						<legend>Map Type:</legend>
+						<input id='road' name='map-type' value='road' data-theme='c' type='radio'> 
+						<label for='road'>Road</label>
+						<input id='aerial' name='map-type' value='aerial' data-theme='c' type='radio'>  
+						<label for='aerial'>Satellite</label>
+					</fieldset>
 					<div id='button-prefs' data-role='footer' class="ui-bar" data-position="fixed">
 						<a href='#page1' data-role='button' onclick="savePrefs()">Save</a>
 						<a href='#page1' data-role='button' onclick="goHome()">Cancel</a>
