@@ -20,6 +20,11 @@ function uiInit() {
 			alert('Uploaded [' + upCnt + '] records.');
 		
 	});
+	// Set size of main menu div
+	var hei = $( window ).height();
+	hei -= (hei * 0.33)
+	console.log("Set height: "+ hei);
+	$("#homescreentable").height(hei);
 }
 
 function updateOrientation() {
@@ -43,6 +48,7 @@ function clearObservation() {
 	iMapMap.clearMap();
 	curObservation = new iMapObservation();
 	$('#dateField').val(curObservation.When);
+	iMapMap.startGPSTimer();
 }
 
 function goHome(){
@@ -57,6 +63,7 @@ function goHome(){
 	$('#getSpec').hide();
 	$('#button-footer').hide();
 	$('#deleteObsButton').hide();
+	iMapMap.stopGPSTimer();
 }
 function tabPhoto(){
 	console.log("Username: " + JSON.stringify(iMapPrefs.params.Username));

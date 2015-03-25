@@ -24,20 +24,7 @@ function iMapObservation(dontDoWhere){
     this.ObsCounty = "Albany";
     var curobs = this;
     if (typeof dontDoWhere === "undefined") {
-		navigator.geolocation.getCurrentPosition(function (position) {
-				curobs.Where = [ position.coords.longitude, position.coords.latitude];
-				iMapApp.debugMsg("Position: " + $.toJSON(curobs.Where));
-				//alert('found location: ' + $.toJSON(curobs.Where));
-				iMapMap.setPosition(curobs.Where);
-			},
-			function(err) {
-				curobs.Where = [ -73.8648, 42.7186 ];
-				iMapApp.debugMsg("Position: " + $.toJSON(curobs.Where));
-				//alert('error location: ' + $.toJSON(curobs.Where));
-				iMapMap.setPosition(curobs.Where);
-			},
-			{maximumAge: 300000, timeout:20000, enableHighAccuracy : true}
-		);
+		
 	}
 	// Save the current observation to the internal table.
 	this.save = function(){

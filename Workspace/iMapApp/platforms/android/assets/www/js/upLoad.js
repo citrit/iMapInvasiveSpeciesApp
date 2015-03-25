@@ -73,13 +73,13 @@ var UploadUtils = {
 				digitalphoto : (obs.Photos[0].length > 0?1:0),
 				obsdatastatus : 1000,
 				imapdataentrypersonid : obs.Who,
-				observername : obs.Who,
+				observername : iMapPrefs.params.Username,
 				obsstate : obs.ObsState,
 				projectid : obs.Project,
 				statespeciesid : obs.Species[2],
 				commonname : obs.Species[0],
 				scientificname : obs.Species[1],
-				imapdataentrydate : UploadUtils.getDateTime(), //2013-11-11
+				imapdataentrydate : UploadUtils.getDateTime(true), //2013-11-11
 				obsdate : obs.When, //2013-11-11
 				obsorigxcoord : obs.Where[0], //-75.41016000000012
 				obsorigycoord : obs.Where[1], //43.40667000000026
@@ -198,7 +198,7 @@ var UploadUtils = {
 				+ JSON.stringify(textStatus));
 	},
 	
-	getDateTime: function() {
+	getDateTime: function(useTime) {
 	    var now     = new Date(); 
 	    var year    = now.getFullYear();
 	    var month   = now.getMonth()+1; 
@@ -220,9 +220,15 @@ var UploadUtils = {
 	    }
 	    if(second.toString().length == 1) {
 	        var second = '0'+second;
-	    }   
-	    var dateTime = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second; 
+	    }
+	    var dateTime = ''; 
+	    if (typeof useTime !== "undefined") {
+	    	dateTime = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second; 
+		}
+	    else {
+	    	dateTime = year+'-'+month+'-'+day;
+	    }
 	    console.log("Current date: " + dateTime);
-	     return dateTime;
+	    return dateTime;
 	}
 }

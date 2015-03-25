@@ -3,6 +3,7 @@ var iMapMap = {
 	locLayer: null,
 	dragCtl: null,
 	mapLayer: null,
+	timerVar: null,
 	init: function() {
 	    // create map
 		mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", null, {
@@ -47,7 +48,7 @@ var iMapMap = {
 	// resize div
 	fixSize: function(wid, hei) {
 		console.log("MapResize W:"+wid+" H:"+hei);
-		$("#iMapMapdiv").width(wid).height(hei);
+		$("#iMapMapdiv").width(wid).height(hei - 10);
 		olMap.updateSize();
 	},
 	// Set the position pin in the map
@@ -104,6 +105,30 @@ var iMapMap = {
 		        );
 		}
 		olMap.addLayer(mapLayer);
+	},
+	startGPSTimer: function() {
+		console.log("Start timer");
+		timerVar = setInterval(function(){iMapMap.getCurrentLocation()},10000);
+	},
+	stopGPSTimer: function() {
+		console.log("Stop timer");
+		clearTimeout(timerVar);
+	},
+	getCurrentLocation: function() {
+		navigator.geolocation.getCurrentPosition(function (position) {
+			//curobs.Where = [ position.coords.longitude, position.coords.latitude];
+			iMapApp.debugMsg("Position: " + $.toJSON([ position.coords.longitude, position.coords.latitude]));
+			//alert('found location: ' + $.toJSON(curobs.Where));
+			iMapMap.setPosition([ position.coords.longitude, position.coords.latitude]);
+		},
+		function(err) {
+			//curobs.Where = [ -73.8648, 42.7186 ];
+			iMapApp.debugMsg("Position: " + $.toJSON([ -73.8648, 42.7186 ]));
+			//alert('error location: ' + $.toJSON(curobs.Where));
+			iMapMap.setPosition([ -73.8648, 42.7186 ]);
+		},
+		{maximumAge: 300000, timeout:2000, enableHighAccuracy : true}
+	);
 	}
 }
 

@@ -81,17 +81,20 @@ img.center {
 table {
   border-spacing: 10px;
   width: 100%;
-  height: 200px;
+  height: 100%;
   cell-padding: 20px;
 }
 .bgimg {
-    /* background-image: url("img/iMapHeader.gif");*/
+    background-image: url("img/LeavesBG.jpg");
+}
+.nobgimg {
+    background-color: green;
 }
 
 </style>
 </head>
 <body>
-	<div data-role="page" id="page1">
+	<div data-role="page" id="page1" class="bgimg">
 		<img src="img/iMapHeader.gif"
 			style="width: 99.5%; height: 60px; TOP: 0px; LEFT: 0px">
 
@@ -118,9 +121,9 @@ table {
 
 		</div>
 
-		<div id='page-content-div' data-role="content" class="bgimg">
-			<div id="homescreen"  class="vcenter">
-				<TABLE BORDER="0" >
+		<div id='page-content-div' data-role="content"  >
+			<div id="homescreen" >
+				<TABLE BORDER="0" id="homescreentable" >
 				<TR>
 				<TD><a onClick="clearObservation();tabPhoto()"><img src="img/NewObservation.png" class="center" /></a></TD>
 				<TD><a href="#" id="openSelectPopup"  data-transition="pop"><img src="img/EditObservation.png" class="center" /></a></TD>
@@ -133,12 +136,12 @@ table {
 				<div data-role="popup" id="selectObsPage" >
 				</div>
 			</div>
-			<div id="takePic">
+			<div id="takePic" >
 				<!-- <input onClick='previewPhoto()' type='file' id='imageName'
 					name='image' accept='image/*'> -->
 				<!-- <button onClick='getPhoto(Camera.PictureSourceType.PHOTOLIBRARY)'>Get Local Picture</button> -->
 				<p>
-				<button onClick='getPhoto(Camera.PictureSourceType.CAMERA)'><img src="img/TakePhoto.png"/></button>
+				<a onClick='getPhoto(Camera.PictureSourceType.CAMERA)'><img src="img/TakePhoto.png"/></a>
 				<img style='display: none; width:100%'
 						id='largeImage' src='' />
 			</div>
@@ -147,18 +150,18 @@ table {
 			</div>
 			<div id="getDate">
 				<div data-role='fieldcontain' id='dateDiv'>
-					<label for="dateField">Date Recorded:</label> <input type="text"
+					<label for="dateField">Date Recorded:</label> <input type="date"
 						name="dateField" id="dateField" value="" />
 				</div>
 			</div>
-			<div id="getProj">
+			<div id="getProj" >
 				<div id="listProj"></div>
 			</div>
-			<div id="getSpec">
+			<div id="getSpec" >
 				<div id="listSpec"></div>
 			</div>
 			
-			<div id="prefsScreen" data-role="content">
+			<div id="prefsScreen" data-role="content" >
 
 				<h2>Preferences</h2>
 				<div data-role="fieldcontain">
