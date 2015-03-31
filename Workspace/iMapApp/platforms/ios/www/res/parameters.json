@@ -1,0 +1,13 @@
+{
+   "FirstName":"",
+   "LastName": "",
+   "Username": "",
+   "Password": "",
+   "Projects":[ ],
+   "Plants":{
+      "UseCommon":true,
+      "UseScientific":true,
+      "MyPlants": []
+   },
+   "PictureSize": "Medium"
+}
