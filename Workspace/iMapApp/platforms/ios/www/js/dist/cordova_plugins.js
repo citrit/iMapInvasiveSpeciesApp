@@ -331,9 +331,9 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "org.apache.cordova.battery-status": "0.2.4",
-    "org.apache.cordova.camera": "0.2.4",
+    "org.apache.cordova.camera": "0.3.6",
     "org.apache.cordova.console": "0.2.4",
-    "org.apache.cordova.device": "0.2.4",
+    "org.apache.cordova.device": "0.3.0",
     "org.apache.cordova.dialogs": "0.2.3",
     "org.apache.cordova.file": "0.2.5",
     "org.apache.cordova.file-transfer": "0.3.4",

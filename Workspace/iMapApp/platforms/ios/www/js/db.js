@@ -9,7 +9,7 @@ var DBFuncs = {
     init: function() {
     	iMapApp.debugMsg("DB init");
     	iMapDB = window.sqlitePlugin.openDatabase({  
-    		   name : "iMapInvasives"  
+                name : "iMapInvasives.db"
     	 });
     	iMapDB.transaction(DBFuncs.checkForUpdates, DBFuncs.errorCB);
     	iMapDB.transaction(DBFuncs.loadProjectList, DBFuncs.errorCB);
