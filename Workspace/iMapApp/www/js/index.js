@@ -22,6 +22,7 @@ var iMapApp = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
     	console.log("onDeviceReady made it here.");
+    	//navigator.splashscreen.show();
     	iMapPrefs.init();
     	DBFuncs.init();
     	pictureSource=navigator.camera.PictureSourceType;
@@ -87,16 +88,22 @@ function editObs(arg) {
 	$('#dateField').val(curObservation.When);
 	iMapMap.setPosition(curObservation.Where);
 	
-	$('#projectSelect').val('');
-	var idx = jQuery.inArray(curObservation.Project, DBFuncs.ProjectList);
-	//alert(idx);
-	var opt = $('#projectSelect').find('option[value=option'+idx+']');
+	$('#projectSelect').val('-1');
+	/*var idx = -1;
+	jQuery.each( DBFuncs.ProjectList, function( i, val ) {
+		if (val[0] ===curObservation.Project) {
+			idx = val[1];
+			return false;
+		}
+	});
+	alert(idx);*/
+	var opt = $('#projectSelect').find('option[value='+curObservation.Project+']');
 	//alert(curObservation.Project + ' = ' + opt.text());
 	opt.attr("selected",true);
 	$('#projectSelect').selectmenu("refresh");
 	
 	// Set the species list
-	$('#speciesSelect').val('');
+	$('#speciesSelect').val('-1');
 	var indx = 0;
 	$.grep(DBFuncs.SpeciesList, function(v,i) {
 		if (v[0] === curObservation.Species[0] &&
@@ -117,15 +124,6 @@ function editObs(arg) {
 	return false;
 }
 
-function clearObservation() {
-	onPhotoURISuccess('');
-	$('#projectSelect').val(0);
-	$('#projectSelect').selectmenu("refresh");
-	$('#speciesSelect').val(0);
-	$('#speciesSelect').selectmenu("refresh");
-}
-
-
 //Save the current observation.
 //First set the curObservation fieldw then call save.
 function saveObservation() {
@@ -134,8 +132,9 @@ function saveObservation() {
 		obj = $('#listSpec').find('#speciesSelect :selected');
 	//alert(obj.val());
 	curObservation.Species = DBFuncs.SpeciesList[obj.val()];
+	console.log("Species: " + JSON.stringify(curObservation.Species));
 	
-	curObservation.Project = $("#listProj :selected").text(); // $("speciesSelect");
+	curObservation.Project = $("#listProj :selected").val(); // $("speciesSelect");
 	
 	curObservation.When = $('#dateField').val();
 	curObservation.Where = iMapMap.getObsLocation();
@@ -169,7 +168,7 @@ function initObsList() {
 	return false;
 }
 
-function initSpeciesList() {
+function initSpeciesList() { /// not used.
 	var curIndex = null;
 	var htmlDiv = "<ul>";
 	//console.log($('#speciesListDiv').html());
@@ -191,6 +190,7 @@ function initSpeciesList() {
 		}
 	});
 	htmlDiv += "</ul>";
+	$('#speciesListDiv').empty();
 	$('#speciesListDiv').html(htmlDiv);
 	$('#speciesListDiv').selectmenu();
 	//console.log($('#speciesListDiv').html());

@@ -6,13 +6,14 @@ var iMapPrefs = {
 			Lastname: "",
 			Username: "",
 			Password: "",
-			Projects: [],
+			Project: "",
 			Plants: {
 				UseCommon: true,
 				UseScientific: true,
 				MyPlants: []
 			},
 			PictureSize: "Medium",
+			MapType: "road",
 		},
 		init: function() {
 			var parms = localStorage.getItem("userParams");
@@ -25,13 +26,13 @@ var iMapPrefs = {
 		},
 		// Save the current prefs to localstorage
 		saveParams: function() {
-			iMapApp.debugMsg("iMapPrefs: saving user Params");
+			console.log("iMapPrefs: saving user Params: " + $.toJSON(iMapPrefs.params));
     		localStorage.setItem("userParams", $.toJSON(iMapPrefs.params));
 		},
 		// load the prefs from localstorage
 		loadParams: function() {
-			iMapApp.debugMsg("iMapPrefs: loading user Params");
 			iMapPrefs.params = $.parseJSON(localStorage.getItem("userParams"));
+			iMapApp.debugMsg("iMapPrefs: loading user Params: " + $.toJSON(iMapPrefs.params));
 		},
 		// login to the site
 		loginToMainSite: function(okCallBack) {
@@ -40,24 +41,24 @@ var iMapPrefs = {
 			var ret = false;
 			// strUrl is whatever URL you need to call
 			var strUrl = "http://hermes.freac.fsu.edu/nyimi/login/", strReturn = "";
-			//$( "#hiddenLoginDiv" ).load( strUrl + ' #login_request_wrapper', function () {
+			//$( "#hiddenLoginDiv" ).load( strUrl, function () {
 			document.getElementById("hiddenLoginDiv").onload = function() {
-				console.log('Login: ' + $( "#hiddenLoginDiv" ).html());
-				var subForm = $("#hiddenLoginDiv").contents().find("form"); //$('#hiddenLoginDiv').find('form');
-				if (subForm != null) {
-					//alert ("found form");
-					console.log("logingIntoToMainSite[" + $('#id_username') + "]: " + iMapPrefs.params.Username);
-					$(subForm).find('#id_username').val(iMapPrefs.params.Username);
-					$(subForm).find('#id_password').val(iMapPrefs.params.Password);
-					iMapApp.debugMsg("Before submit");
-					strReturn = subForm.submit();
-					iMapApp.debugMsg("after submit");
-					console.log(typeof strReturn) ;
-					document.getElementById("hiddenLoginDiv").onload = null;
-					ret = true;
-				}
-				iMapApp.debugMsg("loginToMainSite[" + $(subForm).find('#id_username').val() + "]: ");
-				okCallBack(ret);
+				console.log('HTML: ' + $( "#hiddenLoginDiv" ).html())
+				var pData = { 'csrfmiddlewaretoken' : 'f248eb7050f2b3977121d03ddbb59e5f', 
+								'username': iMapPrefs.params.Username, 
+								'password' : iMapPrefs.params.Password };
+				console.log('posting login stuff: ' + JSON.stringify(pData));
+				$.ajax({
+					  type: 'POST',
+					  url: strUrl,
+					  data: pData,
+					  success: function(msg) {
+						  console.log('Posting res: ' + JSON.stringify(msg) );
+					  },
+					  error: function(err, msg) {
+						  console.log('Posting err: ' + JSON.stringify(err) + '\n MSG: ' + JSON.stringify(msg));
+					  }
+					});
 			};
 			$("#hiddenLoginDiv").attr("src", strUrl);
 		}
