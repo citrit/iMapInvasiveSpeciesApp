@@ -29,23 +29,32 @@ namespace WPCordovaClassLib.Cordova.Commands
 {
     /// <summary>
     /// Listens for changes to the state of the battery on the device.
-    /// Currently only the "isPlugged" parameter available via native APIs.
     /// </summary>
     public class Battery : BaseCommand
     {
         private bool isPlugged = false;
         private EventHandler powerChanged;
-
+#if WP8
+        private Windows.Phone.Devices.Power.Battery battery;
+#endif
         public Battery()
         {
             powerChanged = new EventHandler(DeviceStatus_PowerSourceChanged);
             isPlugged = DeviceStatus.PowerSource.ToString().CompareTo("External") == 0;
+
+#if WP8
+            battery = Windows.Phone.Devices.Power.Battery.GetDefault();
+#endif
         }
 
         public void start(string options)
         {
             // Register power changed event handler
             DeviceStatus.PowerSourceChanged += powerChanged;
+
+#if WP8
+            battery.RemainingChargePercentChanged += Battery_RemainingChargePercentChanged;
+#endif
 
             PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
             result.KeepCallback = true;
@@ -55,6 +64,9 @@ namespace WPCordovaClassLib.Cordova.Commands
         {
             // Unregister power changed event handler
             DeviceStatus.PowerSourceChanged -= powerChanged;
+#if WP8
+            battery.RemainingChargePercentChanged -= Battery_RemainingChargePercentChanged;
+#endif
         }
 
         private void DeviceStatus_PowerSourceChanged(object sender, EventArgs e)
@@ -65,10 +77,23 @@ namespace WPCordovaClassLib.Cordova.Commands
             DispatchCommandResult(result);
         }
 
+        private void Battery_RemainingChargePercentChanged(object sender, object e)
+        {
+            PluginResult result = new PluginResult(PluginResult.Status.OK, GetCurrentBatteryStateFormatted());
+            result.KeepCallback = true;
+            DispatchCommandResult(result);
+        }
+
         private string GetCurrentBatteryStateFormatted()
         {
+            int remainingChargePercent = -1;
+#if WP8
+            remainingChargePercent = battery.RemainingChargePercent;
+#endif
+
+
             string batteryState = String.Format("\"level\":{0},\"isPlugged\":{1}",
-                                                    "null",
+                                                    remainingChargePercent,
                                                     isPlugged ? "true" : "false"
                             );
             batteryState = "{" + batteryState + "}";

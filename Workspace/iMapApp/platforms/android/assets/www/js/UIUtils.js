@@ -52,6 +52,7 @@ function clearObservation() {
 }
 
 function goHome(){
+	tab="";
 	$('#header-text').text('');
 	$('#navi').hide();
 	$('#homescreen').show();
@@ -64,22 +65,19 @@ function goHome(){
 	$('#button-footer').hide();
 	$('#deleteObsButton').hide();
 	iMapMap.stopGPSTimer();
+	$('#stateSelect').val(iMapPrefs.params.CurrentState);
+    $('#stateSelect').selectmenu('refresh', true);
 }
-function tabPhoto(){
+
+function newObservation() {
 	console.log("Username: " + JSON.stringify(iMapPrefs.params.Username));
-	if (iMapPrefs.params.Username !== "") {
-		tab='photo';
-		$('#header-text').text('Select Photo');
-		$('#pic').addClass('ui-btn-active');
-		$('#navi').show();
-		$('#homescreen').hide();
-		$('#prefsScreen').hide();
-		$('#takePic').show();
-		$('#getLoca').hide();
-		$('#getDate').hide();
-		$('#getProj').hide();
-		$('#getSpec').hide();
-		$('#button-footer').show();
+	if (iMapPrefs.params.Username !== "" && iMapPrefs.params.CurrentState !== "") {
+		window.plugins.spinnerDialog.show("Preparing New Observation","Please wait...");
+        chooseProj();
+        chooseSpec();
+        tabPhoto();
+        window.plugins.spinnerDialog.hide();
+        
 	}
 	else
 		navigator.notification.alert('Please fill out Preferences first', // message
@@ -87,6 +85,24 @@ function tabPhoto(){
 			'Notification', // title
 			'Ok' // buttonName
 		);
+}
+
+function tabPhoto(){
+	
+    window.plugins.spinnerDialog.hide();
+	tab='photo';
+	$('#header-text').text('Select Photo');
+	$('#pic').addClass('ui-btn-active');
+	$('#navi').show();
+	$('#homescreen').hide();
+	$('#prefsScreen').hide();
+	$('#takePic').show();
+	$('#getLoca').hide();
+	$('#getDate').hide();
+	$('#getProj').hide();
+	$('#getSpec').hide();
+	$('#button-footer').show();
+	
 }
 function tabWhere(){
 	tab='where';
@@ -122,6 +138,8 @@ function tabWhat(){
 }
 function tabProject(){
 	tab='project';
+    $('#projectSelect').val(iMapPrefs.params.Project);
+    $('#projectSelect').selectmenu('refresh', true);
 	$('#header-text').text('Select Project');
 	$('#proj').addClass('ui-btn-active');
 	$('#navi').show();
@@ -150,7 +168,7 @@ function tabWhen(){
 	$('#button-footer').show();
 }
 
-$(document).on("swiperight", function(){
+/*$(document).on("swiperight", function(){
 	if(tab=="project"){
 		tabPhoto();
 	}
@@ -177,9 +195,12 @@ $(document).on("swipeleft", function(){
 	else if(tab=="when"){
 		tabWhere();
 	}
-});
+});*/
+
+
 function chooseSpec(){
-	//if(iMapPrefs.params.Plants.UseCommon == "true" && iMapPrefs.params.Plants.UseScientific == "true" && iMapPrefs.params.Plants.MyPlants.length == 0){
+    console.log("Building Species select");
+    //if(iMapPrefs.params.Plants.UseCommon == "true" && iMapPrefs.params.Plants.UseScientific == "true" && iMapPrefs.params.Plants.MyPlants.length == 0){
 	selected = "<div data-role='fieldcontain' id='whatDiv'><label for='speciesSelect'>Choose:</label><select id='speciesSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected += "<option value='-1'></option>";
 	for(var i=0;i<DBFuncs.SpeciesList.length;i++){
@@ -200,12 +221,16 @@ function chooseSpec(){
 	$('#listSpec').val(-1);
 }
 function chooseProj(){
-	$('#listProj').show();
+    console.log("Building Projects select");
+    $('#listProj').show();
 	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect'>Choose:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected += "<option value='-1'></option>";
 	selected2 = "<div data-role='fieldcontain' id='projPrefDiv'><label for='projectPrefSelect'>Choose default project:</label><select id='projectPrefSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected2 += "<option value='-1'></option>";
+    iMapApp.debugMsg("DBFuncs.ProjectList: " + $.toJSON(DBFuncs.ProjectList));
 	for(var i=0;i<DBFuncs.ProjectList.length;i++){
+        //console.log("Project: " + $.toJSON(DBFuncs.ProjectList[i]));
+        
 		selected+="<option value="+DBFuncs.ProjectList[i][1]+">"+DBFuncs.ProjectList[i][0]+"</option>";
 		selected2+="<option value="+DBFuncs.ProjectList[i][1]+">"+DBFuncs.ProjectList[i][0]+"</option>";
 	}
@@ -223,16 +248,29 @@ function noChoose(){
 	$('#listProj').hide();
 }
 
+function stateChangeHandler(sel) {
+	if (iMapPrefs.params.CurrentState !== sel.value) {
+		console.log("Change in selected state");
+	    DBFuncs.stateChange(sel.value);
+	    iMapPrefs.params.Project = "";
+	    iMapPrefs.params.CurrentState = sel.value;
+	    iMapPrefs.saveParams();
+	}
+}
+
 function prefsHome(){
+	window.plugins.spinnerDialog.show("Loading Preferences","Please wait...");
+    chooseProj();
+    
 	$('#fname').val(iMapPrefs.params.Firstname);
 	$('#lname').val(iMapPrefs.params.Lastname);
 	$('#uname').val(iMapPrefs.params.Username);
 	$('#pword').val(iMapPrefs.params.Password);
 	
 	//iMapPrefs.params.Projects = $('#fname').val();
-	console.log("Project: " + iMapPrefs.params.Project);
-	$("#projectPrefSelect").val(iMapPrefs.params.Project);
-	//$('#projectPrefSelect option[value="'+iMapPrefs.params.Project+'"]').attr("selected",true);
+    //$('#projectPrefSelect option[value="'+iMapPrefs.params.Project+'"]').attr("selected",true);
+    console.log("Project: " + iMapPrefs.params.Project);
+	$('#projectPrefSelect').val(iMapPrefs.params.Project);
 	$('#projectPrefSelect').selectmenu('refresh', true);
 	
 	$('#checkbox-common').attr('checked', iMapPrefs.params.Plants.UseCommon).checkboxradio("refresh");
@@ -245,6 +283,8 @@ function prefsHome(){
 	//alert($.toJSON(iMapPrefs));
 	$('#prefsScreen').show();
 	$('#homescreen').hide();
+	window.plugins.spinnerDialog.hide();
+    
 }
 
 function uploadObsDialog() {
@@ -319,6 +359,16 @@ function gotFileWriter(writer) {
 
 // Save the current preferences from the screen
 function savePrefs() {
+	if ($('#fname').val() == "" || $('#lname').val() == "" || $('#uname').val() == "") {
+        navigator.notification.alert('Please fill out Preferences first', // message
+                                     function() {}, // callback
+                                     'Notification', // title
+                                     'Ok' // buttonName
+                                     );
+        return;
+    }
+    window.plugins.spinnerDialog.show("Saving Preferences","Please wait...");
+    
 	iMapPrefs.params.Firstname = $('#fname').val();
 	iMapPrefs.params.Lastname = $('#lname').val();
 	iMapPrefs.params.Username = $('#uname').val();	
@@ -328,17 +378,24 @@ function savePrefs() {
 	if (iMapPrefs.params.Plants.UseCommon !== $('#checkbox-common').is(':checked') ||
 			iMapPrefs.params.Plants.UseScientific !== $('#checkbox-scientific').is(':checked')) {
 		DBFuncs.loadSpeciesList();
-		chooseSpec();
-	}
+		}
+    
+    //if (iMapPrefs.params.currentState !== $('#stateSelect').val()) {
+    //    DBFuncs.loadProjectList();
+    //}
 	
+    iMapPrefs.params.CurrentState = $('#stateSelect').val();
 	iMapPrefs.params.Plants.UseCommon = $('#checkbox-common').is(':checked'); 
 	iMapPrefs.params.Plants.UseScientific = $('#checkbox-scientific').is(':checked');
 	//iMapPrefs.params.Plants.MyPlants = $('#fname').val();
 	iMapPrefs.params.PictureSize = $("input[name=radio-choice-size]:checked").val();
 	iMapPrefs.params.MapType = $("input[name=map-type]:checked").val();
 	//alert($.toJSON(iMapPrefs));
+    
 	iMapPrefs.saveParams();
 	goHome();
+	window.plugins.spinnerDialog.hide();
+    
 }
 
 function areYouSure(msg, yes, no) {

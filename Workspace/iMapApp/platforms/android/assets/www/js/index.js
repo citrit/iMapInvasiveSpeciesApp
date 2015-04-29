@@ -48,8 +48,6 @@ var iMapApp = {
 			modal: true
 		});
     	
-    	chooseProj();
-    	chooseSpec();
     	uiInit();
     	goHome();
     },

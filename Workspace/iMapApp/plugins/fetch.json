@@ -1,21 +1,113 @@
 {
-    "com.brodysoft.sqlitePlugin": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/brodysoft/Cordova-SQLitePlugin",
-            "subdir": "."
-        }
-    },
     "org.apache.cordova.device": {
         "source": {
             "type": "registry",
             "id": "org.apache.cordova.device"
         }
     },
+    "org.apache.cordova.network-information": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.network-information"
+        }
+    },
+    "org.apache.cordova.battery-status": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.battery-status"
+        }
+    },
+    "org.apache.cordova.device-motion": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.device-motion"
+        }
+    },
+    "org.apache.cordova.device-orientation": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.device-orientation"
+        }
+    },
+    "org.apache.cordova.geolocation": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.geolocation"
+        }
+    },
     "org.apache.cordova.camera": {
         "source": {
             "type": "registry",
             "id": "org.apache.cordova.camera"
+        }
+    },
+    "org.apache.cordova.media-capture": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.media-capture"
+        }
+    },
+    "org.apache.cordova.media": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.media"
+        }
+    },
+    "org.apache.cordova.file": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.file"
+        }
+    },
+    "org.apache.cordova.file-transfer": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.file-transfer"
+        }
+    },
+    "org.apache.cordova.dialogs": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.dialogs"
+        }
+    },
+    "org.apache.cordova.vibration": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.vibration"
+        }
+    },
+    "org.apache.cordova.splashscreen": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.splashscreen"
+        }
+    },
+    "org.apache.cordova.console": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.console"
+        }
+    },
+    "hu.dpal.phonegap.plugins.SpinnerDialog": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Paldom/SpinnerDialog.git",
+            "subdir": "."
+        }
+    },
+    "io.litehelpers.cordova.sqlite": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/brodysoft/Cordova-SQLitePlugin",
+            "subdir": "."
+        }
+    },
+    "cordova-plugin-splashscreen": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/apache/cordova-plugin-splashscreen.git",
+            "subdir": "."
         }
     }
 }

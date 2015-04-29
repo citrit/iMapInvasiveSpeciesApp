@@ -49,7 +49,7 @@
       </dict>
     </dict>
     <key>CFBundleIdentifier</key>
-    <string>com.ltc.imap</string>
+    <string>com.ltc.imapapp</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
@@ -59,9 +59,9 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleVersion</key>
-    <string>1.0.1</string>
+    <string>0.0.1</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.1</string>
+    <string>0.0.1</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSMainNibFile</key>
@@ -178,5 +178,7 @@
         <string>{768, 1024}</string>
       </dict>
     </array>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string></string>
   </dict>
 </plist>

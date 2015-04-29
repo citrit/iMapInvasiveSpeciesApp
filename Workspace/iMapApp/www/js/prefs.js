@@ -14,6 +14,7 @@ var iMapPrefs = {
 			},
 			PictureSize: "Medium",
 			MapType: "road",
+            CurrentState: ""
 		},
 		init: function() {
 			var parms = localStorage.getItem("userParams");

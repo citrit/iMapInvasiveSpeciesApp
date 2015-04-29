@@ -6,10 +6,10 @@ var iMapMap = {
 	timerVar: null,
 	init: function() {
 	    // create map
-		iMapApp.mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", null, {
+		iMapMap.mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", null, {
             transitionEffect: 'resize'
         });
-		iMapApp.olMap = new OpenLayers.Map({
+		iMapMap.olMap = new OpenLayers.Map({
 	        div: "iMapMapdiv",
 	        theme: null,
 	        controls: [
@@ -21,17 +21,17 @@ var iMapMap = {
 	            })//,
 	            //new OpenLayers.Control.Zoom()
 	        ],
-	        layers: [ iMapApp.mapLayer ],
+	        layers: [ iMapMap.mapLayer ],
 	        zoom: 12
 	    });
-		iMapApp.olMap.setCenter( new OpenLayers.LonLat( -73.75, 42.68 )
+		iMapMap.olMap.setCenter( new OpenLayers.LonLat( -73.75, 42.68 )
 		  		.transform(
 		          new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-		          iMapApp.olMap.getProjectionObject() // to Spherical Mercator Projection
-		        ), 11);
+		          iMapMap.olMap.getProjectionObject() // to Spherical Mercator Projection
+		        ), 13);
 		//var markers = new OpenLayers.Layer.Markers( "Markers" );
 	    //map.addLayer(markers);
-		iMapApp.locLayer = new OpenLayers.Layer.Vector("locLayer", {
+		iMapMap.locLayer = new OpenLayers.Layer.Vector("locLayer", {
 	        styleMap: new OpenLayers.StyleMap({
 	            externalGraphic: "img/mobile-loc.png",
 	            graphicOpacity: 1.0,
@@ -40,23 +40,23 @@ var iMapMap = {
 	            graphicYOffset: -26
 	        })
 	    });
-		iMapApp.olMap.addLayer(iMapApp.locLayer);
-		iMapApp.dragCtl = new OpenLayers.Control.ModifyFeature(iMapApp.locLayer); //dragComplete: function(	vertex	)
-		iMapApp.olMap.addControl(iMapApp.dragCtl);
-		iMapApp.dragCtl.activate();
+		iMapMap.olMap.addLayer(iMapMap.locLayer);
+		iMapMap.dragCtl = new OpenLayers.Control.ModifyFeature(iMapMap.locLayer); //dragComplete: function(	vertex	)
+		iMapMap.olMap.addControl(iMapMap.dragCtl);
+		iMapMap.dragCtl.activate();
 	},
 	// resize div
 	fixSize: function(wid, hei) {
 		console.log("MapResize W:"+wid+" H:"+hei);
 		$("#iMapMapdiv").width(wid).height(hei - 10);
-		iMapApp.olMap.updateSize();
+		iMapMap.olMap.updateSize();
 	},
 	// Set the position pin in the map
 	setPosition: function(pos) {
 		var lonLat = new OpenLayers.LonLat( pos[0], pos[1] )
 	        .transform(
 	          new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-	          iMapApp.olMap.getProjectionObject() // to Spherical Mercator Projection
+	          iMapMap.olMap.getProjectionObject() // to Spherical Mercator Projection
 	        );
 		 var features = {
             "type": "FeatureCollection",
@@ -65,37 +65,37 @@ var iMapMap = {
                     "properties": {"Name": "Current Location"}}
             ]
 		 };
-		 iMapApp.locLayer.removeAllFeatures();
+		 iMapMap.locLayer.removeAllFeatures();
 		 var reader = new OpenLayers.Format.GeoJSON();
-		 iMapApp.locLayer.addFeatures(reader.read(features));
-		 iMapApp.olMap.setCenter (lonLat, 12);
+		 iMapMap.locLayer.addFeatures(reader.read(features));
+		 iMapMap.olMap.setCenter (lonLat);
 	},
 	clearMap: function() {
 		console.log("====== ClearMap");
-		iMapApp.locLayer.removeAllFeatures();
-		iMapApp.dragCtl.resetVertices();
+		iMapMap.locLayer.removeAllFeatures();
+		iMapMap.dragCtl.resetVertices();
 	},
 	getObsLocation: function () {
-		var pt = new OpenLayers.LonLat(iMapApp.locLayer.features[0].geometry.x, iMapApp.locLayer.features[0].geometry.y)
+		var pt = new OpenLayers.LonLat(iMapMap.locLayer.features[0].geometry.x, iMapMap.locLayer.features[0].geometry.y)
 				.transform(
-						iMapApp.olMap.getProjectionObject(), // to Spherical Mercator Projection,
+						iMapMap.olMap.getProjectionObject(), // to Spherical Mercator Projection,
 						new OpenLayers.Projection("EPSG:4326") // transform from WGS 1984
 		        );
 		return [ pt.lon, pt.lat ];
 	},
 	setMapType: function(typ) {
-		if (iMapApp.mapLayer) {
+		if (iMapMap.mapLayer) {
 			console.log("Removing layer");
-			iMapApp.olMap.removeLayer(mapLayer);
+			iMapMap.olMap.removeLayer(iMapMap.mapLayer);
 		}
 		console.log("Setting mapType: " + typ);
 		if (typ == "road") {
-			iMapApp.mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", null, {
+			iMapMap.mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", null, {
 	                transitionEffect: 'resize'
 	            });
 		}
 		else {
-			iMapApp.mapLayer = new OpenLayers.Layer.OSM("OpenCycleMap",
+			iMapMap.mapLayer = new OpenLayers.Layer.OSM("OpenCycleMap",
 					  ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
 					   "http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png",
 					   "http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.png"],
@@ -104,15 +104,15 @@ var iMapMap = {
 		            }
 		        );
 		}
-		iMapApp.olMap.addLayer(mapLayer);
+		iMapMap.olMap.addLayer(iMapMap.mapLayer);
 	},
 	startGPSTimer: function() {
-		console.log("Start timer");
-		iMapApp.timerVar = setInterval(function(){iMapMap.getCurrentLocation()},10000);
+		console.log("Start the timer");
+		iMapMap.timerVar = setInterval(function(){iMapMap.getCurrentLocation()},10000);
 	},
 	stopGPSTimer: function() {
-		console.log("Stop timer");
-		clearTimeout(iMapApp.timerVar);
+		console.log("Stop the timer");
+		clearTimeout(iMapMap.timerVar);
 	},
 	getCurrentLocation: function() {
 		navigator.geolocation.getCurrentPosition(function (position) {
