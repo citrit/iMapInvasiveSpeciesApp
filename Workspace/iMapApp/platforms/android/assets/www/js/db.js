@@ -17,7 +17,49 @@ var DBFuncs = {
     	iMapDB.transaction(DBFuncs.checkForUpdates, DBFuncs.errorCB);
     	iMapDB.transaction(DBFuncs.loadProjectsByName, DBFuncs.errorCB);
     	DBFuncs.loadSpeciesList();
+        iMapDB.transaction(DBFuncs.loadObservations, DBFuncs.errorCB);
     },
+    
+    loadProjects: function() {
+        iMapDB.transaction(DBFuncs.loadObservations, DBFuncs.errorCB);
+    },
+    
+    //Save the current observation to the internal table.
+    loadObservations: function(tx1, results){
+        console.log("Loading observations...");
+        iMapApp.obsvs.length = 0;
+        var sqlStr = "select * from imiadmin_observation";
+        tx1.executeSql("select * from imiadmin_observation", [],
+                   function(tx, results) {
+                    console.log("Found observations");
+                       
+                   for (var i=0;i<results.rows.length;i++) {
+                       console.log("Creating observation");
+                       var obsv = Object();
+                       obsv.Objectid = results.rows.item(i).objectid;
+                       obsv.Who = results.rows.item(i).observername;
+                       obsv.When = results.rows.item(i).imapdataentrydate;
+                       obsv.Project = results.rows.item(i).projectid;
+                       obsv.Species = [];
+                       obsv.Species[0] = results.rows.item(i).commonname;
+                       obsv.Species[1] = results.rows.item(i).scientificname;
+                       obsv.Species[2] = results.rows.item(i).statespeciesid;
+                       obsv.Where = [];
+                       obsv.Where[0] = results.rows.item(i).obsorigxcoord;
+                       obsv.Where[1] = results.rows.item(i).obsorigycoord;
+                       obsv.Objectid = results.rows.item(i).objectid;
+                       obsv.ObsState = results.rows.item(i).obsstate;
+                       obsv.ObsCounty = results.rows.item(i).obscountyname;
+                       obsv.Photos = [];
+                       obsv.Photos.push(results.rows.item(i).photourl1);
+                       iMapApp.obsvs.push(obsv);
+                       console.log("load observation: " + $.toJSON(obsv));
+                   }
+                   },
+                   DBFuncs.errorCB);
+        console.log("Obsvs count: " + iMapApp.obsvs.length);
+    },
+    
     // load the projects into the DB class
     loadProjectList: function() {
         DBFuncs.ProjectList.length = 0;
@@ -85,7 +127,7 @@ var DBFuncs = {
     //Transaction error callback
     //
     errorCB: function(tx, err) {
-        console.log("Error processing SQL: "+$.toJSON(err));
+        console.log("Error processing SQL: "+$.toJSON(tx)+$.toJSON(err));
     },
     //Transaction error callback
     //

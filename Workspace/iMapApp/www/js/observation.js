@@ -38,18 +38,16 @@ function iMapObservation(dontDoWhere){
 					var parms = [obsv.Objectid, obsv.Objectid, "Org", obsv.Who, obsv.Who, obsv.When, obsv.When, obsv.ObsState, obsv.Project, 
 					             obsv.Species[2], obsv.Species[0], obsv.Species[1],
 					             obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty, obsv.Photos[0]];
-
-					tx.executeSql(sqlStr, parms);
-                    iMapApp.loadObservations(tx);
-				}
+                    console.log("Inserting Obs: " + $.toJSON(obsv.Objectid));
+                    tx.executeSql(sqlStr, parms, DBFuncs.successCB, DBFuncs.errorCB);
+                }
 				else {
 					var sqlStr = 'UPDATE imiadmin_observation SET obsid=?,Obsorg=?,observername=?,Imapdataentrypersonid=?,Imapdataentrydate=?, Obsdate=?,obsstate=?,projectid=?,statespeciesid=?,commonname=?,scientificname=?,obsorigxcoord=?,obsorigycoord=?, repositoryavailable=?,digitalphoto=?,imapdataentrymethod=?,obsdatastatus=?,obscountyname=?,photourl1=? WHERE objectid=?';
 					var parms = [obsv.Objectid, "Org", obsv.Who, obsv.Who, obsv.When, obsv.When, obsv.ObsState, obsv.Project, 
 					             obsv.Species[2], obsv.Species[0], obsv.Species[1],
-					             obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty, obsv.Photos[0], obsv.Objectid];
-		            			iMapApp.debugMsg("Updating Obs: " + $.toJSON(obsv.Objectid));					
-					tx.executeSql(sqlStr, parms);
-                    iMapApp.loadObservations(tx);
+                                 obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty, obsv.Photos[0], obsv.Objectid];
+                    console.log("Updating Obs: " + $.toJSON(obsv.Objectid));
+                    tx.executeSql(sqlStr, parms, DBFuncs.successCB, DBFuncs.errorCB);
                 }
 			}, DBFuncs.errorCB);
 		});
@@ -70,8 +68,9 @@ function delObservation() {
 						tx.executeSql(sqlStr, [obs.Objectid], 
 							function(tx, results) {
 								if (results.rows.length > 0) {
-									console.log("Deleted observation: " + obs.Objectid + ' => ' + JSON.stringify(results.rows.item(0)));
-					    		}
+                                      console.log("Deleted observation: " + obs.Objectid + ' => ' + JSON.stringify(results.rows.item(0)));
+                                }
+                                window.setTimeout(DBFuncs.loadProjects, 1000);
 							}, 
 							DBFuncs.errorCB
 						);
@@ -84,7 +83,7 @@ function delObservation() {
             'Delete Obs?',           // title
             ['Delete','Cancel']         // buttonLabels
         );
-	goHome();
+    goHome();
 }
 
 function rmObservation(obs) {

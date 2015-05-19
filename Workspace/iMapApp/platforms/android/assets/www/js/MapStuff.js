@@ -117,7 +117,7 @@ var iMapMap = {
 	getCurrentLocation: function() {
 		navigator.geolocation.getCurrentPosition(function (position) {
 			//curobs.Where = [ position.coords.longitude, position.coords.latitude];
-			iMapMap.debugMsg("Position: " + $.toJSON([ position.coords.longitude, position.coords.latitude]));
+			iMapApp.debugMsg("Position: " + $.toJSON([ position.coords.longitude, position.coords.latitude]));
 			//alert('found location: ' + $.toJSON(curobs.Where));
 			iMapMap.setPosition([ position.coords.longitude, position.coords.latitude]);
 		},

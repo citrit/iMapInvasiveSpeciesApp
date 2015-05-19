@@ -20,6 +20,10 @@ var DBFuncs = {
         iMapDB.transaction(DBFuncs.loadObservations, DBFuncs.errorCB);
     },
     
+    loadProjects: function() {
+        iMapDB.transaction(DBFuncs.loadObservations, DBFuncs.errorCB);
+    },
+    
     //Save the current observation to the internal table.
     loadObservations: function(tx1, results){
         console.log("Loading observations...");
