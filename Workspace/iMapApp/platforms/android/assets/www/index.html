@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="css/jquery.ui.datepicker.mobile.css">
 
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
 
 <!-- jQuery and jQuery Mobile -->
 <script type="text/javascript" src="js/dist/jquery-1.10.2.min.js"></script>
@@ -101,28 +102,10 @@ table {
 		<img src="img/iMapHeader.gif"
 			style="width: 99.5%; height: 60px; TOP: 0px; LEFT: 0px">
 
-		<div data-theme="a" data-role="header">
+		<!-- <div data-theme="a" data-role="header">
 			<p class="ui-title" id="header-text"></p>
 
-			<div id="getout">
-
-				<div id="navi" data-role="navbar" data-iconpos="left">
-					<ul>
-						<li><a id="pic" href="#page1" data-transition="none"
-							data-theme="" onClick="tabPhoto()"> Photo </a></li>
-						<li><a id="proj" href="#page1" data-transition="none"
-							data-theme="" onClick="tabProject()"> Project </a></li>
-						<li><a href="#page1" id="wha" data-transition="fade"
-							data-theme="" onClick="tabWhat()"> What </a></li>
-						<li><a href="#page1" id="whe" data-transition="none"
-							data-theme="" onClick="tabWhen()"> When </a></li>
-						<li><a href="#page1" id="wher" data-transition="none"
-							data-theme="" onClick="tabWhere()"> Where </a></li>
-					</ul>
-				</div>
-			</div>
-
-		</div>
+		</div> -->
 
 		<div id='page-content-div' data-role="content">
 			<div id="homescreen">
@@ -141,57 +124,68 @@ table {
 					</TR>
 				</TABLE>
 
-				<div data-role='fieldcontain' id='stateDiv'>
-					<label for='stateSelect'>Choose State:</label> <select
-						id='stateSelect' name='stateSelect' data-overlay-theme='d'
-						data-theme='b' data-native-menu='false' data-native-menu='false'
-						data-filter='true' onchange="stateChangeHandler(this)">
-						<option value=""></option>
-						<option value="az">Arizona</option>
-						<option value="fl">Florida</option>
-						<option value="me">Maine</option>
-						<option value="nh">New Hampshire</option>
-						<option value="ny">New York</option>
-						<option value="or">Oregon</option>
-						<option value="pa">Pennsylvania</option>
-						<option value="sk">Saskatchewan</option>
-						<option value="va">Virginia</option>
-						<option value="vt">Vermont</option>
-						<option value="wv">West Virginia</option>
-					</select>
-				</div>
-
 				<div data-role="popup" id="selectObsPage"></div>
 			</div>
-			<div id="takePic">
-				<!-- <input onClick='previewPhoto()' type='file' id='imageName'
-					name='image' accept='image/*'> -->
-				<!-- <button onClick='getPhoto(Camera.PictureSourceType.PHOTOLIBRARY)'>Get Local Picture</button> -->
-				<p>
-					<a onClick='getPhoto(Camera.PictureSourceType.CAMERA)'><img
-						src="img/TakePhoto.png" /></a> <img style='display: none; width: 100%'
-						id='largeImage' src='' />
-			</div>
-			<div id="getLoca">
-				<div id="iMapMapdiv"></div>
-			</div>
-			<div id="getDate">
-				<div data-role='fieldcontain' id='dateDiv'>
-					<label for="dateField">Date Recorded:</label> <input type="date"
-						name="dateField" id="dateField" value="" />
+            
+            <div id="entryScreen"  data-role="content" >
+                <div id="takePic">
+                    <!-- <input onClick='previewPhoto()' type='file' id='imageName'
+                     name='image' accept='image/*'> -->
+                    <!-- <button onClick='getPhoto(Camera.PictureSourceType.PHOTOLIBRARY)'>Get Local Picture</button> -->
+                    <p>
+                    <a onClick='getPhoto(Camera.PictureSourceType.CAMERA)'><img
+                        src="img/TakePhoto.png" /></a> <img style='display: none; width: 100%'
+                    id='largeImage' src='' />
+                </div>
+                <div id="getProj">
+                    <div id="listProj"></div>
+                </div>
+                <div id="getSpec">
+                    <div id="listSpec"></div>
+                </div>
+                <div id="getDate">
+                    <div data-role='fieldcontain' id='dateDiv'>
+                        <label for="dateField">Date Recorded:</label> <input type="date"
+                        name="dateField" id="dateField" value="" />
+                    </div>
+                </div>
+                <div id="getLoca" style="background-color:Khaki;">
+                    <a id="toggleGPSButton" href="" onclick="toggleGPS()">Turn off GPS</a>
+                    <div id="iMapMapdiv"></div>
+                </div>
+                <div id='button-footer' data-role='footer' class="ui-bar"
+					data-position="fixed">
+					<a href='#page1' data-role='button' onclick="saveObservation()">Save</a>
+					<a href='#page1' data-role='button' onclick="goHome()">Cancel</a> <a
+						href="#page1" data-role="button" onclick="delObservation()"
+						id='deleteObsButton'>Delete</a>
 				</div>
-			</div>
-			<div id="getProj">
-				<div id="listProj"></div>
-			</div>
-			<div id="getSpec">
-				<div id="listSpec"></div>
-			</div>
+            </div> <!-- Entry Page -->
 
 			<div id="prefsScreen" data-role="content">
 
 				<h2>Preferences</h2>
 				<div data-role="fieldcontain">
+					<div data-role='fieldcontain' id='stateDiv'>
+						<label for='stateSelect'>Choose State:</label> <select
+							id='stateSelect' name='stateSelect' data-overlay-theme='d'
+							data-theme='b' data-native-menu='false' data-native-menu='false'
+							data-filter='true' onchange="stateChangeHandler(this)">
+							<option value=""></option>
+							<option value="az">Arizona</option>
+							<option value="fl">Florida</option>
+							<option value="me">Maine</option>
+							<option value="nh">New Hampshire</option>
+							<option value="ny">New York</option>
+							<option value="or">Oregon</option>
+							<option value="pa">Pennsylvania</option>
+							<option value="sk">Saskatchewan</option>
+							<option value="va">Virginia</option>
+							<option value="vt">Vermont</option>
+							<option value="wv">West Virginia</option>
+						</select>
+					</div>
+				
 					<label for="fname">First Name:</label> <input type="text"
 						name="fname" id="fname" value="" /> <label for="lname">Last
 						Name:</label> <input type="text" name="lname" id="lname" value="" /> <label
@@ -227,21 +221,14 @@ table {
 					</fieldset>
 
 					<div id="listPrefProj"></div>
-					<div id='button-prefs' data-role='footer' class="ui-bar"
+				</div>
+				<div id='button-prefs' data-role='footer' class="ui-bar"
 						data-position="fixed">
-						<a href='#page1' data-role='button' onclick="savePrefs()">Save</a>
-						<a href='#page1' data-role='button' onclick="goHome()">Cancel</a>
-					</div>
+					<a href='#page1' data-role='button' onclick="savePrefs()">Save</a>
+					<a href='#page1' data-role='button' onclick="goHome()">Cancel</a>
 				</div>
 			</div>
 
-		</div>
-		<div id='button-footer' data-role='footer' class="ui-bar"
-			data-position="fixed">
-			<a href='#page1' data-role='button' onclick="saveObservation()">Save</a>
-			<a href='#page1' data-role='button' onclick="goHome()">Cancel</a> <a
-				href="#page1" data-role="button" onclick="delObservation()"
-				id='deleteObsButton'>Delete</a>
 		</div>
 	</div>
 	<div data-role="dialog" id="confirmDialog" data-title="Are you sure">
@@ -272,8 +259,8 @@ table {
 			</ul>
 		</div>
 		<div data-role="footer">
-			<a data-role="button" id="uploadButton" onclick=''>Upload
-				Observations</a> <a data-role="button" id="cancelUpload"
+			<a data-role="button" id="uploadButton" onclick=''>Upload Observations</a> 
+			<a data-role="button" id="cancelUpload"
 				onclick='$( "#uploadObs" ).dialog( "close" );goHome();'>Cancel</a>
 		</div>
 	</div>

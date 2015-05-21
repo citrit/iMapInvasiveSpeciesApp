@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="css/jquery.ui.datepicker.mobile.css">
 
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
 
 <!-- jQuery and jQuery Mobile -->
 <script type="text/javascript" src="js/dist/jquery-1.10.2.min.js"></script>
@@ -101,28 +102,10 @@ table {
 		<img src="img/iMapHeader.gif"
 			style="width: 99.5%; height: 60px; TOP: 0px; LEFT: 0px">
 
-		<div data-theme="a" data-role="header">
+		<!-- <div data-theme="a" data-role="header">
 			<p class="ui-title" id="header-text"></p>
 
-			<div id="getout">
-
-				<div id="navi" data-role="navbar" data-iconpos="left">
-					<ul>
-						<li><a id="pic" href="#page1" data-transition="none"
-							data-theme="" onClick="tabPhoto()"> Photo </a></li>
-						<li><a id="proj" href="#page1" data-transition="none"
-							data-theme="" onClick="tabProject()"> Project </a></li>
-						<li><a href="#page1" id="wha" data-transition="fade"
-							data-theme="" onClick="tabWhat()"> What </a></li>
-						<li><a href="#page1" id="whe" data-transition="none"
-							data-theme="" onClick="tabWhen()"> When </a></li>
-						<li><a href="#page1" id="wher" data-transition="none"
-							data-theme="" onClick="tabWhere()"> Where </a></li>
-					</ul>
-				</div>
-			</div>
-
-		</div>
+		</div> -->
 
 		<div id='page-content-div' data-role="content">
 			<div id="homescreen">
@@ -163,30 +146,34 @@ table {
 
 				<div data-role="popup" id="selectObsPage"></div>
 			</div>
-			<div id="takePic">
-				<!-- <input onClick='previewPhoto()' type='file' id='imageName'
-					name='image' accept='image/*'> -->
-				<!-- <button onClick='getPhoto(Camera.PictureSourceType.PHOTOLIBRARY)'>Get Local Picture</button> -->
-				<p>
-					<a onClick='getPhoto(Camera.PictureSourceType.CAMERA)'><img
-						src="img/TakePhoto.png" /></a> <img style='display: none; width: 100%'
-						id='largeImage' src='' />
-			</div>
-			<div id="getLoca">
-				<div id="iMapMapdiv"></div>
-			</div>
-			<div id="getDate">
-				<div data-role='fieldcontain' id='dateDiv'>
-					<label for="dateField">Date Recorded:</label> <input type="date"
-						name="dateField" id="dateField" value="" />
-				</div>
-			</div>
-			<div id="getProj">
-				<div id="listProj"></div>
-			</div>
-			<div id="getSpec">
-				<div id="listSpec"></div>
-			</div>
+            
+            <div id="entryScreen"  data-role="content" >
+                <div id="takePic">
+                    <!-- <input onClick='previewPhoto()' type='file' id='imageName'
+                     name='image' accept='image/*'> -->
+                    <!-- <button onClick='getPhoto(Camera.PictureSourceType.PHOTOLIBRARY)'>Get Local Picture</button> -->
+                    <p>
+                    <a onClick='getPhoto(Camera.PictureSourceType.CAMERA)'><img
+                        src="img/TakePhoto.png" /></a> <img style='display: none; width: 100%'
+                    id='largeImage' src='' />
+                </div>
+                <div id="getProj">
+                    <div id="listProj"></div>
+                </div>
+                <div id="getSpec">
+                    <div id="listSpec"></div>
+                </div>
+                <div id="getDate">
+                    <div data-role='fieldcontain' id='dateDiv'>
+                        <label for="dateField">Date Recorded:</label> <input type="date"
+                        name="dateField" id="dateField" value="" />
+                    </div>
+                </div>
+                <div id="getLoca">
+                    <a id="toggleGPSButton" href="" onclick="toggleGPS()">Turn off GPS</a>
+                    <div id="iMapMapdiv"></div>
+                </div>
+            </div> <!-- Entry Page -->
 
 			<div id="prefsScreen" data-role="content">
 

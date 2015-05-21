@@ -128,6 +128,7 @@ var UploadUtils = {
 				}
 			}
 		});
+		window.plugins.spinnerDialog.hide();
 	},
 
 	uploadImage : function(imageName, obs) {

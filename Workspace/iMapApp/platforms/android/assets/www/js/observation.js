@@ -70,7 +70,7 @@ function delObservation() {
 								if (results.rows.length > 0) {
                                       console.log("Deleted observation: " + obs.Objectid + ' => ' + JSON.stringify(results.rows.item(0)));
                                 }
-                                window.setTimeout(DBFuncs.loadProjects, 1000);
+                                window.setTimeout(DBFuncs.loadAllObservations, 1000);
 							}, 
 							DBFuncs.errorCB
 						);
@@ -95,6 +95,7 @@ function rmObservation(obs) {
 				if (results.rows.length > 0) {
 					console.log("Deleted observation: " + obs.Objectid + ' => ' + JSON.stringify(results.rows.item(0)));
 	    		}
+				window.setTimeout(DBFuncs.loadAllObservations, 1000);
 			}, 
 			DBFuncs.errorCB
 		);

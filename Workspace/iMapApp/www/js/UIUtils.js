@@ -2,21 +2,20 @@ var selected;
 var screenCon;
 var tab;
 var curObservation;
+var obsUploadCount;
 
 function uiInit() {
 	updateOrientation();
 	$("#uploadButton").click(function() {
+		window.plugins.spinnerDialog.show("Uploading observations","Please wait...");
 		$( "#uploadObs" ).dialog( "close" );
-		
+		obsUploadCount = 0;
 		$(iMapApp.obsvs).each(function(ind, val) {
 			if (UploadUtils.doUpload(val)) 
-				upCnt++;
+				obsUploadCount++;
 			else
 				return false;
 		});
-		if (upCnt > 0)
-			alert('Uploaded [' + upCnt + '] records.');
-		
 	});
 	// Set size of main menu div
 	var hei = $( window ).height();
@@ -35,7 +34,7 @@ function updateOrientation() {
 
 function clearObservation() {
 	onPhotoURISuccess('');
-	$("#projectSelect").val(iMapPrefs.params.Project);
+	$('#projectSelect').val(iMapPrefs.params.Project);
 	//$('#projectPrefSelect option[value="'+iMapPrefs.params.Project+'"]').attr("selected",true);
 	$('#projectSelect').selectmenu('refresh', true);
 	
@@ -46,11 +45,12 @@ function clearObservation() {
 	iMapMap.clearMap();
 	curObservation = new iMapObservation();
 	$('#dateField').val(curObservation.When);
+	$('#toggleGPSButton').text("Turn off GPS");
 	iMapMap.startGPSTimer();
 }
 
 function goHome(){
-	tab="";
+	/*tab="";
 	$('#header-text').text('');
 	$('#navi').hide();
 	$('#homescreen').show();
@@ -59,9 +59,14 @@ function goHome(){
 	$('#getLoca').hide();
 	$('#getDate').hide();
 	$('#getProj').hide();
-	$('#getSpec').hide();
-	$('#button-footer').hide();
+	$('#getSpec').hide();*/
+    
+    $('#homescreen').show();
+    $('#prefsScreen').hide();
+    $('#entryScreen').hide();
+	//$('#button-footer').hide();
 	$('#deleteObsButton').hide();
+    
 	iMapMap.stopGPSTimer();
 	$('#stateSelect').val(iMapPrefs.params.CurrentState);
     $('#stateSelect').selectmenu('refresh', true);
@@ -74,7 +79,9 @@ function newObservation() {
         chooseProj();
         chooseSpec();
         $('#projectSelect').val(iMapPrefs.params.Project);
-        tabPhoto();
+        $('#projectSelect').selectmenu('refresh', true);
+        //tabPhoto();
+        newEntry();
         window.plugins.spinnerDialog.hide();
         
 	}
@@ -86,8 +93,17 @@ function newObservation() {
 		);
 }
 
-function tabPhoto(){
-	
+function newEntry() {
+    $('#homescreen').hide();
+    $('#prefsScreen').hide();
+    $('#entryScreen').show();
+    //$('#button-footer').show();
+    var wid = $("#getLoca").width();
+    var hei = $("#getLoca").height();
+    iMapMap.fixSize(wid, hei);
+}
+
+/*function tabPhoto(){
     window.plugins.spinnerDialog.hide();
 	tab='photo';
 	$('#header-text').text('Select Photo');
@@ -164,7 +180,7 @@ function tabWhen(){
 	$('#getProj').hide();
 	$('#getSpec').hide();
 	$('#button-footer').show();
-}
+}*/
 
 /*$(document).on("swiperight", function(){
 	if(tab=="project"){
@@ -199,7 +215,7 @@ $(document).on("swipeleft", function(){
 function chooseSpec(){
     console.log("Building Species select");
     //if(iMapPrefs.params.Plants.UseCommon == "true" && iMapPrefs.params.Plants.UseScientific == "true" && iMapPrefs.params.Plants.MyPlants.length == 0){
-	selected = "<div data-role='fieldcontain' id='whatDiv'><label for='speciesSelect'>Choose:</label><select id='speciesSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
+	selected = "<div data-role='fieldcontain' id='whatDiv'><label for='speciesSelect'>Choose Species:</label><select id='speciesSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected += "<option value='-1'></option>";
 	for(var i=0;i<DBFuncs.SpeciesList.length;i++){
 		var lStr = "";
@@ -221,11 +237,11 @@ function chooseSpec(){
 function chooseProj(){
     console.log("Building Projects select");
     $('#listProj').show();
-	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect'>Choose:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
+	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect'>Choose Project:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected += "<option value='-1'></option>";
 	selected2 = "<div data-role='fieldcontain' id='projPrefDiv'><label for='projectPrefSelect'>Choose default project:</label><select id='projectPrefSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected2 += "<option value='-1'></option>";
-    iMapApp.debugMsg("DBFuncs.ProjectList: " + $.toJSON(DBFuncs.ProjectList));
+    //console.log("DBFuncs.ProjectList: " + $.toJSON(DBFuncs.ProjectList));
 	for(var i=0;i<DBFuncs.ProjectList.length;i++){
         //console.log("Project: " + $.toJSON(DBFuncs.ProjectList[i]));
         
@@ -281,7 +297,8 @@ function prefsHome(){
 	//alert($.toJSON(iMapPrefs));
 	$('#prefsScreen').show();
 	$('#homescreen').hide();
-	window.plugins.spinnerDialog.hide();
+    $('#entryScreen').hide();
+    window.plugins.spinnerDialog.hide();
     
 }
 
@@ -412,7 +429,8 @@ function editObs(arg) {
     //alert(curObservation.Species + ' = ' + spc.text());
     spc.attr("selected",true);
     $('#speciesSelect').selectmenu("refresh");
-    tabPhoto();
+    //tabPhoto();
+    newEntry();
     window.plugins.spinnerDialog.hide();
     return false;
 }
@@ -434,7 +452,7 @@ function saveObservation() {
     curObservation.Photos.push($('#largeImage').attr('src'));
     //alert($('#largeImage').attr('src'));
     curObservation.save();
-    window.setTimeout(DBFuncs.loadProjects, 1000);
+    window.setTimeout(DBFuncs.loadAllObservations, 1000);
     goHome();
 }
 
@@ -529,6 +547,18 @@ function savePrefs() {
 	goHome();
 	window.plugins.spinnerDialog.hide();
     
+}
+
+function toggleGPS() {
+	if ($('#toggleGPSButton').text() == "Turn off GPS") {
+		$('#toggleGPSButton').text("Turn on GPS");
+		iMapMap.stopGPSTimer();
+	}
+	else {
+		$('#toggleGPSButton').text("Turn off GPS");
+		iMapMap.startGPSTimer();
+	}
+	console.log("Toggling state: " + $('#toggleGPSButton').text());
 }
 
 function areYouSure(msg, yes, no) {

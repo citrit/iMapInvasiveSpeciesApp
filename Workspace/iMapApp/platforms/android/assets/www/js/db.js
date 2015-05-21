@@ -10,7 +10,7 @@ var DBFuncs = {
 
 	// Application Constructor
     init: function() {
-    	iMapApp.debugMsg("DB init");
+    	console.log("DB init");
     	iMapDB = window.sqlitePlugin.openDatabase({  
                 name : "iMapInvasives.db"
     	 });
@@ -20,7 +20,7 @@ var DBFuncs = {
         iMapDB.transaction(DBFuncs.loadObservations, DBFuncs.errorCB);
     },
     
-    loadProjects: function() {
+    loadAllObservations: function() {
         iMapDB.transaction(DBFuncs.loadObservations, DBFuncs.errorCB);
     },
     
@@ -67,12 +67,14 @@ var DBFuncs = {
     },
     // Load the projects
     loadProjectsByName: function(tx, results) {
-    	iMapApp.debugMsg("Load the project list");
+    	console.log("Load the project list");
+    	DBFuncs.ProjectList.length = 0;
         tx.executeSql("SELECT projectName, id from imiadmin_project ORDER BY projectName ASC", [], function(tx, results) {
     		for (var i=0;i<results.rows.length;i++) {
                 DBFuncs.ProjectList[i] = [ results.rows.item(i).projectName, results.rows.item(i).id];
     		}
-    		//iMapApp.debugMsg("DBFuncs.ProjectList: " + $.toJSON(DBFuncs.ProjectList));
+    		chooseProj();
+    		//console.log("DBFuncs.ProjectList: " + $.toJSON(DBFuncs.ProjectList));
     	}, DBFuncs.errorCB);
     },
     // which sorting to do.
@@ -82,7 +84,8 @@ var DBFuncs = {
     },
     // load the species by common nameinto the DB class
     loadSpeciesByCommonList: function(tx, results) {
-    	iMapApp.debugMsg("Load the species list");
+    	DBFuncs.SpeciesList.length = 0;
+    	console.log("Load the species list");
         var sqlStr = "";
         if (iMapPrefs.params.Plants.UseCommon) {
             sqlStr = "SELECT stateCommonName, state_scientific_name, stateSpeciesID from imiadmin_state_species_list ORDER BY stateCommonName ASC";
@@ -94,20 +97,22 @@ var DBFuncs = {
     		for (var i=0;i<results.rows.length;i++) {
     			DBFuncs.SpeciesList[i] = [ results.rows.item(i).stateCommonName, results.rows.item(i).state_scientific_name, results.rows.item(i).stateSpeciesID];
     		}
-    		//iMapApp.debugMsg("iMapDB.SpeciesList: " + $.toJSON(DBFuncs.SpeciesList));
+    		chooseSpec();
+    		window.plugins.spinnerDialog.hide();
+    		//console.log("iMapDB.SpeciesList: " + $.toJSON(DBFuncs.SpeciesList));
     	}, DBFuncs.errorCB);
     },
     // check if the database has been loaded.
     checkForUpdates: function(tx, results) {
-    	iMapApp.debugMsg("Check for server updates...");
+    	console.log("Check for server updates...");
         //tx.executeSql("SELECT count(*) from imiadmin_state_species_list"
         tx.executeSql("SELECT name FROM sqlite_master WHERE type='table' AND name='imiadmin_state_species_list'", [], function(tx, results) {
     		if (results.rows.length > 0) {
-    			iMapApp.debugMsg("iMapInvasives DB all set.");
+    			console.log("iMapInvasives DB all set.");
     		}
             else {
             	window.plugins.spinnerDialog.show("Creating tables","Please wait...");
-                iMapApp.debugMsg("Creating database.");
+                console.log("Creating database.");
                 for(var i=0, len=createTablesSQL.length; i < len; i++){
                     tx.executeSql(createTablesSQL[i], [],  function(tx, results) {}, DBFuncs.errorCB);
                 }
@@ -139,14 +144,9 @@ var DBFuncs = {
     stateChange: function(sta) {
         DBFuncs.curState = sta;
         console.log("State: " + sta);
-        iMapDB.transaction(DBFuncs.clearTables, DBFuncs.errorCB);
+        //iMapDB.transaction(DBFuncs.clearTables, DBFuncs.errorCB);
         //iMapDB.transaction(DBFuncs.updateStateData, DBFuncs.errorCB);
         DBFuncs.updateStateData();
-        DBFuncs.loadSpeciesList();
-        chooseSpec();
-        DBFuncs.loadProjectList();
-        chooseProj();
-        
     },
     
     clearTables: function(tx, results) {
@@ -157,35 +157,36 @@ var DBFuncs = {
     },
     
     updateStateData: function(tx, results) {
-        window.plugins.spinnerDialog.show("Loading tables","Please wait...");
+        window.plugins.spinnerDialog.show("Loading State data","Please wait...");
         $.getJSON( DBFuncs.ProjectsURL + DBFuncs.curState, function( pdata ) {
                   iMapDB.transaction(function(tx, results) {
-                                     var sqlStr = 'INSERT INTO imiadmin_project (id, projectname) VALUES (?,?)';
-                                     $.each( pdata.projects, function( key, val ) {
-                                            //console.log( "Project id: " + val.id + "  Name: " + val.projectname );
-                                            var parms = [parseInt(val.id), val.projectname];
-                                            tx.executeSql(sqlStr, parms, DBFuncs.successCB, DBFuncs.errorCB);
-                                            });
-                                            DBFuncs.loadProjectsByName(tx, null);
-                                     },
-                                     DBFuncs.errorCB,
-                                     function(tx, results) {
-                                        });
+    	  				tx.executeSql('DELETE FROM imiadmin_project', [],  DBFuncs.successCB, DBFuncs.errorCB);
+                        var sqlStr = 'INSERT INTO imiadmin_project (id, projectname) VALUES (?,?)';
+                        $.each( pdata.projects, function( key, val ) {
+                                //console.log( "Project id: " + val.id + "  Name: " + val.projectname );
+                                var parms = [parseInt(val.id), val.projectname];
+                                tx.executeSql(sqlStr, parms, DBFuncs.successCB, DBFuncs.errorCB);
+                                });
+                         	DBFuncs.loadProjectsByName(tx, null);
+                        },
+                        DBFuncs.errorCB,
+                        function(tx, results) {}
+                  );
     		});
     	$.getJSON( DBFuncs.SpeciesURL + DBFuncs.curState, function( sdata ) {
                   iMapDB.transaction(function(tx, results) {
-                                     var sqlStr = 'INSERT INTO imiadmin_state_species_list (statespeciesid, statecommonname, state_scientific_name) VALUES (?,?,?)';
-                                     $.each( sdata.species, function( key, val ) {
-                                            //console.log( "Species id: " + val.statespeciesid + "  Name: " + val.statecommonname + " : " + val.state_scientific_name );
-                                            var parms = [val.statespeciesid, val.statecommonname, val.state_scientific_name];
-                                            tx.executeSql(sqlStr, parms, function(tx, results) {}, DBFuncs.errorCB);
-                                            });
-                                     DBFuncs.loadSpeciesByCommonList(tx, null);
-                                     window.plugins.spinnerDialog.hide();
-                                     },
-                                     DBFuncs.errorCB,
-                                     function(tx, results) {
-                                        });
+                	  	tx.executeSql('DELETE FROM imiadmin_state_species_list', [],  DBFuncs.successCB, DBFuncs.errorCB);
+						var sqlStr = 'INSERT INTO imiadmin_state_species_list (statespeciesid, statecommonname, state_scientific_name) VALUES (?,?,?)';
+						$.each( sdata.species, function( key, val ) {
+						        //console.log( "Species id: " + val.statespeciesid + "  Name: " + val.statecommonname + " : " + val.state_scientific_name );
+						        var parms = [val.statespeciesid, val.statecommonname, val.state_scientific_name];
+						        tx.executeSql(sqlStr, parms, function(tx, results) {}, DBFuncs.errorCB);
+						        });
+						     DBFuncs.loadSpeciesByCommonList(tx, null);
+						},
+						DBFuncs.errorCB,
+						function(tx, results) {}
+                   );
     		});
     },
     

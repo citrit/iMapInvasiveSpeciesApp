@@ -108,28 +108,43 @@ var iMapMap = {
 	},
 	startGPSTimer: function() {
 		console.log("Start the timer");
-		iMapMap.timerVar = setInterval(function(){iMapMap.getCurrentLocation()},10000);
+		if (iMapMap.timerVar == null)
+			iMapMap.timerVar = navigator.geolocation.watchPosition(iMapMap.getCurrentLocation, iMapMap.onError,
+                { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
 	},
 	stopGPSTimer: function() {
 		console.log("Stop the timer");
-		clearTimeout(iMapMap.timerVar);
+		navigator.geolocation.clearWatch(iMapMap.timerVar);
+		iMapMap.timerVar = null;
 	},
-	getCurrentLocation: function() {
-		navigator.geolocation.getCurrentPosition(function (position) {
-			//curobs.Where = [ position.coords.longitude, position.coords.latitude];
-			iMapApp.debugMsg("Position: " + $.toJSON([ position.coords.longitude, position.coords.latitude]));
-			//alert('found location: ' + $.toJSON(curobs.Where));
-			iMapMap.setPosition([ position.coords.longitude, position.coords.latitude]);
-		},
-		function(err) {
-			//curobs.Where = [ -73.8648, 42.7186 ];
-			iMapApp.debugMsg("Position: " + $.toJSON([ -73.8648, 42.7186 ]));
-			//alert('error location: ' + $.toJSON(curobs.Where));
-			iMapMap.setPosition([ -73.8648, 42.7186 ]);
-		},
-		{maximumAge: 300000, timeout:2000, enableHighAccuracy : true}
-	);
-	}
+	getCurrentLocation: function(position) {
+		//curobs.Where = [ position.coords.longitude, position.coords.latitude];
+		console.log("Position: " + $.toJSON([ position.coords.longitude, position.coords.latitude]));
+		//alert('found location: ' + $.toJSON(curobs.Where));
+		iMapMap.setPosition([ position.coords.longitude, position.coords.latitude]);
+	},
+    // onSuccess Callback
+    //   This method accepts a `Position` object, which contains
+    //   the current GPS coordinates
+    //
+    onSuccess: function (position) {
+        $('#geolocation').val('Latitude: '  + position.coords.latitude      + '<br />' +
+        'Longitude: ' + position.coords.longitude     + '<br />' +
+        '<hr />'      + element.innerHTML);
+    },
+    
+    // onError Callback receives a PositionError object
+    //
+    onError: function (error) {
+        navigator.notification.alert(
+                                     'GPS is turned off, please enable.',  // message
+                                     null,         // callback
+                                     'code: '    + error.code,            // title
+                                     'Ok'                  // buttonName
+                                     );
+        
+    }
+
 }
 
 //setTimeout(iMapMap.fixSize, 700);
