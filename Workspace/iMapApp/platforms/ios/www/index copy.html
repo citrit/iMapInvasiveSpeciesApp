@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<title>iMapInvasives App</title>
+<link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css">
+<link rel="stylesheet" href="css/style.mobile.css" type="text/css">
+
+<!-- Extra Codiqa features -->
+<link rel="stylesheet" href="css/codiqa.ext.css">
+<link rel="stylesheet" href="css/jquery.ui.datepicker.mobile.css">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
+
+<!-- jQuery and jQuery Mobile -->
+<script type="text/javascript" src="js/dist/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/dist/jquery.mobile-1.3.2.min.js"></script>
+<script type="text/javascript" src="js/dist/jquery.ui.datepicker.js"></script>
+<script type="text/javascript"
+	src="js/dist/jquery.ui.datepicker.mobile.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/dist/json.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/observation.js"></script>
+<script type="text/javascript" src="js/prefs.js"></script>
+<script type="text/javascript" src="js/db.js"></script>
+<script type="text/javascript" src="js/photo.js"></script>
+<script type="text/javascript" src="js/dist/OpenLayers.mobile.js"></script>
+<script type="text/javascript" src="js/MapStuff.js"></script>
+<script type="text/javascript" src="js/dist/jquery.jstree.js"></script>
+<script type="text/javascript" src="js/UIUtils.js"></script>
+<script type="text/javascript" src="js/upLoad.js"></script>
+<script type="text/javascript">
+	iMapApp.initialize();
+</script>
+
+<style>
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+	html, body {
+		height: 117%;
+	}
+}
+
+#getLoca, #page-content-div #iMapMapdiv {
+	width: 100%;
+	height: 100%;
+}
+
+.olControlAttribution {
+	position: absolute;
+	font-size: 10px;
+	bottom: 0 !important;
+	right: 0 !important;
+	background: rgba(0, 0, 0, 0.1);
+	font-family: Arial;
+	padding: 2px 4px;
+	border-radius: 5px 0 0 0;
+}
+
+#title, #tags, #shortdesc {
+	display: none;
+}
+
+img.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table {
+	border-spacing: 10px;
+	width: 100%;
+	height: 80%;
+	cell-padding: 0px;
+}
+
+.bgimg {
+	background-image: url("img/LeavesBG.png");
+}
+
+.nobgimg {
+	background-color: green;
+}
+</style>
+</head>
+<body>
+	<div data-role="page" id="page1" class="bgimg">
+		<img src="img/iMapHeader.gif"
+			style="width: 99.5%; height: 60px; TOP: 0px; LEFT: 0px">
+
+		<div data-theme="a" data-role="header">
+			<p class="ui-title" id="header-text"></p>
+
+			<div id="getout">
+
+				<div id="navi" data-role="navbar" data-iconpos="left">
+					<ul>
+						<li><a id="pic" href="#page1" data-transition="none"
+							data-theme="" onClick="tabPhoto()"> Photo </a></li>
+						<li><a id="proj" href="#page1" data-transition="none"
+							data-theme="" onClick="tabProject()"> Project </a></li>
+						<li><a href="#page1" id="wha" data-transition="fade"
+							data-theme="" onClick="tabWhat()"> What </a></li>
+						<li><a href="#page1" id="whe" data-transition="none"
+							data-theme="" onClick="tabWhen()"> When </a></li>
+						<li><a href="#page1" id="wher" data-transition="none"
+							data-theme="" onClick="tabWhere()"> Where </a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		<div id='page-content-div' data-role="content">
+			<div id="homescreen">
+				<TABLE BORDER="0" id="homescreentable">
+					<TR>
+						<TD><a onClick="clearObservation();newObservation();"><img
+								src="img/NewObservation.png" class="center" /></a></TD>
+						<TD><a href="#" id="openSelectPopup" data-transition="pop"><img
+								src="img/EditObservation.png" class="center" /></a></TD>
+					</TR>
+					<TR>
+						<TD><a onClick="uploadObsDialog()"><img
+								src="img/Upload.png" class="center" /></a></TD>
+						<TD><a onClick="prefsHome()"><img
+								src="img/Preferences.png" class="center" /></a></TD>
+					</TR>
+				</TABLE>
+
+				<div data-role='fieldcontain' id='stateDiv'>
+					<label for='stateSelect'>Choose State:</label> <select
+						id='stateSelect' name='stateSelect' data-overlay-theme='d'
+						data-theme='b' data-native-menu='false' data-native-menu='false'
+						data-filter='true' onchange="stateChangeHandler(this)">
+						<option value=""></option>
+						<option value="az">Arizona</option>
+						<option value="fl">Florida</option>
+						<option value="me">Maine</option>
+						<option value="nh">New Hampshire</option>
+						<option value="ny">New York</option>
+						<option value="or">Oregon</option>
+						<option value="pa">Pennsylvania</option>
+						<option value="sk">Saskatchewan</option>
+						<option value="va">Virginia</option>
+						<option value="vt">Vermont</option>
+						<option value="wv">West Virginia</option>
+					</select>
+				</div>
+
+				<div data-role="popup" id="selectObsPage"></div>
+			</div>
+			<div id="takePic">
+				<!-- <input onClick='previewPhoto()' type='file' id='imageName'
+					name='image' accept='image/*'> -->
+				<!-- <button onClick='getPhoto(Camera.PictureSourceType.PHOTOLIBRARY)'>Get Local Picture</button> -->
+				<p>
+					<a onClick='getPhoto(Camera.PictureSourceType.CAMERA)'><img
+						src="img/TakePhoto.png" /></a> <img style='display: none; width: 100%'
+						id='largeImage' src='' />
+			</div>
+			<div id="getLoca">
+				<a id="toggleGPSButton" href="" onclick="toggleGPS()" style="position: absolute; left: 10px; top: 70px;">Turn off GPS</a>
+				<div id="iMapMapdiv"></div>
+			</div>
+			<div id="getDate">
+				<div data-role='fieldcontain' id='dateDiv'>
+					<label for="dateField">Date Recorded:</label> <input type="date"
+						name="dateField" id="dateField" value="" />
+				</div>
+			</div>
+			<div id="getProj">
+				<div id="listProj"></div>
+			</div>
+			<div id="getSpec">
+				<div id="listSpec"></div>
+			</div>
+
+			<div id="prefsScreen" data-role="content">
+
+				<h2>Preferences</h2>
+				<div data-role="fieldcontain">
+					<label for="fname">First Name:</label> <input type="text"
+						name="fname" id="fname" value="" /> <label for="lname">Last
+						Name:</label> <input type="text" name="lname" id="lname" value="" /> <label
+						for="uname">User Name:</label> <input type="text" name="uname"
+						id="uname" value="" /> <label for="pword">Password:</label> <input
+						type="password" name="pword" id="pword" value="" />
+					<fieldset data-role="controlgroup">
+						<legend>What should we display:</legend>
+						<input type="checkbox" name="checkbox-scientific"
+							id="checkbox-scientific" class="custom" /> <label
+							for="checkbox-scientific">Scientific</label> <input
+							type="checkbox" name="checkbox-common" id="checkbox-common"
+							class="custom" /> <label for="checkbox-common">Common</label>
+					</fieldset>
+					<!-- <button onClick="ChooseMySpecies()">Choose Specific	Species</button> -->
+					<fieldset data-role='controlgroup' data-type='vertical'
+						id='pictureSize'>
+						<legend>Picture Size:</legend>
+						<input id='small' name='radio-choice-size' value='small'
+							data-theme='c' type='radio'> <label for='small'>Small</label>
+						<input id='medium' name='radio-choice-size' value='medium'
+							data-theme='c' type='radio'> <label for='medium'>Medium</label>
+						<input id='large' name='radio-choice-size' value='large'
+							data-theme='c' type='radio'> <label for='large'>Large</label>
+					</fieldset>
+					<fieldset data-role='controlgroup' data-type='vertical'
+						id='mapType'>
+						<legend>Map Type:</legend>
+						<input id='road' name='map-type' value='road' data-theme='c'
+							type='radio'> <label for='road'>Road</label> <input
+							id='aerial' name='map-type' value='aerial' data-theme='c'
+							type='radio'> <label for='aerial'>Satellite</label>
+					</fieldset>
+
+					<div id="listPrefProj"></div>
+					<div id='button-prefs' data-role='footer' class="ui-bar"
+						data-position="fixed">
+						<a href='#page1' data-role='button' onclick="savePrefs()">Save</a>
+						<a href='#page1' data-role='button' onclick="goHome()">Cancel</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div id='button-footer' data-role='footer' class="ui-bar"
+			data-position="fixed">
+			<a href='#page1' data-role='button' onclick="saveObservation()">Save</a>
+			<a href='#page1' data-role='button' onclick="goHome()">Cancel</a> <a
+				href="#page1" data-role="button" onclick="delObservation()"
+				id='deleteObsButton'>Delete</a>
+		</div>
+	</div>
+	<div data-role="dialog" id="confirmDialog" data-title="Are you sure">
+		<div data-role="header" data-position="fixed" data-theme="c">
+			<h1>Are you sure</h1>
+		</div>
+		<div data-role="content" id='dialogMsg'>
+			<p>
+				<span class="ui-icon ui-icon-alert"
+					style="float: left; margin: 0 7px 20px 0;"></span>These items will
+				be permanently deleted and cannot be recovered. Are you sure?
+			</p>
+		</div>
+		<div data-role="footer" data-position="fixed" data-theme="c">
+			<a data-role="button" id="deleteOk" data-theme='a'
+				onclick='delObservation(); $( "#confirmDialog" ).dialog( "close" );goHome();'>Yes</a>
+			<a data-role="button" id="deleteCancel" data-theme='b'
+				onclick='$( "#confirmDialog" ).dialog( "close" );goHome();'>No</a>
+		</div>
+	</div>
+	<div data-role="dialog" id="uploadObs" data-title="Upload Obs">
+		<div data-role="header">
+			<h1>Upload Obs(s)</h1>
+		</div>
+		<div data-role="content">
+			<ul data-role="listview" id="obsUploadList" data-inset="true">
+				<li>List Item</li>
+			</ul>
+		</div>
+		<div data-role="footer">
+			<a data-role="button" id="uploadButton" onclick=''>Upload
+				Observations</a> <a data-role="button" id="cancelUpload"
+				onclick='$( "#uploadObs" ).dialog( "close" );goHome();'>Cancel</a>
+		</div>
+	</div>
+	<div data-role="dialog" id="uploadModal" data-title="Upload Status">
+		<div data-role="header">
+			<h1>Uploading</h1>
+		</div>
+		<div data-role="content">
+			<ul data-role="listview" id="obsUploadList" data-inset="true">
+				<li>List Item</li>
+			</ul>
+		</div>
+		<div data-role="footer"></div>
+	</div>
+	<iframe id='hiddenLoginDiv' style="visibility: hidden"></iframe>
+</body>
+</html>
