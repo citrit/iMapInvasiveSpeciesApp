@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B31BB7127D44462927A1A28 /* CDVSpinnerDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CAE4D0ED04CD4958048F0 /* CDVSpinnerDialog.m */; };
 		1A029D0127DF4A58A42613BF /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39396E9A156C4F4589BF451F /* CDVFileTransfer.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -61,6 +60,7 @@
 		B5A9A676AEEF485AB12D6A96 /* CDVCompass.m in Sources */ = {isa = PBXBuildFile; fileRef = 616F3F3001484939AF6AF489 /* CDVCompass.m */; };
 		B858B2A83A6344F89B0D58F4 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90116F915044E6A83083D9 /* CoreMotion.framework */; };
 		BB3A4292FB7045329C140AA9 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 904CC66F27034839941C3703 /* CDVSplashScreen.m */; };
+		C262F9751B23DA5D00500979 /* CDVSpinnerDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CAE4D0ED04CD4958048F0 /* CDVSpinnerDialog.m */; };
 		C33C2D60B0A04453BF1FE929 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 352549A0B4674C26A6C6F49B /* CDVAssetLibraryFilesystem.m */; };
 		CB8572B71B2347AEAC007450 /* CDVCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AEF21790BC47CCB0A8B8E2 /* CDVCamera.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
@@ -236,8 +236,8 @@
 				EB87FDF41871DAF40020F90C /* config.xml */,
 				EB87FDF31871DA8E0020F90C /* www */,
 				EB87FDF21871DA7A0020F90C /* merges */,
-				EB87FDF11871DA420020F90C /* Staging */,
 				301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */,
+				EB87FDF11871DA420020F90C /* Staging */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				307C750510C5A3420062BCA9 /* Plugins */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -428,7 +428,7 @@
 				LastUpgradeCheck = 510;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = BNHQX767J6;
+						DevelopmentTeam = PLQA8G6DXA;
 					};
 				};
 			};
@@ -532,6 +532,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C262F9751B23DA5D00500979 /* CDVSpinnerDialog.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
@@ -555,7 +556,6 @@
 				41DB0C69DDC04A52BAE06476 /* CDVReachability.m in Sources */,
 				BB3A4292FB7045329C140AA9 /* CDVSplashScreen.m in Sources */,
 				5422C43F48084D3EB5797041 /* CDVVibration.m in Sources */,
-				0B31BB7127D44462927A1A28 /* CDVSpinnerDialog.m in Sources */,
 				6A5A202C5BF74030B7F44160 /* SQLitePlugin.m in Sources */,
 				2135B1B5876B48E5A5277D88 /* sqlite3.c in Sources */,
 			);
@@ -587,7 +587,8 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "iMapApp/iMapApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				"OTHER_CFLAGS[arch=*]" = "-DDISABLE_PUSH_NOTIFICATIONS";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,
@@ -619,7 +620,8 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "iMapApp/iMapApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				"OTHER_CFLAGS[arch=*]" = "-DDISABLE_PUSH_NOTIFICATIONS";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,

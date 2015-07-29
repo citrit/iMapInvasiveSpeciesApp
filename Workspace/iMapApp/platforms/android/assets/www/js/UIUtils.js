@@ -4,6 +4,17 @@ var tab;
 var curObservation;
 var obsUploadCount;
 
+$body = $("body");
+
+function startModelLoading() {
+    console.log("Loading...");
+    $('#spinner').show();
+}
+function stopModelLoading () {
+    console.log("unLoading...");
+    $('#spinner').hide();
+}
+
 function uiInit() {
 	updateOrientation();
 	$("#uploadButton").click(function() {
@@ -19,7 +30,7 @@ function uiInit() {
 	});
 	// Set size of main menu div
 	var hei = $( window ).height();
-	hei -= (hei * 0.33)
+    hei -= (hei * 0.33);
 	console.log("Set height: "+ hei);
 	$("#homescreentable").height(hei);
 }
@@ -32,8 +43,18 @@ function updateOrientation() {
     $('#iMapMapdiv').trigger('create');
 }
 
+function onNewObservationHandler() {
+    window.plugins.spinnerDialog.show("Preparing New Observation","Please wait...");
+    console.log("onNewObservation...");
+    //startModelLoading();
+    clearObservation();
+    newObservation();
+    //stopModelLoading();
+    window.plugins.spinnerDialog.hide();
+}
+
 function clearObservation() {
-	onPhotoURISuccess('');
+	onPhotoURISuccess('img/empty.png');
 	$('#projectSelect').val(iMapPrefs.params.Project);
 	//$('#projectPrefSelect option[value="'+iMapPrefs.params.Project+'"]').attr("selected",true);
 	$('#projectSelect').selectmenu('refresh', true);
@@ -75,15 +96,13 @@ function goHome(){
 function newObservation() {
 	console.log("Username: " + JSON.stringify(iMapPrefs.params.Username));
 	if (iMapPrefs.params.Username !== "" && iMapPrefs.params.CurrentState !== "") {
-		window.plugins.spinnerDialog.show("Preparing New Observation","Please wait...");
-        chooseProj();
+		chooseProj();
         chooseSpec();
         $('#projectSelect').val(iMapPrefs.params.Project);
         $('#projectSelect').selectmenu('refresh', true);
         //tabPhoto();
         newEntry();
-        window.plugins.spinnerDialog.hide();
-        
+        iMapMap.setPosition([ -98.583333, 39.833333 ]);
 	}
 	else
 		navigator.notification.alert('Please fill out Preferences first', // message
@@ -101,6 +120,7 @@ function newEntry() {
     var wid = $("#getLoca").width();
     var hei = $("#getLoca").height();
     iMapMap.fixSize(wid, hei);
+    iMapMap.setMapType(iMapPrefs.params.MapType);
 }
 
 /*function tabPhoto(){
@@ -215,7 +235,7 @@ $(document).on("swipeleft", function(){
 function chooseSpec(){
     console.log("Building Species select");
     //if(iMapPrefs.params.Plants.UseCommon == "true" && iMapPrefs.params.Plants.UseScientific == "true" && iMapPrefs.params.Plants.MyPlants.length == 0){
-	selected = "<div data-role='fieldcontain' id='whatDiv'><label for='speciesSelect'>Choose Species:</label><select id='speciesSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
+	selected = "<div data-role='fieldcontain' id='whatDiv'><label for='speciesSelect' style='color:white'>Choose Species:</label><select id='speciesSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected += "<option value='-1'></option>";
 	for(var i=0;i<DBFuncs.SpeciesList.length;i++){
 		var lStr = "";
@@ -237,9 +257,9 @@ function chooseSpec(){
 function chooseProj(){
     console.log("Building Projects select");
     $('#listProj').show();
-	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect'>Choose Project:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
+	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect' style='color:white'>Choose Project:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected += "<option value='-1'></option>";
-	selected2 = "<div data-role='fieldcontain' id='projPrefDiv'><label for='projectPrefSelect'>Choose default project:</label><select id='projectPrefSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
+	selected2 = "<div data-role='fieldcontain' id='projPrefDiv'><label for='projectPrefSelect' style='color:white'>Choose default project:</label><select id='projectPrefSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
 	selected2 += "<option value='-1'></option>";
     //console.log("DBFuncs.ProjectList: " + $.toJSON(DBFuncs.ProjectList));
 	for(var i=0;i<DBFuncs.ProjectList.length;i++){
@@ -392,7 +412,11 @@ function editObs(arg) {
     curObservation.ObsCounty = iMapApp.obsvs[arg].County;
     curObservation.Photos = iMapApp.obsvs[arg].Photos;
     
-    onPhotoURISuccess(curObservation.Photos[0]);
+    onPhotoURISuccess('img/empty.png');
+    if (curObservation.Photos[0].length > 0) {
+    	onPhotoURISuccess(curObservation.Photos[0]);
+    	console.log("PhotoURL: " + curObservation.Photos[0]);
+    }
     $('#dateField').val(curObservation.When);
     iMapMap.setPosition(curObservation.Where);
     
@@ -450,6 +474,7 @@ function saveObservation() {
     curObservation.When = $('#dateField').val();
     curObservation.Where = iMapMap.getObsLocation();
     curObservation.Photos.push($('#largeImage').attr('src'));
+    curObservation.ObsState = $('#stateSelect').val();
     //alert($('#largeImage').attr('src'));
     curObservation.save();
     window.setTimeout(DBFuncs.loadAllObservations, 1000);
@@ -568,4 +593,12 @@ function areYouSure(msg, yes, no) {
 	console.log('Poping up dialog');
 	$.mobile.changePage('#confirmDialog',  { role: "dialog" });
 	//$("#confirmDialog").dialog();
+}
+
+function handleMapType(typ) {
+    iMapMap.setMapType(typ);
+}
+
+function handleMapTypeRoad() {
+    iMapMap.setm('road');
 }

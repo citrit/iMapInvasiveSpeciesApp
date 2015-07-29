@@ -73,11 +73,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"SpinnerDialog\"><param name=\"ios-package\" value=\"CDVSpinnerDialog\" /></feature>",
+                            "xml": "<feature name=\"SQLitePlugin\"><param name=\"ios-package\" value=\"SQLitePlugin\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"SQLitePlugin\"><param name=\"ios-package\" value=\"SQLitePlugin\" /></feature>",
+                            "xml": "<feature name=\"SpinnerDialog\"><param name=\"ios-package\" value=\"CDVSpinnerDialog\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -193,10 +193,10 @@
         "org.apache.cordova.vibration": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "hu.dpal.phonegap.plugins.SpinnerDialog": {
+        "io.litehelpers.cordova.sqlite": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "io.litehelpers.cordova.sqlite": {
+        "hu.dpal.phonegap.plugins.SpinnerDialog": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         }
     },

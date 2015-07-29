@@ -44,7 +44,7 @@ var UploadUtils = {
 			console.log('Going to upload: ' + JSON.stringify(obs));
 			
 			var imgURL = null;
-			if (obs.Photos[0].length > 0) {
+			if (obs.Photos[0] !== 'img/empty.png') {
 				console.log("Uploading image: " + obs.Photos[0]);
 				UploadUtils.uploadImage(obs.Photos[0], obs);
 			} else {
@@ -57,10 +57,10 @@ var UploadUtils = {
 
 	doSendToServer : function(obs) {
 		var url = 'https://hermes.freac.fsu.edu/requests/uploadObservation/uploadTool';
-		console.log("Do image: " + (obs.Photos[0].length > 0?1:0));
+		console.log("Do image: " + (obs.Photos[0] !== 'img/empty.png'?1:0));
 		console.log("Do sendToServer: " + JSON.stringify(obs));
 		var postData = {
-				photourl1 : obs.Photos[0],
+				photourl1 : (obs.Photos[0] !== 'img/empty.png'?obs.Photos[0]:''),
 				photourl2 : '',
 				photourl3 : '',
 				photourl4 : '',
@@ -70,7 +70,7 @@ var UploadUtils = {
 				photocredit3 : '',
 				photocredit4 : '',
 				photocredit5 : '',
-				digitalphoto : (obs.Photos[0].length > 0?1:0),
+				digitalphoto : (obs.Photos[0] !== 'img/empty.png'?1:0),
 				obsdatastatus : 1000,
 				imapdataentrypersonid : obs.Who,
 				observername : iMapPrefs.params.Username,

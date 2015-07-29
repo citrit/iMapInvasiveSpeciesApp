@@ -109,5 +109,12 @@
             "url": "https://github.com/apache/cordova-plugin-splashscreen.git",
             "subdir": "."
         }
+    },
+    "ru.mcler.phonegap.plugins.SpinnerDialog": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mcler/SpinnerDialog.git",
+            "subdir": "."
+        }
     }
 }

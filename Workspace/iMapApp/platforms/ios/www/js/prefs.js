@@ -33,7 +33,7 @@ var iMapPrefs = {
 		// load the prefs from localstorage
 		loadParams: function() {
 			iMapPrefs.params = $.parseJSON(localStorage.getItem("userParams"));
-			iMapApp.debugMsg("iMapPrefs: loading user Params: " + $.toJSON(iMapPrefs.params));
+			console.log("iMapPrefs: loading user Params: " + $.toJSON(iMapPrefs.params));
 		},
 		// login to the site
 		loginToMainSite: function(okCallBack) {

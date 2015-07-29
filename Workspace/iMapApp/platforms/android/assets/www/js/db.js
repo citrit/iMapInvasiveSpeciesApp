@@ -166,13 +166,15 @@ var DBFuncs = {
                                 //console.log( "Project id: " + val.id + "  Name: " + val.projectname );
                                 var parms = [parseInt(val.id), val.projectname];
                                 tx.executeSql(sqlStr, parms, DBFuncs.successCB, DBFuncs.errorCB);
-                                });
-                         	DBFuncs.loadProjectsByName(tx, null);
+                               });
+                        DBFuncs.loadProjectsByName(tx, null);
                         },
                         DBFuncs.errorCB,
                         function(tx, results) {}
                   );
-    		});
+        }).success(function() { console.log("Load State list second success"); })
+        .error(function(err) { window.plugins.spinnerDialog.hide();alert("error: " + JSON.stringify(err)); })
+        .complete(function() { console.log("Load State list complete"); });
     	$.getJSON( DBFuncs.SpeciesURL + DBFuncs.curState, function( sdata ) {
                   iMapDB.transaction(function(tx, results) {
                 	  	tx.executeSql('DELETE FROM imiadmin_state_species_list', [],  DBFuncs.successCB, DBFuncs.errorCB);
@@ -187,7 +189,9 @@ var DBFuncs = {
 						DBFuncs.errorCB,
 						function(tx, results) {}
                    );
-    		});
+        }).success(function() { console.log("Load Species list second success"); })
+        .error(function(err) { window.plugins.spinnerDialog.hide();alert("error: " + JSON.stringify(err)); })
+        .complete(function() { console.log("Get species list complete"); });
     },
     
     // Insert Species

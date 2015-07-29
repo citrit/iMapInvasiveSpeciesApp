@@ -380,17 +380,17 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/hu.dpal.phonegap.plugins.SpinnerDialog/www/spinner.js",
-        "id": "hu.dpal.phonegap.plugins.SpinnerDialog.SpinnerDialog",
-        "merges": [
-            "window.plugins.spinnerDialog"
-        ]
-    },
-    {
         "file": "plugins/io.litehelpers.cordova.sqlite/www/SQLitePlugin.js",
         "id": "io.litehelpers.cordova.sqlite.SQLitePlugin",
         "clobbers": [
             "SQLitePlugin"
+        ]
+    },
+    {
+        "file": "plugins/hu.dpal.phonegap.plugins.SpinnerDialog/www/spinner.js",
+        "id": "hu.dpal.phonegap.plugins.SpinnerDialog.SpinnerDialog",
+        "merges": [
+            "window.plugins.spinnerDialog"
         ]
     }
 ];
@@ -412,8 +412,8 @@ module.exports.metadata =
     "org.apache.cordova.network-information": "0.2.15",
     "org.apache.cordova.splashscreen": "1.0.0",
     "org.apache.cordova.vibration": "0.3.13",
-    "hu.dpal.phonegap.plugins.SpinnerDialog": "1.3.1",
-    "io.litehelpers.cordova.sqlite": "0.7.7"
+    "io.litehelpers.cordova.sqlite": "0.7.7",
+    "hu.dpal.phonegap.plugins.SpinnerDialog": "1.3.1"
 }
 // BOTTOM OF METADATA
 });
