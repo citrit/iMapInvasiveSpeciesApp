@@ -402,7 +402,7 @@ function editObs(arg) {
     //console.log('Obs[' + arg + ']: ' + JSON.stringify(obsvs[arg]));
     
     curObservation = new iMapObservation(false);
-    curObservation.Who = iMapApp.obsvs[arg].Who;
+    curObservation.Who = iMapPrefs.params.Who;
     curObservation.When = iMapApp.obsvs[arg].When;
     curObservation.Project = iMapApp.obsvs[arg].Project;
     curObservation.Species = iMapApp.obsvs[arg].Species;
@@ -432,8 +432,7 @@ function editObs(arg) {
     var opt = $('#projectSelect').find('option[value='+curObservation.Project+']');
     //console.log(curObservation.Project + ' = ' + opt.text());
     opt.attr("selected",true);
-    //$('#projectSelect').val(curObservation.Project);
-    $('#projectSelect').selectmenu("refresh");
+    $('#projectSelect').selectmenu('refresh', true);
     
     // Set the species list
     $('#speciesSelect').val('-1');
@@ -452,7 +451,8 @@ function editObs(arg) {
     var spc = $('#speciesSelect').find('option[value='+indx+']');
     //alert(curObservation.Species + ' = ' + spc.text());
     spc.attr("selected",true);
-    $('#speciesSelect').selectmenu("refresh");
+    $('#speciesSelect').selectmenu('refresh', true);
+    
     //tabPhoto();
     newEntry();
     window.plugins.spinnerDialog.hide();
@@ -460,24 +460,34 @@ function editObs(arg) {
 }
 
 //Save the current observation.
-//First set the curObservation fieldw then call save.
+//First set the curObservation fields then call save.
 function saveObservation() {
+    console.log("Saving: " + JSON.stringify(curObservation));
     //alert($("#listProj :selected").text());
     var methods = [],
     obj = $('#listSpec').find('#speciesSelect :selected');
     //alert(obj.val());
-    curObservation.Species = DBFuncs.SpeciesList[obj.val()];
+    if (obj.val() !== "-1") {
+        console.log("*** Setting Secies");
+        curObservation.Species = DBFuncs.SpeciesList[obj.val()];
+    }
     console.log("Species: " + JSON.stringify(curObservation.Species));
     
-    curObservation.Project = $("#projectSelect :selected").val(); // $("speciesSelect");
+    if ($("#projectSelect :selected").val() !== "-1") {
+        console.log("*** Setting Project");
+        curObservation.Project = $("#projectSelect :selected").val(); // $("speciesSelect");
+    }
+    console.log("Project: " + JSON.stringify(curObservation.Project));
     
     curObservation.When = $('#dateField').val();
+    console.log("CurPoint: " + curObservation.Where);
     curObservation.Where = iMapMap.getObsLocation();
+    console.log("CurPoint: " + curObservation.Where);
     curObservation.Photos.push($('#largeImage').attr('src'));
     curObservation.ObsState = $('#stateSelect').val();
     //alert($('#largeImage').attr('src'));
     curObservation.save();
-    window.setTimeout(DBFuncs.loadAllObservations, 1000);
+    //window.setTimeout(DBFuncs.loadAllObservations, 1000);
     goHome();
 }
 
