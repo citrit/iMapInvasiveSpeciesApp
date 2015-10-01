@@ -128,7 +128,7 @@ var UploadUtils = {
 				}
 			}
 		});
-		window.plugins.spinnerDialog.hide();
+		stopModelLoading();
 	},
 
 	uploadImage : function(imageName, obs) {

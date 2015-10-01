@@ -33,6 +33,7 @@ function iMapObservation(dontDoWhere){
 		console.log("Saving Obs: " + $.toJSON(this));
 		iMapDB.transaction(function (tx) {
 			tx.executeSql("Select objectid from imiadmin_observation where objectid=?" , [obsv.Objectid], function(tx, results) {
+                console.log("Doing record: " + obsv.Objectid);
 				if (results.rows.length == 0) {
 					var sqlStr = 'INSERT INTO imiadmin_observation (objectid, obsid,Obsorg,observername,Imapdataentrypersonid,Imapdataentrydate, Obsdate,obsstate,projectid,statespeciesid,commonname,scientificname,obsorigxcoord,obsorigycoord, repositoryavailable,digitalphoto,imapdataentrymethod,obsdatastatus,obscountyname, photourl1) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 					var parms = [obsv.Objectid, obsv.Objectid, "Org", obsv.Who, obsv.Who, obsv.When, obsv.When, obsv.ObsState, obsv.Project, 
@@ -42,15 +43,18 @@ function iMapObservation(dontDoWhere){
                     tx.executeSql(sqlStr, parms, DBFuncs.successCB, DBFuncs.errorCB);
                 }
 				else {
+                    console.log("Inserting this time");
 					var sqlStr = 'UPDATE imiadmin_observation SET obsid=?,Obsorg=?,observername=?,Imapdataentrypersonid=?,Imapdataentrydate=?, Obsdate=?,obsstate=?,projectid=?,statespeciesid=?,commonname=?,scientificname=?,obsorigxcoord=?,obsorigycoord=?, repositoryavailable=?,digitalphoto=?,imapdataentrymethod=?,obsdatastatus=?,obscountyname=?,photourl1=? WHERE objectid=?';
-					var parms = [obsv.Objectid, "Org", obsv.Who, obsv.Who, obsv.When, obsv.When, obsv.ObsState, obsv.Project, 
+                    console.log("SqlStr worked");
+                    var parms = [obsv.Objectid, "Org", obsv.Who, obsv.Who, obsv.When, obsv.When, obsv.ObsState, obsv.Project,
 					             obsv.Species[2], obsv.Species[0], obsv.Species[1],
-                                 obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty, obsv.Photos[0], obsv.Objectid];
+                                 obsv.Where[0], obsv.Where[1], 2, 1, "app", 1000, obsv.ObsCounty, obsv.Photos[0], obsv.Objectid ];
                     console.log("Updating Obs: " + $.toJSON(obsv.Objectid));
                     tx.executeSql(sqlStr, parms, DBFuncs.successCB, DBFuncs.errorCB);
                 }
+                DBFuncs.loadAllObservations();
 			}, DBFuncs.errorCB);
-		});
+        });
 	};
 
 }

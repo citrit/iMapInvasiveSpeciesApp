@@ -98,7 +98,7 @@ var DBFuncs = {
     			DBFuncs.SpeciesList[i] = [ results.rows.item(i).stateCommonName, results.rows.item(i).state_scientific_name, results.rows.item(i).stateSpeciesID];
     		}
     		chooseSpec();
-    		window.plugins.spinnerDialog.hide();
+    		stopModelLoading();
     		//console.log("iMapDB.SpeciesList: " + $.toJSON(DBFuncs.SpeciesList));
     	}, DBFuncs.errorCB);
     },
@@ -111,12 +111,12 @@ var DBFuncs = {
     			console.log("iMapInvasives DB all set.");
     		}
             else {
-            	window.plugins.spinnerDialog.show("Creating tables","Please wait...");
+            	startModelLoading("Creating tables","Please wait...");
                 console.log("Creating database.");
                 for(var i=0, len=createTablesSQL.length; i < len; i++){
                     tx.executeSql(createTablesSQL[i], [],  function(tx, results) {}, DBFuncs.errorCB);
                 }
-                window.plugins.spinnerDialog.hide();
+                stopModelLoading();
             }
     	}, DBFuncs.errorCB);
     },
@@ -157,7 +157,7 @@ var DBFuncs = {
     },
     
     updateStateData: function(tx, results) {
-        window.plugins.spinnerDialog.show("Loading State data","Please wait...");
+        startModelLoading("Loading State data","Please wait...");
         $.getJSON( DBFuncs.ProjectsURL + DBFuncs.curState, function( pdata ) {
                   iMapDB.transaction(function(tx, results) {
     	  				tx.executeSql('DELETE FROM imiadmin_project', [],  DBFuncs.successCB, DBFuncs.errorCB);
@@ -173,7 +173,7 @@ var DBFuncs = {
                         function(tx, results) {}
                   );
         }).success(function() { console.log("Load State list second success"); })
-        .error(function(err) { window.plugins.spinnerDialog.hide();alert("error: " + JSON.stringify(err)); })
+        .error(function(err) { stopModelLoading();alert("error: " + JSON.stringify(err)); })
         .complete(function() { console.log("Load State list complete"); });
     	$.getJSON( DBFuncs.SpeciesURL + DBFuncs.curState, function( sdata ) {
                   iMapDB.transaction(function(tx, results) {
@@ -190,7 +190,7 @@ var DBFuncs = {
 						function(tx, results) {}
                    );
         }).success(function() { console.log("Load Species list second success"); })
-        .error(function(err) { window.plugins.spinnerDialog.hide();alert("error: " + JSON.stringify(err)); })
+        .error(function(err) { stopModelLoading();alert("error: " + JSON.stringify(err)); })
         .complete(function() { console.log("Get species list complete"); });
     },
     

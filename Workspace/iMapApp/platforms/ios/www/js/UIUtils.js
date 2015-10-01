@@ -8,17 +8,24 @@ $body = $("body");
 
 function startModelLoading() {
     console.log("Loading...");
-    $('#spinner').show();
+    var appendthis =  ("<div class='modal-overlay js-modal-close'></div>");
+    $("body").append(appendthis);
+    $(".modal-overlay").fadeTo(500, 0.7);
+    //$(".js-modalbox").fadeIn(500);
+    //var modalBox = $(this).attr('data-modal-id');
+    $('#popup').fadeIn();
 }
 function stopModelLoading () {
     console.log("unLoading...");
-    $('#spinner').hide();
+    $(".modal-box, .modal-overlay").fadeOut(500, function() {
+                                            $(".modal-overlay").remove();
+                                            });
 }
 
 function uiInit() {
 	updateOrientation();
 	$("#uploadButton").click(function() {
-		window.plugins.spinnerDialog.show("Uploading observations","Please wait...");
+		startModelLoading("Uploading observations","Please wait...");
 		$( "#uploadObs" ).dialog( "close" );
 		obsUploadCount = 0;
 		$(iMapApp.obsvs).each(function(ind, val) {
@@ -33,6 +40,9 @@ function uiInit() {
     hei -= (hei * 0.33);
 	console.log("Set height: "+ hei);
 	$("#homescreentable").height(hei);
+    var wid = $("#getLoca").width();
+    hei = $("#getLoca").height();
+    iMapMap.fixSize(wid, hei);
 }
 
 function updateOrientation() {
@@ -44,13 +54,13 @@ function updateOrientation() {
 }
 
 function onNewObservationHandler() {
-    window.plugins.spinnerDialog.show("Preparing New Observation","Please wait...");
+    startModelLoading("Preparing New Observation","Please wait...");
     console.log("onNewObservation...");
     //startModelLoading();
     clearObservation();
     newObservation();
     //stopModelLoading();
-    window.plugins.spinnerDialog.hide();
+    stopModelLoading();
 }
 
 function clearObservation() {
@@ -119,12 +129,12 @@ function newEntry() {
     //$('#button-footer').show();
     var wid = $("#getLoca").width();
     var hei = $("#getLoca").height();
-    iMapMap.fixSize(wid, hei);
+    //iMapMap.fixSize(wid, hei);
     iMapMap.setMapType(iMapPrefs.params.MapType);
 }
 
 /*function tabPhoto(){
-    window.plugins.spinnerDialog.hide();
+    stopModelLoading();
 	tab='photo';
 	$('#header-text').text('Select Photo');
 	$('#pic').addClass('ui-btn-active');
@@ -235,7 +245,7 @@ $(document).on("swipeleft", function(){
 function chooseSpec(){
     console.log("Building Species select");
     //if(iMapPrefs.params.Plants.UseCommon == "true" && iMapPrefs.params.Plants.UseScientific == "true" && iMapPrefs.params.Plants.MyPlants.length == 0){
-	selected = "<div data-role='fieldcontain' id='whatDiv'><label for='speciesSelect' style='color:white'>Choose Species:</label><select id='speciesSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
+	selected = "<div data-role='fieldcontain' id='whatDiv'><label for='speciesSelect' style='color:white'>Choose Species:</label><select id='speciesSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-mini='true'>";
 	selected += "<option value='-1'></option>";
 	for(var i=0;i<DBFuncs.SpeciesList.length;i++){
 		var lStr = "";
@@ -257,9 +267,9 @@ function chooseSpec(){
 function chooseProj(){
     console.log("Building Projects select");
     $('#listProj').show();
-	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect' style='color:white'>Choose Project:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
+	selected = "<div data-role='fieldcontain' id='projDiv'><label for='projectSelect' style='color:white'>Choose Project:</label><select id='projectSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-mini='true'>";
 	selected += "<option value='-1'></option>";
-	selected2 = "<div data-role='fieldcontain' id='projPrefDiv'><label for='projectPrefSelect' style='color:white'>Choose default project:</label><select id='projectPrefSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-native-menu='false' data-filter='true'>";
+	selected2 = "<div data-role='fieldcontain' id='projPrefDiv'><label for='projectPrefSelect' style='color:white'>Choose default project:</label><select id='projectPrefSelect' data-overlay-theme='d' data-theme='b' data-native-menu='false' data-mini='true'>";
 	selected2 += "<option value='-1'></option>";
     //console.log("DBFuncs.ProjectList: " + $.toJSON(DBFuncs.ProjectList));
 	for(var i=0;i<DBFuncs.ProjectList.length;i++){
@@ -293,7 +303,7 @@ function stateChangeHandler(sel) {
 }
 
 function prefsHome(){
-	window.plugins.spinnerDialog.show("Loading Preferences","Please wait...");
+	startModelLoading("Loading Preferences","Please wait...");
     chooseProj();
     
 	$('#fname').val(iMapPrefs.params.Firstname);
@@ -318,7 +328,7 @@ function prefsHome(){
 	$('#prefsScreen').show();
 	$('#homescreen').hide();
     $('#entryScreen').hide();
-    window.plugins.spinnerDialog.hide();
+    stopModelLoading();
     
 }
 
@@ -391,7 +401,7 @@ function gotFileWriter(writer) {
 }
 
 function editObs(arg) {
-    window.plugins.spinnerDialog.show("Retrieving Observation","Please wait...");
+    startModelLoading("Retrieving Observation","Please wait...");
     chooseProj();
     chooseSpec();
 
@@ -455,7 +465,7 @@ function editObs(arg) {
     
     //tabPhoto();
     newEntry();
-    window.plugins.spinnerDialog.hide();
+    stopModelLoading();
     return false;
 }
 
@@ -553,7 +563,7 @@ function savePrefs() {
                                      );
         return;
     }
-    window.plugins.spinnerDialog.show("Saving Preferences","Please wait...");
+    startModelLoading("Saving Preferences","Please wait...");
     
 	iMapPrefs.params.Firstname = $('#fname').val();
 	iMapPrefs.params.Lastname = $('#lname').val();
@@ -580,7 +590,7 @@ function savePrefs() {
     
 	iMapPrefs.saveParams();
 	goHome();
-	window.plugins.spinnerDialog.hide();
+	stopModelLoading();
     
 }
 
