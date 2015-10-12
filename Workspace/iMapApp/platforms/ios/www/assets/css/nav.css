@@ -1,0 +1,112 @@
+.navbar {
+    height: 40px;
+    background: #333;
+    position: relative;
+    list-style: none;
+    border-top-left-radius: 10px;
+}
+
+.navbar ul {
+    list-style: none;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0 0 0 12px;
+    font-size: 0;
+}
+
+.navbar ul.mobile {
+    background: #333;
+    box-shadow: 2px 2px 4px #777;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 1000;
+    margin: 0px;
+    padding :0px;
+}
+
+
+.navbar ul.mobile li {
+    display: block;
+    clear: both;
+    width: 175px;
+}
+
+.navbar li {
+    display: inline-block;
+    font-size: 0.9rem;
+}
+
+.navbar a{
+    display: block;
+    color: #fff;
+    line-height: 40px;
+    padding: 0 12px;
+    text-decoration: none;
+}
+
+.navbar a.selected {
+    background: #777;
+}
+
+.navbar li a:hover{
+    background: #666;
+}
+
+.navbar.light li a:hover{
+    background: #c5c5c5;
+}
+
+.navbar .js_DropDown {
+    display: none;
+}
+
+.navbar .js_DropDown a {
+    display: inline-block;
+    border-top-left-radius: 10px;
+    height: 40px;
+}
+.navbar .js_DropDown a:hover {
+    background-color: #666;
+}
+
+.navbar .js_DropDown a:after {
+    content: 'iMapInvasives';
+    display: inline-block;
+    vertical-align: top;
+}
+
+li a:focus,.js_DropDown a:focus
+{ 
+    background: #666;
+}
+
+.navbar .js_DropDown a.active {
+    background: #666;
+}
+
+.navbar.light .js_DropDown a {
+    background: #c5c5c5;
+}
+
+.navbar.light .js_DropDown a.active {
+    background: #bbb;
+}
+
+.navbar .js_DropDown span.icon,
+.navbar .js_DropDown span.white {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAABZ0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMDvo9WkAAABKSURBVEhL7ZOxDQAwCMN6O4/T0tmjsxHJDB4yROJ0dz3s1BRHEi2OTREBpQFKA5QGKA3m7IP8RKeIgNIApQFKA5QGc/ZBfkJTdF0oUafLBAFNbAAAAABJRU5ErkJggg==) no-repeat;
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    margin: 9px 15px 9px 5px;
+}
+
+.navbar.light .js_DropDown span.icon,
+.navbar .js_DropDown span.black {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOvgAADr4B6kKxwAAAABZ0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMDvo9WkAAABpSURBVEhL7ZPLCcAwDEM9jefI/ks1Hyj2QbiGSLcKHggl8sEktjTc/WGyZxo6YKAbrFzFoav3/hdhmsrlijBN5XJFmKZyuSJMU7lcsfV/kIN0FRJgyACGDGDIAIYMpK8CHt6iG6xZhY0JIJ+6AHGbUFsAAAAASUVORK5CYII=) no-repeat;
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    margin: 9px 15px 9px 5px;
+}
