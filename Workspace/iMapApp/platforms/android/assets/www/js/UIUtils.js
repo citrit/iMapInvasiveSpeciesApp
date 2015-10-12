@@ -40,6 +40,9 @@ function uiInit() {
     hei -= (hei * 0.33);
 	console.log("Set height: "+ hei);
 	$("#homescreentable").height(hei);
+    var wid = $("#getLoca").width();
+    hei = $("#getLoca").height();
+    iMapMap.fixSize(wid, hei);
 }
 
 function updateOrientation() {
@@ -126,7 +129,7 @@ function newEntry() {
     //$('#button-footer').show();
     var wid = $("#getLoca").width();
     var hei = $("#getLoca").height();
-    iMapMap.fixSize(wid, hei);
+    //iMapMap.fixSize(wid, hei);
     iMapMap.setMapType(iMapPrefs.params.MapType);
 }
 
