@@ -1,6 +1,6 @@
 var iMapApp = iMapApp || {};
 
-iMapApp.UploadUtils = {
+iMapApp.uploadUtils = {
 
 	debugOut : true,
 
@@ -39,30 +39,32 @@ iMapApp.UploadUtils = {
 		//		iMapPrefs.Password = '';
 		var ret = true;
 		var ok = true; //iMapPrefs.loginToMainSite();
-		var stShp = "ST_GEOMETRY('POINT(" + obs.Where[0] + " " + obs.Where[1]
-				+ ")',8)";
-		//console.log("ST_GEOM: " + stShp);
 		if (ok) {
-			console.log('Going to upload: ' + JSON.stringify(obs));
-			
+			console.log('Going to upload: ' + JSON.stringify(obs.getObsData()));
 			var imgURL = null;
-			if (obs.Photos[0] !== 'img/empty.png') {
-				console.log("Uploading image: " + obs.Photos[0]);
-				iMapApp.UploadUtils.uploadImage(obs.Photos[0], obs);
+			if (obs.getPhotos() !== "") {
+				console.log("Uploading image: " + obs.getPhotos());
+				iMapApp.uploadUtils.uploadImage(obs.getPhotos(), obs);
 			} else {
 				console.log("Uploading Observation");
-				iMapApp.UploadUtils.doSendToServer(obs);
+				iMapApp.uploadUtils.doSendToServer(obs);
 			}
 		}
 		return ret;
 	},
 
 	doSendToServer : function(obs) {
+        //var stShp = "ST_GEOMETRY('POINT(" + obs.getWhere()[0] + " " + obs.getWhere()[1]
+		//		+ ")',8)";
+		//console.log("ST_GEOM: " + stShp);
+        
 		var url = 'https://hermes.freac.fsu.edu/requests/uploadObservation/uploadTool';
-		console.log("Do image: " + (obs.Photos[0] !== 'img/empty.png'?1:0));
-		console.log("Do sendToServer: " + JSON.stringify(obs));
+		console.log("Do image: " + (obs.getPhotos() !== ""?1:0));
+		//console.log("Do sendToServer: " + JSON.stringify(obs.getObsData()));
+        var spIDLen = obs.getSpeciesID().length;
+        var spl = JSON.parse(localStorage.getItem("speciesList"));
 		var postData = {
-				photourl1 : (obs.Photos[0] !== 'img/empty.png'?obs.Photos[0]:''),
+				photourl1 : obs.getPhotos(),
 				photourl2 : '',
 				photourl3 : '',
 				photourl4 : '',
@@ -72,19 +74,19 @@ iMapApp.UploadUtils = {
 				photocredit3 : '',
 				photocredit4 : '',
 				photocredit5 : '',
-				digitalphoto : (obs.Photos[0] !== 'img/empty.png'?1:0),
+				digitalphoto : (obs.getPhotos() !== ""?1:0),
 				obsdatastatus : 1000,
-				imapdataentrypersonid : obs.Who,
-				observername : iMapPrefs.params.Username,
-				obsstate : obs.ObsState,
-				projectid : obs.Project,
-				statespeciesid : obs.Species[2],
-				commonname : obs.Species[0],
-				scientificname : obs.Species[1],
-				imapdataentrydate : iMapApp.UploadUtils.getDateTime(true), //2013-11-11
-				obsdate : obs.When, //2013-11-11
-				obsorigxcoord : obs.Where[0], //-75.41016000000012
-				obsorigycoord : obs.Where[1], //43.40667000000026
+				imapdataentrypersonid : iMapApp.iMapPrefs.params.Username,
+				observername : iMapApp.iMapPrefs.params.Username,
+				obsstate : obs.getState(),
+				projectid : obs.getProjectID(),
+				statespeciesid : (spIDLen > 2?obs.getSpeciesID():""),
+				commonname : (spIDLen > 2?spl[obs.getSpeciesID()][0]:""),
+				scientificname : (spIDLen > 2?spl[obs.getSpeciesID()][1]:""),
+				imapdataentrydate : iMapApp.uploadUtils.getDateTime(true), //2013-11-11
+				obsdate : obs.getWhen(), //2013-11-11
+				obsorigxcoord : obs.getWhere()[0], //-75.41016000000012
+				obsorigycoord : obs.getWhere()[1], //43.40667000000026
 				imapdataentrymethod : 'Mobile-App',
 				repositoryavailable : 2
 			//,
@@ -94,16 +96,16 @@ iMapApp.UploadUtils = {
 			type : "GET",
 			url : url,
 			data : postData,
-			async : false,
+			async : true,
 			success : function(jqXHR, textStatus, errorThrown) {
 				console.log("URL request success: " + typeof jqXHR);
 				try {
 					ret = eval("(" + jqXHR + ")");
 					if (ret.code === 0) {
-						console.log('Upload successful: ' + obs.When + ' : '
-								+ obs.Species[0] + " => " + textStatus);
+						console.log('Upload successful: ' + obs.getWhen() + ' : '
+								+ obs.getSpecies() + " => " + textStatus);
 						console.log('return: ' + JSON.stringify(ret));
-						rmObservation(obs);
+						iMapApp.App.delObservation(obs.getObjectID());
 						ret = true;
 					} else if (ret.code === 2) {
 						alert("Bad username or password")
@@ -112,13 +114,17 @@ iMapApp.UploadUtils = {
 						alert('Upload error: ' + JSON.stringify(ret));
 					}
 				} catch (err) {
+                    iMapApp.uiUtils.waitDialogClose();
 					console.log('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
 					alert('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
 				}
-
+                finally {
+                    iMapApp.uiUtils.waitDialogClose();
+                }
 			},
 			// dataType: dataType,
 			error : function(jqXHR, textStatus, errorThrown) {
+                iMapApp.uiUtils.waitDialogClose();
 				console.log('Upload error: ' + JSON.stringify(jqXHR) + " -> "
 						+ JSON.stringify(textStatus) + " -> "
 						+ JSON.stringify(errorThrown));
@@ -130,7 +136,6 @@ iMapApp.UploadUtils = {
 				}
 			}
 		});
-		stopModelLoading();
 	},
 
 	uploadImage : function(imageName, obs) {
@@ -146,16 +151,20 @@ iMapApp.UploadUtils = {
 		options.params = params;
 
 		var ft = new FileTransfer();
+        console.log("starting transfer: " + options.fileName);
 		ft.upload(imageName, encodeURI(imgUploadURL), 
-		function(res) {//alert("Return: " + JSON.stringify(res.response)); 
-			var ans = eval("(" + res.response + ")");
-			console.log("REs: " + JSON.stringify(ans));
-			ret = imgUploadURL + "?fileName=" + ans.fileName;
-			obs.Photos[0] = ret;
-			iMapApp.UploadUtils.doSendToServer(obs);
-		}, function(err) {
-			console.log("Errors: " + JSON.stringify(err));
-		}, options);
+            function(res) {//alert("Return: " + JSON.stringify(res.response)); 
+                var ans = eval("(" + res.response + ")");
+                console.log("Res: " + JSON.stringify(ans));
+                ret = imgUploadURL + "?fileName=" + ans.fileName;
+                obs.setPhotos(ret);
+                iMapApp.uploadUtils.doSendToServer(obs);
+            }, function(err) {
+                console.log("Errors: " + JSON.stringify(err));
+            }, 
+            options
+        );
+		console.log("end transfer: " + options.fileName);
 		return ret;
 	},
 

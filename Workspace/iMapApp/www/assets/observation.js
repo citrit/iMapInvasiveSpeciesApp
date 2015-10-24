@@ -14,7 +14,7 @@ iMapApp.Observation = function(od)
         SpeciesID: "",
         When: Date.now(),
         Where: [ 0.0, 0.0 ],
-        Objectid: iMapApp.App.numObservations(),
+        Objectid: iMapApp.App.guid(),
         State: "",
         County: ""
     } : od);
@@ -27,7 +27,7 @@ iMapApp.Observation = function(od)
     this.getSpeciesID = function() { return obsData.SpeciesID; }
     this.getWhen = function() { return obsData.When; }
     this.getWhere = function() { return obsData.Where; }
-    this.getObjectid = function() { return obsData.Objectid; }
+    this.getObjectID = function() { return obsData.Objectid; }
     this.getState = function() { return obsData.State; }
     this.getCounty = function() { return obsData.County; }
     this.getObsData = function() { return obsData; }
@@ -44,6 +44,9 @@ iMapApp.Observation = function(od)
     this.setState = function(s) { obsData.State = s; }
     this.setCounty = function(c) { obsData.County = c; }
     this.setObsData = function(od) { obsData = od; }
+    
+    // Serialization
+    this.toJSON = function() { JSON.stringify(obsData);}
 }
     
     

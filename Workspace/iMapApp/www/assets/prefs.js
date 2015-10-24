@@ -16,7 +16,8 @@ iMapApp.iMapPrefs = {
 			},
 			PictureSize: "Medium",
 			MapType: "road",
-            CurrentState: ""
+            CurrentState: "",
+            DefaultZoom: 12
 		},
 		init: function() {
 			var parms = localStorage.getItem("userParams");

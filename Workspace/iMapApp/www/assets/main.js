@@ -1,7 +1,7 @@
 var iMapApp = iMapApp || {};
         
 iMapApp.App = {
-    observ: [],
+    observ: {},
     compiledCardTemplate: null,
     SpeciesURL: 'http://hermes.freac.fsu.edu/requests/state_species/species?state=',
 	ProjectsURL: 'http://hermes.freac.fsu.edu/requests/state_species/project?state=',
@@ -25,40 +25,39 @@ iMapApp.App = {
     // ** Observations helpers
     //
     addObservation: function(obs) {
-        iMapApp.App.observ.push(obs);
+        iMapApp.App.observ[obs.getObjectID()] = obs;
         iMapApp.App.saveObservations();
         iMapApp.App.renderCards();
     },
     
     delObservation: function(idx) {
         console.log("Going to delete: " + idx);
-        var rid = -1;
-        iMapApp.App.observ.forEach( function(el, ind, array ) {
-            if (el.getObjectid() == idx) { rid = ind; }
-        });
-        if (rid != -1) { 
-            console.log("Deleting: " + rid);
-            iMapApp.App.observ.splice(rid, 1);
-            iMapApp.App.saveObservations();
-            iMapApp.App.renderCards();
+        if (iMapApp.App.observ[idx].getPhotos() != "") {
+            console.log("Deleteing image: " + iMapApp.App.observ[idx].getPhotos());
+            iMapApp.App.removeImage(iMapApp.App.observ[idx].getPhotos());
         }
+        delete iMapApp.App.observ[idx];
+        iMapApp.App.saveObservations();
+        iMapApp.App.renderCards();
     },
     
     //** Observation persist
     saveObservations: function() {
         var dStr = '[';
-        iMapApp.App.observ.forEach( function(el, idx, array ) {
+        for (var key in iMapApp.App.observ) {
+            var el = iMapApp.App.observ[key];
             dStr += JSON.stringify(el.getObsData()) + ',';
-        });
+        };
         dStr += ']';
         // Put the object into storage
         localStorage.setItem('iMapObservations', dStr);
+        //localStorage.setItem('iMapObservations', JSON.stringify(iMapApp.App.observ));
     },
     
     loadObservations: function() {
         // Retrieve the object from storage
         var retrievedObject = localStorage.getItem('iMapObservations');
-        iMapApp.App.observ = [];
+        iMapApp.App.observ = {};
         var dObs = eval(retrievedObject);
         if (dObs != null) {
             dObs.forEach( function(el, idx, array ) {
@@ -67,6 +66,18 @@ iMapApp.App = {
                 iMapApp.App.addObservation(ob);
             });
         }
+    },
+    
+    uploadObservations: function(obsIDs) {
+        iMapApp.uiUtils.closeDialog();
+        iMapApp.uiUtils.waitDialogOpen('Uploading Observations', obsIDs.length);
+        
+        obsIDs.each(function(ind, el ) {
+            var spec = iMapApp.App.observ[el.id].getSpecies();
+            iMapApp.uiUtils.updateStatusBar("Uploading: " + spec);
+            iMapApp.uploadUtils.doUpload(iMapApp.App.observ[el.id]);
+            iMapApp.uiUtils.updateStatusBar("Done: " + spec);
+        });
     },
     
     numObservations: function() { return iMapApp.App.observ.length; },
@@ -81,8 +92,9 @@ iMapApp.App = {
    
     getCardsData: function() {
         var cards_data = [];
-        iMapApp.App.observ.forEach( function(el, idx, array ) {
-            var dt = new Date(el.getWhen());
+        for (var key in iMapApp.App.observ) {
+            var el = iMapApp.App.observ[key];
+            var ph = new Date(el.getWhen());
             cards_data.push({   
                 image: el.getPhotos(),
                 project: el.getProject(), 
@@ -91,22 +103,22 @@ iMapApp.App = {
                 where: '' + el.getWhere(),
                 state: el.getState(),
                 county: el.getCounty(),
-                objidx: '' + el.getObjectid()
+                objidx: '' + el.getObjectID()
             });
-        });
+        };
         
         return cards_data;
     },
     
-    deleteCards: function() {
-        iMapApp.uiUtils.closeDialog();
-        var delCards = $( "input:checked" );
+    deleteCards: function(delCards) {
         delCards.each(function( index, el ) {
             iMapApp.App.delObservation(el.id);
         });
+        iMapApp.App.renderCards();
     },
     
     updateStateData: function(stat) {
+        iMapApp.uiUtils.waitDialogOpen('Updating Projects and Species', 2);
         console.log("Getting projects: " + iMapApp.App.ProjectsURL + stat);
         $.getJSON( iMapApp.App.ProjectsURL + stat, function( pdata ) {
             iMapApp.App.projectList = {};
@@ -117,7 +129,8 @@ iMapApp.App = {
             iMapApp.uiUtils.loadProjectList();
         }).success(function() { console.log("Load project list second success"); })
         .error(function(err) { alert("Update project list error: " + JSON.stringify(err)); })
-        .complete(function() { console.log("Load project list complete"); });
+        .complete(function() { console.log("Load project list complete");
+                            iMapApp.uiUtils.waitDialogClose();});
         
         console.log("Getting species: " + iMapApp.App.SpeciesURL + stat);
         $.getJSON( iMapApp.App.SpeciesURL + stat, function( pdata ) {
@@ -126,12 +139,18 @@ iMapApp.App = {
                 iMapApp.App.speciesList[el.statespeciesid ] = [el.statecommonname, el.state_scientific_name];
             });
             localStorage.setItem("speciesList", JSON.stringify(iMapApp.App.speciesList));
-            iMapApp.uiUtils.loadSpeciesList();
         }).success(function() { console.log("Load species list second success"); })
         .error(function(err) { alert("Update species list error: " + JSON.stringify(err)); })
-        .complete(function() { console.log("Load species list complete"); });
+        .complete(function() { console.log("Load species list complete"); 
+                             iMapApp.uiUtils.waitDialogClose();});
+        
+        // Clear out the preferences my species list
+        iMapApp.iMapPrefs.params.Plants.MyPlants.length = 0;
     },
     
+    //
+    // ** Utilities
+    //
     sortProjsByName: function(a, b) {
       var aName = a.projectname.toLowerCase();
       var bName = b.projectname.toLowerCase(); 
@@ -157,6 +176,53 @@ iMapApp.App = {
         if (iMapApp.iMapPrefs.params.Plants.UseScientific)
             lStr += iMapApp.App.speciesList[id][1];
         return lStr;
+    },
+    
+    guid: function() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+              .toString(16)
+              .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+    },
+    
+    // get a new file entry for the moved image when the user hits the delete button
+    // pass the file entry to removeFile()
+    removeImage : function(imageURI){
+      window.resolveLocalFileSystemURL(imageURI, iMapApp.App.removeFile, iMapApp.App.errorHandler);
+    },
+
+    // delete the file
+    removeFile : function(fileEntry){
+      fileEntry.remove();
+    },
+
+    // simple error handler
+    errorHandler : function(e) {
+        var msg = '';
+        switch (e.code) {
+        case FileError.QUOTA_EXCEEDED_ERR:
+               msg = 'QUOTA_EXCEEDED_ERR';
+               break;
+        case FileError.NOT_FOUND_ERR:
+               msg = 'NOT_FOUND_ERR';
+               break;
+        case FileError.SECURITY_ERR:
+               msg = 'SECURITY_ERR';
+               break;
+        case FileError.INVALID_MODIFICATION_ERR:
+               msg = 'INVALID_MODIFICATION_ERR';
+               break;
+        case FileError.INVALID_STATE_ERR:
+               msg = 'INVALID_STATE_ERR';
+               break;
+        default:
+               msg = e.code;
+        break;
+        };
+        console.log('Error: ' + msg);
     }
 }
         
@@ -192,13 +258,20 @@ function debugTest() {
     
 }
 
-
+if (navigator.platform == 'MacIntel') {
+    console.log("Setting Chrome Debug vars");
+    var Connection = {};
+    Connection.WIFI = 1;
+    navigator.connection = {};
+    navigator.connection.type = Connection.WIFI;
+}
+    
 
 //page load initialization
 $( window ).load(function(){
-    console.log("Onload");
-    //document.addEventListener('deviceready', iMapApp.App.init, false);
-    iMapApp.App.init();
+    console.log("Onload " + navigator.platform);
+    document.addEventListener('deviceready', iMapApp.App.init, false);
+    //iMapApp.App.init();
 });
 
         

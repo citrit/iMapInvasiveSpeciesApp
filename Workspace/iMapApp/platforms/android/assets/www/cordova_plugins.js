@@ -1,6 +1,13 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/io.litehelpers.cordova.sqlite/www/SQLitePlugin.js",
+        "id": "io.litehelpers.cordova.sqlite.SQLitePlugin",
+        "clobbers": [
+            "SQLitePlugin"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.battery-status/www/battery.js",
         "id": "org.apache.cordova.battery-status.battery",
         "clobbers": [
@@ -343,25 +350,12 @@ module.exports = [
             "navigator.notification",
             "navigator"
         ]
-    },
-    {
-        "file": "plugins/io.litehelpers.cordova.sqlite/www/SQLitePlugin.js",
-        "id": "io.litehelpers.cordova.sqlite.SQLitePlugin",
-        "clobbers": [
-            "SQLitePlugin"
-        ]
-    },
-    {
-        "file": "plugins/hu.dpal.phonegap.plugins.SpinnerDialog/www/spinner.js",
-        "id": "hu.dpal.phonegap.plugins.SpinnerDialog.SpinnerDialog",
-        "merges": [
-            "window.plugins.spinnerDialog"
-        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "io.litehelpers.cordova.sqlite": "0.7.7",
     "org.apache.cordova.battery-status": "0.2.12",
     "org.apache.cordova.camera": "0.3.6",
     "org.apache.cordova.console": "0.2.13",
@@ -376,9 +370,7 @@ module.exports.metadata =
     "org.apache.cordova.media-capture": "0.3.6",
     "org.apache.cordova.network-information": "0.2.15",
     "org.apache.cordova.splashscreen": "1.0.0",
-    "org.apache.cordova.vibration": "0.3.13",
-    "io.litehelpers.cordova.sqlite": "0.7.7",
-    "hu.dpal.phonegap.plugins.SpinnerDialog": "1.3.1"
+    "org.apache.cordova.vibration": "0.3.13"
 }
 // BOTTOM OF METADATA
 });

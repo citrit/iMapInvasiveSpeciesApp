@@ -58,8 +58,6 @@
 		AAF0F53E0AC146C1BC1EDB40 /* CDVBattery.m in Sources */ = {isa = PBXBuildFile; fileRef = 9119D87EB0BE49158D0F31CE /* CDVBattery.m */; };
 		B5A9A676AEEF485AB12D6A96 /* CDVCompass.m in Sources */ = {isa = PBXBuildFile; fileRef = 616F3F3001484939AF6AF489 /* CDVCompass.m */; };
 		B858B2A83A6344F89B0D58F4 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90116F915044E6A83083D9 /* CoreMotion.framework */; };
-		BB3A4292FB7045329C140AA9 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 904CC66F27034839941C3703 /* CDVSplashScreen.m */; };
-		C262F9751B23DA5D00500979 /* CDVSpinnerDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6CAE4D0ED04CD4958048F0 /* CDVSpinnerDialog.m */; };
 		C33C2D60B0A04453BF1FE929 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 352549A0B4674C26A6C6F49B /* CDVAssetLibraryFilesystem.m */; };
 		CB8572B71B2347AEAC007450 /* CDVCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AEF21790BC47CCB0A8B8E2 /* CDVCamera.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
@@ -531,7 +529,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C262F9751B23DA5D00500979 /* CDVSpinnerDialog.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
@@ -553,7 +550,6 @@
 				F39B41D5DE594539ABD93571 /* CDVCapture.m in Sources */,
 				835073D9AC5946B6B9A9DB90 /* CDVConnection.m in Sources */,
 				41DB0C69DDC04A52BAE06476 /* CDVReachability.m in Sources */,
-				BB3A4292FB7045329C140AA9 /* CDVSplashScreen.m in Sources */,
 				5422C43F48084D3EB5797041 /* CDVVibration.m in Sources */,
 				6A5A202C5BF74030B7F44160 /* SQLitePlugin.m in Sources */,
 				2135B1B5876B48E5A5277D88 /* sqlite3.c in Sources */,

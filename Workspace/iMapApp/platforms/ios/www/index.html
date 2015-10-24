@@ -1,173 +1,236 @@
 <html>
     <head>
+        <title>iMapInvasives App</title>
+        
         <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
         <link rel="stylesheet" href="assets/css/styles.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/pgwmodal.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/menubar.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/nav.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/jquery.mobile-1.4.5.min.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/ol.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/select2.css" type="text/css" />
         <script src="assets/js/jquery-2.1.4.js"></script>
-        <script src="assets/js/jquery.mobile.custom.js"></script>
+        <script src="assets/js/jquery.mobile-1.4.5.min.js"></script>
+        <script src="assets/js/jquerySelect.js"></script>
         <script src="assets/js/mustache.js"></script>
         <script src="assets/js/pgwmodal.js"></script>
         <script src="assets/js/navbar.min.js"></script>
-        <script src="assets/js/OpenLayers.mobile.js"></script>
-        <!--<script type="text/javascript" src="cordova.js"></script>-->
+        <script src="assets/js/ol.js"></script>
+        <script src="assets/js/select2.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
         <script src="assets/main.js"></script>
         <script src="assets/observation.js"></script>
         <script src="assets/prefs.js"></script>
         <script src="assets/uiUtils.js"></script>
         <script src="assets/upLoad.js"></script>
         <script src="assets/mapStuff.js"></script>
+        <script src="assets/mapDrag.js"></script>
+        <script src="assets/photo.js"></script>
     </head>
-    <body class='bgimg'>
-        
-        <div class="content" id="content" name="content">
+    <body>
+        <!-- Start of main page -->
+        <div data-role="page" id="mainPage" class='bgimg'>
+
+            <div data-role="header" data-position="fixed">
+                <ul class="navbar">
+                    <li><a id="uploadMenu">Upload Selected</a></li>
+                    <li><a id="deleteMenu">Delete Selected</a></li>
+                    <li></li>
+                    <li><a id="prefsMenu">Preferences</a></li>
+                </ul>
+                <button id="addObs" style="float:right;right:.4em;left:auto;">+ Add Observation </button>
+            </div><!-- /header -->
+
+            <div role="main" class="ui-content" id="mainContent" style="margin-top:65px">
+                 <div class="content" id="content" name="content"></div>
+            </div><!-- /content -->
+
+            <div data-role="footer" data-position="fixed">
+                <span id="statusBarMsg" style="float:left">Status:</span>
+            </div><!-- /footer -->
+        </div><!-- /page -->
+
+        <!-- preferences page -->
+        <div data-role="page" id="prefPage">
             
-        </div>
-        
-        <div class="header">    
-            <ul class="navbar">
-                <li><a id="uploadMenu">Upload Selected</a></li>
-                <li><a id="deleteMenu">Delete Selected</a></li>
-                <li><a href="#">-</a></li>
-                <li><a id="prefsMenu">Preferences</a></li>
-            </ul>
-        </div>
-        <div class="footer">
-            <a id="addObs">+ Add Observation </a>
-        </div>
-        
-        <div id="uploadDialog" style="display: none;">
-            <strong style="color: #ff0000;">We would do the upload here</strong>
-            <br><br><input type="button" value="Cancel"></input>
-        </div>  
-    
-        <div id="prefContent" style="display: none;">
-            <strong style="color: #ff0000;">Preferences Here</strong><br>
-            Name: Tom<br>
-            Last: Citriniti<br>
-            <br><br><input type="button" value="Cancel"></input>
-        </div>  
-        <div id="addContent" style="display: none;">
-            <strong style="color: #ff0000;">We would make a card editable here</strong>
-            <br><br><input type="button" value="Cancel"></input>
-        </div> 
-        <div id="waitDialog" style="display: none;">
-            <strong style="color: #ff0000;">Please wait...</strong>
-            <br><br><img src="assets/js/images/ajax-loader.gif">Spinning</img>
-            <input type="button" value="Cancel"></input>
-        </div> 
-        <div id="editObsDialog" style="display: none;">
-            <form>
-                <div id="takePic">
-                    <!-- <input onClick='previewPhoto()' type='file' id='imageName'
-                     name='image' accept='image/*'> -->
-                    <!-- <button onClick='getPhoto(Camera.PictureSourceType.PHOTOLIBRARY)'>Get Local Picture</button> -->
-                    <p>
-                    <a onClick='getPhoto(Camera.PictureSourceType.CAMERA)'><img
-                        src="" name='smallImage'/></a> <img style='display: none; width: 100%'
-                    name='largeImage' src='' />
+            <div role="main" class="ui-content">
+                <strong><p>Preferences</p></strong>
+                <div data-role="fieldcontain">
+                    <p name="prefError" style="color: #ff0000;"></p>
+                    <div data-role='fieldcontain' name='stateDiv'>
+                            <label for='stateSelect'>Choose State:</label> 
+                            <select id='stateSelect' name='stateSelect' onchange="iMapApp.uiUtils.stateChangeHandler(this)">
+                                <option value=""></option>
+                                <option value="az">Arizona</option>
+                                <option value="fl">Florida</option>
+                                <option value="me">Maine</option>
+                                <option value="nh">New Hampshire</option>
+                                <option value="ny">New York</option>
+                                <option value="or">Oregon</option>
+                                <option value="pa">Pennsylvania</option>
+                                <option value="sk">Saskatchewan</option>
+                                <option value="va">Virginia</option>
+                                <option value="vt">Vermont</option>
+                                <option value="wv">West Virginia</option>
+                            </select>
+                    </div>
+                    <label for="fname" >First:</label> 
+                    <input type="text" name="fname" id="fname" value="" > <br>
+                    <label for="lname" >Last:</label> 
+                    <input type="text" name="lname" id="lname" value="" ><br> 
+                    <label for="uname" >User:</label> 
+                    <input type="text" name="uname" id="uname" value="" > <br>
+                    <label for="pword" >Password:</label> 
+                    <input type="password" name="pword" id="pword" value="" >
                 </div>
-                <span>Project: <select name="obsProjects" style="width:280"></select></span><br><br>
-                <span>Species: <select name="obsSpecies" style="width:280"></select></span><br><br>
-                <span>Date: <input type="date" name="obsDate" ></input></span><br><br>
+
+                <fieldset data-role="controlgroup" data-type='horizontal'>
+                    <legend  >Species Label:</legend>
+                    <input type="checkbox" name="checkbox-scientific" id="checkbox-scientific"  /> 
+                    <label for="checkbox-scientific">Scientific</label> 
+                    <input type="checkbox" name="checkbox-common" id="checkbox-common"  /> 
+                    <label for="checkbox-common">Common</label>
+                </fieldset>
+                <button onClick="iMapApp.uiUtils.chooseMySpecies()">Choose My Species</button>
+                <!--<fieldset data-role='controlgroup' data-type='horizontal' id='pictureSize'>
+                    <legend >Pic Size:</legend>
+                    <input id='small' name='radio-choice-size' value='small'
+                           data-theme='c' type='radio'> <label for='small' >Small</label>
+                    <input id='medium' name='radio-choice-size' value='medium'
+                           data-theme='c' type='radio'> <label for='medium'>Medium</label>
+                    <input id='large' name='radio-choice-size' value='large'
+                           data-theme='c' type='radio'> <label for='large'>Large</label>
+                </fieldset>-->
+                <fieldset data-role='controlgroup' data-type='horizontal' id='mapType'>
+                    <legend >MapType:</legend>
+                    <input id='road' name='map-type' value='Road' data-theme='c'
+                           type='radio'> <label for='road'class="sp-label">Road</label> 
+                    <input id='aerial' name='map-type' value='AerialWithLabels' data-theme='c'
+                           type='radio'> <label for='aerial'class="sp-label">Satellite</label>
+                </fieldset>
+                
+                <!--<label for='zoomRange' class="sp-label">Default Zoom</label>-->
+                <input type="range" name="zoomToRange" value="12" min="0" max="18">
+                
+                <!--<input data-type="search" id="searchForlistPrefProj"/> 
+                    data-filter="true" data-input="#searchForlistPrefProj" -->
+                <div class="ui-field-contain">
+                    <select id="listPrefProj" name="listPrefProj" ></select>
+                </div>
+            <div data-role="controlgroup" data-type="horizontal">
+                <input type="button" value="Ok" onclick="iMapApp.uiUtils.savePrefs()"></input>
+                <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()"></input>
+                <button name="updateStateData" style="float:right">Update State data</button>
+            </div>
+            </div><!-- /content -->
+
+        </div><!-- /page -->
+        
+        <div data-role="page" id="editObsPage">
+            <div role="main" class="ui-content">
+                <div data-role="fieldcontain">
+
+                <div id="takePic">
+                    <a onClick='iMapApp.Photo.getPhoto()'>
+                        <img src="assets/images/TakePhoto.png" name='largeImage' style="max-width:280;"/>
+                    </a> 
+                </div>
+                <label for="obsProjects">Project: </label>
+                <select name="obsProjects" ></select>
+                <label for="obsSpecies">Species: </label>
+                <select name="obsSpecies" ></select>
+                <label for="obsDate">Date: </label>
+                <input type="date" name="obsDate" ></input>
                 <!-- <span>County: <input type="text" name="obsCounty" ></input></span><br><br>
                 <span>State: <input type="text" name="obsState" ></input></span><br><br> -->
-                <span>Location: <input type="text" id="obsLoc" name="obsLoc" ></input></span><br><br>
-                <div id="iMapMapdiv" name="iMapMapdiv" style="width:280;height:300"></div>
-                <input type="button" value="Ok" onclick="iMapApp.uiUtils.editObsOk()">
-                <input type="button" value="Cancel" onclick="iMapApp.uiUtils.closeDialog()">
-            </form>
-        </div> 
+                <label for="obsLoc">Location: </label>
+                <input type="text" id="obsLoc" name="obsLoc" ></input>
+                <label for="toggleGPS">GPS:<font size="2">Turn off to manually move location</font></label>
+                </div>
+                <input checked=true type="checkbox" id="toggleGPS" name="toggleGPS" 
+                       onchange="iMapApp.uiUtils.toggleGPS()"></input>
+                <select name="flipMap" id="flipMap" data-role="slider" data-mini="true"
+                        onchange="iMapApp.uiUtils.toggleMapType()">
+                    <option value="Road">Road</option>
+                    <option value="AerialWithLabels">Satellite</option>
+                </select> 
+                <p  name="gpsAccuracy" style="float:right;font-size:10px">Accuracy: 0000 m</p>
+                <div id="iMapMapdiv" name="iMapMapdiv" ></div>
+                <div data-role="controlgroup" data-type="horizontal">
+                    <input type="button" value="Ok" onclick="iMapApp.uiUtils.editObsOk()">
+                    <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()">
+                </div>  
+
+            </div>
+        </div>
+
+        <div id="uploadDialog" style="display: none;">
+            <strong style="color: #ff0000;"><p  name="uplDialText"></p></strong>
+            <br><br>
+            <input type="button" value="Ok" onclick="iMapApp.uiUtils.uploadObservations()"></input>
+            <input type="button" value="Cancel" onclick="iMapApp.uiUtils.closeDialog()"></input>
+        </div>  
+
         <div id="infoDialog" style="display: none;">
             <strong style="color: #ff0000;"><p  name="infoDialText"></p></strong>
             <br><br><input type="button" value="Ok" onclick="iMapApp.uiUtils.closeDialog()"></input>
         </div>
+
         <div id="deleteDialog" style="display: none;">
             <strong style="color: #ff0000;"><p  name="delDialText"></p></strong>
-            <br><br><input type="button" value="Ok" onclick="iMapApp.App.deleteCards()"></input>
+            <br><br>
+            <input type="button" value="Ok" onclick="iMapApp.uiUtils.deleteObs()"></input>
             <input type="button" value="cancel" onclick="iMapApp.uiUtils.closeDialog()"></input>
         </div>
-        <div id="prefsDialog" style="display: none;">
-            <strong><p>Preferences</p></strong>
-            <div data-role="fieldcontain">
-                    <p name="prefError" style="color: #ff0000;"></p>
-					<div data-role='fieldcontain' name='stateDiv'>
-						<label for='stateSelect' class='input-text'>Choose State:</label> <select
-							id='stateSelect' name='stateSelect' data-overlay-theme='d'
-							data-theme='b' data-native-menu='false' data-native-menu='false'
-							data-filter='true' onchange="iMapApp.uiUtils.stateChangeHandler(this)">
-							<option value=""></option>
-							<option value="az">Arizona</option>
-							<option value="fl">Florida</option>
-							<option value="me">Maine</option>
-							<option value="nh">New Hampshire</option>
-							<option value="ny">New York</option>
-							<option value="or">Oregon</option>
-							<option value="pa">Pennsylvania</option>
-							<option value="sk">Saskatchewan</option>
-							<option value="va">Virginia</option>
-							<option value="vt">Vermont</option>
-							<option value="wv">West Virginia</option>
-						</select>
-					</div>
-				
-					<label for="fname" class="input-text">First Name:</label> <input type="text"
-						name="fname" id="fname" value="" /> <br><label for="lname" class="input-text">Last
-						Name:</label> <input type="text" name="lname" id="lname" value="" /><br> <label
-						for="uname" class="input-text">User Name:</label> <input type="text" name="uname"
-						id="uname" value="" /> <br><label for="pword" class="input-text">Password:</label> <input
-						type="password" name="pword" id="pword" value="" />
-					<fieldset data-role="controlgroup">
-						<legend  class="input-text">What should we display:</legend>
-						<input type="checkbox" name="checkbox-scientific"
-							id="checkbox-scientific" class="custom" /> <label
-							for="checkbox-scientific">Scientific</label> <input
-							type="checkbox" name="checkbox-common" id="checkbox-common"
-							class="custom" /> <label for="checkbox-common">Common</label>
-					</fieldset>
-					<button onClick="chooseMySpecies()">Choose Specific	Species</button>
-					<fieldset data-role='controlgroup' data-type='vertical'
-						id='pictureSize'>
-						<legend class="input-text">Picture Size:</legend>
-						<input id='small' name='radio-choice-size' value='small'
-							data-theme='c' type='radio'> <label for='small' >Small</label>
-						<input id='medium' name='radio-choice-size' value='medium'
-							data-theme='c' type='radio'> <label for='medium'>Medium</label>
-						<input id='large' name='radio-choice-size' value='large'
-							data-theme='c' type='radio'> <label for='large'>Large</label>
-					</fieldset>
-					<fieldset data-role='controlgroup' data-type='vertical'
-						id='mapType'>
-						<legend class="input-text">Map Type:</legend>
-						<input id='road' name='map-type' value='road' data-theme='c'
-							type='radio'> <label for='road'class="sp-label">Road</label> 
-                        <input id='aerial' name='map-type' value='aerial' data-theme='c'
-							type='radio'> <label for='aerial'class="sp-label">Satellite</label>
-					</fieldset>
 
-					<select id="listPrefProj" name="listPrefProj" style="width:280"></select>
-				</div>
-            <input type="button" value="Ok" onclick="iMapApp.uiUtils.savePrefs()"></input>
+        <div id="okCancelDialog" style="display: none;">
+            <strong style="color: #ff0000;"><p  name="okCancelText"></p></strong>
+            <br><br>
+            <input type="button" value="Ok" ></input>
+            <input type="button" value="cancel" onclick="iMapApp.uiUtils.closeDialog()"></input>
+        </div>
+
+        <div id="waitPopup" class="modal-box">
+            <br><br><br>
+            <img id="img-spinner" src="assets/images/Loading.gif" alt="Loading"/>
+            <br>
+            <p name="waitDialogText">Please wait...</p>
+        </div>
+
+        <div id="selectSpeciesDialog" class="modal-box">
+            <div class="speciesListContainer" id="speciesSelList" name="speciesSelList" style="white-space:nowrap;width:100%;height:75%;">
+                <!--<input type="checkbox" /> This is checkbox <br />
+                <input type="checkbox" /> This is checkbox <br />-->
+            </div>
+            <input type="button" value="Ok" onclick="iMapApp.uiUtils.saveMySpecSpecies()"></input>
             <input type="button" value="Cancel" onclick="iMapApp.uiUtils.closeDialog()"></input>
         </div>
+
+
     </body>
     
     <!--- This is a Mustache.js template.  This is used with JSON data to generate the HTML strings that will comprise the user interface --->
     <script id="card-template" type="text/template">
         <div class="card">
+         <table><tr>
+           <td width="50px">
             {{#image}}
                 <img src="{{ image }}" class="card-image"/>
             {{/image}}
+           </td>
+           <td>
             {{#project}} <span>Project: {{project}}</span><br> {{/project}}
-            {{#species}} <span>Species: {{species}}</span><br> {{/species}}
+            {{#species}} <span name="specVal">Species: {{species}}</span><br> {{/species}}
             {{#date}} <span>Date: {{date}}</span><br> {{/date}}
             {{#where}} <span>Location: {{where}}</span><br> {{/where}}
-            {{#objidx}} <input id={{objidx}} style="float:right" type="checkbox"/><img id={{objidx}} style="float:right" src="assets/js/images/icons-svg/edit-black.svg" onclick="iMapApp.uiUtils.editObs(this)"/><br> {{/objidx}}
+           </td>
+         </tr></table>
+          {{#objidx}} 
+            <img id={{objidx}} src="assets/js/images/icons-svg/edit-black.svg" width=15 height=15 onclick="iMapApp.uiUtils.editObs(this)"/>
+            <input id={{objidx}} style="float:right" name="cardSelect" type="checkbox"/>
+          {{/objidx}}
         </div>
     </script>
-            //{{#county}} <span>County: {{county}}</span><br> {{/county}}
-            //{{#state}} <span>State: {{state}}</span><br> {{/state}}
-
 </html>
         
