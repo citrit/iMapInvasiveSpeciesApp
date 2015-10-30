@@ -22,6 +22,14 @@ iMapApp.uiUtils = {
         iMapApp.uiUtils.loadProjectList();
         iMapApp.uiUtils.loadSpeciesList();
         // Bind actions to HTML elements
+        $( "#selectAll" ).click(function() {
+            iMapApp.uiUtils.params.navbar.disableDropDown();
+            iMapApp.uiUtils.selectCards(true);
+        });
+        $( "#selectNone" ).click(function() {
+            iMapApp.uiUtils.params.navbar.disableDropDown();
+            iMapApp.uiUtils.selectCards(false);
+        });
         $( "#uploadMenu" ).click(function() {
             iMapApp.uiUtils.params.navbar.disableDropDown();
             switch (navigator.connection.type) {
@@ -55,6 +63,11 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.params.navbar.disableDropDown();
             iMapApp.uiUtils.editPrefs();
         });
+        $( "#quitMenu" ).click(function() {
+            iMapApp.uiUtils.params.navbar.disableDropDown();
+            iMapApp.uiUtils.openOkCancelDialog('iMapInvasives', 'Exit iMapInvasives?',
+                                               navigator.app.exitApp);
+        });
         $( "#addObs" ).click(function() {
             iMapApp.uiUtils.params.navbar.disableDropDown();
             iMapApp.uiUtils.addObs();
@@ -69,18 +82,8 @@ iMapApp.uiUtils = {
         // Handle back button.
         document.addEventListener("backbutton", function(e){
             if($.mobile.activePage.is('#mainPage')){
-               navigator.notification.confirm(
-                    'Exit app?', // message
-                     function (buttonIndex) {
-                         console.log("button: " + buttonIndex);
-                        if (buttonIndex == 1) {
-                            e.preventDefault();
-                            navigator.app.exitApp();
-                        }
-                    },            // callback to invoke with index of button pressed
-                    'Exit?',           // title
-                    ['Exit','Cancel']         // buttonLabels
-                );
+               iMapApp.uiUtils.openOkCancelDialog('iMapInvasives', 'Exit iMapInvasives?',
+                                               navigator.app.exitApp);
             }
             else {
                 navigator.app.backHistory();
@@ -89,18 +92,26 @@ iMapApp.uiUtils = {
         }, false);
         iMapApp.iMapMap.init('#iMapMapdiv');
         $( window ).on( "pagechange", function( event, data ) {
-            console.log("On pageload: ");
             iMapApp.uiUtils.setMapStuff();
             iMapApp.App.renderCards();
             try {
-                getDElem('input[name=zoomToRange]').val(iMapApp.iMapPrefs.params.DefaultZoom).slider('refresh');
-            } catch (ex) {}
+                //getDElem('#zoomToRange').trigger('create');
+                //getDElem('#zoomToRange').trigger('create').slider("option", "value", iMapApp.iMapPrefs.params['DefaultZoom']);
+
+                //getDElem('select[name=flipMap]').trigger('create');
+            } catch (ex) {console.log("Pageload exception: " + ex);}
         });
     },
     
     //
     // ** Card UI callbacks.
     //
+    selectCards: function(chkd) {
+        $.each($( "#content input:checkbox" ), function( index, val ) {
+            $(val).prop('checked', chkd);
+        });
+    },
+    
     checkForWifiBeforeUpload: function() {
         var n = iMapApp.uiUtils.getActiveCards().find("input:checkbox:checked").length;
         if (n == 0) {
@@ -115,7 +126,7 @@ iMapApp.uiUtils = {
     
     openOkCancelDialog: function(title, msg, callback) {
         iMapApp.uiUtils.openDialog('#okCancelDialog', title);
-        $('#pgwModal').find('[value="Ok"]').click(callback);
+        $('#pgwModal').find('[value="OK"]').click(callback);
         $('#pgwModal p[name="okCancelText"]').text(msg);
     },
     
@@ -133,12 +144,12 @@ iMapApp.uiUtils = {
         var dt = now.getFullYear()+"-"+(month)+"-"+(day) ;
         getDElem('[name="obsDate"]').val(dt);
         iMapApp.iMapMap.startGPSTimer();
-        getDElem('input[name="toggleGPS"]').prop('checked', true).checkboxradio('refresh');
-        getDElem('[name="largeImage"]').attr("src", "assets/images/TakePhoto.png");
+        getDElem('[name="largeImage"]').prop("src", "assets/images/TakePhoto.png");
         getDElem('[name="obsLoc"]').val([0.0, 0.0]);
         iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params['DefaultZoom']);
-        getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType).slider('refresh');
-
+        getDElem('input[name="toggleGPS"]').prop('checked', true);
+        getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType);
+        iMapApp.iMapMap.setPosition([-73.4689, 42.7187]);
         // Make the select searchable
         /*getDElem('select[name="obsProjects"]').select2({
                     placeholder: "Select a Project",
@@ -183,8 +194,8 @@ iMapApp.uiUtils = {
         var pos = JSON.parse('[' + obs.getWhere() + ']');
         iMapApp.iMapMap.setPosition(pos);
         iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params['DefaultZoom']);
-        getDElem('input[name="toggleGPS"]').prop('checked', false).checkboxradio('refresh');
-        getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType).slider('refresh');
+        getDElem('input[name="toggleGPS"]').prop('checked', false);
+        getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType);
 
         // Make the select searchable
         /*getDElem('select[name="obsProjects"]').select2({
@@ -267,11 +278,11 @@ iMapApp.uiUtils = {
     },
     
     setObsPosition: function(pos) {
-        $('input[name="obsLoc"]').val(pos);
+        $('input[name="obsLoc"]').val(pos[0].toFixed(7) + ', ' + pos[1].toFixed(7));
     },
     
     setObsAccuracy: function(acc) {
-        $('p[name="gpsAccuracy"]').text("Accuracy: " + ("0000" + acc).slice(-4) + ' m');
+        $('span[name="gpsAccuracy"]').text("Accuracy: " + ("0000" + acc).slice(-4) + ' m');
     },
     
     uploadObservations: function() {
@@ -313,21 +324,25 @@ iMapApp.uiUtils = {
             columns_dom[targetColumn].append( $(html) );
         }
         $("#mainContent").prepend (iMapApp.uiUtils.content);
-        iMapApp.uiUtils.updateStatusBar("Active Records: " + iMapApp.uiUtils.getActiveCards().length);
+        var crds = iMapApp.uiUtils.getActiveCards();
+        iMapApp.uiUtils.updateStatusBar("Records to Upload: " + crds.length);
     },
     
     getActiveCards: function(uncheck) {
         var ret = $('div[class="card"]').filter(function( index ) {
-            rval = $(this).find('[name="specVal"]').text().length != 0;
-            if (uncheck !== undefined && rval == false)
-                $(this).find('[name="cardSelect"]').prop('checked', false);
+            rval = $(this).find('[name="specVal"]').text() != "Species: None Selected";
+            if (rval == false) {
+                //$(this).find('[name="cardSelect"]').prop('checked', false);
+                $(this).css({'background-color':'#CC3333'})
+            }
             return rval;
         });
         return ret;
     },
     
     stateChangeHandler: function(sel) {
-        iMapApp.App.updateStateData(sel.value);
+        iMapApp.App.updateStateData(sel.value, true);
+        getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate); 
     },
     
     loadProjectList: function() {
@@ -349,7 +364,7 @@ iMapApp.uiUtils = {
                  .text(val)); 
             });
             selMen.sortOptions();
-            selMen.val(-1);
+            selMen.val(iMapApp.iMapPrefs.params.Project);
             selMen.selectmenu();
             selMen.selectmenu('refresh', true);
         });
@@ -363,7 +378,7 @@ iMapApp.uiUtils = {
         selMen
              .append($("<option></option>")
              .attr("value",-1)
-             .text(""));
+             .text("None Selected"));
         if (iMapApp.iMapPrefs.params.Plants.MyPlants.length > 0) {
             $.each(iMapApp.iMapPrefs.params.Plants.MyPlants, function( key, val ) {
                 //console.log( "Inserting Species id: " + key  + "  Name: " + val );
@@ -397,6 +412,7 @@ iMapApp.uiUtils = {
     editPrefs: function() {
         //iMapApp.uiUtils.openDialog('#prefsDialog', 'Edit Preferences');
         $.mobile.navigate( "#prefPage");
+        //$( ":mobile-pagecontainer" ).pagecontainer( "change", "#prefPage" );
         //getDElem('input[name=zoomRange]').slider();
         getDElem('input[name="fname"]').val(iMapApp.iMapPrefs.params.Firstname);
         getDElem('input[name="lname"]').val(iMapApp.iMapPrefs.params.Lastname);
@@ -410,7 +426,11 @@ iMapApp.uiUtils = {
         iMapApp.uiUtils.loadProjectList();
         getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project).
         selectmenu().selectmenu('refresh', true);
-                
+        getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate); 
+        
+        //getDElem('input[name=zoomToRange]').val(iMapApp.iMapPrefs.params['DefaultZoom']).trigger('create').slider('refresh', true);
+        getDElem('#zoomToRange').attr('value', iMapApp.iMapPrefs.params['DefaultZoom']);
+        
         // Make the select searchable
         /*getDElem('select[name="listPrefProj"]').select2({
                     placeholder: "Select a State",
@@ -490,6 +510,7 @@ iMapApp.uiUtils = {
     
     gotoMainPage: function() {
         $.mobile.navigate( "#mainPage");
+        //$( ":mobile-pagecontainer" ).pagecontainer( "change", "#mainPage");
     },
     
     openDialog: function(d, t) {
@@ -515,6 +536,7 @@ iMapApp.uiUtils = {
         $(".modal-overlay").fadeTo(500, 0.7);
         //$(".js-modalbox").fadeIn(500);
         //var modalBox = $(this).attr('data-modal-id');
+        $('#waitPopup').center();
         $('#waitPopup').fadeIn();
         //iMapApp.uiUtils.openDialog('#waitDialog', msg);
         //$.mobile.loading( 'show', {
@@ -569,6 +591,16 @@ $.fn.sortOptions = function(){
         return $(this).empty().append(op);
     });
 }
+
+jQuery.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
+                                                $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+                                                $(window).scrollLeft()) + "px");
+    return this;
+}
+
 
 function getDElem(elem) {
     //return $('#pgwModal').find(elem);

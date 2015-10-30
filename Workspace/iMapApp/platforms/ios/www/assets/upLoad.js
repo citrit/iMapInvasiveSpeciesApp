@@ -3,6 +3,7 @@ var iMapApp = iMapApp || {};
 iMapApp.uploadUtils = {
 
 	debugOut : true,
+    obsvs: [],
 
 	// Application Constructor
 	initialize : function() {
@@ -33,13 +34,20 @@ iMapApp.uploadUtils = {
 		}
 	},
 
-	doUpload : function(obs) {
+	doUpload : function(obss) {
+        iMapApp.uploadUtils.obsvs = obss;
+        iMapApp.uploadUtils.syncUploads();
+    },
+    
+    syncUploads: function() {
 		//		iMapPrefs.init();
 		//		iMapPrefs.Username = 'tomcitriniti';
 		//		iMapPrefs.Password = '';
 		var ret = true;
-		var ok = true; //iMapPrefs.loginToMainSite();
+		var ok = iMapApp.uploadUtils.obsvs.length > 0; //iMapPrefs.loginToMainSite();
 		if (ok) {
+            obs = iMapApp.App.observ[iMapApp.uploadUtils.obsvs.get(0).id];
+            iMapApp.uploadUtils.obsvs.splice(0,1);
 			console.log('Going to upload: ' + JSON.stringify(obs.getObsData()));
 			var imgURL = null;
 			if (obs.getPhotos() !== "") {
@@ -120,6 +128,7 @@ iMapApp.uploadUtils = {
 				}
                 finally {
                     iMapApp.uiUtils.waitDialogClose();
+                    iMapApp.uploadUtils.syncUploads();
                 }
 			},
 			// dataType: dataType,

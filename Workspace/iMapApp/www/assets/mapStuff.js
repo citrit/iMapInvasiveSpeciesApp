@@ -11,7 +11,7 @@ iMapApp.iMapMap = {
     bingAPIKey: "AifZwUylySDsGAx5jp3QHunKxJ6Z0AkPa2-ZGFwb3-gtlIouPGBzI9H5DA-xUiPV",
 	init: function(mapDiv) {
         iMapApp.iMapMap.olView = new ol.View({
-          center: [0.0, 0.0],
+          center: [-73.4689, 42.7187],
           zoom: 12
         });
 
@@ -130,7 +130,7 @@ iMapApp.iMapMap = {
           'Timestamp: '         + position.timestamp                + '\n');*/
 	getCurrentLocation: function(position) {
 		//curobs.Where = [ position.coords.longitude, position.coords.latitude];
-		console.log("Position: " + JSON.stringify([ position.coords.longitude, position.coords.latitude]));
+		//console.log("Position: " + JSON.stringify(position.coords));
 		//alert('found location: ' + $.toJSON(curobs.Where));
 		iMapApp.iMapMap.setPosition([ position.coords.longitude, position.coords.latitude]);
 		iMapApp.uiUtils.setObsPosition([ position.coords.longitude, position.coords.latitude]);

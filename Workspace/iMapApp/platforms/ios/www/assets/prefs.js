@@ -17,7 +17,8 @@ iMapApp.iMapPrefs = {
 			PictureSize: "Medium",
 			MapType: "road",
             CurrentState: "",
-            DefaultZoom: 12
+            DefaultZoom: 12,
+            StateUpdate: ''
 		},
 		init: function() {
 			var parms = localStorage.getItem("userParams");
@@ -37,7 +38,7 @@ iMapApp.iMapPrefs = {
 		// load the prefs from localstorage
 		loadParams: function() {
 			iMapApp.iMapPrefs.params = JSON.parse(localStorage.getItem("userParams"));
-			console.log("iMapApp.iMapPrefs: loading user Params: " + JSON.stringify(iMapApp.iMapPrefs.params));
+            console.log("iMapApp.iMapPrefs: loading user Params: " + JSON.stringify(iMapApp.iMapPrefs.params));
 		},
 		// login to the site
 		loginToMainSite: function(okCallBack) {

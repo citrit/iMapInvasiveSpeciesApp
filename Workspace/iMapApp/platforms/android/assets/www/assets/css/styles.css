@@ -6,13 +6,28 @@ body {
     color:#333;
     min-height:100%;
 }
+.editIcon {
+    position: relative;
+    top: 0px;
+    right: 0px;
+}
+
+.editCheck {
+    position: relative;
+    top: 10px;
+    right: 3px;
+}
 
 .speciesListContainer { border:2px solid #ccc; width:300px; height: 100px; overflow-y: scroll; }
 
 .bgimg {
 	background-image: url("../images/iMapBG.gif");
     background-repeat:no-repeat;
-    background-size:cover;
+    background-size:100%;
+}
+
+html {
+    height: 100%
 }
 
 #iMapMapdiv {
@@ -34,7 +49,6 @@ body {
 }
 
 .content {  
-    overflow:scroll;
     -webkit-overflow-scrolling:touch;
 }
 
@@ -98,10 +112,11 @@ body {
 }
 
 .card {
-    background:wheat;
+    text-decoration-color: white;
+    background:#FFFF66;
     border:1px solid #AAA;
     border-bottom:3px solid #BBB;
-    padding:20px;
+    padding:10px;
     margin:0px;
     overflow:hidden;
 }

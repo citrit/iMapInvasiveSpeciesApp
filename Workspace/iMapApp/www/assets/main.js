@@ -71,13 +71,14 @@ iMapApp.App = {
     uploadObservations: function(obsIDs) {
         iMapApp.uiUtils.closeDialog();
         iMapApp.uiUtils.waitDialogOpen('Uploading Observations', obsIDs.length);
+        iMapApp.uploadUtils.doUpload(obsIDs);
         
-        obsIDs.each(function(ind, el ) {
+        /*obsIDs.each(function(ind, el ) {
             var spec = iMapApp.App.observ[el.id].getSpecies();
             iMapApp.uiUtils.updateStatusBar("Uploading: " + spec);
             iMapApp.uploadUtils.doUpload(iMapApp.App.observ[el.id]);
             iMapApp.uiUtils.updateStatusBar("Done: " + spec);
-        });
+        });*/
     },
     
     numObservations: function() { return iMapApp.App.observ.length; },
@@ -95,7 +96,7 @@ iMapApp.App = {
         for (var key in iMapApp.App.observ) {
             var el = iMapApp.App.observ[key];
             var ph = new Date(el.getWhen());
-            cards_data.push({   
+            cards_data.unshift({   
                 image: el.getPhotos(),
                 project: el.getProject(), 
                 species: el.getSpecies(),
@@ -117,7 +118,7 @@ iMapApp.App = {
         iMapApp.App.renderCards();
     },
     
-    updateStateData: function(stat) {
+    updateStateData: function(stat, clearList) {
         iMapApp.uiUtils.waitDialogOpen('Updating Projects and Species', 2);
         console.log("Getting projects: " + iMapApp.App.ProjectsURL + stat);
         $.getJSON( iMapApp.App.ProjectsURL + stat, function( pdata ) {
@@ -145,7 +146,15 @@ iMapApp.App = {
                              iMapApp.uiUtils.waitDialogClose();});
         
         // Clear out the preferences my species list
-        iMapApp.iMapPrefs.params.Plants.MyPlants.length = 0;
+        if (clearList) {
+            iMapApp.iMapPrefs.params.Plants.MyPlants.length = 0;
+        }
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var dt = now.getFullYear()+"-"+(month)+"-"+(day) ;
+        iMapApp.iMapPrefs.params['StateUpdate'] = dt;
+        iMapApp.iMapPrefs.saveParams();
     },
     
     //
@@ -168,13 +177,15 @@ iMapApp.App = {
     },
     
     getSpeciesName: function(id) {
-        var lStr = "";
-        if (iMapApp.iMapPrefs.params.Plants.UseCommon)
-            lStr = iMapApp.App.speciesList[id][0] ;
-        if (iMapApp.iMapPrefs.params.Plants.UseCommon && iMapApp.iMapPrefs.params.Plants.UseScientific)
-            lStr += ": ";
-        if (iMapApp.iMapPrefs.params.Plants.UseScientific)
-            lStr += iMapApp.App.speciesList[id][1];
+        var lStr = "None Selected";
+        if (id != -1) {
+            if (iMapApp.iMapPrefs.params.Plants.UseCommon)
+                lStr = iMapApp.App.speciesList[id][0] ;
+            if (iMapApp.iMapPrefs.params.Plants.UseCommon && iMapApp.iMapPrefs.params.Plants.UseScientific)
+                lStr += ": ";
+            if (iMapApp.iMapPrefs.params.Plants.UseScientific)
+                lStr += iMapApp.App.speciesList[id][1];
+            }
         return lStr;
     },
     
@@ -271,7 +282,8 @@ if (navigator.platform == 'MacIntel') {
 $( window ).load(function(){
     console.log("Onload " + navigator.platform);
     document.addEventListener('deviceready', iMapApp.App.init, false);
-    //iMapApp.App.init();
+    if (navigator.platform == 'MacIntel')
+        iMapApp.App.init();
 });
 
         

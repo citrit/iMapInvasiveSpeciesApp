@@ -119,7 +119,8 @@ iMapApp.Drag.prototype.handleMoveEvent = function(evt) {
  * @return {boolean} `false` to stop the drag sequence.
  */
 iMapApp.Drag.prototype.handleUpEvent = function(evt) {
-    iMapApp.uiUtils.setObsPosition(ol.proj.transform(this.coordinate_, iMapApp.iMapMap.view.getProjection(), 'EPSG:4326'));
+    iMapApp.uiUtils.setObsPosition(ol.proj.transform(this.coordinate_, 
+                                                     iMapApp.iMapMap.olView.getProjection(), 'EPSG:4326'));
     this.coordinate_ = null;
     this.feature_ = null;
     return false;
