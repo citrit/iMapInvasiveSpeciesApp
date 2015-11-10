@@ -64,12 +64,19 @@
     <string>2.0.26</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
+    </dict>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string></string>
-    <key>NSMainNibFile</key>
     <string></string>
     <key>NSMainNibFile~ipad</key>
     <string></string>
+    <key>UIInterfaceOrientation</key>
+    <array>
+      <string>all</string>
+    </array>
     <key>UILaunchImages</key>
     <array>
       <dict>
@@ -173,21 +180,14 @@
         <string>{768, 1024}</string>
       </dict>
     </array>
+    <key>UIRequiresFullScreen</key>
+    <true/>
     <key>UISupportedInterfaceOrientations~ipad</key>
     <array>
       <string>UIInterfaceOrientationPortrait</string>
       <string>UIInterfaceOrientationLandscapeLeft</string>
       <string>UIInterfaceOrientationPortraitUpsideDown</string>
       <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
-    </dict>
-    <key>UIInterfaceOrientation</key>
-    <array>
-      <string>all</string>
     </array>
   </dict>
 </plist>
