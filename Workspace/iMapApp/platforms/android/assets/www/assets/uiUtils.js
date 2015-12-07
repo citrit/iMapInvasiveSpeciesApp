@@ -352,10 +352,6 @@ iMapApp.uiUtils = {
         prjs.forEach(function (value, index, ar) { 
             var selMen = $('select[name="' + value + '"]');
             selMen.empty();
-            selMen
-                 .append($("<option></option>")
-                 .attr("value",-1)
-                 .text(""));
             $.each( pdata, function( key, val ) {
                 //console.log( "Inserting Project id: " + key + "  Name: " + val );
                 selMen
@@ -364,6 +360,10 @@ iMapApp.uiUtils = {
                  .text(val)); 
             });
             selMen.sortOptions();
+            selMen
+                 .prepend($("<option></option>")
+                 .attr("value",-1)
+                 .text(""));
             selMen.val(iMapApp.iMapPrefs.params.Project);
             selMen.selectmenu();
             selMen.selectmenu('refresh', true);
@@ -375,10 +375,6 @@ iMapApp.uiUtils = {
         if ( pdata == null) return;
         var selMen = $('select[name="obsSpecies"]');
         selMen.empty();
-        selMen
-             .append($("<option></option>")
-             .attr("value",-1)
-             .text("None Selected"));
         if (iMapApp.iMapPrefs.params.Plants.MyPlants.length > 0) {
             $.each(iMapApp.iMapPrefs.params.Plants.MyPlants, function( key, val ) {
                 //console.log( "Inserting Species id: " + key  + "  Name: " + val );
@@ -400,6 +396,10 @@ iMapApp.uiUtils = {
             });
         }
         selMen.sortOptions();
+        selMen
+             .prepend($("<option></option>")
+             .attr("value",-1)
+             .text("None Selected"));
         selMen.val(-1);
         selMen.selectmenu();
         selMen.selectmenu('refresh', true);

@@ -183,9 +183,10 @@ iMapApp.App = {
                 lStr = iMapApp.App.speciesList[id][0] ;
             if (iMapApp.iMapPrefs.params.Plants.UseCommon && iMapApp.iMapPrefs.params.Plants.UseScientific)
                 lStr += ": ";
-            if (iMapApp.iMapPrefs.params.Plants.UseScientific)
-                lStr += iMapApp.App.speciesList[id][1];
+            if (iMapApp.iMapPrefs.params.Plants.UseScientific) {
+                lStr = (lStr == "None Selected"?"":lStr) + iMapApp.App.speciesList[id][1];
             }
+        }
         return lStr;
     },
     
