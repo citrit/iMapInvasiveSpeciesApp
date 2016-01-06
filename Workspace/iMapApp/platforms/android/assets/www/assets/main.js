@@ -9,7 +9,7 @@ iMapApp.App = {
     speciesList: null,
 
     init: function() {
-        console.log("iMapApp.init");
+        console.log("iMapApp.App.init");
         iMapApp.App.compiledCardTemplate = Mustache.compile( $("#card-template").html() );
         iMapApp.iMapPrefs.init();
         iMapApp.App.projectList = JSON.parse(localStorage.getItem("projectList"));
@@ -280,7 +280,7 @@ if (navigator.platform == 'MacIntel') {
     
 
 //page load initialization
-$( window ).load(function(){
+$( document ).ready( function(){
     console.log("Onload " + navigator.platform);
     document.addEventListener('deviceready', iMapApp.App.init, false);
     if (navigator.platform == 'MacIntel')

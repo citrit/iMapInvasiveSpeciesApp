@@ -82,7 +82,7 @@
                     <input type="text" name="fname" id="fname" value="" > <br>
                     <label for="lname" >Last:</label> 
                     <input type="text" name="lname" id="lname" value="" ><br> 
-                    <label for="uname" >User:</label> 
+                    <label for="uname" >Username: <br>(user names are case sensitive and in most cases all lowercase)</label> 
                     <input type="text" name="uname" id="uname" value="" > <br>
                     <label for="pword" >Password:</label> 
                     <input type="password" name="pword" id="pword" value="" >
@@ -160,6 +160,11 @@
                     <option value="AerialWithLabels">Satellite</option>
                 </select> 
                 <span  name="gpsAccuracy" style="float:right;margin-right:30px;font-size:10px">Accuracy: 0000 m</span>
+                <br>
+                <span style="font-size:10px">
+                    Viewing the map requires an internet connection, if you do not see the map check your connection and restart 
+                        iMapInvasives Mobile. GPS will work without the map.
+                </span>
                 <div id="iMapMapdiv" name="iMapMapdiv" ></div>
                 Location:<input type="text" id="obsLoc" name="obsLoc" ></input>
             </div>
@@ -202,6 +207,10 @@
             <img id="img-spinner" src="assets/images/Loading.gif" alt="Loading"/>
             <br>
             <p name="waitDialogText">Please wait...</p>
+        </div>
+
+        <div id="introOverlay" class="modal-overlay">
+            <img class="img-overlay" id="img-intro" src="assets/images/iMapMobileHelpAcetate50PercentTransparent.png"/>
         </div>
 
         <div id="selectSpeciesDialog" class="modal-box">

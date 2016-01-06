@@ -61,7 +61,7 @@ iMapApp.uiUtils = {
         });
         $( "#prefsMenu" ).click(function() {
             iMapApp.uiUtils.params.navbar.disableDropDown();
-            iMapApp.uiUtils.editPrefs();
+            iMapApp.uiUtils.editPrefs("");
         });
         $( "#quitMenu" ).click(function() {
             iMapApp.uiUtils.params.navbar.disableDropDown();
@@ -78,6 +78,9 @@ iMapApp.uiUtils = {
         $( "#obsLoc" ).change(function() {
             var pos = JSON.parse('[' + $('input[name="obsLoc"]').val() + ']');
             iMapApp.iMapMap.setPosition(pos);
+        });
+        $( "#introOverlay" ).click(function() {
+            iMapApp.uiUtils.introOverlayClose();
         });
         // Handle back button.
         document.addEventListener("backbutton", function(e){
@@ -409,11 +412,12 @@ iMapApp.uiUtils = {
     // ** Dialog stuff
     //
     
-    editPrefs: function() {
+    editPrefs: function(msg) {
         //iMapApp.uiUtils.openDialog('#prefsDialog', 'Edit Preferences');
         $.mobile.navigate( "#prefPage");
         //$( ":mobile-pagecontainer" ).pagecontainer( "change", "#prefPage" );
         //getDElem('input[name=zoomRange]').slider();
+        getDElem('p[name="prefError"]').text(msg);
         getDElem('input[name="fname"]').val(iMapApp.iMapPrefs.params.Firstname);
         getDElem('input[name="lname"]').val(iMapApp.iMapPrefs.params.Lastname);
         getDElem('input[name="uname"]').val(iMapApp.iMapPrefs.params.Username);
@@ -510,6 +514,7 @@ iMapApp.uiUtils = {
     
     gotoMainPage: function() {
         $.mobile.navigate( "#mainPage");
+        iMapApp.uiUtils.checkIntroOverlay();
         //$( ":mobile-pagecontainer" ).pagecontainer( "change", "#mainPage");
     },
     
@@ -530,8 +535,8 @@ iMapApp.uiUtils = {
     waitDialogOpen: function(msg, cnt) {
         iMapApp.uiUtils.params.waitDlgCnt = cnt;
         console.log("Modal Dialog...");
-        var appendthis =  ("<div class='modal-overlay js-modal-close'></div>");
-        $("body").append(appendthis);
+        //var appendthis =  ("<div class='modal-overlay js-modal-close'></div>");
+        //$("body").append(appendthis);
         $('#waitPopup[name="waitDialogText"]').text(msg);
         $(".modal-overlay").fadeTo(500, 0.7);
         //$(".js-modalbox").fadeIn(500);
@@ -551,12 +556,28 @@ iMapApp.uiUtils = {
         iMapApp.uiUtils.params.waitDlgCnt--;
         if (iMapApp.uiUtils.params.waitDlgCnt <= 0) {
             console.log("unLoad Modal Dialog...");
-            $(".modal-box, .modal-overlay").fadeOut(500, function() {
-                                                $(".modal-overlay").remove();
+            $(".modal-box").fadeOut(500, function() {
+                                                //$(".modal-overlay").remove();
                                                 });
             //iMapApp.uiUtils.closeDialog();
             //$.mobile.loading( 'hide' );
         }
+    },
+    
+    checkIntroOverlay: function() {
+        console.log("IntroOpen: " + localStorage.getItem("introDone"));
+        if (localStorage.getItem("introDone") != "true") {
+            iMapApp.uiUtils.introOverlayOpen();
+        }
+    },
+    
+    introOverlayOpen: function() {
+        $('#introOverlay').css("visibility", "visible");
+    },
+    
+    introOverlayClose: function() {
+        $('#introOverlay').css("visibility", "hidden");
+        localStorage.setItem("introDone", true);
     },
     
     toggleGPS: function() {

@@ -24,10 +24,11 @@ iMapApp.iMapPrefs = {
 			var parms = localStorage.getItem("userParams");
 	    	if (parms != null) {
 	    		iMapApp.iMapPrefs.loadParams();
+                iMapApp.uiUtils.gotoMainPage();
 	    	}
 	    	else {
-                iMapApp.uiUtils.editPrefs();
-	    		iMapApp.iMapPrefs.saveParams();
+                iMapApp.uiUtils.editPrefs("Initialization: Please fill in the preferences.");
+	    		//iMapApp.iMapPrefs.saveParams();
 	    	}
 		},
 		// Save the current prefs to localstorage

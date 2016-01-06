@@ -85,21 +85,24 @@ html {
 
 
 .modal-overlay {
-    opacity: 0;
-    filter: alpha(opacity=0);
+    visibility: hidden;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 9015;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3) !important;
+    z-index: 9020;
 }
 
+.img-overlay {
+    width: 100%;
+    height: 100%;
+}
 
 .input-text {
     color:black;
 }
+
 .float-left .card {
     float:left;
     width:300px;  
