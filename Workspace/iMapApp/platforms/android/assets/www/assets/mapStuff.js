@@ -7,7 +7,10 @@ iMapApp.iMapMap = {
 	dragCtl: null,
 	mapLayer: null,
 	timerVar: null,
+    timerOn: false,
     olView: null,
+    tileCache: null,
+    tileCacheWrite: null,
     bingAPIKey: "AifZwUylySDsGAx5jp3QHunKxJ6Z0AkPa2-ZGFwb3-gtlIouPGBzI9H5DA-xUiPV",
 	init: function(mapDiv) {
         iMapApp.iMapMap.olView = new ol.View({
@@ -52,8 +55,16 @@ iMapApp.iMapMap = {
             layers: iMapApp.iMapMap.baseLayers,
             target: mapDiv,
             view: iMapApp.iMapMap.olView
+            //tileManager: OpenLayers.TileManager()
         });
         iMapApp.iMapMap.olMap.addLayer(vectorLayer);
+        
+        /*// Add a tile cache and cache writer, later we add configuration
+        iMapApp.iMapMap.tileCache = new ol.Control.CacheRead();
+        iMapApp.iMapMap.tileCacheWrite = new ol.Control.CacheWrite({
+            imageFormat: "image/jpeg",
+        });
+        iMapApp.iMapMap.olMap.addControls([iMapApp.iMapMap.tileCache, iMapApp.iMapMap.tileCacheWrite]);*/
 	},
     
     addMoveFeatureCtl: function() {
@@ -108,16 +119,19 @@ iMapApp.iMapMap = {
 	},
     
 	startGPSTimer: function() {
-		console.log("Start the timer");
-		if (iMapApp.iMapMap.timerVar == null)
-			iMapApp.iMapMap.timerVar = navigator.geolocation.watchPosition(iMapApp.iMapMap.getCurrentLocation, iMapApp.iMapMap.onError,
+        if (getDElem('input[name="toggleGPS"]').is(':checked')) {
+            iMapApp.iMapMap.timerOn = true;
+            console.log("Start the timer");
+            iMapApp.iMapMap.timerVar = navigator.geolocation.watchPosition(iMapApp.iMapMap.getCurrentLocation, iMapApp.iMapMap.onError,
                 { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
+        }
 	},
     
 	stopGPSTimer: function() {
 		console.log("Stop the timer");
 		navigator.geolocation.clearWatch(iMapApp.iMapMap.timerVar);
 		iMapApp.iMapMap.timerVar = null;
+		iMapApp.iMapMap.timerOn = false;
 	},
     
     /*alert('Latitude: '          + position.coords.latitude          + '\n' +
@@ -130,7 +144,7 @@ iMapApp.iMapMap = {
           'Timestamp: '         + position.timestamp                + '\n');*/
 	getCurrentLocation: function(position) {
 		//curobs.Where = [ position.coords.longitude, position.coords.latitude];
-		//console.log("Position: " + JSON.stringify(position.coords));
+		console.log("Position: " + JSON.stringify(position.coords));
 		//alert('found location: ' + $.toJSON(curobs.Where));
 		iMapApp.iMapMap.setPosition([ position.coords.longitude, position.coords.latitude]);
 		iMapApp.uiUtils.setObsPosition([ position.coords.longitude, position.coords.latitude]);
@@ -152,21 +166,26 @@ iMapApp.iMapMap = {
     	//iMapApp.iMapMap.setPosition([ -98.583333, 39.833333 ]);
     	//console.log('Setting default position: iMapApp.iMapMap.setPosition([-98.583333, 39.833333]);');
         
+        console.log('OnError: ' + error.code);
         switch(error.code) {
             case 1:
             case 2:
+                try {
                 navigator.notification.alert(
                                              'GPS error, please enable location.\n' + error.message,  // message
                                              null,         // callback
                                              'code: '    + error.code,            // title
                                              'Ok'                  // buttonName
                                              );
+                } catch (e) {}
                 iMapApp.iMapMap.stopGPSTimer();
                 break;
             case 3:
-                iMapApp.iMapMap.stopGPSTimer();
-                iMapApp.iMapMap.startGPSTimer();
-                break;
+                if (iMapApp.iMapMap.timerOn == true ) {
+                    iMapApp.iMapMap.timerVar = navigator.geolocation.watchPosition(iMapApp.iMapMap.getCurrentLocation, iMapApp.iMapMap.onError,
+                        { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
+                }
+                //iMapApp.iMapMap.startGPSTimer();
             default:
                 break;
         }

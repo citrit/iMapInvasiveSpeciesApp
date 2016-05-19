@@ -68,6 +68,10 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.openOkCancelDialog('iMapInvasives', 'Exit iMapInvasives?',
                                                navigator.app.exitApp);
         });
+        $( "#helpMenu" ).click(function() {
+            iMapApp.uiUtils.params.navbar.disableDropDown();
+            iMapApp.uiUtils.openDialog('#helpDialog', 'Need Help?');
+        });
         $( "#addObs" ).click(function() {
             iMapApp.uiUtils.params.navbar.disableDropDown();
             iMapApp.uiUtils.addObs();
@@ -79,6 +83,7 @@ iMapApp.uiUtils = {
             var pos = JSON.parse('[' + $('input[name="obsLoc"]').val() + ']');
             iMapApp.iMapMap.setPosition(pos);
         });
+        $( "#stateSelect" ).on('change', function () { iMapApp.uiUtils.stateChangeHandler($( "#stateSelect" ).val()) });
         $( "#introOverlay" ).click(function() {
             iMapApp.uiUtils.introOverlayClose();
         });
@@ -104,6 +109,7 @@ iMapApp.uiUtils = {
                 //getDElem('select[name=flipMap]').trigger('create');
             } catch (ex) {console.log("Pageload exception: " + ex);}
         });
+        iMapApp.uiUtils.checkIntroOverlay();
     },
     
     //
@@ -137,21 +143,20 @@ iMapApp.uiUtils = {
         //iMapApp.uiUtils.openDialog('#editObsDialog', 'Add Observation');
         $.mobile.navigate( "#editObsPage");
         iMapApp.uiUtils.params.curObs = null;
-        getDElem('[name="obsProjects"]').val(iMapApp.iMapPrefs.params.Project).
-        selectmenu().selectmenu('refresh', true);
-        getDElem('[name="obsSpecies"]').val(-1).
-        selectmenu().selectmenu('refresh', true);; 
+        getDElem('[name="obsProjects"]').val(iMapApp.iMapPrefs.params.Project); //.selectmenu().selectmenu('refresh', true);
+        getDElem('[name="obsSpecies"]').val(-1); //.selectmenu().selectmenu('refresh', true);; 
         var now = new Date();
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
         var dt = now.getFullYear()+"-"+(month)+"-"+(day) ;
         getDElem('[name="obsDate"]').val(dt);
-        iMapApp.iMapMap.startGPSTimer();
         getDElem('[name="largeImage"]').prop("src", "assets/images/TakePhoto.png");
         getDElem('[name="obsLoc"]').val([0.0, 0.0]);
+        getDElem('[name="obsComment"]').val('');
         iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params['DefaultZoom']);
         getDElem('input[name="toggleGPS"]').prop('checked', true);
         getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType);
+        iMapApp.iMapMap.startGPSTimer();
         iMapApp.iMapMap.setPosition([-73.4689, 42.7187]);
         // Make the select searchable
         /*getDElem('select[name="obsProjects"]').select2({
@@ -172,10 +177,9 @@ iMapApp.uiUtils = {
         //iMapApp.uiUtils.openDialog('#editObsDialog', 'Edit Observation');
         var obs = iMapApp.App.getObservation(editCard.id);
         iMapApp.uiUtils.params.curObs = obs;
-        getDElem('[name="obsProjects"]').val(obs.getProjectID()).
-        selectmenu().selectmenu('refresh', true);;
-        getDElem('[name="obsSpecies"]').val(obs.getSpeciesID()).
-        selectmenu().selectmenu('refresh', true);;
+        getDElem('[name="obsProjects"]').val(obs.getProjectID()); //.selectmenu().selectmenu('refresh', true);;
+        getDElem('[name="obsSpecies"]').val(obs.getSpeciesID()); //.selectmenu().selectmenu('refresh', true);;
+        getDElem('[name="obsComment"]').val(obs.getComment());
         
         var now = new Date(obs.getWhen());
         var day = ("0" + now.getDate()).slice(-2);
@@ -257,6 +261,7 @@ iMapApp.uiUtils = {
         obs.setProjectID(getDElem('[name="obsProjects"]').val());
         obs.setSpecies(getDElem('[name="obsSpecies"]').find(":selected").text());
         obs.setSpeciesID(getDElem('[name="obsSpecies"]').val());
+        obs.setComment(getDElem('[name="obsComment"]').val());
         
         var dt = getDElem('[name="obsDate"]').val();
         obs.setWhen(dt);
@@ -344,11 +349,13 @@ iMapApp.uiUtils = {
     },
     
     stateChangeHandler: function(sel) {
-        iMapApp.App.updateStateData(sel.value, true);
+        console.log("Changing to state: " + sel);
+        iMapApp.App.updateStateData(sel, true);
         getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate); 
     },
     
     loadProjectList: function() {
+        console.log("****Loading projects");
         var pdata = JSON.parse(localStorage.getItem("projectList"));
         if ( pdata == null) return;
         var prjs = ['listPrefProj', 'obsProjects'];
@@ -368,8 +375,9 @@ iMapApp.uiUtils = {
                  .attr("value",-1)
                  .text(""));
             selMen.val(iMapApp.iMapPrefs.params.Project);
-            selMen.selectmenu();
-            selMen.selectmenu('refresh', true);
+            //selMen.selectmenu();
+            selMen.val(-1);
+            //selMen.selectmenu('refresh', true);
         });
     },
     
@@ -404,8 +412,8 @@ iMapApp.uiUtils = {
              .attr("value",-1)
              .text("None Selected"));
         selMen.val(-1);
-        selMen.selectmenu();
-        selMen.selectmenu('refresh', true);
+        //selMen.selectmenu();
+        //selMen.selectmenu('refresh', true);
     },
     
     //
@@ -423,14 +431,14 @@ iMapApp.uiUtils = {
         getDElem('input[name="uname"]').val(iMapApp.iMapPrefs.params.Username);
         getDElem('input[name="pword"]').val(iMapApp.iMapPrefs.params.Password);
         getDElem('select[name="stateSelect"]').val(iMapApp.iMapPrefs.params.CurrentState);
-        getDElem('input[name="checkbox-common"]').attr('checked', iMapApp.iMapPrefs.params.Plants.UseCommon); 
-        getDElem('input[name="checkbox-scientific"]').attr('checked', iMapApp.iMapPrefs.params.Plants.UseScientific);
-        getDElem('input[value="'+iMapApp.iMapPrefs.params.PictureSize+'"]').attr('checked', true);
-        getDElem('input[value="'+iMapApp.iMapPrefs.params.MapType+'"]').attr('checked', true);
-        iMapApp.uiUtils.loadProjectList();
-        getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project).
-        selectmenu().selectmenu('refresh', true);
+        getDElem('input[name="checkbox-common"]').prop('checked', iMapApp.iMapPrefs.params.Plants.UseCommon); 
+        getDElem('input[name="checkbox-scientific"]').prop('checked', iMapApp.iMapPrefs.params.Plants.UseScientific);
+        getDElem('input[value="'+iMapApp.iMapPrefs.params.PictureSize+'"]').prop('checked', true);
+        getDElem('input[value="'+iMapApp.iMapPrefs.params.MapType+'"]').prop('checked', true);
+        //iMapApp.uiUtils.loadProjectList();
+        getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project); //.selectmenu().selectmenu('refresh', true);
         getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate); 
+        getDElem('input[name="checkbox-welcomepage"]').prop('checked', iMapApp.iMapPrefs.params.WelcomePage); 
         
         //getDElem('input[name=zoomToRange]').val(iMapApp.iMapPrefs.params['DefaultZoom']).trigger('create').slider('refresh', true);
         getDElem('#zoomToRange').attr('value', iMapApp.iMapPrefs.params['DefaultZoom']);
@@ -440,6 +448,7 @@ iMapApp.uiUtils = {
                     placeholder: "Select a State",
                     allowClear: true
              });*/
+        iMapApp.uiUtils.introOverlayClose();
     },
     
     savePrefs: function() {
@@ -476,12 +485,18 @@ iMapApp.uiUtils = {
         iMapApp.iMapPrefs.params.PictureSize = getDElem("input[name=radio-choice-size]:checked").val();
         iMapApp.iMapPrefs.params.MapType = getDElem("input[name=map-type]:checked").val();
         iMapApp.iMapPrefs.params['DefaultZoom'] = getDElem('input[name=zoomToRange]').val();
+        iMapApp.iMapPrefs.params.WelcomePage = getDElem('input[name="checkbox-welcomepage"]').is(':checked');
 
         //alert($.toJSON(iMapPrefs));
 
         iMapApp.iMapPrefs.saveParams();
         iMapApp.uiUtils.loadSpeciesList();
         iMapApp.uiUtils.gotoMainPage();
+        var fInit = localStorage.getItem("firstInit");
+        if (fInit) {
+            iMapApp.uiUtils.introOverlayOpen();
+            localStorage.removeItem("firstInit");
+        }
     },
     
     chooseMySpecies: function() {
@@ -491,12 +506,13 @@ iMapApp.uiUtils = {
             var skeys = getSortedKeys(pdata, iMapApp.App.getSpeciesName);
             var selMen = $('div[name="speciesSelList"]');
             selMen.empty();
+            selMen.data("role", "none");
             $.each( skeys, function( key, val ) {
                 var lStr = iMapApp.App.getSpeciesName(val);
                 //console.log( "Inserting Species id: " + val  + "  Name: " + lStr );
                 var chk = (iMapApp.iMapPrefs.params.Plants.MyPlants.indexOf(val) >= 0?'checked':'');
                 selMen
-                 .append($('<input type="checkbox" value="' + val + '" lStr="' + lStr + '" ' + chk + '/>' + lStr + '</input><br />')); 
+                 .append($('<input type="checkbox" style="transform: scale(1.5);" value="' + val + '" lStr="' + lStr + '" ' + chk + '/>' + lStr + '</input><br />')); 
             });
         }
     },
@@ -513,8 +529,9 @@ iMapApp.uiUtils = {
     },
     
     gotoMainPage: function() {
+        iMapApp.iMapMap.stopGPSTimer();
         $.mobile.navigate( "#mainPage");
-        iMapApp.uiUtils.checkIntroOverlay();
+        //iMapApp.uiUtils.checkIntroOverlay();
         //$( ":mobile-pagecontainer" ).pagecontainer( "change", "#mainPage");
     },
     
@@ -552,9 +569,10 @@ iMapApp.uiUtils = {
         //});
     },
     
-    waitDialogClose: function() {
+    waitDialogClose: function(forceClose) {
         iMapApp.uiUtils.params.waitDlgCnt--;
-        if (iMapApp.uiUtils.params.waitDlgCnt <= 0) {
+        if ((iMapApp.uiUtils.params.waitDlgCnt <= 0) ||
+            (forceClose == true)){
             console.log("unLoad Modal Dialog...");
             $(".modal-box").fadeOut(500, function() {
                                                 //$(".modal-overlay").remove();
@@ -565,9 +583,12 @@ iMapApp.uiUtils = {
     },
     
     checkIntroOverlay: function() {
-        console.log("IntroOpen: " + localStorage.getItem("introDone"));
-        if (localStorage.getItem("introDone") != "true") {
+        console.log("Open Welcome Page: " + iMapApp.iMapPrefs.params.WelcomePage);
+        //if (localStorage.getItem("introDone") != "true") {
+        if ((iMapApp.iMapPrefs.params.WelcomePage === true) && 
+            (!localStorage.getItem("firstInit")) ){
             iMapApp.uiUtils.introOverlayOpen();
+            console.log('Opened Welcome PAge');
         }
     },
     
@@ -581,6 +602,7 @@ iMapApp.uiUtils = {
     },
     
     toggleGPS: function() {
+        console.log('OnError: ' + getDElem('input[name="toggleGPS"]').is(':checked'));
         if (getDElem('input[name="toggleGPS"]').is(':checked')) {
             iMapApp.iMapMap.startGPSTimer();
         }
@@ -609,7 +631,7 @@ $.fn.sortOptions = function(){
         op.sort(function(a, b) {
             return a.text > b.text ? 1 : -1;
         })
-        return $(this).empty().append(op);
+        return $(this).empty().data("role", "none").append(op);
     });
 }
 

@@ -15,10 +15,11 @@ iMapApp.iMapPrefs = {
 				MyPlants: []
 			},
 			PictureSize: "Medium",
-			MapType: "road",
+			MapType: "Road",
             CurrentState: "",
             DefaultZoom: 12,
-            StateUpdate: ''
+            StateUpdate: '',
+            WelcomePage: true
 		},
 		init: function() {
 			var parms = localStorage.getItem("userParams");
@@ -28,6 +29,7 @@ iMapApp.iMapPrefs = {
 	    	}
 	    	else {
                 iMapApp.uiUtils.editPrefs("Initialization: Please fill in the preferences.");
+                localStorage.setItem("firstInit", true);
 	    		//iMapApp.iMapPrefs.saveParams();
 	    	}
 		},
@@ -39,6 +41,9 @@ iMapApp.iMapPrefs = {
 		// load the prefs from localstorage
 		loadParams: function() {
 			iMapApp.iMapPrefs.params = JSON.parse(localStorage.getItem("userParams"));
+            if (iMapApp.iMapPrefs.params.WelcomePage == null) {
+                iMapApp.iMapPrefs.params.WelcomePage = true;
+            }
             console.log("iMapApp.iMapPrefs: loading user Params: " + JSON.stringify(iMapApp.iMapPrefs.params));
 		},
 		// login to the site

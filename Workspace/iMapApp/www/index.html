@@ -1,23 +1,24 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>iMapInvasives App</title>
         
-        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+        
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="msapplication-tap-highlight" content="no"/>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"/>
         <link rel="stylesheet" href="assets/css/styles.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/pgwmodal.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/menubar.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/nav.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/jquery.mobile-1.4.5.min.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/ol.css" type="text/css" />
-        <link rel="stylesheet" href="assets/css/select2.css" type="text/css" />
         <script src="assets/js/jquery-2.1.4.js"></script>
-        <script src="assets/js/jquery.mobile-1.4.5.min.js"></script>
-        <script src="assets/js/jquerySelect.js"></script>
+        <script src="assets/js/jquery.mobile-1.4.5.js"></script>
         <script src="assets/js/mustache.js"></script>
         <script src="assets/js/pgwmodal.js"></script>
         <script src="assets/js/navbar.min.js"></script>
         <script src="assets/js/ol.js"></script>
-        <script src="assets/js/select2.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script src="assets/main.js"></script>
         <script src="assets/observation.js"></script>
@@ -29,18 +30,22 @@
         <script src="assets/photo.js"></script>
     </head>
     <body>
+       
         <!-- Start of main page -->
         <div data-role="page" id="mainPage" class='bgimg'>
-
-            <div data-role="header" data-position="fixed" data-tap-toggle="false">
+ 
+            <!--<div data-role="header" data-position="fixed" data-tap-toggle="false">-->
+            <div data-role="header" data-position="fixed" data-tap-toggle="false" data-hide-during-focus="input, textarea">
                 <ul class="navbar">
                     <li><a id="selectAll">Select All</a></li>
                     <li><a id="selectNone">Select None</a></li>
                     <li><a id="uploadMenu">Upload Selected</a></li>
                     <li><a id="deleteMenu">Delete Selected</a></li>
-                    <li></li>
+                    <!--<li> &#9679; </li>-->
                     <li><a id="prefsMenu">Preferences</a></li>
-<!--                    <li><a id="quitMenu">Quit</a></li>-->
+                    <!--<li> &#9679; </li>-->
+                    <li><a id="helpMenu">Help</a></li>
+<!--                <li><a id="quitMenu">Quit</a></li>-->
                 </ul>
                 <button id="addObs" style="float:right;right:.4em;left:auto;background-color:green;color:white">+Add Observation </button>
             </div><!-- /header -->
@@ -49,35 +54,32 @@
                  <div class="content" id="content" name="content"></div>
             </div><!-- /content -->
 
-            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-hide-during-focus="input, textarea">
                 <span id="statusBarMsg" style="float:left">Status:</span>
             </div><!-- /footer -->
         </div><!-- /page -->
 
         <!-- preferences page -->
         <div data-role="page" id="prefPage">
-            
-            <div role="main" class="ui-content">
+            <div role="main" class="ui-content"><br>
                 <strong>Preferences</strong>
                 <div data-role="fieldcontain">
                     <p name="prefError" style="color: #ff0000;"></p>
-                    <div data-role='fieldcontain' name='stateDiv'>
-                            <label for='stateSelect'>State:</label> 
-                            <select id='stateSelect' name='stateSelect' onchange="iMapApp.uiUtils.stateChangeHandler(this)">
-                                <option value=""></option>
-                                <option value="az">Arizona</option>
-                                <option value="fl">Florida</option>
-                                <option value="me">Maine</option>
-                                <option value="nh">New Hampshire</option>
-                                <option value="ny">New York</option>
-                                <option value="or">Oregon</option>
-                                <option value="pa">Pennsylvania</option>
-                                <option value="sk">Saskatchewan</option>
-                                <option value="va">Virginia</option>
-                                <option value="vt">Vermont</option>
-                                <option value="wv">West Virginia</option>
-                            </select>
-                    </div>
+                    <label for='stateSelect'>State:</label> 
+                    <select id='stateSelect' name='stateSelect' data-role="none">
+                        <option value=""></option>
+                        <option value="az">Arizona</option>
+                        <option value="fl">Florida</option>
+                        <option value="me">Maine</option>
+                        <option value="nh">New Hampshire</option>
+                        <option value="ny">New York</option>
+                        <option value="or">Oregon</option>
+                        <option value="pa">Pennsylvania</option>
+                        <option value="sk">Saskatchewan</option>
+                        <option value="va">Virginia</option>
+                        <option value="vt">Vermont</option>
+                        <option value="wv">West Virginia</option>
+                    </select>
                     <label for="fname" >First:</label> 
                     <input type="text" name="fname" id="fname" value="" > <br>
                     <label for="lname" >Last:</label> 
@@ -95,7 +97,7 @@
                     <input type="checkbox" name="checkbox-common" id="checkbox-common"  /> 
                     <label for="checkbox-common">Common</label>
                 </fieldset>
-                <button onClick="iMapApp.uiUtils.chooseMySpecies()">Customize Species List</button>
+                <button onClick="iMapApp.uiUtils.chooseMySpecies()" >Customize Species List</button>
                 <!--<fieldset data-role='controlgroup' data-type='horizontal' id='pictureSize'>
                     <legend >Pic Size:</legend>
                     <input id='small' name='radio-choice-size' value='small'
@@ -118,18 +120,21 @@
                 
                 <!--<input data-type="search" id="searchForlistPrefProj"/> 
                     data-filter="true" data-input="#searchForlistPrefProj" -->
-                <div class="ui-field-contain">
-                    <label for='listPrefProj' class="sp-label">Default Project:</label>
-                    <select id="listPrefProj" name="listPrefProj" ></select>
+                <div data-role="fieldcontain">
+                    <label for="listPrefProj">Default Project:</label>
+                    <select id="listPrefProj" name="listPrefProj" data-role="none"><option>None</option></select>
                 </div>
-            <div data-role="controlgroup" data-type="horizontal">
-                <input type="button" value="Save" onclick="iMapApp.uiUtils.savePrefs()"></input>
-                <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()"></input>
-                <button name="updateStateData" style="float:right">Update States Data</button>
-            </div>
-            <p name="lastUpdateDate"></p>
+                <div data-role="fieldcontain">
+                    <input type="checkbox" name="checkbox-welcomepage" id="checkbox-welcomepage"  /> 
+                    <label for="checkbox-welcomepage">Show Welcome Instructions</label>
+                </div>
+                <div data-role="controlgroup" data-type="horizontal">
+                    <input type="button" value="Save" onclick="iMapApp.uiUtils.savePrefs()"></input>
+                    <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()"></input>
+                    <button name="updateStateData" style="float:right">Update States Data</button>
+                </div>
+                <p name="lastUpdateDate"></p>
             </div><!-- /content -->
-
         </div><!-- /page -->
         
         <div data-role="page" id="editObsPage">
@@ -138,14 +143,14 @@
 
                 <div id="takePic">
                     <a onClick='iMapApp.Photo.getPhoto()'>
-                        <img src="assets/images/TakePhoto.png" name='largeImage' style="max-width:280;"/>
+                        <img src="assets/images/TakePhoto.png" name='largeImage' class='imgwrapper' />
                     </a> 
                 </div><br>
                 <br>
                 <label for="obsProjects">Project: </label>
-                <select name="obsProjects" ></select>
+                <select name="obsProjects" data-role="none"></select>
                 <label for="obsSpecies">Species: </label>
-                <select name="obsSpecies" ></select>
+                <select id="obsSpecies" name="obsSpecies" data-role="none"></select>
                 <label for="obsDate">Date: </label>
                 <input type="date" name="obsDate" ></input>
                 <!-- <span>County: <input type="text" name="obsCounty" ></input></span><br><br>
@@ -167,6 +172,7 @@
                 </span>
                 <div id="iMapMapdiv" name="iMapMapdiv" ></div>
                 Location:<input type="text" id="obsLoc" name="obsLoc" ></input>
+                Comment:<textarea type="text" id="obsComment" name="obsComment" rows=3></textarea>
             </div>
             <div data-role="controlgroup" data-type="horizontal">
                 <input type="button" value="Save" onclick="iMapApp.uiUtils.editObsOk()">
@@ -214,14 +220,46 @@
         </div>
 
         <div id="selectSpeciesDialog" class="modal-box">
-            <div class="speciesListContainer" id="speciesSelList" name="speciesSelList" style="white-space:nowrap;width:100%;height:75%;">
+            <div class="speciesListContainer" id="speciesSelList" name="speciesSelList" >
                 <!--<input type="checkbox" /> This is checkbox <br />
                 <input type="checkbox" /> This is checkbox <br />-->
             </div>
             <input type="button" value="OK" onclick="iMapApp.uiUtils.saveMySpecSpecies()"></input>
             <input type="button" value="Cancel" onclick="iMapApp.uiUtils.closeDialog()"></input>
         </div>
+        <div id="helpDialog" style="display: none;">
+            <div>
 
+                <h1>Introduction:</h1>
+
+                <p class=MsoNormal><span class=SpellE><span class=GramE>iMapInvasives</span></span>
+                Mobile has been developed to facilitate reporting of invasive species
+                observations from your Android or Apple device. Before beginning you will need
+                to register online with one of the participating states or province at http://www.imapinvasives.org.</p>
+
+                <h1>Preferences:</h1>
+
+                <p>Preferences are the customized user setting. <span
+                class=SpellE><span class=GramE>iMapInvasives</span></span> Mobile users will
+                need to set their user name and password before proceeding with <span
+                class=SpellE>invasives</span> species observation data collection.</p>
+                <img class="imgwrapper" src="Help_files/image001.png" width="350"/>
+
+                <h1>Home Page:</h1>
+
+                <p class=MsoNormal>From the home page users can add a new observation record,
+                view records already collected and access all other functionality via the Menu.</p>
+                   <img class="imgwrapper" src="Help_files/image005.png" width="350"/>
+
+                <h1><span style='mso-no-proof:yes'>Observation Record:<o:p></o:p></span></h1>
+
+                <p class=MsoNormal>The Observation Record is where a new observation can be
+                recorded or an existing record can be modified prior to upload.</p>
+                <img class="imgwrapper" src="Help_files/image006.png" width="350"/>
+
+            </div>
+            <br><br><input type="button" value="OK" onclick="iMapApp.uiUtils.closeDialog()"></input>
+        </div>
 
     </body>
     

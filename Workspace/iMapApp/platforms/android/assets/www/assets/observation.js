@@ -16,7 +16,8 @@ iMapApp.Observation = function(od)
         Where: [ 0.0, 0.0 ],
         Objectid: iMapApp.App.guid(),
         State: "",
-        County: ""
+        County: "",
+        Comment: ""
     } : od);
     
     // Getters
@@ -30,6 +31,7 @@ iMapApp.Observation = function(od)
     this.getObjectID = function() { return obsData.Objectid; }
     this.getState = function() { return obsData.State; }
     this.getCounty = function() { return obsData.County; }
+    this.getComment = function() { return obsData.Comment; }
     this.getObsData = function() { return obsData; }
     
     // Setters
@@ -43,6 +45,7 @@ iMapApp.Observation = function(od)
     //this.setObjectid = function(oi) { obsData.Objectid = oi; }
     this.setState = function(s) { obsData.State = s; }
     this.setCounty = function(c) { obsData.County = c; }
+    this.setComment = function(c) { obsData.Comment = c; }
     this.setObsData = function(od) { obsData = od; }
     
     // Serialization

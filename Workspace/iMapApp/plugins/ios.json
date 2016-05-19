@@ -140,54 +140,55 @@
         }
     },
     "installed_plugins": {
-        "org.apache.cordova.battery-status": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.camera": {
+        "cordova-plugin-device": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.console": {
+        "cordova-plugin-file": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.device": {
+        "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.device-motion": {
+        "cordova-plugin-media": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.device-orientation": {
+        "cordova-plugin-media-capture": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.dialogs": {
+        "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.file": {
+        "cordova-plugin-battery-status": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.file-transfer": {
+        "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.geolocation": {
+        "cordova-plugin-device-motion": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.media": {
+        "cordova-plugin-device-orientation": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.media-capture": {
+        "cordova-plugin-dialogs": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.network-information": {
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.splashscreen": {
+        "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
-        "org.apache.cordova.vibration": {
-            "PACKAGE_NAME": "com.ltc.imapapp"
-        },
-        "io.litehelpers.cordova.sqlite": {
+        "cordova-plugin-vibration": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.ltc.imapapp"
+        }
+    }
 }

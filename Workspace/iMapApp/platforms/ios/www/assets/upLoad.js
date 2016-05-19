@@ -95,6 +95,7 @@ iMapApp.uploadUtils = {
 				obsdate : obs.getWhen(), //2013-11-11
 				obsorigxcoord : obs.getWhere()[0], //-75.41016000000012
 				obsorigycoord : obs.getWhere()[1], //43.40667000000026
+                obscomments_long : obs.getComment(),
 				imapdataentrymethod : 'Mobile-App',
 				repositoryavailable : 2
 			//,
@@ -133,7 +134,7 @@ iMapApp.uploadUtils = {
 			},
 			// dataType: dataType,
 			error : function(jqXHR, textStatus, errorThrown) {
-                iMapApp.uiUtils.waitDialogClose();
+                iMapApp.uiUtils.waitDialogClose(true);
 				console.log('Upload error: ' + JSON.stringify(jqXHR) + " -> "
 						+ JSON.stringify(textStatus) + " -> "
 						+ JSON.stringify(errorThrown));

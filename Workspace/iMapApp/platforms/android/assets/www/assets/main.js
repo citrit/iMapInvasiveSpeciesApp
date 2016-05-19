@@ -276,6 +276,7 @@ if (navigator.platform == 'MacIntel') {
     Connection.WIFI = 1;
     navigator.connection = {};
     navigator.connection.type = Connection.WIFI;
+    navigator.notification = {alert: alert};
 }
     
 
@@ -283,6 +284,7 @@ if (navigator.platform == 'MacIntel') {
 $( document ).ready( function(){
     console.log("Onload " + navigator.platform);
     document.addEventListener('deviceready', iMapApp.App.init, false);
+    
     if (navigator.platform == 'MacIntel')
         iMapApp.App.init();
 });
