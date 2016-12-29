@@ -124,8 +124,7 @@ iMapApp.uiUtils = {
     checkForWifiBeforeUpload: function() {
         var n = iMapApp.uiUtils.getActiveCards().find("input:checkbox:checked").length;
         if (n == 0) {
-            $('p[name="infoDialText"]').text('Please select cards.');
-            iMapApp.uiUtils.openDialog('#infoDialog', 'Nothing selected to upload');
+            iMapApp.uiUtils.openInfoDialog('Nothing selected to upload', 'Please select cards.');
         }
         else {
             iMapApp.uiUtils.openOkCancelDialog('Upload Observations', 'Are you sure you want to upload ' + n + ' Records?',
@@ -133,6 +132,11 @@ iMapApp.uiUtils = {
         }
     },
     
+    openInfoDialog: function(title, msg) {
+        $('p[name="infoDialText"]').text(msg);
+        iMapApp.uiUtils.openDialog('#infoDialog', title);
+    },
+
     openOkCancelDialog: function(title, msg, callback) {
         iMapApp.uiUtils.openDialog('#okCancelDialog', title);
         $('#pgwModal').find('[value="OK"]').click(callback);
@@ -142,6 +146,7 @@ iMapApp.uiUtils = {
     addObs: function() { // Seed dialog with defaults.
         //iMapApp.uiUtils.openDialog('#editObsDialog', 'Add Observation');
         $.mobile.navigate( "#editObsPage");
+        iMapApp.App.checkDiskSpace();
         iMapApp.uiUtils.params.curObs = null;
         getDElem('[name="obsProjects"]').val(iMapApp.iMapPrefs.params.Project); //.selectmenu().selectmenu('refresh', true);
         getDElem('[name="obsSpecies"]').val(-1); //.selectmenu().selectmenu('refresh', true);; 
@@ -173,6 +178,7 @@ iMapApp.uiUtils = {
     
     editObs: function(editCard) { // Seed dialog with specific observation
         $.mobile.navigate( "#editObsPage");
+        iMapApp.App.checkDiskSpace();
         iMapApp.uiUtils.params.navbar.disableDropDown();
         //iMapApp.uiUtils.openDialog('#editObsDialog', 'Edit Observation');
         var obs = iMapApp.App.getObservation(editCard.id);
@@ -390,7 +396,7 @@ iMapApp.uiUtils = {
             $.each(iMapApp.iMapPrefs.params.Plants.MyPlants, function( key, val ) {
                 //console.log( "Inserting Species id: " + key  + "  Name: " + val );
                 var lStr = iMapApp.App.getSpeciesName(val);
-                selMen
+                selMen //<input name="your_name" value="your_value" type="checkbox">
                  .append($("<option></option>")
                  .attr("value",val)
                  .text(lStr)); 
@@ -433,7 +439,9 @@ iMapApp.uiUtils = {
         getDElem('select[name="stateSelect"]').val(iMapApp.iMapPrefs.params.CurrentState);
         getDElem('input[name="checkbox-common"]').prop('checked', iMapApp.iMapPrefs.params.Plants.UseCommon); 
         getDElem('input[name="checkbox-scientific"]').prop('checked', iMapApp.iMapPrefs.params.Plants.UseScientific);
-        getDElem('input[value="'+iMapApp.iMapPrefs.params.PictureSize+'"]').prop('checked', true);
+        var picSize = (iMapApp.iMapPrefs.params.PictureSize?iMapApp.iMapPrefs.params.PictureSize:"medium");
+        console.log("**picSize: " + picSize);
+        getDElem('input[value="'+picSize+'"]').prop('checked', true);
         getDElem('input[value="'+iMapApp.iMapPrefs.params.MapType+'"]').prop('checked', true);
         //iMapApp.uiUtils.loadProjectList();
         getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project); //.selectmenu().selectmenu('refresh', true);
@@ -504,6 +512,7 @@ iMapApp.uiUtils = {
         if ( pdata != null) {
             iMapApp.uiUtils.openDialog('#selectSpeciesDialog', 'Select Your Species');
             var skeys = getSortedKeys(pdata, iMapApp.App.getSpeciesName);
+            //console.log("sKeys: " + skeys);
             var selMen = $('div[name="speciesSelList"]');
             selMen.empty();
             selMen.data("role", "none");
@@ -512,7 +521,7 @@ iMapApp.uiUtils = {
                 //console.log( "Inserting Species id: " + val  + "  Name: " + lStr );
                 var chk = (iMapApp.iMapPrefs.params.Plants.MyPlants.indexOf(val) >= 0?'checked':'');
                 selMen
-                 .append($('<input type="checkbox" style="transform: scale(1.5);" value="' + val + '" lStr="' + lStr + '" ' + chk + '/>' + lStr + '</input><br />')); 
+                 .append($('<input type="checkbox"  value="' + val + '" lStr="' + lStr + '" ' + chk + '/>' + lStr + '</input><br />')); 
             });
         }
     },

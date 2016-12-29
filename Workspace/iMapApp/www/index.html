@@ -13,8 +13,8 @@
         <link rel="stylesheet" href="assets/css/nav.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/jquery.mobile-1.4.5.min.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/ol.css" type="text/css" />
-        <script src="assets/js/jquery-2.1.4.js"></script>
-        <script src="assets/js/jquery.mobile-1.4.5.js"></script>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.mobile-1.4.5.min.js"></script>
         <script src="assets/js/mustache.js"></script>
         <script src="assets/js/pgwmodal.js"></script>
         <script src="assets/js/navbar.min.js"></script>
@@ -84,9 +84,9 @@
                     <input type="text" name="fname" id="fname" value="" > <br>
                     <label for="lname" >Last:</label> 
                     <input type="text" name="lname" id="lname" value="" ><br> 
-                    <label for="uname" >Username: <br>(user names are case sensitive and in most cases all lowercase)</label> 
+                    <label for="uname" >iMap Username: <br>(user names are case sensitive and in most cases all lowercase)</label> 
                     <input type="text" name="uname" id="uname" value="" > <br>
-                    <label for="pword" >Password:</label> 
+                    <label for="pword" >iMap Password:</label> 
                     <input type="password" name="pword" id="pword" value="" >
                 </div>
 
@@ -98,15 +98,15 @@
                     <label for="checkbox-common">Common</label>
                 </fieldset>
                 <button onClick="iMapApp.uiUtils.chooseMySpecies()" >Customize Species List</button>
-                <!--<fieldset data-role='controlgroup' data-type='horizontal' id='pictureSize'>
-                    <legend >Pic Size:</legend>
+                <fieldset data-role='controlgroup' data-type='horizontal' id='pictureSize'>
+                    <legend >Picture quality:</legend>
                     <input id='small' name='radio-choice-size' value='small'
-                           data-theme='c' type='radio'> <label for='small' >Small</label>
+                           type='radio'> <label for='small' >25%</label>
                     <input id='medium' name='radio-choice-size' value='medium'
-                           data-theme='c' type='radio'> <label for='medium'>Medium</label>
+                           type='radio'> <label for='medium'>50%</label>
                     <input id='large' name='radio-choice-size' value='large'
-                           data-theme='c' type='radio'> <label for='large'>Large</label>
-                </fieldset>-->
+                           type='radio'> <label for='large'>100%</label>
+                </fieldset>
                 <fieldset data-role='controlgroup' data-type='horizontal' id='mapType'>
                     <legend >MapType:</legend>
                     <input id='road' name='map-type' value='Road' data-theme='c'
@@ -133,6 +133,8 @@
                     <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()"></input>
                     <button name="updateStateData" style="float:right">Update States Data</button>
                 </div>
+                <!-- <button name="checkDiskSpace" onclick="iMapApp.App.checkDiskSpace()">Check Disk Space</button> -->
+
                 <p name="lastUpdateDate"></p>
             </div><!-- /content -->
         </div><!-- /page -->

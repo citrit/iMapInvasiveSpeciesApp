@@ -6,6 +6,16 @@ body {
     color:#333;
     min-height:100%;
 }
+
+input[type=checkbox] {
+
+ -ms-transform: scale(1.35); /* IE */
+ -moz-transform: scale(1.35); /* FF */
+ -webkit-transform: scale(1.35); /* Safari and Chrome */
+ -o-transform: scale(1.35); /* Opera */
+  padding: 4px;
+}
+
 select {
     height: 40px;
     width: 100%;

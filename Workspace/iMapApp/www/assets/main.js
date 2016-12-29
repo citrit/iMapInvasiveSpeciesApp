@@ -235,6 +235,19 @@ iMapApp.App = {
         break;
         };
         console.log('Error: ' + msg);
+    },
+    
+    checkDiskSpace: function () {
+        cordova.exec(function (arg) {
+                            console.log("Get disk space: " + JSON.stringify(arg));
+                            if (arg < 1024) {
+                                iMapApp.uiUtils.openInfoDialog('Storage is low', 'Please clear old photos prior to adding new images.');
+                            }
+                        }, 
+                     function (arg) {
+                            console.log("Error retrieving disk space: " + JSON.stringify(arg));
+                        }, 
+                     "File", "getFreeDiskSpace", []);
     }
 }
         
