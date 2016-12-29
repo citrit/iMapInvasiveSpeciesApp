@@ -21,6 +21,10 @@ iMapApp.uiUtils = {
         });
         iMapApp.uiUtils.loadProjectList();
         iMapApp.uiUtils.loadSpeciesList();
+        if (window.device && window.device.platform === "iOS") {
+          StatusBar.overlaysWebView(false);
+          console.log("Setting iOS top margin");
+        }
         // Bind actions to HTML elements
         $( "#selectAll" ).click(function() {
             iMapApp.uiUtils.params.navbar.disableDropDown();
@@ -521,7 +525,7 @@ iMapApp.uiUtils = {
                 //console.log( "Inserting Species id: " + val  + "  Name: " + lStr );
                 var chk = (iMapApp.iMapPrefs.params.Plants.MyPlants.indexOf(val) >= 0?'checked':'');
                 selMen
-                 .append($('<input type="checkbox"  value="' + val + '" lStr="' + lStr + '" ' + chk + '/>' + lStr + '</input><br />')); 
+                 .append($('<input class="chooseMySpecies" type="checkbox"  value="' + val + '" lStr="' + lStr + '" ' + chk + '/>' + lStr + '</input><br />')); 
             });
         }
     },

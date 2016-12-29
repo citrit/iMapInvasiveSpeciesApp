@@ -252,7 +252,13 @@ iMapApp.App = {
 }
         
 function debugTest() {
-    console.log("Adding debug records");
+
+    alert('Device Model: '    + device.model    + '<br />' +
+            'Device Cordova: '  + device.cordova  + '<br />' +
+            'Device Platform: ' + device.platform + '<br />' +
+            'Device UUID: '     + device.uuid     + '<br />' +
+            'Device Version: '  + device.version  + '<br />');
+    /*console.log("Adding debug records");
     var obs = new iMapApp.Observation();
     obs.setCounty('Albany');
     obs.setProject('Toms project');
@@ -279,7 +285,7 @@ function debugTest() {
     iMapApp.iMapPrefs.params.Lastname = "Citriniti";
     iMapApp.iMapPrefs.params.Username= "tomcitriniti";
     iMapApp.iMapPrefs.params.Project = "My Project";
-    iMapApp.iMapPrefs.params.Firstname= "Tom";
+    iMapApp.iMapPrefs.params.Firstname= "Tom";*/
     
 }
 

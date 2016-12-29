@@ -84,7 +84,8 @@
                     <input type="text" name="fname" id="fname" value="" > <br>
                     <label for="lname" >Last:</label> 
                     <input type="text" name="lname" id="lname" value="" ><br> 
-                    <label for="uname" >iMap Username: <br>(user names are case sensitive and in most cases all lowercase)</label> 
+                    <label for="uname" >iMap Username: <br></label>
+                    <label for="uname" style="font-size:12px">(user names are case sensitive and in most cases all lowercase)</label> 
                     <input type="text" name="uname" id="uname" value="" > <br>
                     <label for="pword" >iMap Password:</label> 
                     <input type="password" name="pword" id="pword" value="" >
@@ -280,7 +281,7 @@
            </td>
            <td style="width:20px">
            {{#objidx}} 
-            <img class="editIcon" id={{objidx}} src="assets/js/images/icons-svg/edit-black.svg" width=15 height=15 onclick="iMapApp.uiUtils.editObs(this)"/><br>
+            <img class="editIcon" id={{objidx}} src="assets/js/images/icons-svg/edit-black.svg" width=16 height=18 onclick="iMapApp.uiUtils.editObs(this)"/><br>
             <input class="editCheck" id={{objidx}} name="cardSelect" type="checkbox" style="transform: scale(1.5);"/>
           {{/objidx}}
            </td>
