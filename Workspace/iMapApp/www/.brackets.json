@@ -1,5 +1,8 @@
 {
     "jscodehints.detectedExclusions": [
-        "/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/www/assets/js/zepto.min.js"
+        "/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/www/assets/js/zepto.min.js",
+        "/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/www/assets/js/select2.js",
+        "/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/www/assets/js/pgwmodal.js",
+        "/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/www/assets/uiUtils.js"
     ]
 }

@@ -6,15 +6,36 @@ body {
     color:#333;
     min-height:100%;
 }
+
+input[type=checkbox] {
+
+ -ms-transform: scale(1.75); /* IE */
+ -moz-transform: scale(1.75); /* FF */
+ -webkit-transform: scale(1.75); /* Safari and Chrome */
+ -o-transform: scale(1.75); /* Opera */
+
+}
+
 select {
     height: 40px;
     width: 100%;
     background: white;
 }
+
+.chooseMySpecies {
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .editIcon {
     position: relative;
     top: 0px;
     right: 0px;
+}
+
+.smallText {
+    font-size: 9px;
 }
 
 .editCheck {

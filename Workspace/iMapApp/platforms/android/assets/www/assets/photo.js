@@ -8,7 +8,24 @@ iMapApp.Photo = {
     
     getPhoto: function() {
         // Retrieve image file location from specified source
-        navigator.camera.getPicture(iMapApp.Photo.onSuccess, iMapApp.Photo.onFail, { quality: 50,
+        var qual = 50;
+        switch(iMapApp.iMapPrefs.params.PictureSize) {
+            case 'small':
+                qual = 25;
+                break;
+            case 'medium':
+                qual = 50;
+                break;
+            case 'large':
+                qual = 100;
+                break;
+            default:
+                console.log("uh oh, made it to default image quality");
+                qual = 50;
+        }
+        console.log("Getting image with quality: " + qual);
+        navigator.camera.getPicture(iMapApp.Photo.onSuccess, iMapApp.Photo.onFail, { 
+            quality: qual,
             destinationType: Camera.DestinationType.FILE_URI 
         });
     },

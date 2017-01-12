@@ -235,11 +235,30 @@ iMapApp.App = {
         break;
         };
         console.log('Error: ' + msg);
+    },
+    
+    checkDiskSpace: function () {
+        cordova.exec(function (arg) {
+                            console.log("Get disk space: " + JSON.stringify(arg));
+                            if (arg < 1024) {
+                                iMapApp.uiUtils.openInfoDialog('Storage is low', 'Please clear old photos prior to adding new images.');
+                            }
+                        }, 
+                     function (arg) {
+                            console.log("Error retrieving disk space: " + JSON.stringify(arg));
+                        }, 
+                     "File", "getFreeDiskSpace", []);
     }
 }
         
 function debugTest() {
-    console.log("Adding debug records");
+
+    alert('Device Model: '    + device.model    + '<br />' +
+            'Device Cordova: '  + device.cordova  + '<br />' +
+            'Device Platform: ' + device.platform + '<br />' +
+            'Device UUID: '     + device.uuid     + '<br />' +
+            'Device Version: '  + device.version  + '<br />');
+    /*console.log("Adding debug records");
     var obs = new iMapApp.Observation();
     obs.setCounty('Albany');
     obs.setProject('Toms project');
@@ -266,7 +285,7 @@ function debugTest() {
     iMapApp.iMapPrefs.params.Lastname = "Citriniti";
     iMapApp.iMapPrefs.params.Username= "tomcitriniti";
     iMapApp.iMapPrefs.params.Project = "My Project";
-    iMapApp.iMapPrefs.params.Firstname= "Tom";
+    iMapApp.iMapPrefs.params.Firstname= "Tom";*/
     
 }
 

@@ -113,7 +113,7 @@ iMapApp.iMapMap = {
         console.log("Switched to layer: " + typ);
 	},
     
-    setMapZoom: function(z) {
+  setMapZoom: function(z) {
         iMapApp.iMapMap.olView.setZoom(z);
         console.log("zoomTo: " + z);
 	},

@@ -25,8 +25,10 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import android.os.Build;
+import android.os.Bundle;
 
 import org.apache.cordova.file.FileUtils;
 import org.apache.cordova.file.LocalFilesystemURL;
@@ -43,6 +45,7 @@ import org.json.JSONObject;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -53,13 +56,13 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 
 public class Capture extends CordovaPlugin {
 
     private static final String VIDEO_3GPP = "video/3gpp";
     private static final String VIDEO_MP4 = "video/mp4";
     private static final String AUDIO_3GPP = "audio/3gpp";
+    private static final String[] AUDIO_TYPES = new String[] {"audio/3gpp", "audio/aac", "audio/amr", "audio/wav"};
     private static final String IMAGE_JPEG = "image/jpeg";
 
     private static final int CAPTURE_AUDIO = 0;     // Constant for capture audio
@@ -78,6 +81,7 @@ public class Capture extends CordovaPlugin {
     private final PendingRequests pendingRequests = new PendingRequests();
 
     private int numPics;                            // Number of pictures before capture activity
+    private Uri imageUri;
 
 //    public void setContext(Context mCtx)
 //    {
@@ -162,12 +166,12 @@ public class Capture extends CordovaPlugin {
         if (mimeType == null || mimeType.equals("") || "null".equals(mimeType)) {
             mimeType = FileHelper.getMimeType(fileUrl, cordova);
         }
-        Log.d(LOG_TAG, "Mime type = " + mimeType);
+        LOG.d(LOG_TAG, "Mime type = " + mimeType);
 
         if (mimeType.equals(IMAGE_JPEG) || filePath.endsWith(".jpg")) {
             obj = getImageData(fileUrl, obj);
         }
-        else if (mimeType.endsWith(AUDIO_3GPP)) {
+        else if (Arrays.asList(AUDIO_TYPES).contains(mimeType)) {
             obj = getAudioVideoData(filePath, obj, false);
         }
         else if (mimeType.equals(VIDEO_3GPP) || mimeType.equals(VIDEO_MP4)) {
@@ -213,7 +217,7 @@ public class Capture extends CordovaPlugin {
                 obj.put("width", player.getVideoWidth());
             }
         } catch (IOException e) {
-            Log.d(LOG_TAG, "Error: loading video file");
+            LOG.d(LOG_TAG, "Error: loading video file");
         }
         return obj;
     }
@@ -222,9 +226,13 @@ public class Capture extends CordovaPlugin {
      * Sets up an intent to capture audio.  Result handled by onActivityResult()
      */
     private void captureAudio(Request req) {
-        Intent intent = new Intent(android.provider.MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+      if (!PermissionHelper.hasPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+          PermissionHelper.requestPermission(this, req.requestCode, Manifest.permission.READ_EXTERNAL_STORAGE);
+      } else {
+          Intent intent = new Intent(android.provider.MediaStore.Audio.Media.RECORD_SOUND_ACTION);
 
-        this.cordova.startActivityForResult((CordovaPlugin) this, intent, req.requestCode);
+          this.cordova.startActivityForResult((CordovaPlugin) this, intent, req.requestCode);
+      }
     }
 
     private String getTempDirectoryPath() {
@@ -262,16 +270,13 @@ public class Capture extends CordovaPlugin {
 
             Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
-            // Specify file so that large image is captured and returned
-            File photo = new File(getTempDirectoryPath(), "Capture.jpg");
-            try {
-                // the ACTION_IMAGE_CAPTURE is run under different credentials and has to be granted write permissions
-                createWritableFile(photo);
-            } catch (IOException ex) {
-                pendingRequests.resolveWithFailure(req, createErrorObject(CAPTURE_INTERNAL_ERR, ex.toString()));
-                return;
-            }
-            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+            ContentResolver contentResolver = this.cordova.getActivity().getContentResolver();
+            ContentValues cv = new ContentValues();
+            cv.put(MediaStore.Images.Media.MIME_TYPE, IMAGE_JPEG);
+            imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
+            LOG.d(LOG_TAG, "Taking a picture and saving to: " + imageUri.toString());
+
+            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageUri);
 
             this.cordova.startActivityForResult((CordovaPlugin) this, intent, req.requestCode);
         }
@@ -373,54 +378,17 @@ public class Capture extends CordovaPlugin {
     }
 
     public void onImageActivityResult(Request req) {
-        // For some reason if I try to do:
-        // Uri data = intent.getData();
-        // It crashes in the emulator and on my phone with a null pointer exception
-        // To work around it I had to grab the code from CameraLauncher.java
-        try {
-            // Create entry in media store for image
-            // (Don't use insertImage() because it uses default compression setting of 50 - no way to change it)
-            ContentValues values = new ContentValues();
-            values.put(android.provider.MediaStore.Images.Media.MIME_TYPE, IMAGE_JPEG);
-            Uri uri = null;
-            try {
-                uri = this.cordova.getActivity().getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-            } catch (UnsupportedOperationException e) {
-                LOG.d(LOG_TAG, "Can't write to external media storage.");
-                try {
-                    uri = this.cordova.getActivity().getContentResolver().insert(android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI, values);
-                } catch (UnsupportedOperationException ex) {
-                    LOG.d(LOG_TAG, "Can't write to internal media storage.");
-                    pendingRequests.resolveWithFailure(req, createErrorObject(CAPTURE_INTERNAL_ERR, "Error capturing image - no media storage found."));
-                    return;
-                }
-            }
-            FileInputStream fis = new FileInputStream(getTempDirectoryPath() + "/Capture.jpg");
-            OutputStream os = this.cordova.getActivity().getContentResolver().openOutputStream(uri);
-            byte[] buffer = new byte[4096];
-            int len;
-            while ((len = fis.read(buffer)) != -1) {
-                os.write(buffer, 0, len);
-            }
-            os.flush();
-            os.close();
-            fis.close();
+        // Add image to results
+        req.results.put(createMediaFile(imageUri));
 
-            // Add image to results
-            req.results.put(createMediaFile(uri));
+        checkForDuplicateImage();
 
-            checkForDuplicateImage();
-
-            if (req.results.length() >= req.limit) {
-                // Send Uri back to JavaScript for viewing image
-                pendingRequests.resolveWithSuccess(req);
-            } else {
-                // still need to capture more images
-                captureImage(req);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            pendingRequests.resolveWithFailure(req, createErrorObject(CAPTURE_INTERNAL_ERR, "Error capturing image."));
+        if (req.results.length() >= req.limit) {
+            // Send Uri back to JavaScript for viewing image
+            pendingRequests.resolveWithSuccess(req);
+        } else {
+            // still need to capture more images
+            captureImage(req);
         }
     }
 
@@ -488,7 +456,7 @@ public class Capture extends CordovaPlugin {
         try {
             // File properties
             obj.put("name", fp.getName());
-            obj.put("fullPath", fp.toURI().toString());
+            obj.put("fullPath", Uri.fromFile(fp));
             if (url != null) {
                 obj.put("localURL", url.toString());
             }
@@ -602,5 +570,13 @@ public class Capture extends CordovaPlugin {
                 pendingRequests.resolveWithFailure(req, createErrorObject(CAPTURE_PERMISSION_DENIED, "Permission denied."));
             }
         }
+    }
+
+    public Bundle onSaveInstanceState() {
+        return pendingRequests.toBundle();
+    }
+
+    public void onRestoreStateForActivityResult(Bundle state, CallbackContext callbackContext) {
+        pendingRequests.setLastSavedState(state, callbackContext);
     }
 }
