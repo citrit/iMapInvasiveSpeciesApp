@@ -7,6 +7,17 @@
 		<item value="478" key="DIALOG_X_ORIGIN"/>
 		<item value="223" key="DIALOG_Y_ORIGIN"/>
 	</section>
+	<section name="ExternalProjectImportWizard">
+		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
+		</list>
+	</section>
 	<section name="NewWizardAction">
 		<item value="com.android.ide.eclipse.adt.project.ImportProjectWizard.NewPrj" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">

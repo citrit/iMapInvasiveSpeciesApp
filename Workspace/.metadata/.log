@@ -1,558 +1,313 @@
-!SESSION 2013-06-05 19:23:25.378 -----------------------------------------------
-eclipse.buildId=M20120914-1800
-java.version=1.6.0_45
-java.vendor=Apple Inc.
-BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.jee.product -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
-Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -data /Users/200019935/Projects/iMapInvasiveSpecies/Workspace -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
-
-!ENTRY org.eclipse.jface 2 0 2013-06-05 19:23:27.690
-!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
-!SUBENTRY 1 org.eclipse.jface 2 0 2013-06-05 19:23:27.690
-!MESSAGE A conflict occurred for COMMAND+SHIFT+Z:
-Binding(COMMAND+SHIFT+Z,
-	ParameterizedCommand(Command(org.eclipse.php.debug.ui.commands.Inspect,Inspect,
-		Inspect result of evaluating selected text,
-		Category(org.eclipse.debug.ui.category.run,Run/Debug,Run/Debug command category,true),
-		,
-		,,true),null),
-	org.eclipse.ui.defaultAcceleratorConfiguration,
-	org.eclipse.ui.contexts.dialogAndWindow,,,system)
-Binding(COMMAND+SHIFT+Z,
-	ParameterizedCommand(Command(org.eclipse.ui.edit.redo,Redo,
-		Redo the last operation,
-		Category(org.eclipse.ui.category.edit,Edit,null,true),
-		,
-		,,true),null),
-	org.eclipse.ui.defaultAcceleratorConfiguration,
-	org.eclipse.ui.contexts.dialogAndWindow,,cocoa,system)
-
-!ENTRY org.eclipse.core.net 1 0 2013-06-05 19:23:28.846
-!MESSAGE System property http.nonProxyHosts has been set to http://research.setpac.ge.com:1533/pac.pac|*.http://research.setpac.ge.com:1533/pac.pac by an external source. This value will be overwritten using the values from the preferences
-
-!ENTRY org.eclipse.jface 2 0 2013-06-05 19:23:29.132
-!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
-!SUBENTRY 1 org.eclipse.jface 2 0 2013-06-05 19:23:29.132
-!MESSAGE A conflict occurred for ALT+COMMAND+Q P:
-Binding(ALT+COMMAND+Q P,
-	ParameterizedCommand(Command(org.eclipse.php.ui.explorer,PHP Script Explorer,
-		Shows the Script Explorer,
-		Category(org.eclipse.ui.category.views,Views,Commands for opening views,true),
-		org.eclipse.ui.internal.MakeHandlersGo@5c08e00d,
-		,,true),null),
-	org.eclipse.ui.defaultAcceleratorConfiguration,
-	org.eclipse.ui.contexts.window,,cocoa,system)
-Binding(ALT+COMMAND+Q P,
-	ParameterizedCommand(Command(org.eclipse.ui.views.showView,Show View,
-		Shows a particular view,
-		Category(org.eclipse.ui.category.views,Views,Commands for opening views,true),
-		org.eclipse.ui.internal.MakeHandlersGo@4aada4af,
-		[Lorg.eclipse.e4.ui.internal.workbench.Parameter;@4e170376,,true),[Lorg.eclipse.core.commands.Parameterization;@95c90f4),
-	org.eclipse.ui.defaultAcceleratorConfiguration,
-	org.eclipse.ui.contexts.window,,cocoa,system)
-
-!ENTRY com.android.ide.eclipse.adt 4 0 2013-06-05 19:48:14.406
-!MESSAGE New Project Wizard failed
-!STACK 0
-java.lang.reflect.InvocationTargetException
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:642)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.access$0(NewProjectCreator.java:559)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator$2.execute(NewProjectCreator.java:371)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:106)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2344)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:118)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
-Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
-	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
-	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
-	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
-	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createEclipseProject(NewProjectCreator.java:689)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:626)
-	... 6 more
-Root exception:
-org.eclipse.core.internal.resources.ResourceException: Invalid project description.
-	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
-	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
-	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
-	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createEclipseProject(NewProjectCreator.java:689)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:626)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.access$0(NewProjectCreator.java:559)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator$2.execute(NewProjectCreator.java:371)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:106)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2344)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:118)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
-Contains: OK
-Contains: /Users/200019935/Projects/iMapInvasiveSpecies/Workspace/iMapDBTestHarness overlaps the location of another project: 'iMapDBTestHarness'
-
-!ENTRY com.android.ide.eclipse.adt 4 0 2013-06-05 19:49:00.869
-!MESSAGE New Project Wizard failed
-!STACK 0
-java.lang.reflect.InvocationTargetException
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:642)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.access$0(NewProjectCreator.java:559)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator$2.execute(NewProjectCreator.java:371)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:106)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2344)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:118)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
-Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
-	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
-	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
-	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
-	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createEclipseProject(NewProjectCreator.java:689)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:626)
-	... 6 more
-Root exception:
-org.eclipse.core.internal.resources.ResourceException: Invalid project description.
-	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
-	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
-	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
-	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createEclipseProject(NewProjectCreator.java:689)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:626)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.access$0(NewProjectCreator.java:559)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator$2.execute(NewProjectCreator.java:371)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:106)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2344)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:118)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
-Contains: OK
-Contains: /Users/200019935/Projects/iMapInvasiveSpecies/Workspace/iMapDBTestHarness overlaps the location of another project: 'iMapDBTestHarness'
-!SESSION 2015-06-26 08:26:00.953 -----------------------------------------------
-eclipse.buildId=4.5.0.I20150603-2000
-java.version=1.8.0_11
+!SESSION 2017-03-16 11:54:22.703 -----------------------------------------------
+eclipse.buildId=4.6.2.M20161124-1400
+java.version=1.8.0_66
 java.vendor=Oracle Corporation
 BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
-Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
+Framework arguments:  -product org.eclipse.epp.package.javascript.product -keyring /Users/200019935/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.javascript.product -keyring /Users/200019935/.eclipse_keyring
 
-!ENTRY org.eclipse.core.resources 2 10035 2015-06-26 08:27:11.072
-!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+This is a continuation of log file /Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/.metadata/.bak_0.log
+Created Time: 2017-03-16 11:54:29.970
+!SESSION 2017-03-16 11:54:22.703 -----------------------------------------------
+eclipse.buildId=4.6.2.M20161124-1400
+java.version=1.8.0_66
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.javascript.product -keyring /Users/200019935/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.javascript.product -keyring /Users/200019935/.eclipse_keyring
 
-!ENTRY org.eclipse.core.net 1 0 2015-06-26 08:27:12.665
+!ENTRY org.eclipse.core.net 1 0 2017-03-16 11:54:29.970
 !MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
 
-!ENTRY org.eclipse.oomph.setup.core 4 0 2015-06-26 08:27:23.080
-!MESSAGE Connection refused
-!STACK 0
-org.eclipse.oomph.util.IOExceptionWithCause: Connection refused
-	at org.eclipse.oomph.setup.internal.core.util.ECFURIHandlerImpl.createInputStream(ECFURIHandlerImpl.java:266)
-	at org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl.createInputStream(ExtensibleURIConverterImpl.java:360)
-	at org.eclipse.oomph.setup.internal.core.util.SetupCoreUtil.handleArchiveRedirection(SetupCoreUtil.java:356)
-	at org.eclipse.oomph.setup.internal.core.util.SetupCoreUtil.configureResourceSet(SetupCoreUtil.java:342)
-	at org.eclipse.oomph.setup.internal.core.util.SetupCoreUtil.createResourceSet(SetupCoreUtil.java:124)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin.performStartup(SetupUIPlugin.java:369)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin.access$3(SetupUIPlugin.java:310)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin$1$1.run(SetupUIPlugin.java:210)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
-Caused by: java.net.ConnectException: Connection refused
-	at java.net.PlainSocketImpl.socketConnect(Native Method)
-	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:345)
-	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
-	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
-	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
-	at java.net.Socket.connect(Socket.java:589)
-	at org.eclipse.ecf.internal.provider.filetransfer.httpclient4.ECFHttpClientProtocolSocketFactory.connectSocket(ECFHttpClientProtocolSocketFactory.java:84)
-	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:177)
-	at org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:144)
-	at org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:131)
-	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:611)
-	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:446)
-	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
-	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1077)
-	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:618)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:885)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:576)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
-	at org.eclipse.oomph.setup.internal.core.util.ECFURIHandlerImpl.createInputStream(ECFURIHandlerImpl.java:201)
-	... 8 more
+!ENTRY com.google.gdt.eclipse.core 1 0 2017-03-16 11:54:33.235
+!MESSAGE Scheduled rebuild of project imageUploadEx because of plugin update (current version: 3.9.5.v20160930-1755)
 
-!ENTRY org.eclipse.oomph.setup.core 4 0 2015-06-26 08:27:23.222
-!MESSAGE Connection refused
-!STACK 0
-org.eclipse.oomph.util.IOExceptionWithCause: Connection refused
-	at org.eclipse.oomph.setup.internal.core.util.ECFURIHandlerImpl.createInputStream(ECFURIHandlerImpl.java:266)
-	at org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl.createInputStream(ExtensibleURIConverterImpl.java:360)
-	at org.eclipse.oomph.setup.internal.core.util.SetupCoreUtil.handleArchiveRedirection(SetupCoreUtil.java:356)
-	at org.eclipse.oomph.setup.internal.core.util.SetupCoreUtil.configureResourceSet(SetupCoreUtil.java:342)
-	at org.eclipse.oomph.setup.internal.core.util.SetupCoreUtil.createResourceSet(SetupCoreUtil.java:124)
-	at org.eclipse.oomph.setup.internal.core.util.UserURIHandlerImpl.create(UserURIHandlerImpl.java:195)
-	at org.eclipse.oomph.setup.internal.core.util.UserURIHandlerImpl.exists(UserURIHandlerImpl.java:106)
-	at org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl.exists(ExtensibleURIConverterImpl.java:378)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin$2.run(SetupUIPlugin.java:265)
-	at org.eclipse.oomph.util.WorkerPool.begin(WorkerPool.java:119)
-	at org.eclipse.oomph.setup.internal.core.util.ResourceMirror.begin(ResourceMirror.java:111)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin.mirror(SetupUIPlugin.java:274)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin.performStartup(SetupUIPlugin.java:377)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin.access$3(SetupUIPlugin.java:310)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin$1$1.run(SetupUIPlugin.java:210)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
-Caused by: java.net.ConnectException: Connection refused
-	at java.net.PlainSocketImpl.socketConnect(Native Method)
-	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:345)
-	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
-	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
-	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
-	at java.net.Socket.connect(Socket.java:589)
-	at org.eclipse.ecf.internal.provider.filetransfer.httpclient4.ECFHttpClientProtocolSocketFactory.connectSocket(ECFHttpClientProtocolSocketFactory.java:84)
-	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:177)
-	at org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:144)
-	at org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:131)
-	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:611)
-	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:446)
-	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
-	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1077)
-	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:618)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:885)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:576)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
-	at org.eclipse.oomph.setup.internal.core.util.ECFURIHandlerImpl.createInputStream(ECFURIHandlerImpl.java:201)
-	... 15 more
+!ENTRY org.eclipse.ui.navigator 2 0 2017-03-16 11:54:33.556
+!MESSAGE Can't find Navigator Content Descriptor with id: org.eclipse.jst.servlet.ui.EnhancedJavaRendering
 
-!ENTRY org.eclipse.oomph.base 2 0 2015-06-26 08:27:23.551
-!MESSAGE org.eclipse.oomph.util.IOExceptionWithCause: Connection refused
-!STACK 0
-org.eclipse.emf.ecore.resource.impl.ResourceSetImpl$1DiagnosticWrappedException: org.eclipse.oomph.util.IOExceptionWithCause: Connection refused
-	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.handleDemandLoadException(ResourceSetImpl.java:319)
-	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.demandLoadHelper(ResourceSetImpl.java:278)
-	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl$ResourceLocator.demandLoadHelper(ResourceSetImpl.java:804)
-	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl$MappedResourceLocator.getResource(ResourceSetImpl.java:1204)
-	at org.eclipse.oomph.setup.internal.core.util.SetupCoreUtil$1.getResource(SetupCoreUtil.java:294)
-	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.getResource(ResourceSetImpl.java:352)
-	at org.eclipse.oomph.base.util.BaseUtil.loadResourceSafely(BaseUtil.java:54)
-	at org.eclipse.oomph.setup.internal.core.SetupContext.getInstallation(SetupContext.java:613)
-	at org.eclipse.oomph.setup.internal.core.SetupContext.create(SetupContext.java:248)
-	at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.createForIDE(SetupTaskPerformer.java:3413)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin.performStartup(SetupUIPlugin.java:403)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin.access$3(SetupUIPlugin.java:310)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin$1$1.run(SetupUIPlugin.java:210)
+!ENTRY org.eclipse.core.resources 4 2 2017-03-16 11:54:35.340
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.core.resources".
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaExecutableFullyQualifiedPath(ProcessUtilities.java:146)
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaCompilerExecutableFullyQualifiedPath(ProcessUtilities.java:97)
+	at com.google.gdt.eclipse.core.ProcessUtilities.isUsingJDK(ProcessUtilities.java:243)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.validateUsingJDKifUsingJSPs(GaeProjectValidator.java:115)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.build(GaeProjectValidator.java:190)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:735)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:206)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:246)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:301)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:304)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:263)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:403)
+	at org.eclipse.core.internal.resources.Project$1.run(Project.java:551)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Project.internalBuild(Project.java:529)
+	at org.eclipse.core.internal.resources.Project.build(Project.java:112)
+	at com.google.gdt.eclipse.core.BuilderUtilities$2.runInWorkspace(BuilderUtilities.java:202)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
-Caused by: org.eclipse.oomph.util.IOExceptionWithCause: Connection refused
-	at org.eclipse.oomph.setup.internal.core.util.ECFURIHandlerImpl.createInputStream(ECFURIHandlerImpl.java:266)
-	at org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl.createInputStream(ExtensibleURIConverterImpl.java:360)
-	at org.eclipse.emf.ecore.resource.impl.ResourceImpl.load(ResourceImpl.java:1269)
-	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.demandLoad(ResourceSetImpl.java:259)
-	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.demandLoadHelper(ResourceSetImpl.java:274)
-	... 12 more
-Caused by: java.net.ConnectException: Connection refused
-	at java.net.PlainSocketImpl.socketConnect(Native Method)
-	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:345)
-	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
-	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
-	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
-	at java.net.Socket.connect(Socket.java:589)
-	at org.eclipse.ecf.internal.provider.filetransfer.httpclient4.ECFHttpClientProtocolSocketFactory.connectSocket(ECFHttpClientProtocolSocketFactory.java:84)
-	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:177)
-	at org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:144)
-	at org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:131)
-	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:611)
-	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:446)
-	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
-	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1077)
-	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:618)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:885)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:576)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
-	at org.eclipse.oomph.setup.internal.core.util.ECFURIHandlerImpl.createInputStream(ECFURIHandlerImpl.java:201)
-	... 16 more
+!SUBENTRY 1 com.google.gdt.eclipse.core 4 0 2017-03-16 11:54:35.341
+!MESSAGE Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+!SUBENTRY 1 com.google.gdt.eclipse.core 4 0 2017-03-16 11:54:35.341
+!MESSAGE Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
 
-!ENTRY org.eclipse.oomph.setup.core 4 0 2015-06-26 08:27:24.055
-!MESSAGE Connection refused
-!STACK 0
-org.eclipse.oomph.util.IOExceptionWithCause: Connection refused
-	at org.eclipse.oomph.setup.internal.core.util.ECFURIHandlerImpl.createInputStream(ECFURIHandlerImpl.java:266)
-	at org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl.createInputStream(ExtensibleURIConverterImpl.java:360)
-	at org.eclipse.oomph.setup.internal.core.util.SetupCoreUtil.handleArchiveRedirection(SetupCoreUtil.java:356)
-	at org.eclipse.oomph.setup.internal.core.util.SetupCoreUtil.configureResourceSet(SetupCoreUtil.java:342)
-	at org.eclipse.oomph.setup.internal.core.util.SetupCoreUtil.createResourceSet(SetupCoreUtil.java:124)
-	at org.eclipse.oomph.setup.internal.core.SetupContext.associate(SetupContext.java:354)
-	at org.eclipse.oomph.setup.internal.core.SetupContext.createSelf(SetupContext.java:235)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin.performStartup(SetupUIPlugin.java:416)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin.access$3(SetupUIPlugin.java:310)
-	at org.eclipse.oomph.setup.ui.SetupUIPlugin$1$1.run(SetupUIPlugin.java:210)
+!ENTRY org.eclipse.core.resources 4 566 2017-03-16 11:54:35.404
+!MESSAGE Errors occurred during the build.
+!SUBENTRY 1 com.google.appengine.eclipse.core 4 75 2017-03-16 11:54:35.404
+!MESSAGE Errors running builder 'Google App Engine Project Validator' on project 'imageUploadEx'.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaExecutableFullyQualifiedPath(ProcessUtilities.java:146)
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaCompilerExecutableFullyQualifiedPath(ProcessUtilities.java:97)
+	at com.google.gdt.eclipse.core.ProcessUtilities.isUsingJDK(ProcessUtilities.java:243)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.validateUsingJDKifUsingJSPs(GaeProjectValidator.java:115)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.build(GaeProjectValidator.java:190)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:735)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:206)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:246)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:301)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:304)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:263)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:403)
+	at org.eclipse.core.internal.resources.Project$1.run(Project.java:551)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Project.internalBuild(Project.java:529)
+	at org.eclipse.core.internal.resources.Project.build(Project.java:112)
+	at com.google.gdt.eclipse.core.BuilderUtilities$2.runInWorkspace(BuilderUtilities.java:202)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
-Caused by: java.net.ConnectException: Connection refused
-	at java.net.PlainSocketImpl.socketConnect(Native Method)
-	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:345)
-	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
-	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
-	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
-	at java.net.Socket.connect(Socket.java:589)
-	at org.eclipse.ecf.internal.provider.filetransfer.httpclient4.ECFHttpClientProtocolSocketFactory.connectSocket(ECFHttpClientProtocolSocketFactory.java:84)
-	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:177)
-	at org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:144)
-	at org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:131)
-	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:611)
-	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:446)
-	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
-	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1077)
-	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:618)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:885)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:576)
-	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
-	at org.eclipse.oomph.setup.internal.core.util.ECFURIHandlerImpl.createInputStream(ECFURIHandlerImpl.java:201)
-	... 10 more
+!SUBENTRY 2 com.google.gdt.eclipse.core 4 0 2017-03-16 11:54:35.404
+!MESSAGE Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+!SUBENTRY 1 com.google.gdt.eclipse.core 4 0 2017-03-16 11:54:35.404
+!MESSAGE Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
 
-!ENTRY org.eclipse.epp.logging.aeri.ui 2 23 2015-06-26 08:27:33.069
-!MESSAGE The server availability check failed Version: 1.0.0.v20150617-0732
-!STACK 0
-org.apache.http.conn.HttpHostConnectException: Connect to dev.eclipse.org:443 [dev.eclipse.org/198.41.30.200] failed: Connection refused
-	at org.apache.http.impl.conn.HttpClientConnectionOperator.connect(HttpClientConnectionOperator.java:142)
-	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:319)
-	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:363)
-	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:219)
-	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:195)
-	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:86)
-	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:108)
-	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:57)
-	at org.apache.http.client.fluent.Executor.execute(Executor.java:206)
-	at org.eclipse.epp.internal.logging.aeri.ui.log.CheckServerAvailabilityJob.run(CheckServerAvailabilityJob.java:48)
+!ENTRY com.google.gwt.eclipse.core 2 0 2017-03-16 11:54:35.426
+!MESSAGE Could not check whether the launch configuration "imageUpload" needs the -XstartOnFirstThread argument, assuming it does
+
+!ENTRY com.google.gwt.eclipse.core 2 0 2017-03-16 11:54:35.443
+!MESSAGE Could not check whether the launch configuration "imageUpload" needs the -XstartOnFirstThread argument, assuming it does
+
+!ENTRY com.google.gwt.eclipse.core 2 0 2017-03-16 11:54:35.936
+!MESSAGE Could not check whether the launch configuration "imageUpload" needs the -XstartOnFirstThread argument, assuming it does
+
+!ENTRY com.google.gdt.eclipse.core 4 0 2017-03-16 11:54:38.244
+!MESSAGE Unable to locate the JVM for project imageUpload. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+
+!ENTRY org.eclipse.core.resources 4 2 2017-03-16 11:54:38.444
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.core.resources".
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to locate the JVM for project imageUpload. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaExecutableFullyQualifiedPath(ProcessUtilities.java:146)
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaCompilerExecutableFullyQualifiedPath(ProcessUtilities.java:97)
+	at com.google.gdt.eclipse.core.ProcessUtilities.isUsingJDK(ProcessUtilities.java:243)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.validateUsingJDKifUsingJSPs(GaeProjectValidator.java:115)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.build(GaeProjectValidator.java:190)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:735)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:206)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:246)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:301)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:304)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:360)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:383)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:144)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:235)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
-Caused by: java.net.ConnectException: Connection refused
-	at java.net.PlainSocketImpl.socketConnect(Native Method)
-	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:345)
-	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
-	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
-	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
-	at java.net.Socket.connect(Socket.java:589)
-	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:244)
-	at org.apache.http.impl.conn.HttpClientConnectionOperator.connect(HttpClientConnectionOperator.java:125)
-	... 12 more
+!SUBENTRY 1 com.google.gdt.eclipse.core 4 0 2017-03-16 11:54:38.444
+!MESSAGE Unable to locate the JVM for project imageUpload. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+!SUBENTRY 1 com.google.gdt.eclipse.core 4 0 2017-03-16 11:54:38.444
+!MESSAGE Unable to locate the JVM for project imageUpload. Please verify that you have a project-level JVM installed by inspecting your project's build path.
 
-!ENTRY org.eclipse.epp.logging.aeri.ui 2 18 2015-06-26 08:28:22.922
-!MESSAGE Updating the index from remote failed. Version: 1.0.0.v20150617-0732
-!STACK 0
-org.apache.http.conn.HttpHostConnectException: Connect to dev.eclipse.org:443 [dev.eclipse.org/198.41.30.200] failed: Connection refused
-	at org.apache.http.impl.conn.HttpClientConnectionOperator.connect(HttpClientConnectionOperator.java:142)
-	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:319)
-	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:363)
-	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:219)
-	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:195)
-	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:86)
-	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:108)
-	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:57)
-	at org.apache.http.client.fluent.Executor.execute(Executor.java:206)
-	at org.eclipse.epp.internal.logging.aeri.ui.log.ProblemsDatabaseUpdateJob.getEtag(ProblemsDatabaseUpdateJob.java:94)
-	at org.eclipse.epp.internal.logging.aeri.ui.log.ProblemsDatabaseUpdateJob.run(ProblemsDatabaseUpdateJob.java:58)
+!ENTRY org.eclipse.core.resources 4 75 2017-03-16 11:54:38.445
+!MESSAGE Errors occurred during the build.
+!SUBENTRY 1 com.google.appengine.eclipse.core 4 75 2017-03-16 11:54:38.445
+!MESSAGE Errors running builder 'Google App Engine Project Validator' on project 'imageUpload'.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to locate the JVM for project imageUpload. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaExecutableFullyQualifiedPath(ProcessUtilities.java:146)
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaCompilerExecutableFullyQualifiedPath(ProcessUtilities.java:97)
+	at com.google.gdt.eclipse.core.ProcessUtilities.isUsingJDK(ProcessUtilities.java:243)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.validateUsingJDKifUsingJSPs(GaeProjectValidator.java:115)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.build(GaeProjectValidator.java:190)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:735)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:206)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:246)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:301)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:304)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:360)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:383)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:144)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:235)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
-Caused by: java.net.ConnectException: Connection refused
-	at java.net.PlainSocketImpl.socketConnect(Native Method)
-	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:345)
-	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
-	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
-	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
-	at java.net.Socket.connect(Socket.java:589)
-	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:244)
-	at org.apache.http.impl.conn.HttpClientConnectionOperator.connect(HttpClientConnectionOperator.java:125)
-	... 13 more
-
-!ENTRY org.eclipse.epp.logging.aeri.ui 2 6 2015-06-26 08:28:22.935
-!MESSAGE Failed to determine ETAG for remote problems database. Stopping update. Version: 1.0.0.v20150617-0732
-!SESSION 2015-07-03 19:45:39.878 -----------------------------------------------
-eclipse.buildId=4.5.0.I20150603-2000
-java.version=1.8.0_11
+!SUBENTRY 2 com.google.gdt.eclipse.core 4 0 2017-03-16 11:54:38.446
+!MESSAGE Unable to locate the JVM for project imageUpload. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+!SUBENTRY 1 com.google.gdt.eclipse.core 4 0 2017-03-16 11:54:38.446
+!MESSAGE Unable to locate the JVM for project imageUpload. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+!SESSION 2017-03-16 12:04:23.637 -----------------------------------------------
+eclipse.buildId=4.6.2.M20161124-1400
+java.version=1.8.0_66
 java.vendor=Oracle Corporation
 BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
-Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
+Framework arguments:  -product org.eclipse.epp.package.javascript.product -keyring /Users/200019935/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.javascript.product -keyring /Users/200019935/.eclipse_keyring
 
-!ENTRY org.eclipse.core.net 1 0 2015-07-03 19:46:09.953
+!ENTRY org.eclipse.core.net 1 0 2017-03-16 12:04:30.642
 !MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
-!SESSION 2015-07-03 19:54:39.350 -----------------------------------------------
-eclipse.buildId=4.5.0.I20150603-2000
-java.version=1.8.0_11
-java.vendor=Oracle Corporation
-BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.jee.product -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
-Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -data file:/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/ -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
 
-!ENTRY org.eclipse.core.net 1 0 2015-07-03 19:54:54.559
-!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
-!SESSION 2015-10-14 18:34:41.070 -----------------------------------------------
-eclipse.buildId=4.5.0.I20150603-2000
-java.version=1.8.0_11
-java.vendor=Oracle Corporation
-BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
-Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
+!ENTRY org.eclipse.ui.navigator 2 0 2017-03-16 12:04:33.117
+!MESSAGE Can't find Navigator Content Descriptor with id: org.eclipse.jst.servlet.ui.EnhancedJavaRendering
 
-!ENTRY org.eclipse.core.net 1 0 2015-10-14 18:35:49.767
-!MESSAGE System property http.nonProxyHosts has been set to local 169.254/16|*.local 169.254/16 by an external source. This value will be overwritten using the values from the preferences
+!ENTRY com.google.gwt.eclipse.core 1 0 2017-03-16 12:05:13.205
+!MESSAGE Reset default editor for extension: xml
 
-!ENTRY org.eclipse.core.resources 4 4 2015-10-14 18:41:57.229
-!MESSAGE Exception occurred while saving project preferences: /iMapApp/.settings/org.eclipse.jdt.core.prefs.
+!ENTRY com.google.gdt.eclipse.core 4 0 2017-03-16 12:05:14.356
+!MESSAGE Error while tracking project-level changes from a change in R/
 !STACK 1
-org.eclipse.core.internal.resources.ResourceException: A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/.settings'.
-	at org.eclipse.core.internal.resources.Folder.assertCreateRequirements(Folder.java:47)
-	at org.eclipse.core.internal.resources.Folder.create(Folder.java:93)
-	at org.eclipse.core.internal.resources.ProjectPreferences$1.run(ProjectPreferences.java:636)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:662)
-	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:471)
-	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:365)
-	at org.eclipse.jdt.internal.core.JavaProject.setOption(JavaProject.java:2955)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.checkAndFixCompilerCompliance(ProjectHelper.java:513)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProjectClasspathEntries(ProjectHelper.java:422)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProject(ProjectHelper.java:296)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createEclipseProject(NewProjectCreator.java:837)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:660)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.access$0(NewProjectCreator.java:590)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator$3.execute(NewProjectCreator.java:400)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:108)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:130)
+Java Model Exception: Java Model Status [Unbound classpath container: 'Default System Library' in project 'imageUploadEx']
+	at org.eclipse.jdt.internal.core.JavaProject.getResolvedClasspath(JavaProject.java:2009)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.isResourceInAnOutputPath(ProjectChangeTimestampTracker.java:121)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.visitDelta(ProjectChangeTimestampTracker.java:162)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.visitDelta(ProjectChangeTimestampTracker.java:169)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.resourceChanged(ProjectChangeTimestampTracker.java:181)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:299)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:289)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:152)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:374)
+	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1469)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2253)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.jdt.core.JavaCore.run(JavaCore.java:5521)
+	at org.eclipse.jdt.internal.ui.actions.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:105)
 	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
-!SUBENTRY 1 org.eclipse.core.resources 4 272 2015-10-14 18:41:57.231
-!MESSAGE A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/.settings'.
+!SUBENTRY 1 org.eclipse.jdt.core 4 963 2017-03-16 12:05:14.357
+!MESSAGE Unbound classpath container: 'Default System Library' in project 'imageUploadEx'
 
-!ENTRY org.eclipse.core.resources 4 4 2015-10-14 18:41:57.412
-!MESSAGE Exception occurred while saving project preferences: /iMapApp/.settings/org.eclipse.jdt.core.prefs.
+!ENTRY com.google.gdt.eclipse.core 4 0 2017-03-16 12:05:15.592
+!MESSAGE Error while tracking project-level changes from a change in R/
 !STACK 1
-org.eclipse.core.internal.resources.ResourceException: A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/.settings'.
-	at org.eclipse.core.internal.resources.Folder.assertCreateRequirements(Folder.java:47)
-	at org.eclipse.core.internal.resources.Folder.create(Folder.java:93)
-	at org.eclipse.core.internal.resources.ProjectPreferences$1.run(ProjectPreferences.java:636)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:662)
-	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:471)
-	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:365)
-	at org.eclipse.jdt.internal.core.JavaProject.setOption(JavaProject.java:2955)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.checkAndFixCompilerCompliance(ProjectHelper.java:515)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProjectClasspathEntries(ProjectHelper.java:422)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProject(ProjectHelper.java:296)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createEclipseProject(NewProjectCreator.java:837)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:660)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.access$0(NewProjectCreator.java:590)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator$3.execute(NewProjectCreator.java:400)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:108)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:130)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
-!SUBENTRY 1 org.eclipse.core.resources 4 272 2015-10-14 18:41:57.412
-!MESSAGE A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/.settings'.
+Java Model Exception: Java Model Status [Unbound classpath container: 'Default System Library' in project 'imageUploadEx']
+	at org.eclipse.jdt.internal.core.JavaProject.getResolvedClasspath(JavaProject.java:2009)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.isResourceInAnOutputPath(ProjectChangeTimestampTracker.java:121)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.visitDelta(ProjectChangeTimestampTracker.java:162)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.visitDelta(ProjectChangeTimestampTracker.java:169)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.resourceChanged(ProjectChangeTimestampTracker.java:181)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:299)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:289)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:152)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:374)
+	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1469)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:46)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.jdt.core 4 963 2017-03-16 12:05:15.593
+!MESSAGE Unbound classpath container: 'Default System Library' in project 'imageUploadEx'
 
-!ENTRY org.eclipse.core.resources 4 4 2015-10-14 18:41:57.424
-!MESSAGE Exception occurred while saving project preferences: /iMapApp/.settings/org.eclipse.jdt.core.prefs.
+!ENTRY com.google.gdt.eclipse.core 4 0 2017-03-16 12:05:16.809
+!MESSAGE Error while tracking project-level changes from a change in R/
 !STACK 1
-org.eclipse.core.internal.resources.ResourceException: A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/.settings'.
-	at org.eclipse.core.internal.resources.Folder.assertCreateRequirements(Folder.java:47)
-	at org.eclipse.core.internal.resources.Folder.create(Folder.java:93)
-	at org.eclipse.core.internal.resources.ProjectPreferences$1.run(ProjectPreferences.java:636)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:662)
-	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:471)
-	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:365)
-	at org.eclipse.jdt.internal.core.JavaProject.setOption(JavaProject.java:2955)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.checkAndFixCompilerCompliance(ProjectHelper.java:517)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProjectClasspathEntries(ProjectHelper.java:422)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProject(ProjectHelper.java:296)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createEclipseProject(NewProjectCreator.java:837)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:660)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.access$0(NewProjectCreator.java:590)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator$3.execute(NewProjectCreator.java:400)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:108)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:130)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
-!SUBENTRY 1 org.eclipse.core.resources 4 272 2015-10-14 18:41:57.424
-!MESSAGE A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/.settings'.
+Java Model Exception: Java Model Status [Unbound classpath container: 'Default System Library' in project 'imageUploadEx']
+	at org.eclipse.jdt.internal.core.JavaProject.getResolvedClasspath(JavaProject.java:2009)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.isResourceInAnOutputPath(ProjectChangeTimestampTracker.java:121)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.visitDelta(ProjectChangeTimestampTracker.java:162)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.visitDelta(ProjectChangeTimestampTracker.java:169)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.resourceChanged(ProjectChangeTimestampTracker.java:181)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:299)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:289)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:152)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:374)
+	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1469)
+	at org.eclipse.core.internal.resources.Project.touch(Project.java:1311)
+	at org.eclipse.team.core.RepositoryProvider.map(RepositoryProvider.java:132)
+	at org.eclipse.egit.core.op.ConnectProviderOperation.connectProject(ConnectProviderOperation.java:154)
+	at org.eclipse.egit.core.op.ConnectProviderOperation.execute(ConnectProviderOperation.java:100)
+	at org.eclipse.egit.core.internal.job.JobUtil$1.run(JobUtil.java:53)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.jdt.core 4 963 2017-03-16 12:05:16.809
+!MESSAGE Unbound classpath container: 'Default System Library' in project 'imageUploadEx'
 
-!ENTRY org.eclipse.core.resources 4 4 2015-10-14 18:41:57.635
-!MESSAGE Exception occurred while saving project preferences: /MainActivity-CordovaLib/.settings/org.eclipse.jdt.core.prefs.
+!ENTRY org.eclipse.core.resources 4 2 2017-03-16 12:05:18.615
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.core.resources".
 !STACK 1
-org.eclipse.core.internal.resources.ResourceException: A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/CordovaLib/.settings'.
-	at org.eclipse.core.internal.resources.Folder.assertCreateRequirements(Folder.java:47)
-	at org.eclipse.core.internal.resources.Folder.create(Folder.java:93)
-	at org.eclipse.core.internal.resources.ProjectPreferences$1.run(ProjectPreferences.java:636)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:662)
-	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:471)
-	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:365)
-	at org.eclipse.jdt.internal.core.JavaProject.setOption(JavaProject.java:2955)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.checkAndFixCompilerCompliance(ProjectHelper.java:513)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProjectClasspathEntries(ProjectHelper.java:422)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProject(ProjectHelper.java:296)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createEclipseProject(NewProjectCreator.java:837)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:660)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.access$0(NewProjectCreator.java:590)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator$3.execute(NewProjectCreator.java:400)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:108)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:130)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
-!SUBENTRY 1 org.eclipse.core.resources 4 272 2015-10-14 18:41:57.636
-!MESSAGE A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/CordovaLib/.settings'.
+org.eclipse.core.runtime.CoreException: Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaExecutableFullyQualifiedPath(ProcessUtilities.java:146)
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaCompilerExecutableFullyQualifiedPath(ProcessUtilities.java:97)
+	at com.google.gdt.eclipse.core.ProcessUtilities.isUsingJDK(ProcessUtilities.java:243)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.validateUsingJDKifUsingJSPs(GaeProjectValidator.java:115)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.build(GaeProjectValidator.java:190)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:735)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:206)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:246)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:301)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:304)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:360)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:383)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:144)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:235)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 com.google.gdt.eclipse.core 4 0 2017-03-16 12:05:18.616
+!MESSAGE Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+!SUBENTRY 1 com.google.gdt.eclipse.core 4 0 2017-03-16 12:05:18.616
+!MESSAGE Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
 
-!ENTRY org.eclipse.core.resources 4 4 2015-10-14 18:41:57.652
-!MESSAGE Exception occurred while saving project preferences: /MainActivity-CordovaLib/.settings/org.eclipse.jdt.core.prefs.
+!ENTRY com.google.gdt.eclipse.core 4 0 2017-03-16 12:05:18.655
+!MESSAGE Error while tracking project-level changes from a change in R/
 !STACK 1
-org.eclipse.core.internal.resources.ResourceException: A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/CordovaLib/.settings'.
-	at org.eclipse.core.internal.resources.Folder.assertCreateRequirements(Folder.java:47)
-	at org.eclipse.core.internal.resources.Folder.create(Folder.java:93)
-	at org.eclipse.core.internal.resources.ProjectPreferences$1.run(ProjectPreferences.java:636)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:662)
-	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:471)
-	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:365)
-	at org.eclipse.jdt.internal.core.JavaProject.setOption(JavaProject.java:2955)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.checkAndFixCompilerCompliance(ProjectHelper.java:515)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProjectClasspathEntries(ProjectHelper.java:422)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProject(ProjectHelper.java:296)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createEclipseProject(NewProjectCreator.java:837)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:660)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.access$0(NewProjectCreator.java:590)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator$3.execute(NewProjectCreator.java:400)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:108)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:130)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
-!SUBENTRY 1 org.eclipse.core.resources 4 272 2015-10-14 18:41:57.653
-!MESSAGE A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/CordovaLib/.settings'.
+Java Model Exception: Java Model Status [Unbound classpath container: 'Default System Library' in project 'imageUploadEx']
+	at org.eclipse.jdt.internal.core.JavaProject.getResolvedClasspath(JavaProject.java:2009)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.isResourceInAnOutputPath(ProjectChangeTimestampTracker.java:121)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.visitDelta(ProjectChangeTimestampTracker.java:162)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.visitDelta(ProjectChangeTimestampTracker.java:169)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.visitDelta(ProjectChangeTimestampTracker.java:169)
+	at com.google.gdt.eclipse.core.projects.ProjectChangeTimestampTracker.resourceChanged(ProjectChangeTimestampTracker.java:181)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:299)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:289)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:152)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:374)
+	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1469)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:157)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:235)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.jdt.core 4 963 2017-03-16 12:05:18.655
+!MESSAGE Unbound classpath container: 'Default System Library' in project 'imageUploadEx'
 
-!ENTRY org.eclipse.core.resources 4 4 2015-10-14 18:41:57.668
-!MESSAGE Exception occurred while saving project preferences: /MainActivity-CordovaLib/.settings/org.eclipse.jdt.core.prefs.
+!ENTRY org.eclipse.core.resources 4 75 2017-03-16 12:05:18.668
+!MESSAGE Errors occurred during the build.
+!SUBENTRY 1 com.google.appengine.eclipse.core 4 75 2017-03-16 12:05:18.668
+!MESSAGE Errors running builder 'Google App Engine Project Validator' on project 'imageUploadEx'.
 !STACK 1
-org.eclipse.core.internal.resources.ResourceException: A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/CordovaLib/.settings'.
-	at org.eclipse.core.internal.resources.Folder.assertCreateRequirements(Folder.java:47)
-	at org.eclipse.core.internal.resources.Folder.create(Folder.java:93)
-	at org.eclipse.core.internal.resources.ProjectPreferences$1.run(ProjectPreferences.java:636)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:662)
-	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:471)
-	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:365)
-	at org.eclipse.jdt.internal.core.JavaProject.setOption(JavaProject.java:2955)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.checkAndFixCompilerCompliance(ProjectHelper.java:517)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProjectClasspathEntries(ProjectHelper.java:422)
-	at com.android.ide.eclipse.adt.internal.project.ProjectHelper.fixProject(ProjectHelper.java:296)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createEclipseProject(NewProjectCreator.java:837)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.createProjectAsync(NewProjectCreator.java:660)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator.access$0(NewProjectCreator.java:590)
-	at com.android.ide.eclipse.adt.internal.wizards.newproject.NewProjectCreator$3.execute(NewProjectCreator.java:400)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation$1.run(WorkspaceModifyOperation.java:108)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2241)
-	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:130)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
-!SUBENTRY 1 org.eclipse.core.resources 4 272 2015-10-14 18:41:57.669
-!MESSAGE A resource already exists on disk '/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/CordovaLib/.settings'.
-!SESSION 2015-10-20 19:52:33.422 -----------------------------------------------
-eclipse.buildId=4.5.0.I20150603-2000
-java.version=1.8.0_11
-java.vendor=Oracle Corporation
-BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
-Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/200019935/.eclipse_keyring -showlocation
-
-!ENTRY org.eclipse.core.net 1 0 2015-10-20 19:52:51.175
-!MESSAGE System property http.nonProxyHosts has been set to local 169.254/16|*.local 169.254/16 by an external source. This value will be overwritten using the values from the preferences
+org.eclipse.core.runtime.CoreException: Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaExecutableFullyQualifiedPath(ProcessUtilities.java:146)
+	at com.google.gdt.eclipse.core.ProcessUtilities.computeJavaCompilerExecutableFullyQualifiedPath(ProcessUtilities.java:97)
+	at com.google.gdt.eclipse.core.ProcessUtilities.isUsingJDK(ProcessUtilities.java:243)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.validateUsingJDKifUsingJSPs(GaeProjectValidator.java:115)
+	at com.google.appengine.eclipse.core.validators.GaeProjectValidator.build(GaeProjectValidator.java:190)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:735)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:206)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:246)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:301)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:304)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:360)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:383)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:144)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:235)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 2 com.google.gdt.eclipse.core 4 0 2017-03-16 12:05:18.668
+!MESSAGE Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.
+!SUBENTRY 1 com.google.gdt.eclipse.core 4 0 2017-03-16 12:05:18.668
+!MESSAGE Unable to locate the JVM for project imageUploadEx. Please verify that you have a project-level JVM installed by inspecting your project's build path.

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<servers>
+  <server appEngineDevServerPort="8080" hostname="localhost" id="App Engine Standard at localhost" name="App Engine Standard at localhost" runtime-id="App Engine Standard Runtime" server-type="com.google.cloud.tools.eclipse.appengine.standard.server" server-type-id="com.google.cloud.tools.eclipse.appengine.standard.server" start-timeout="240" stop-timeout="240" timestamp="0"/>
+</servers>

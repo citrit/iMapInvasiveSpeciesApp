@@ -59,8 +59,8 @@ iMapApp.uiUtils = {
                 iMapApp.uiUtils.openDialog('#infoDialog', 'Nothing selected to delete');
             }
             else {
-                iMapApp.uiUtils.openOkCancelDialog('Delete Observations', 
-                                                   'Are you sure you want to delete ' + n + ' Records?', iMapApp.uiUtils.deleteObs);
+                iMapApp.uiUtils.openOkCancelDialog('You have selected DELETE', 
+                                                   'Are you sure you want to DELETE ' + n + ' Records?', iMapApp.uiUtils.deleteObs);
             }
         });
         $( "#prefsMenu" ).click(function() {

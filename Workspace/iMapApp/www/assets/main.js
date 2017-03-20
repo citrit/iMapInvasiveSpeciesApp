@@ -7,9 +7,14 @@ iMapApp.App = {
 	ProjectsURL: 'http://hermes.freac.fsu.edu/requests/state_species/project?state=',
     projectList: null,
     speciesList: null,
+    version: 0.0,
 
     init: function() {
         console.log("iMapApp.App.init");
+        cordova.getAppVersion.getVersionNumber(function (version) {
+            iMapApp.App.version = version;
+            console.log("Version: " + iMapApp.App.version);
+        });
         iMapApp.App.compiledCardTemplate = Mustache.compile( $("#card-template").html() );
         iMapApp.iMapPrefs.init();
         iMapApp.App.projectList = JSON.parse(localStorage.getItem("projectList"));

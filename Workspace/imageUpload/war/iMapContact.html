@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+
+<html>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>iMapInvasives support</title>
+  </head>
+
+  <body background="iMapHeader.png">
+    <!--  <img style="max-width: 100%; height: auto;" src="iMapHeader.png"/> -->
+    <h1>Welcome to the iMapInvasives help page</h1>
+	
+    <table>
+      <tr>
+        <td colspan="2" style="font-weight:bold;">If you are experiencing issues with the application please send and email to:</td>        
+      </tr>
+      <tr>
+        <td>
+			<p align="center">
+				<form id="contact" action="/imageupload" method="post">
+					<input type="hidden" name="subject" value="Submission" />
+					<input type="hidden" name="redirect" value="index.html" />
+					<table border="0" width="">
+						<tr><br/>
+							<td>First Name: </td><td><input type="text" name="FirstName" /></td> 
+						</tr>
+						<tr>
+							<td>Last Name :</td><td><input type="text" name="LastName" /></td> 
+						</tr>
+						<tr>
+							<td>Email: </td><td><input type="text" name="email" /></td> 
+						</tr>
+						<tr>
+							<td>Comments: </td><td><textarea name="comments" cols="40" rows="10">Type comments here.</textarea><br/></td> 
+						</tr>
+						<tr><td colspan=2 align="center"><input type="submit" name="submit" value="submit"/></td> </tr> 
+					</table>
+					<input type="hidden" name="form_order" value="default"/>
+					<input type="hidden" name="form_delivery" value="hourly_digest"/>
+					<input type="hidden" name="form_format" value="text"/> 
+				</form>
+			</p> 
+		</td>
+      </tr>
+    </table>
+    
+ 
+<hr>
+
+  </body>
+</html>

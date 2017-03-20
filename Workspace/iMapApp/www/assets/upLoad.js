@@ -150,7 +150,7 @@ iMapApp.uploadUtils = {
 
 	uploadImage : function(imageName, obs) {
 		var ret = '';
-		var imgUploadURL = "http://1-dot-imapimageupload.appspot.com/imageupload";
+		var imgUploadURL = "http://imapimageupload.appspot.com/imageupload";
 		var options = new FileUploadOptions();
 		options.fileKey = "file";
 		options.fileName = imageName.substr(imageName.lastIndexOf('/') + 1);
@@ -180,7 +180,7 @@ iMapApp.uploadUtils = {
 
 	uploadImageOld : function(imageName) {
 		var ret = '';
-		var imgUploadURL = "http://1-dot-imapimageupload.appspot.com/imageupload";
+		var imgUploadURL = "http://imapimageupload.appspot.com/imageupload";
 		var fd = new FormData();
 		//console.log("Create files: " + '<input type="file" name="' + imageName
 		//		+ '" id="fileToUpload">');

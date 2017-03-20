@@ -53,6 +53,18 @@ public class ImageUploadServlet extends HttpServlet {
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			m_Log.warning("Content type is not multipart/form-data");
 			ret = "{ 'error' : 'Content type is not multipart/form-data' }";
+			response.setContentType("text/html");
+		    PrintWriter out = response.getWriter();
+
+		    out.println("<html>");
+		    out.println("<head>");
+		    out.println("<title>iMapSupport</title>");
+		    out.println("</head>");
+		    out.println("<body bgcolor=\"white\">");
+		    out.println("<H1>iMapInvasives suppport</H1>");
+		    out.println("Thank you for your information, your feedback will be processed shortly.<br><br>" + request.getParameter("comments"));
+		    out.println("</body>");
+		    out.println("</html>");
 		} else {
 			PrintWriter out = response.getWriter();
 			try {

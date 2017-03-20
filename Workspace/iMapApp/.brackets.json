@@ -1,0 +1,9 @@
+{
+    "jscodehints.detectedExclusions": [
+        "/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/build/intermediates/assets/debug/www/plugins/cordova-plugin-device/www/device.js",
+        "/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/assets/www/plugins/cordova-plugin-media-capture/www/MediaFile.js",
+        "/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/assets/www/plugins/cordova-plugin-media-capture/www/MediaFileData.js",
+        "/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/assets/www/plugins/cordova-plugin-network-information/www/Connection.js",
+        "/Users/200019935/git/iMapInvasiveSpeciesApp/Workspace/iMapApp/platforms/android/assets/www/plugins/cordova-plugin-network-information/www/network.js"
+    ]
+}
