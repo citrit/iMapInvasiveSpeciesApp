@@ -67,7 +67,9 @@
             "id": "cordova-plugin-media"
         },
         "is_top_level": true,
-        "variables": {"CAMERA_USAGE_DESCRIPTION": "ImapInvasives needs accces to the camera, photos, and for future the microphone ."}
+        "variables": {
+            "CAMERA_USAGE_DESCRIPTION": "ImapInvasives needs accces to the camera, photos, and for future the microphone ."
+        }
     },
     "cordova-plugin-network-information": {
         "source": {
@@ -152,7 +154,17 @@
         },
         "is_top_level": true,
         "variables": {
-            "CAMERA_USAGE_DESCRIPTION": "ImapInvasives needs accces to the camera."
+            "CAMERA_USAGE_DESCRIPTION": "ImapInvasives needs accces to the camera, photos, and for future the microphone .",
+            "MICROPHONE_USAGE_DESCRIPTION": "ImapInvasives needs accces for future features to the microphone .",
+            "PHOTOLIBRARY_USAGE_DESCRIPTION": "ImapInvasives needs accces to photos."
         }
+    },
+    "cordova-plugin-app-version": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-app-version"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

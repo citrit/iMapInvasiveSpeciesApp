@@ -54,6 +54,9 @@
         },
         "cordova-plugin-media-capture": {
             "PACKAGE_NAME": "com.ltc.imapapp"
+        },
+        "cordova-plugin-app-version": {
+            "PACKAGE_NAME": "com.ltc.imapapp"
         }
     },
     "dependent_plugins": {
