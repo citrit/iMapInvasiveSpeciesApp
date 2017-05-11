@@ -7,6 +7,9 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-app-version": {
+            "PACKAGE_NAME": "com.ltc.imapapp"
+        },
         "cordova-plugin-battery-status": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
@@ -38,6 +41,12 @@
         "cordova-plugin-media": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
+        "cordova-plugin-media-capture": {
+            "CAMERA_USAGE_DESCRIPTION": "ImapInvasives needs accces to the camera, photos, and for future the microphone .",
+            "MICROPHONE_USAGE_DESCRIPTION": "ImapInvasives needs accces for future features to the microphone .",
+            "PHOTOLIBRARY_USAGE_DESCRIPTION": "ImapInvasives needs accces to photos.",
+            "PACKAGE_NAME": "com.ltc.imapapp"
+        },
         "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
@@ -51,15 +60,6 @@
             "PACKAGE_NAME": "com.ltc.imapapp"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.ltc.imapapp"
-        },
-        "cordova-plugin-media-capture": {
-            "CAMERA_USAGE_DESCRIPTION": "ImapInvasives needs accces to the camera, photos, and for future the microphone .",
-            "MICROPHONE_USAGE_DESCRIPTION": "ImapInvasives needs accces for future features to the microphone .",
-            "PHOTOLIBRARY_USAGE_DESCRIPTION": "ImapInvasives needs accces to photos.",
-            "PACKAGE_NAME": "com.ltc.imapapp"
-        },
-        "cordova-plugin-app-version": {
             "PACKAGE_NAME": "com.ltc.imapapp"
         }
     },

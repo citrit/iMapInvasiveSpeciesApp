@@ -4,31 +4,32 @@
 <head>
     <title>iMapInvasives App</title>
 
-
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+
     <link rel="stylesheet" href="assets/css/styles.css" type="text/css" />
     <link rel="stylesheet" href="assets/css/pgwmodal.css" type="text/css" />
     <link rel="stylesheet" href="assets/css/menubar.css" type="text/css" />
     <link rel="stylesheet" href="assets/css/nav.css" type="text/css" />
     <link rel="stylesheet" href="assets/css/jquery.mobile-1.4.5.min.css" type="text/css" />
-    <link rel="stylesheet" href="assets/css/ol.css" type="text/css" />
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.mobile-1.4.5.min.js"></script>
-    <script src="assets/js/mustache.js"></script>
-    <script src="assets/js/pgwmodal.js"></script>
-    <script src="assets/js/navbar.min.js"></script>
-    <script src="assets/js/ol.js"></script>
+    <link rel="stylesheet" href="assets/css/ol.4.css" type="text/css" />
+
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="assets/js/mustache.js"></script>
+    <script type="text/javascript" src="assets/js/pgwmodal.js"></script>
+    <script type="text/javascript" src="assets/js/navbar.min.js"></script>
+    <script type="text/javascript" src="assets/js/ol.4.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script src="assets/main.js"></script>
-    <script src="assets/observation.js"></script>
-    <script src="assets/prefs.js"></script>
-    <script src="assets/uiUtils.js"></script>
-    <script src="assets/upLoad.js"></script>
-    <script src="assets/mapStuff.js"></script>
-    <script src="assets/mapDrag.js"></script>
-    <script src="assets/photo.js"></script>
+    <script type="text/javascript" src="assets/main.js"></script>
+    <script type="text/javascript" src="assets/observation.js"></script>
+    <script type="text/javascript" src="assets/prefs.js"></script>
+    <script type="text/javascript" src="assets/uiUtils.js"></script>
+    <script type="text/javascript" src="assets/upLoad.js"></script>
+    <script type="text/javascript" src="assets/mapStuff.js"></script>
+    <!--<script type="text/javascript" src="assets/mapDrag.js"></script>-->
+    <script type="text/javascript" src="assets/photo.js"></script>
 </head>
 
 <body>
@@ -86,26 +87,27 @@
                         <option value="va">Virginia</option>
                         <option value="vt">Vermont</option>
                         <option value="wv">West Virginia</option>
-                    </select>
+                </select>
                 <label for="fname">First:</label>
-                <input type="text" name="fname" id="fname" value=""> <br>
+                <input type="text" name="fname" id="fname" value="" /> <br>
                 <label for="lname">Last:</label>
-                <input type="text" name="lname" id="lname" value=""><br>
+                <input type="text" name="lname" id="lname" value="" /><br>
                 <label for="uname">iMap Username: <br></label>
                 <label for="uname" style="font-size:12px">(Must match online username)</label>
-                <input type="text" name="uname" id="uname" value=""> <br>
+                <input type="text" name="uname" id="uname" value="" /> <br>
                 <label for="pword">iMap Password:</label>
                 <label for="uname" style="font-size:12px">(Must match online password)</label>
-                <input type="password" name="pword" id="pword" value="">
+                <input type="password" name="pword" id="pword" value="" />
             </div>
 
             <fieldset data-role="controlgroup" data-type='horizontal'>
                 <legend>Species Name:</legend>
-                <input type="checkbox" name="checkbox-scientific" id="checkbox-scientific" />
+                <input type="checkbox" checked name="checkbox-scientific" id="checkbox-scientific" />
                 <label for="checkbox-scientific">Scientific</label>
                 <input type="checkbox" name="checkbox-common" id="checkbox-common" />
                 <label for="checkbox-common">Common</label>
             </fieldset>
+
             <button onClick="iMapApp.uiUtils.chooseMySpecies()">Customize Species List</button>
             <fieldset data-role='controlgroup' data-type='horizontal' id='pictureSize'>
                 <legend>Picture quality:</legend>
@@ -149,17 +151,22 @@
         <div role="main" class="ui-content">
             <div data-role="fieldcontain">
 
-                <div id="takePic">
+                <div id="takePic" data-role="fieldcontain">
                     <a onClick='iMapApp.Photo.getPhoto()'>
                         <img src="assets/images/TakePhoto.png" name='largeImage' class='imgwrapper' />
                     </a>
-                </div><br>
-                <br>
-                <label for="obsProjects">Project: </label>
-                <p style="font-size:12px">(Optional)</p>
-                <select name="obsProjects" data-role="none"></select>
-                <label for="obsSpecies">Species: </label>
-                <select id="obsSpecies" name="obsSpecies" data-role="none"></select>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="obsProjects">Project: <small>(Optional)</small></label>
+                    <select name="obsProjects" data-role="none"></select>
+                </div>
+                <div data-role="fieldcontain">
+                    Species:
+                    <input type="checkbox" checked=true name="custSpeciesCheck" id="custSpeciesCheck" style="transform: scale(1.5);" onchange="iMapApp.uiUtils.loadSpeciesList()" data-role="none"> Custom List</input>
+                    <br><br><select id="obsSpecies" name="obsSpecies" data-role="none"></select>
+                </div>
+
                 <label for="obsDate">Date: </label>
                 <input type="date" name="obsDate"></input>
                 <!-- <span>County: <input type="text" name="obsCounty" ></input></span><br><br>
@@ -178,7 +185,7 @@
                     Viewing the map requires an internet connection, if you do not see the map check your connection and restart 
                         iMapInvasives Mobile. GPS will work without the map.
                 </span>
-            <div id="iMapMapdiv" name="iMapMapdiv"></div>
+            <div id="iMapMapdiv" class="iMapMapdiv"></div>
             Location:<input type="text" id="obsLoc" name="obsLoc"></input>
             Comment:<textarea type="text" id="obsComment" name="obsComment" rows=3></textarea>
         </div>
@@ -186,8 +193,6 @@
             <input type="button" value="Save" onclick="iMapApp.uiUtils.editObsOk()">
             <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()">
         </div>
-
-    </div>
     </div>
 
     <div id="uploadDialog" style="display: none;">
@@ -235,6 +240,7 @@
         <input type="button" value="OK" onclick="iMapApp.uiUtils.saveMySpecSpecies()"></input>
         <input type="button" value="Cancel" onclick="iMapApp.uiUtils.closeDialog()"></input>
     </div>
+
     <div id="helpDialog" data-role="page">
         <div>
             <p name="versionText" />

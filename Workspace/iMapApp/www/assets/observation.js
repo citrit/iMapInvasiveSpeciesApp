@@ -1,59 +1,58 @@
 var iMapApp = iMapApp || {};
 
 /**
-  * Abstract Cell class which defines the API for all drawable
-  * entities to follow
-  */   
-iMapApp.Observation = function(od) 
-{
-    var obsData = ( od == null?{
+ * Abstract Cell class which defines the API for all drawable
+ * entities to follow
+ */
+iMapApp.Observation = function(od) {
+    var obsData = (od == null ? {
         Photos: null,
         Proj: "",
         ProjID: "",
         Species: new Array(),
         SpeciesID: "",
         When: Date.now(),
-        Where: [ 0.0, 0.0 ],
+        Where: [0.0, 0.0],
         Objectid: iMapApp.App.guid(),
         State: "",
         County: "",
         Comment: ""
     } : od);
-    
+
     // Getters
-    this.getPhotos = function() { return obsData.Photos; }
-    this.getProject = function() { return obsData.Proj; }
-    this.getProjectID = function() { return obsData.ProjID; }
-    this.getSpecies = function() { return obsData.Species; }
-    this.getSpeciesID = function() { return obsData.SpeciesID; }
-    this.getWhen = function() { return obsData.When; }
-    this.getWhere = function() { return obsData.Where; }
-    this.getObjectID = function() { return obsData.Objectid; }
-    this.getState = function() { return obsData.State; }
-    this.getCounty = function() { return obsData.County; }
-    this.getComment = function() { return obsData.Comment; }
-    this.getObsData = function() { return obsData; }
-    
+    this.getPhotos = function() { return obsData.Photos; };
+    this.getProject = function() { return obsData.Proj; };
+    this.getProjectID = function() { return obsData.ProjID; };
+    this.getSpecies = function() { return obsData.Species; };
+    this.getSpeciesID = function() { return obsData.SpeciesID; };
+    this.getWhen = function() { return obsData.When; };
+    this.getWhere = function() { return obsData.Where; };
+    this.getObjectID = function() { return obsData.Objectid; };
+    this.getState = function() { return obsData.State; };
+    this.getCounty = function() { return obsData.County; };
+    this.getComment = function() { return obsData.Comment; };
+    this.getObsData = function() { return obsData; };
+
     // Setters
-    this.setPhotos = function(p) { obsData.Photos = p; }
-    this.setProject = function(p) { obsData.Proj = p; }
-    this.setProjectID = function(p) { obsData.ProjID = p; }
-    this.setSpecies = function(s) { obsData.Species = s; }
-    this.setSpeciesID = function(s) { obsData.SpeciesID = s; }
-    this.setWhen = function(w) { obsData.When = w; }
-    this.setWhere = function(w) { obsData.Where = w; }
+    this.setPhotos = function(p) { obsData.Photos = p; };
+    this.setProject = function(p) { obsData.Proj = p; };
+    this.setProjectID = function(p) { obsData.ProjID = p; };
+    this.setSpecies = function(s) { obsData.Species = s; };
+    this.setSpeciesID = function(s) { obsData.SpeciesID = s; };
+    this.setWhen = function(w) { obsData.When = w; };
+    this.setWhere = function(w) { obsData.Where = w; };
     //this.setObjectid = function(oi) { obsData.Objectid = oi; }
-    this.setState = function(s) { obsData.State = s; }
-    this.setCounty = function(c) { obsData.County = c; }
-    this.setComment = function(c) { obsData.Comment = c; }
-    this.setObsData = function(od) { obsData = od; }
-    
+    this.setState = function(s) { obsData.State = s; };
+    this.setCounty = function(c) { obsData.County = c; };
+    this.setComment = function(c) { obsData.Comment = c; };
+    this.setObsData = function(od) { obsData = od; };
+
     // Serialization
-    this.toJSON = function() { JSON.stringify(obsData);}
-}
-    
-    
-    /*
+    this.toJSON = function() { JSON.stringify(obsData); };
+};
+
+
+/*
     
 	// Save the current observation to the internal table.
 	this.save = function(){

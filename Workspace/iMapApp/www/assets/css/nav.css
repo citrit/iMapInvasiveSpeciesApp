@@ -21,9 +21,8 @@
     top: 100%;
     z-index: 1000;
     margin: 0px;
-    padding :0px;
+    padding: 0px;
 }
-
 
 .navbar ul.mobile li {
     display: block;
@@ -33,27 +32,27 @@
 
 .navbar li {
     display: inline-block;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
 }
 
-.navbar a{
+.navbar a {
     display: block;
     color: #fff;
     line-height: 40px;
-    padding: 0 12px;
+    padding: 0 14px;
     text-decoration: none;
 }
 
 .navbar a.selected {
-/*    background: #777;*/
+    /*    background: #777;*/
 }
 
-.navbar li a:hover{
-/*    background: #666;*/
+.navbar li a:hover {
+    /*    background: #666;*/
 }
 
-.navbar.light li a:hover{
-/*    background: #c5c5c5;*/
+.navbar.light li a:hover {
+    /*    background: #c5c5c5;*/
 }
 
 .navbar .js_DropDown {
@@ -65,8 +64,9 @@
     border-top-left-radius: 10px;
     height: 40px;
 }
+
 .navbar .js_DropDown a:hover {
-/*    background-color: #666;*/
+    /*    background-color: #666;*/
 }
 
 .navbar .js_DropDown a:after {
@@ -75,21 +75,21 @@
     vertical-align: top;
 }
 
-li a:focus,.js_DropDown a:focus
-{ 
-/*    background: #666;*/
+li a:focus,
+.js_DropDown a:focus {
+    /*    background: #666;*/
 }
 
 .navbar .js_DropDown a.active {
-/*    background: #666;*/
+    /*    background: #666;*/
 }
 
 .navbar.light .js_DropDown a {
-/*    background: #c5c5c5;*/
+    /*    background: #c5c5c5;*/
 }
 
 .navbar.light .js_DropDown a.active {
-/*    background: #bbb;*/
+    /*    background: #bbb;*/
 }
 
 .navbar .js_DropDown span.icon,

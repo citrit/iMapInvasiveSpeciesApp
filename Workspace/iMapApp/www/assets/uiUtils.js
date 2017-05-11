@@ -21,7 +21,7 @@ iMapApp.uiUtils = {
         });
         iMapApp.uiUtils.loadProjectList();
         iMapApp.uiUtils.loadSpeciesList();
-        if (window.device && window.device.platform === "iOS") {
+        if (window.device && window.device.platform == "iOS") {
             StatusBar.overlaysWebView(false);
             console.log("Setting iOS top margin");
         }
@@ -87,7 +87,7 @@ iMapApp.uiUtils = {
             var pos = JSON.parse('[' + $('input[name="obsLoc"]').val() + ']');
             iMapApp.iMapMap.setPosition(pos);
         });
-        $("#stateSelect").on('change', function() { iMapApp.uiUtils.stateChangeHandler($("#stateSelect").val()) });
+        $("#stateSelect").on('change', function() { iMapApp.uiUtils.stateChangeHandler($("#stateSelect").val()); });
         $("#introOverlay").click(function() {
             iMapApp.uiUtils.introOverlayClose();
         });
@@ -101,7 +101,7 @@ iMapApp.uiUtils = {
                 iMapApp.iMapMap.stopGPSTimer();
             }
         }, false);
-        iMapApp.iMapMap.init('#iMapMapdiv');
+        iMapApp.iMapMap.init('iMapMapdiv');
         $(window).on("pagechange", function(event, data) {
             iMapApp.uiUtils.setMapStuff();
             iMapApp.App.renderCards();
@@ -160,7 +160,7 @@ iMapApp.uiUtils = {
         getDElem('[name="largeImage"]').prop("src", "assets/images/TakePhoto.png");
         getDElem('[name="obsLoc"]').val([0.0, 0.0]);
         getDElem('[name="obsComment"]').val('');
-        iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params['DefaultZoom']);
+        iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params.DefaultZoom);
         getDElem('input[name="toggleGPS"]').prop('checked', true);
         getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType);
         iMapApp.iMapMap.startGPSTimer();
@@ -198,7 +198,7 @@ iMapApp.uiUtils = {
         //$('input[name="obsState"]').val(obs.getState());
         //$('input[name="obsCounty"]').val(obs.getCounty());
         getDElem('[name="obsLoc"]').val(obs.getWhere());
-        console.log("Photo: " + obs.getPhotos());
+        //console.log("Photo: " + obs.getPhotos());
 
         var lim = (obs.getPhotos() == "" ? "assets/images/TakePhoto.png" : obs.getPhotos());
         getDElem('[name="largeImage"]').attr("src", lim);
@@ -208,7 +208,7 @@ iMapApp.uiUtils = {
 
         var pos = JSON.parse('[' + obs.getWhere() + ']');
         iMapApp.iMapMap.setPosition(pos);
-        iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params['DefaultZoom']);
+        iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params.DefaultZoom);
         getDElem('input[name="toggleGPS"]').prop('checked', false);
         getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType);
 
@@ -233,7 +233,7 @@ iMapApp.uiUtils = {
 
     setMapStuff: function() {
         //iMapApp.iMapMap.init('#iMapMapdiv');
-        var wid = $(window).width() - 20,
+        var wid = $(window).width(),
             hei = 300;
         wid = (wid == 0 ? 300 : wid);
         iMapApp.iMapMap.fixSize(wid, hei);
@@ -275,8 +275,8 @@ iMapApp.uiUtils = {
         obs.setWhere(JSON.parse('[' + getDElem('[name="obsLoc"]').val() + ']'));
 
         var ims = getDElem('[name="largeImage"]').attr("src");
-        console.log("image " + ims + "  indexOf: " + ims.indexOf("TakePhoto"));
-        console.log("photo " + obs.getPhotos());
+        //console.log("image " + ims + "  indexOf: " + ims.indexOf("TakePhoto"));
+        //console.log("photo " + obs.getPhotos());
         obs.setPhotos((ims.indexOf("TakePhoto") == -1 ? ims : ""));
         console.log("photo " + obs.getPhotos());
         //$('img[name="largeImage"]').src(obs.getPhotos());
@@ -332,7 +332,7 @@ iMapApp.uiUtils = {
         }
 
         var cards_data = iMapApp.App.getCardsData();
-        for (var x = 0; x < cards_data.length; x++) {
+        for (x = 0; x < cards_data.length; x++) {
             var html = compiledCardTemplate(cards_data[x]);
 
             var targetColumn = x % columns_dom.length;
@@ -348,7 +348,7 @@ iMapApp.uiUtils = {
             rval = $(this).find('[name="specVal"]').text() != "Species: None Selected";
             if (rval == false) {
                 //$(this).find('[name="cardSelect"]').prop('checked', false);
-                $(this).css({ 'background-color': '#CC3333' })
+                $(this).css({ 'background-color': '#CC3333' });
             }
             return rval;
         });
@@ -393,9 +393,10 @@ iMapApp.uiUtils = {
         if (pdata == null) return;
         var selMen = $('select[name="obsSpecies"]');
         selMen.empty();
-        if (iMapApp.iMapPrefs.params.Plants.MyPlants.length > 0) {
+        if ((iMapApp.iMapPrefs.params.Plants.MyPlants.length > 0) &&
+            (getDElem('input[name="custSpeciesCheck"]').is(':checked'))) {
             $.each(iMapApp.iMapPrefs.params.Plants.MyPlants, function(key, val) {
-                //console.log( "Inserting Species id: " + key  + "  Name: " + val );
+                //console.log("Inserting Species id: " + key + "  Name: " + val);
                 var lStr = iMapApp.App.getSpeciesName(val);
                 selMen //<input name="your_name" value="your_value" type="checkbox">
                     .append($("<option></option>")
@@ -404,7 +405,7 @@ iMapApp.uiUtils = {
             });
         } else {
             $.each(pdata, function(key, val) {
-                //console.log( "Inserting Species id: " + key  + "  Name: " + val );
+                //console.log("Inserting Species id: " + key + "  Name: " + val);
                 var lStr = iMapApp.App.getSpeciesName(key);
                 selMen
                     .append($("<option></option>")
@@ -449,7 +450,7 @@ iMapApp.uiUtils = {
         getDElem('input[name="checkbox-welcomepage"]').prop('checked', iMapApp.iMapPrefs.params.WelcomePage);
 
         //getDElem('input[name=zoomToRange]').val(iMapApp.iMapPrefs.params['DefaultZoom']).trigger('create').slider('refresh', true);
-        getDElem('#zoomToRange').attr('value', iMapApp.iMapPrefs.params['DefaultZoom']);
+        getDElem('#zoomToRange').attr('value', iMapApp.iMapPrefs.params.DefaultZoom);
 
         // Make the select searchable
         /*getDElem('select[name="listPrefProj"]').select2({
@@ -492,7 +493,7 @@ iMapApp.uiUtils = {
         //iMapPrefs.params.Plants.MyPlants = $('#fname').val();
         iMapApp.iMapPrefs.params.PictureSize = getDElem("input[name=radio-choice-size]:checked").val();
         iMapApp.iMapPrefs.params.MapType = getDElem("input[name=map-type]:checked").val();
-        iMapApp.iMapPrefs.params['DefaultZoom'] = getDElem('input[name=zoomToRange]').val();
+        iMapApp.iMapPrefs.params.DefaultZoom = getDElem('input[name=zoomToRange]').val();
         iMapApp.iMapPrefs.params.WelcomePage = getDElem('input[name="checkbox-welcomepage"]').is(':checked');
 
         //alert($.toJSON(iMapPrefs));
@@ -509,7 +510,7 @@ iMapApp.uiUtils = {
 
     chooseMySpecies: function() {
         var pdata = JSON.parse(localStorage.getItem("speciesList"));
-        if (pdata != null) {
+        if (pdata !== null) {
             iMapApp.uiUtils.openDialog('#selectSpeciesDialog', 'Select Your Species');
             var skeys = getSortedKeys(pdata, iMapApp.App.getSpeciesName);
             //console.log("sKeys: " + skeys);
@@ -594,7 +595,7 @@ iMapApp.uiUtils = {
     checkIntroOverlay: function() {
         console.log("Open Welcome Page: " + iMapApp.iMapPrefs.params.WelcomePage);
         //if (localStorage.getItem("introDone") != "true") {
-        if ((iMapApp.iMapPrefs.params.WelcomePage === true) &&
+        if ((iMapApp.iMapPrefs.params.WelcomePage == true) &&
             (!localStorage.getItem("firstInit"))) {
             iMapApp.uiUtils.introOverlayOpen();
             console.log('Opened Welcome PAge');
@@ -611,7 +612,7 @@ iMapApp.uiUtils = {
     },
 
     toggleGPS: function() {
-        console.log('OnError: ' + getDElem('input[name="toggleGPS"]').is(':checked'));
+        console.log('Toggle GPS: ' + getDElem('input[name="toggleGPS"]').is(':checked'));
         if (getDElem('input[name="toggleGPS"]').is(':checked')) {
             iMapApp.iMapMap.startGPSTimer();
         } else {
@@ -628,7 +629,7 @@ iMapApp.uiUtils = {
         $('#statusBarMsg').text(msg);
     }
 
-}
+};
 
 //
 // ** Utility functions
@@ -638,10 +639,10 @@ $.fn.sortOptions = function() {
         var op = $(this).children("option");
         op.sort(function(a, b) {
             return a.text > b.text ? 1 : -1;
-        })
+        });
         return $(this).empty().data("role", "none").append(op);
     });
-}
+};
 
 jQuery.fn.center = function() {
     this.css("position", "absolute");
@@ -650,7 +651,7 @@ jQuery.fn.center = function() {
     this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
         $(window).scrollLeft()) + "px");
     return this;
-}
+};
 
 
 function getDElem(elem) {

@@ -51,7 +51,7 @@ iMapApp.uploadUtils = {
             console.log('Going to upload: ' + JSON.stringify(obs.getObsData()));
             var imgURL = null;
             if (obs.getPhotos() !== "") {
-                console.log("Uploading image: " + obs.getPhotos());
+                //console.log("Uploading image: " + obs.getPhotos());
                 iMapApp.uploadUtils.uploadImage(obs.getPhotos(), obs);
             } else {
                 console.log("Uploading Observation");
@@ -67,8 +67,7 @@ iMapApp.uploadUtils = {
         //console.log("ST_GEOM: " + stShp);
 
         var url = 'https://hermes.freac.fsu.edu/requests/uploadObservation/uploadTool';
-        console.log("Do image: " + (obs.getPhotos() !== "" ? 1 : 0));
-        //console.log("Do sendToServer: " + JSON.stringify(obs.getObsData()));
+        //console.log("Do image: " + (obs.getPhotos() !== "" ? 1 : 0));
         var spIDLen = obs.getSpeciesID().length;
         var spl = JSON.parse(localStorage.getItem("speciesList"));
         var postData = {
@@ -82,7 +81,7 @@ iMapApp.uploadUtils = {
             photocredit3: '',
             photocredit4: '',
             photocredit5: '',
-            digitalphoto: (obs.getPhotos() !== "" ? 1 : 0),
+            digitalphoto: (obs.getPhotos() != "" ? 1 : 0),
             obsdatastatus: 1000,
             imapdataentrypersonid: iMapApp.iMapPrefs.params.Username,
             observername: iMapApp.iMapPrefs.params.Username,
@@ -101,6 +100,7 @@ iMapApp.uploadUtils = {
                 //,
                 //shape: stShp
         };
+        console.log("Do sendToServer: " + JSON.stringify(postData));
         $.ajax({
             type: "GET",
             url: url,
@@ -114,10 +114,12 @@ iMapApp.uploadUtils = {
                         console.log('Upload successful: ' + obs.getWhen() + ' : ' +
                             obs.getSpecies() + " => " + textStatus);
                         console.log('return: ' + JSON.stringify(ret));
+                        var img = iMapApp.App.dataFolder + obs.getPhotos().split('=').pop();
+                        obs.setPhotos(img);
                         iMapApp.App.delObservation(obs.getObjectID());
                         ret = true;
-                    } else if (ret.code === 2) {
-                        alert("Bad username or password")
+                    } else if (ret.code == 2) {
+                        alert("Bad username or password");
                     } else {
                         console.log('Upload error: ' + JSON.stringify(ret));
                         alert('Upload error: ' + JSON.stringify(ret));
@@ -170,48 +172,12 @@ iMapApp.uploadUtils = {
                 iMapApp.uploadUtils.doSendToServer(obs);
             },
             function(err) {
-                console.log("Errors: " + JSON.stringify(err));
+                console.log("Upload error: " + JSON.stringify(err));
+                iMapApp.uiUtils.waitDialogClose();
             },
             options
         );
         console.log("end transfer: " + options.fileName);
-        return ret;
-    },
-
-    uploadImageOld: function(imageName) {
-        var ret = '';
-        var imgUploadURL = "http://imapimageupload.appspot.com/imageupload";
-        var fd = new FormData();
-        //console.log("Create files: " + '<input type="file" name="' + imageName
-        //		+ '" id="fileToUpload">');
-        var files = $('<input type="file" name="' + imageName +
-            '" id="fileToUpload">');
-        var files = document.getElementById('fileToUpload').files;
-        for (var i = 0; i < files.length; i++) {
-            //console.log("Got file " + JSON.stringify(files[i]));
-            fd.append("file" + i, files[i]);
-        }
-        //fd.append("file0", files[0]);
-
-        $.ajax({
-            url: imgUploadURL,
-            type: 'POST',
-            data: fd,
-            cache: false,
-            dataType: 'json',
-            async: false,
-            processData: false, // Don't process the files
-            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-            success: function(data, textStatus, jqXHR) {
-                //alert("Return: " + JSON.stringify(data));
-                ret = imgUploadURL + "?fileName=" + data.fileName;
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Handle errors here
-                console.log('ERRORS: ' + textStatus + " : " + errorThrown);
-                // STOP LOADING SPINNER
-            }
-        });
         return ret;
     },
 
@@ -229,19 +195,19 @@ iMapApp.uploadUtils = {
         var minute = now.getMinutes();
         var second = now.getSeconds();
         if (month.toString().length == 1) {
-            var month = '0' + month;
+            month = '0' + month;
         }
         if (day.toString().length == 1) {
-            var day = '0' + day;
+            day = '0' + day;
         }
         if (hour.toString().length == 1) {
-            var hour = '0' + hour;
+            hour = '0' + hour;
         }
         if (minute.toString().length == 1) {
-            var minute = '0' + minute;
+            minute = '0' + minute;
         }
         if (second.toString().length == 1) {
-            var second = '0' + second;
+            second = '0' + second;
         }
         var dateTime = '';
         if (typeof useTime !== "undefined") {
@@ -252,4 +218,4 @@ iMapApp.uploadUtils = {
         console.log("Current date: " + dateTime);
         return dateTime;
     }
-}
+};

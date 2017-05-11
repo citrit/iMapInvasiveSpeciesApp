@@ -8,13 +8,16 @@ iMapApp.App = {
     projectList: null,
     speciesList: null,
     version: 0.0,
+    dataFolder: null,
 
     init: function() {
         console.log("iMapApp.App.init");
-        cordova.getAppVersion.getVersionNumber(function(version) {
-            iMapApp.App.version = version;
-            console.log("Version: " + iMapApp.App.version);
-        });
+        if (navigator.platform != 'MacIntel') {
+            cordova.getAppVersion.getVersionNumber(function(version) {
+                iMapApp.App.version = version;
+                console.log("Version: " + iMapApp.App.version);
+            });
+        }
         iMapApp.App.compiledCardTemplate = Mustache.compile($("#card-template").html());
         iMapApp.iMapPrefs.init();
         iMapApp.App.projectList = JSON.parse(localStorage.getItem("projectList"));
@@ -23,7 +26,8 @@ iMapApp.App = {
         //debugTest();
         iMapApp.App.loadObservations();
         iMapApp.App.renderCards();
-        iMapApp.App.checkUpdateDuation(iMapApp.iMapPrefs.params['StateUpdate']);
+        iMapApp.App.checkUpdateDuration(iMapApp.iMapPrefs.params.StateUpdate);
+        iMapApp.App.dataFolder = (cordova.file.documentsDirectory == null ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory);
     },
 
     //
@@ -37,9 +41,10 @@ iMapApp.App = {
 
     delObservation: function(idx) {
         console.log("Going to delete: " + idx);
-        if (iMapApp.App.observ[idx].getPhotos() != "") {
-            console.log("Deleteing image: " + iMapApp.App.observ[idx].getPhotos());
-            iMapApp.App.removeImage(iMapApp.App.observ[idx].getPhotos());
+        if (iMapApp.App.observ[idx].getPhotos() !== "") {
+            var img = iMapApp.App.observ[idx].getPhotos();
+            console.log("Deleteing image: " + img);
+            iMapApp.App.removeImage(img);
         }
         delete iMapApp.App.observ[idx];
         iMapApp.App.saveObservations();
@@ -52,7 +57,7 @@ iMapApp.App = {
         for (var key in iMapApp.App.observ) {
             var el = iMapApp.App.observ[key];
             dStr += JSON.stringify(el.getObsData()) + ',';
-        };
+        }
         dStr += ']';
         // Put the object into storage
         localStorage.setItem('iMapObservations', dStr);
@@ -64,9 +69,9 @@ iMapApp.App = {
         var retrievedObject = localStorage.getItem('iMapObservations');
         iMapApp.App.observ = {};
         var dObs = eval(retrievedObject);
-        if (dObs != null) {
+        if (dObs !== null) {
             dObs.forEach(function(el, idx, array) {
-                console.log('retrievedObject: ', el);
+                console.log('retrievedObject: ' + JSON.stringify(el));
                 var ob = new iMapApp.Observation(el);
                 iMapApp.App.addObservation(ob);
             });
@@ -114,7 +119,7 @@ iMapApp.App = {
                 county: el.getCounty(),
                 objidx: '' + el.getObjectID()
             });
-        };
+        }
 
         return cards_data;
     },
@@ -162,19 +167,19 @@ iMapApp.App = {
             iMapApp.iMapPrefs.params.Plants.MyPlants.length = 0;
         }
 
-        iMapApp.iMapPrefs.params['StateUpdate'] = iMapApp.App.getDateString();
+        iMapApp.iMapPrefs.params.StateUpdate = iMapApp.App.getDateString();
         iMapApp.iMapPrefs.saveParams();
     },
 
     //
     // ** Utilities
     //
-    checkUpdateDuation: function(dt) {
+    checkUpdateDuration: function(dt) {
         var dts = dt.split('-');
         var updDate = new Date(dts[0], parseInt(dts[1]) - 1, dts[2]);
         var now = new Date();
         var diffDays = parseInt((now - updDate) / (1000 * 60 * 60 * 24));
-        if (diffDays > 180) {
+        if (diffDays > 90) {
             iMapApp.uiUtils.openInfoDialog('State Update needed', 'Your version of the state data is most likely out of date, please go to preferences and select update.');
         }
     },
@@ -235,6 +240,7 @@ iMapApp.App = {
 
     // delete the file
     removeFile: function(fileEntry) {
+        console.log("Removing: " + fileEntry);
         fileEntry.remove();
     },
 
@@ -260,23 +266,27 @@ iMapApp.App = {
             default:
                 msg = e.code;
                 break;
-        };
+        }
         console.log('Error: ' + msg);
     },
 
     checkDiskSpace: function() {
-        cordova.exec(function(arg) {
-                console.log("Get disk space: " + JSON.stringify(arg));
-                if (arg < 1024) {
-                    iMapApp.uiUtils.openInfoDialog('Storage is low', 'Please clear old photos prior to adding new images.');
-                }
-            },
-            function(arg) {
-                console.log("Error retrieving disk space: " + JSON.stringify(arg));
-            },
-            "File", "getFreeDiskSpace", []);
+        try {
+            cordova.exec(function(arg) {
+                    console.log("Get disk space: " + JSON.stringify(arg));
+                    if (arg < 1024) {
+                        iMapApp.uiUtils.openInfoDialog('Storage is low', 'Please clear old photos prior to adding new images.');
+                    }
+                },
+                function(arg) {
+                    console.log("Error retrieving disk space: " + JSON.stringify(arg));
+                },
+                "File", "getFreeDiskSpace", []);
+        } catch (exx) {
+            console.log("Check Disk Space: " + JSON.stringify(exx));
+        }
     }
-}
+};
 
 function debugTest() {
 

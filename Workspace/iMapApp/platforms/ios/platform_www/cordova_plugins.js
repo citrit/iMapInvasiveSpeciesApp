@@ -1,6 +1,14 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "id": "cordova-plugin-app-version.AppVersionPlugin",
+        "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
+        "pluginId": "cordova-plugin-app-version",
+        "clobbers": [
+            "cordova.getAppVersion"
+        ]
+    },
+    {
         "id": "cordova-plugin-battery-status.battery",
         "file": "plugins/cordova-plugin-battery-status/www/battery.js",
         "pluginId": "cordova-plugin-battery-status",
@@ -334,64 +342,6 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-network-information.network",
-        "file": "plugins/cordova-plugin-network-information/www/network.js",
-        "pluginId": "cordova-plugin-network-information",
-        "clobbers": [
-            "navigator.connection",
-            "navigator.network.connection"
-        ]
-    },
-    {
-        "id": "cordova-plugin-network-information.Connection",
-        "file": "plugins/cordova-plugin-network-information/www/Connection.js",
-        "pluginId": "cordova-plugin-network-information",
-        "clobbers": [
-            "Connection"
-        ]
-    },
-    {
-        "id": "cordova-plugin-splashscreen.SplashScreen",
-        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-        "pluginId": "cordova-plugin-splashscreen",
-        "clobbers": [
-            "navigator.splashscreen"
-        ]
-    },
-    {
-        "id": "cordova-plugin-statusbar.statusbar",
-        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
-        "pluginId": "cordova-plugin-statusbar",
-        "clobbers": [
-            "window.StatusBar"
-        ]
-    },
-    {
-        "id": "cordova-plugin-vibration.notification",
-        "file": "plugins/cordova-plugin-vibration/www/vibration.js",
-        "pluginId": "cordova-plugin-vibration",
-        "merges": [
-            "navigator.notification",
-            "navigator"
-        ]
-    },
-    {
-        "id": "cordova-plugin-console.console",
-        "file": "plugins/cordova-plugin-console/www/console-via-logger.js",
-        "pluginId": "cordova-plugin-console",
-        "clobbers": [
-            "console"
-        ]
-    },
-    {
-        "id": "cordova-plugin-console.logger",
-        "file": "plugins/cordova-plugin-console/www/logger.js",
-        "pluginId": "cordova-plugin-console",
-        "clobbers": [
-            "cordova.logger"
-        ]
-    },
-    {
         "id": "cordova-plugin-media-capture.CaptureAudioOptions",
         "file": "plugins/cordova-plugin-media-capture/www/CaptureAudioOptions.js",
         "pluginId": "cordova-plugin-media-capture",
@@ -454,17 +404,68 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-app-version.AppVersionPlugin",
-        "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
-        "pluginId": "cordova-plugin-app-version",
+        "id": "cordova-plugin-network-information.network",
+        "file": "plugins/cordova-plugin-network-information/www/network.js",
+        "pluginId": "cordova-plugin-network-information",
         "clobbers": [
-            "cordova.getAppVersion"
+            "navigator.connection",
+            "navigator.network.connection"
+        ]
+    },
+    {
+        "id": "cordova-plugin-network-information.Connection",
+        "file": "plugins/cordova-plugin-network-information/www/Connection.js",
+        "pluginId": "cordova-plugin-network-information",
+        "clobbers": [
+            "Connection"
+        ]
+    },
+    {
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "pluginId": "cordova-plugin-splashscreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
+    },
+    {
+        "id": "cordova-plugin-statusbar.statusbar",
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "pluginId": "cordova-plugin-statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
+    },
+    {
+        "id": "cordova-plugin-vibration.notification",
+        "file": "plugins/cordova-plugin-vibration/www/vibration.js",
+        "pluginId": "cordova-plugin-vibration",
+        "merges": [
+            "navigator.notification",
+            "navigator"
+        ]
+    },
+    {
+        "id": "cordova-plugin-console.console",
+        "file": "plugins/cordova-plugin-console/www/console-via-logger.js",
+        "pluginId": "cordova-plugin-console",
+        "clobbers": [
+            "console"
+        ]
+    },
+    {
+        "id": "cordova-plugin-console.logger",
+        "file": "plugins/cordova-plugin-console/www/logger.js",
+        "pluginId": "cordova-plugin-console",
+        "clobbers": [
+            "cordova.logger"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "cordova-plugin-app-version": "0.1.9",
     "cordova-plugin-battery-status": "1.1.2",
     "cordova-plugin-camera": "2.2.0",
     "cordova-plugin-device": "1.1.2",
@@ -475,15 +476,14 @@ module.exports.metadata =
     "cordova-plugin-file-transfer": "1.5.1",
     "cordova-plugin-geolocation": "2.4.1",
     "cordova-plugin-media": "2.3.0",
+    "cordova-plugin-media-capture": "1.4.2",
     "cordova-plugin-network-information": "1.2.1",
     "cordova-plugin-splashscreen": "3.2.2",
     "cordova-plugin-statusbar": "2.2.1",
     "cordova-plugin-vibration": "2.1.1",
     "cordova-plugin-whitelist": "1.2.2",
     "cordova-plugin-compat": "1.0.0",
-    "cordova-plugin-console": "1.0.3",
-    "cordova-plugin-media-capture": "1.4.2",
-    "cordova-plugin-app-version": "0.1.9"
+    "cordova-plugin-console": "1.0.3"
 };
 // BOTTOM OF METADATA
 });

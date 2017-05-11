@@ -21,36 +21,17 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>2.0.38</string>
+    <string>2.0.39</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleVersion</key>
-    <string>2.0.38</string>
+    <string>2.0.39</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
-    </dict>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>iMapInvasives needs access to your location</string>
     <key>NSMainNibFile</key>
     <string/>
     <key>NSMainNibFile~ipad</key>
     <string/>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>ImapInvasives needs accces for future features to the microphone .</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>ImapInvasives needs accces to photos.</string>
-    <key>UIInterfaceOrientation</key>
-    <array>
-      <string>UIInterfaceOrientationPortrait</string>
-    </array>
-    <key>UIRequiresFullScreen</key>
-    <true/>
-    <key>UIStatusBarStyle</key>
-    <string>UIStatusBarStyleLightContent</string>
     <key>UISupportedInterfaceOrientations</key>
     <array>
       <string>UIInterfaceOrientationPortrait</string>
@@ -65,7 +46,24 @@
       <string>UIInterfaceOrientationLandscapeLeft</string>
       <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
+    <key>UIRequiresFullScreen</key>
+    <true/>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
+    </dict>
+    <key>UIInterfaceOrientation</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>iMapInvasives needs access to your location</string>
     <key>NSCameraUsageDescription</key>
     <string>ImapInvasives needs accces to the camera, photos, and for future the microphone .</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>ImapInvasives needs accces for future features to the microphone .</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>ImapInvasives needs accces to photos.</string>
   </dict>
 </plist>
