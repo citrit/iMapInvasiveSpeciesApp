@@ -70,6 +70,9 @@ iMapApp.App = {
         iMapApp.App.observ = {};
         var dObs = eval(retrievedObject);
         if (dObs !== null) {
+            if (dObs.length > 24) {
+                iMapApp.uiUtils.openInfoDialog('Uploading is Recommended', 'Reminder: you have at least 25 observations; uploading is recommended');
+            }
             dObs.forEach(function(el, idx, array) {
                 console.log('retrievedObject: ' + JSON.stringify(el));
                 var ob = new iMapApp.Observation(el);

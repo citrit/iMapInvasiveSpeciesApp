@@ -4,6 +4,7 @@ iMapApp.uploadUtils = {
 
     debugOut: true,
     obsvs: [],
+    numUploads: 0,
 
     // Application Constructor
     initialize: function() {
@@ -36,13 +37,15 @@ iMapApp.uploadUtils = {
 
     doUpload: function(obss) {
         iMapApp.uploadUtils.obsvs = obss;
-        iMapApp.uploadUtils.syncUploads();
+        iMapApp.uploadUtils.numUploads = obss.length;
+        iMapApp.uploadUtils.syncUploads(obss.length);
     },
 
     syncUploads: function() {
         //		iMapPrefs.init();
         //		iMapPrefs.Username = 'tomcitriniti';
         //		iMapPrefs.Password = '';
+        console.log("uploading " + iMapApp.uploadUtils.obsvs.length + " of " + iMapApp.uploadUtils.numUploads);
         var ret = true;
         var ok = iMapApp.uploadUtils.obsvs.length > 0; //iMapPrefs.loginToMainSite();
         if (ok) {
@@ -57,6 +60,9 @@ iMapApp.uploadUtils = {
                 console.log("Uploading Observation");
                 iMapApp.uploadUtils.doSendToServer(obs);
             }
+        } else if (iMapApp.uploadUtils.numUploads > 0) {
+            $('p[name="infoDialText"]').text('Uploaded [' + iMapApp.uploadUtils.numUploads + '] records.');
+            iMapApp.uiUtils.openDialog('#infoDialog', 'Upload complete');
         }
         return ret;
     },
@@ -70,6 +76,8 @@ iMapApp.uploadUtils = {
         //console.log("Do image: " + (obs.getPhotos() !== "" ? 1 : 0));
         var spIDLen = obs.getSpeciesID().length;
         var spl = JSON.parse(localStorage.getItem("speciesList"));
+        getDElem('[name="sizeOfArea"]').val(obs.getSize());
+        getDElem('[name="distribution"]').val(obs.getDist());
         var postData = {
             photourl1: obs.getPhotos(),
             photourl2: '',
@@ -94,7 +102,9 @@ iMapApp.uploadUtils = {
             obsdate: obs.getWhen(), //2013-11-11
             obsorigxcoord: obs.getWhere()[0], //-75.41016000000012
             obsorigycoord: obs.getWhere()[1], //43.40667000000026
-            obscomments_long: obs.getComment(),
+            obscomments_long: "Abundance\n  Size of Area: " + getDElem('select[name="sizeOfArea"] :selected').text() +
+                "\n  Distribution: " + getDElem('select[name="distribution"] :selected').text() +
+                "\nGeneral Comments: \n" + obs.getComment(),
             imapdataentrymethod: 'Mobile-App',
             repositoryavailable: 2
                 //,

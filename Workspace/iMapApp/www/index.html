@@ -187,7 +187,21 @@
                 </span>
             <div id="iMapMapdiv" class="iMapMapdiv"></div>
             Location:<input type="text" id="obsLoc" name="obsLoc"></input>
-            Comment:<textarea type="text" id="obsComment" name="obsComment" rows=3></textarea>
+            <p>Abundance:</p>
+            Size of Area: <select id='sizeOfArea' name='sizeOfArea' data-role="none">
+                                    <option value="o"></option>
+                                    <option value="a">Less than 1 sq. ft.</option>
+                                    <option value="b">Up to 10 sq. ft.</option>
+                                    <option value="c">Up to 1 acre</option>
+                                    <option value="d">More than 1 acre</option>
+                            </select> Distribution of individuals/infected:<select id='distribution' name='distribution' data-role="none">
+                                    <option value="0"></option>
+                                    <option value="1">One to three plants</option>
+                                    <option value="2">Scattered plants or one large patch</option>
+                                    <option value="3">Scattered dense patches</option>
+                                    <option value="4">Predominant cover in area</option>
+                            </select> Comment:
+            <textarea type="text" id="obsComment" name="obsComment" rows=3></textarea>
         </div>
         <div data-role="controlgroup" data-type="horizontal">
             <input type="button" value="Save" onclick="iMapApp.uiUtils.editObsOk()">

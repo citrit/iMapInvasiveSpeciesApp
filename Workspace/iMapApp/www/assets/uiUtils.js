@@ -82,6 +82,8 @@ iMapApp.uiUtils = {
         });
         $('button[name="updateStateData"]').click(function() {
             iMapApp.App.updateStateData(iMapApp.iMapPrefs.params.CurrentState);
+            getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
+
         });
         $("#obsLoc").change(function() {
             var pos = JSON.parse('[' + $('input[name="obsLoc"]').val() + ']');
@@ -157,8 +159,10 @@ iMapApp.uiUtils = {
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
         var dt = now.getFullYear() + "-" + (month) + "-" + (day);
         getDElem('[name="obsDate"]').val(dt);
-        getDElem('[name="largeImage"]').prop("src", "assets/images/TakePhoto.png");
+        getDElem('[name="largeImage"]').prop("src", "assets/images/TakePhoto2.png");
         getDElem('[name="obsLoc"]').val([0.0, 0.0]);
+        getDElem('[name="sizeOfArea"]').val('o');
+        getDElem('[name="distribution"]').val('0');
         getDElem('[name="obsComment"]').val('');
         iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params.DefaultZoom);
         getDElem('input[name="toggleGPS"]').prop('checked', true);
@@ -187,6 +191,8 @@ iMapApp.uiUtils = {
         iMapApp.uiUtils.params.curObs = obs;
         getDElem('[name="obsProjects"]').val(obs.getProjectID()); //.selectmenu().selectmenu('refresh', true);;
         getDElem('[name="obsSpecies"]').val(obs.getSpeciesID()); //.selectmenu().selectmenu('refresh', true);;
+        getDElem('[name="sizeOfArea"]').val(obs.getSize());
+        getDElem('[name="distribution"]').val(obs.getDist());
         getDElem('[name="obsComment"]').val(obs.getComment());
 
         var now = new Date(obs.getWhen());
@@ -200,7 +206,7 @@ iMapApp.uiUtils = {
         getDElem('[name="obsLoc"]').val(obs.getWhere());
         //console.log("Photo: " + obs.getPhotos());
 
-        var lim = (obs.getPhotos() == "" ? "assets/images/TakePhoto.png" : obs.getPhotos());
+        var lim = (obs.getPhotos() == "" ? "assets/images/TakePhoto2.png" : obs.getPhotos());
         getDElem('[name="largeImage"]').attr("src", lim);
         //$('img[name="largeImage"]').src(obs.getPhotos());
 
@@ -268,6 +274,8 @@ iMapApp.uiUtils = {
         obs.setProjectID(getDElem('[name="obsProjects"]').val());
         obs.setSpecies(getDElem('[name="obsSpecies"]').find(":selected").text());
         obs.setSpeciesID(getDElem('[name="obsSpecies"]').val());
+        obs.setSize(getDElem('[name="sizeOfArea"]').val());
+        obs.setDist(getDElem('[name="distribution"]').val());
         obs.setComment(getDElem('[name="obsComment"]').val());
 
         var dt = getDElem('[name="obsDate"]').val();
