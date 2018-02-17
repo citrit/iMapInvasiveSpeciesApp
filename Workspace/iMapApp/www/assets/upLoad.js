@@ -78,6 +78,19 @@ iMapApp.uploadUtils = {
         var spl = JSON.parse(localStorage.getItem("speciesList"));
         getDElem('[name="sizeOfArea"]').val(obs.getSize());
         getDElem('[name="distribution"]').val(obs.getDist());
+        var obsComment = obs.getComment();
+        switch (iMapApp.App.getAssessmentType(obs.getSpeciesID())) {
+            case "TP":
+                obsComment = "Abundance\n  Size of Area: " + getDElem('select[name="sizeOfArea"] :selected').text() +
+                    "\n  Distribution: " + getDElem('select[name="distribution"] :selected').text() +
+                    "\nGeneral Comments: \n" + obs.getComment();
+                break;
+            case "I":
+                obsComment = "Insect search effort - Number of trees/hosts surveyed: " + obs.getNumTrees() +
+                    "\n  Hours spent surveying: " + obs.getTimeSurvey() +
+                    "\nGeneral Comments: \n" + obs.getComment();
+                break;
+        }
         var postData = {
             photourl1: obs.getPhotos(),
             photourl2: '',
@@ -102,9 +115,7 @@ iMapApp.uploadUtils = {
             obsdate: obs.getWhen(), //2013-11-11
             obsorigxcoord: obs.getWhere()[0], //-75.41016000000012
             obsorigycoord: obs.getWhere()[1], //43.40667000000026
-            obscomments_long: "Abundance\n  Size of Area: " + getDElem('select[name="sizeOfArea"] :selected').text() +
-                "\n  Distribution: " + getDElem('select[name="distribution"] :selected').text() +
-                "\nGeneral Comments: \n" + obs.getComment(),
+            obscomments_long: obsComment,
             imapdataentrymethod: 'Mobile-App',
             repositoryavailable: 2
                 //,

@@ -11,6 +11,7 @@ iMapApp.Observation = function(od) {
         ProjID: "",
         Species: new Array(),
         SpeciesID: "",
+        AssesmentType: "",
         When: Date.now(),
         Where: [0.0, 0.0],
         Objectid: iMapApp.App.guid(),
@@ -18,6 +19,8 @@ iMapApp.Observation = function(od) {
         County: "",
         Size: "o",
         Dist: "0",
+        NumTrees: 0,
+        TimeSurvey: 0,
         Comment: ""
     } : od);
 
@@ -34,6 +37,8 @@ iMapApp.Observation = function(od) {
     this.getCounty = function() { return obsData.County; };
     this.getSize = function() { return obsData.Size; };
     this.getDist = function() { return obsData.Dist; };
+    this.getNumTrees = function() { return obsData.NumTrees; };
+    this.getTimeSurvey = function() { return obsData.TimeSurvey; };
     this.getComment = function() { return obsData.Comment; };
     this.getObsData = function() { return obsData; };
 
@@ -50,6 +55,8 @@ iMapApp.Observation = function(od) {
     this.setCounty = function(c) { obsData.County = c; };
     this.setSize = function(s) { obsData.Size = s; };
     this.setDist = function(d) { obsData.Dist = d; };
+    this.setNumTrees = function(n) { obsData.NumTrees = n; };
+    this.setTimeSurvey = function(t) { obsData.TimeSurvey = t; };
     this.setComment = function(c) { obsData.Comment = c; };
     this.setObsData = function(od) { obsData = od; };
 

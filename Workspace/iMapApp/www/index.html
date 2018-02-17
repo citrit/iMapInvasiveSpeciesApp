@@ -68,7 +68,7 @@
     <!-- /page -->
 
     <!-- preferences page -->
-    <div data-role="page" id="prefPage">
+    <div id="prefPage" data-role="page">
         <div role="main" class="ui-content"><br>
             <strong>Preferences</strong>
             <div data-role="fieldcontain">
@@ -127,7 +127,7 @@
             <!--<input data-type="search" id="searchForlistPrefProj"/> 
                     data-filter="true" data-input="#searchForlistPrefProj" -->
             <div data-role="fieldcontain">
-                <label for="listPrefProj">Default Project:</label>
+                <label for="listPrefProj">Default Project: (if applicable; contact iMap)</label>
                 <select id="listPrefProj" name="listPrefProj" data-role="none"><option>None</option></select>
             </div>
             <div data-role="fieldcontain">
@@ -147,7 +147,7 @@
     </div>
     <!-- /page -->
 
-    <div data-role="page" id="editObsPage">
+    <div id="editObsPage" data-role="page">
         <div role="main" class="ui-content">
             <div data-role="fieldcontain">
 
@@ -187,20 +187,30 @@
                 </span>
             <div id="iMapMapdiv" class="iMapMapdiv"></div>
             Location:<input type="text" id="obsLoc" name="obsLoc"></input>
-            <p>Abundance:</p>
-            Size of Area: <select id='sizeOfArea' name='sizeOfArea' data-role="none">
+            <div id="TerestrialPlantsEntryDiv" style="display: none">
+                <p>Abundance:</p>
+                Size of Area: <select id='sizeOfArea' name='sizeOfArea' data-role="none">
                                     <option value="o"></option>
                                     <option value="a">Less than 1 sq. ft.</option>
                                     <option value="b">Up to 10 sq. ft.</option>
                                     <option value="c">Up to 1 acre</option>
                                     <option value="d">More than 1 acre</option>
-                            </select> Distribution of individuals/infected:<select id='distribution' name='distribution' data-role="none">
+                            </select> Distribution of individuals/infected:
+                <select id='distribution' name='distribution' data-role="none">
                                     <option value="0"></option>
                                     <option value="1">One to three plants</option>
                                     <option value="2">Scattered plants or one large patch</option>
                                     <option value="3">Scattered dense patches</option>
                                     <option value="4">Predominant cover in area</option>
-                            </select> Comment:
+                            </select>
+            </div>
+            <div id="InsectsEntryDiv" style="display: none">
+                <p>Insect search effort:</p>
+                Number of trees/hosts surveyed:
+                <textarea id="numTreesSurveyed" name='numTreesSurveyed'></textarea> Hours spent surveying:
+                <textarea id="timeSurveying" name='timeSurveying'></textarea>
+            </div>
+            Comment:
             <textarea type="text" id="obsComment" name="obsComment" rows=3></textarea>
         </div>
         <div data-role="controlgroup" data-type="horizontal">

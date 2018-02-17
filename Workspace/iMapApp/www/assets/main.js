@@ -99,6 +99,10 @@ iMapApp.App = {
 
     //
     // UI Helpers
+    getAssessmentType: function(spec) {
+        return iMapApp.App.speciesList[spec][2]
+    },
+
     checkLastUpdate: function() {
 
     },
@@ -154,8 +158,9 @@ iMapApp.App = {
         console.log("Getting species: " + iMapApp.App.SpeciesURL + stat);
         $.getJSON(iMapApp.App.SpeciesURL + stat, function(pdata) {
                 iMapApp.App.speciesList = {};
+                cnt = 0;
                 pdata.species.forEach(function(el, ind, array) {
-                    iMapApp.App.speciesList[el.statespeciesid] = [el.statecommonname, el.state_scientific_name];
+                    iMapApp.App.speciesList[el.statespeciesid] = [el.statecommonname, el.state_scientific_name, "I"];
                 });
                 localStorage.setItem("speciesList", JSON.stringify(iMapApp.App.speciesList));
             }).success(function() { console.log("Load species list second success"); })

@@ -1,9 +1,0 @@
-{
-    "ImageIO.framework": 2,
-    "CoreLocation.framework": 2,
-    "AVFoundation.framework": 2,
-    "CoreMotion.framework": 2,
-    "AudioToolbox.framework": 2,
-    "SystemConfiguration.framework": 2,
-    "CoreTelephony.framework": 2
-}

@@ -90,6 +90,8 @@ iMapApp.uiUtils = {
             iMapApp.iMapMap.setPosition(pos);
         });
         $("#stateSelect").on('change', function() { iMapApp.uiUtils.stateChangeHandler($("#stateSelect").val()); });
+        $("#obsSpecies").on('change', function() { iMapApp.uiUtils.speciesChangeHandler($("#obsSpecies").val()); });
+
         $("#introOverlay").click(function() {
             iMapApp.uiUtils.introOverlayClose();
         });
@@ -163,7 +165,10 @@ iMapApp.uiUtils = {
         getDElem('[name="obsLoc"]').val([0.0, 0.0]);
         getDElem('[name="sizeOfArea"]').val('o');
         getDElem('[name="distribution"]').val('0');
+        getDElem('[name="numTreesSurveyed"]').val('0');
+        getDElem('[name="timeSurveying"]').val('0');
         getDElem('[name="obsComment"]').val('');
+        iMapApp.uiUtils.setAssessmentType("Off");
         iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params.DefaultZoom);
         getDElem('input[name="toggleGPS"]').prop('checked', true);
         getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType);
@@ -193,6 +198,8 @@ iMapApp.uiUtils = {
         getDElem('[name="obsSpecies"]').val(obs.getSpeciesID()); //.selectmenu().selectmenu('refresh', true);;
         getDElem('[name="sizeOfArea"]').val(obs.getSize());
         getDElem('[name="distribution"]').val(obs.getDist());
+        getDElem('[name="numTreesSurveyed"]').val(obs.getNumTrees());
+        getDElem('[name="timeSurveying"]').val(obs.getTimeSurvey());
         getDElem('[name="obsComment"]').val(obs.getComment());
 
         var now = new Date(obs.getWhen());
@@ -209,6 +216,8 @@ iMapApp.uiUtils = {
         var lim = (obs.getPhotos() == "" ? "assets/images/TakePhoto2.png" : obs.getPhotos());
         getDElem('[name="largeImage"]').attr("src", lim);
         //$('img[name="largeImage"]').src(obs.getPhotos());
+
+        iMapApp.uiUtils.setAssessmentType(iMapApp.App.getAssessmentType(obs.getSpeciesID()));
 
         iMapApp.uiUtils.setMapStuff();
 
@@ -276,6 +285,8 @@ iMapApp.uiUtils = {
         obs.setSpeciesID(getDElem('[name="obsSpecies"]').val());
         obs.setSize(getDElem('[name="sizeOfArea"]').val());
         obs.setDist(getDElem('[name="distribution"]').val());
+        obs.setNumTrees(getDElem('[name="numTreesSurveyed"]').val());
+        obs.setTimeSurvey(getDElem('[name="timeSurveying"]').val());
         obs.setComment(getDElem('[name="obsComment"]').val());
 
         var dt = getDElem('[name="obsDate"]').val();
@@ -367,6 +378,10 @@ iMapApp.uiUtils = {
         console.log("Changing to state: " + sel);
         iMapApp.App.updateStateData(sel, true);
         getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
+    },
+
+    speciesChangeHandler: function(sel) {
+        iMapApp.uiUtils.setAssessmentType(iMapApp.App.getAssessmentType(sel));
     },
 
     loadProjectList: function() {
@@ -635,6 +650,26 @@ iMapApp.uiUtils = {
 
     updateStatusBar: function(msg) {
         $('#statusBarMsg').text(msg);
+    },
+
+    setAssessmentType: function(assesType) {
+        console.log("Setting assesment type: " + assesType);
+        var x = document.getElementById("TerestrialPlantsEntryDiv");
+        x.style.display = "none";
+        x = document.getElementById("InsectsEntryDiv");
+        x.style.display = "none";
+        switch (assesType) {
+            case "TP":
+                x = document.getElementById("TerestrialPlantsEntryDiv");
+                x.style.display = "block";
+                break;
+            case "I":
+                x = document.getElementById("InsectsEntryDiv");
+                x.style.display = "block";
+                break;
+            default:
+                break;
+        }
     }
 
 };
