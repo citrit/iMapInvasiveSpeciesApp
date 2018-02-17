@@ -50,7 +50,7 @@
         <preference name="StatusBarBackgroundColor" value="#000000" />
         <preference name="StatusBarStyle" value="lightcontent" />
     </platform>
-    <engine name="android" spec="^6.2.3" />
+    <engine name="android" spec="^6.4.0" />
     <engine name="ios" spec="^4.2.1" />
     <plugin name="cordova-plugin-battery-status" spec="~1.1.2" />
     <plugin name="cordova-plugin-camera" spec="~2.2.0" />

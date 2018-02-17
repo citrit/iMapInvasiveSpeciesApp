@@ -3,7 +3,7 @@ var iMapApp = iMapApp || {};
 iMapApp.App = {
     observ: {},
     compiledCardTemplate: null,
-    SpeciesURL: 'http://hermes.freac.fsu.edu/requests/state_species/species?state=',
+    SpeciesURL: 'http://hermes.freac.fsu.edu/requests/state_species_pdg/species?state=',
     ProjectsURL: 'http://hermes.freac.fsu.edu/requests/state_species/project?state=',
     projectList: null,
     speciesList: null,
@@ -100,7 +100,7 @@ iMapApp.App = {
     //
     // UI Helpers
     getAssessmentType: function(spec) {
-        return iMapApp.App.speciesList[spec][2]
+        return iMapApp.App.speciesList[spec][2];
     },
 
     checkLastUpdate: function() {
@@ -160,7 +160,7 @@ iMapApp.App = {
                 iMapApp.App.speciesList = {};
                 cnt = 0;
                 pdata.species.forEach(function(el, ind, array) {
-                    iMapApp.App.speciesList[el.statespeciesid] = [el.statecommonname, el.state_scientific_name, "I"];
+                    iMapApp.App.speciesList[el.statespeciesid] = [el.statecommonname, el.state_scientific_name, el.imapassessmenttabletype];
                 });
                 localStorage.setItem("speciesList", JSON.stringify(iMapApp.App.speciesList));
             }).success(function() { console.log("Load species list second success"); })

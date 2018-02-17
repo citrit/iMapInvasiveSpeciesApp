@@ -80,9 +80,9 @@ iMapApp.uploadUtils = {
         getDElem('[name="distribution"]').val(obs.getDist());
         var obsComment = obs.getComment();
         switch (iMapApp.App.getAssessmentType(obs.getSpeciesID())) {
-            case "TP":
-                obsComment = "Abundance\n  Size of Area: " + getDElem('select[name="sizeOfArea"] :selected').text() +
-                    "\n  Distribution: " + getDElem('select[name="distribution"] :selected').text() +
+            case "PT":
+                obsComment = "Abundance\n  Size of Area: " + $("#sizeOfArea option[value='" + obs.getSize() + "']").text() +
+                    "\n  Distribution: " + $("#distribution option[value='" + obs.getDist() + "']").text() +
                     "\nGeneral Comments: \n" + obs.getComment();
                 break;
             case "I":

@@ -659,7 +659,7 @@ iMapApp.uiUtils = {
         x = document.getElementById("InsectsEntryDiv");
         x.style.display = "none";
         switch (assesType) {
-            case "TP":
+            case "PT":
                 x = document.getElementById("TerestrialPlantsEntryDiv");
                 x.style.display = "block";
                 break;
