@@ -1,2 +1,3 @@
-platforms/*
+platforms/
+node_modules/
 

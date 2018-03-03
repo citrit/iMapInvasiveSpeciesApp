@@ -243,7 +243,8 @@ iMapApp.App = {
     // get a new file entry for the moved image when the user hits the delete button
     // pass the file entry to removeFile()
     removeImage: function(imageURI) {
-        window.resolveLocalFileSystemURL(imageURI, iMapApp.App.removeFile, iMapApp.App.errorHandler);
+        if (imageURI != "null")
+            window.resolveLocalFileSystemURL(imageURI, iMapApp.App.removeFile, iMapApp.App.errorHandler);
     },
 
     // delete the file

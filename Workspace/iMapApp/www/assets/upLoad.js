@@ -5,6 +5,8 @@ iMapApp.uploadUtils = {
     debugOut: true,
     obsvs: [],
     numUploads: 0,
+    errorCnt: 0,
+    uploadCnt: 0,
 
     // Application Constructor
     initialize: function() {
@@ -38,17 +40,18 @@ iMapApp.uploadUtils = {
     doUpload: function(obss) {
         iMapApp.uploadUtils.obsvs = obss;
         iMapApp.uploadUtils.numUploads = obss.length;
-        iMapApp.uploadUtils.syncUploads(obss.length);
+        iMapApp.uploadUtils.errorCnt = 0;
+        iMapApp.uploadUtils.uploadCnt = 0;
+        iMapApp.uploadUtils.syncUploads(0);
     },
 
-    syncUploads: function() {
+    syncUploads: function(retCode) {
         //		iMapPrefs.init();
         //		iMapPrefs.Username = 'tomcitriniti';
         //		iMapPrefs.Password = '';
-        console.log("uploading " + iMapApp.uploadUtils.obsvs.length + " of " + iMapApp.uploadUtils.numUploads);
-        var ret = true;
         var ok = iMapApp.uploadUtils.obsvs.length > 0; //iMapPrefs.loginToMainSite();
         if (ok) {
+            console.log("uploading " + iMapApp.uploadUtils.obsvs.length + " of " + iMapApp.uploadUtils.numUploads);
             obs = iMapApp.App.observ[iMapApp.uploadUtils.obsvs.get(0).id];
             iMapApp.uploadUtils.obsvs.splice(0, 1);
             console.log('Going to upload: ' + JSON.stringify(obs.getObsData()));
@@ -60,11 +63,10 @@ iMapApp.uploadUtils = {
                 console.log("Uploading Observation");
                 iMapApp.uploadUtils.doSendToServer(obs);
             }
-        } else if (iMapApp.uploadUtils.numUploads > 0) {
-            $('p[name="infoDialText"]').text('Uploaded [' + iMapApp.uploadUtils.numUploads + '] records.');
+        } else {
+            $('p[name="infoDialText"]').text('Uploaded [' + (iMapApp.uploadUtils.numUploads - iMapApp.uploadUtils.errorCnt) + '] records.');
             iMapApp.uiUtils.openDialog('#infoDialog', 'Upload complete');
         }
-        return ret;
     },
 
     doSendToServer: function(obs) {
@@ -72,7 +74,7 @@ iMapApp.uploadUtils = {
         //		+ ")',8)";
         //console.log("ST_GEOM: " + stShp);
 
-        var url = 'https://hermes.freac.fsu.edu/requests/uploadObservation/uploadTool';
+        var url = 'http://hermes.freac.fsu.edu/requests/uploadObservation/uploadTool';
         //console.log("Do image: " + (obs.getPhotos() !== "" ? 1 : 0));
         var spIDLen = obs.getSpeciesID().length;
         var spl = JSON.parse(localStorage.getItem("speciesList"));
@@ -129,6 +131,7 @@ iMapApp.uploadUtils = {
             async: true,
             success: function(jqXHR, textStatus, errorThrown) {
                 console.log("URL request success: " + typeof jqXHR);
+                var ret = null;
                 try {
                     ret = eval("(" + jqXHR + ")");
                     if (ret.code === 0) {
@@ -138,25 +141,27 @@ iMapApp.uploadUtils = {
                         var img = iMapApp.App.dataFolder + obs.getPhotos().split('=').pop();
                         obs.setPhotos(img);
                         iMapApp.App.delObservation(obs.getObjectID());
-                        ret = true;
                     } else if (ret.code == 2) {
                         alert("Bad username or password");
                     } else {
-                        console.log('Upload error: ' + JSON.stringify(ret));
-                        alert('Upload error: ' + JSON.stringify(ret));
+                        console.log('Upload error: Code[' + ret.code + ']: ' + ret.msg);
+                        alert('Upload error: Code[' + ret.code + ']: ' + ret.msg);
+                        iMapApp.uploadUtils.errorCnt++;
                     }
                 } catch (err) {
                     iMapApp.uiUtils.waitDialogClose();
                     console.log('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
                     alert('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
+                    iMapApp.uploadUtils.errorCnt++;
                 } finally {
                     iMapApp.uiUtils.waitDialogClose();
-                    iMapApp.uploadUtils.syncUploads();
+                    iMapApp.uploadUtils.syncUploads(ret.code);
                 }
             },
             // dataType: dataType,
             error: function(jqXHR, textStatus, errorThrown) {
                 iMapApp.uiUtils.waitDialogClose(true);
+                iMapApp.uploadUtils.errorCnt++;
                 console.log('Upload error: ' + JSON.stringify(jqXHR) + " -> " +
                     JSON.stringify(textStatus) + " -> " +
                     JSON.stringify(errorThrown));

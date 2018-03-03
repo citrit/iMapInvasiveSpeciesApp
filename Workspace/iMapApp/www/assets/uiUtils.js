@@ -81,9 +81,12 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.addObs();
         });
         $('button[name="updateStateData"]').click(function() {
-            iMapApp.App.updateStateData(iMapApp.iMapPrefs.params.CurrentState);
-            getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
-
+            if (iMapApp.uiUtils.checkParamsNotSet()) {
+                return;
+            } else {
+                iMapApp.App.updateStateData(iMapApp.iMapPrefs.params.CurrentState);
+                getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
+            }
         });
         $("#obsLoc").change(function() {
             var pos = JSON.parse('[' + $('input[name="obsLoc"]').val() + ']');
@@ -101,6 +104,9 @@ iMapApp.uiUtils = {
                 iMapApp.uiUtils.openOkCancelDialog('iMapInvasives', 'Exit iMapInvasives?',
                     navigator.app.exitApp);
             } else {
+                if (iMapApp.uiUtils.checkParamsNotSet()) {
+                    return;
+                }
                 navigator.app.backHistory();
                 iMapApp.iMapMap.stopGPSTimer();
             }
@@ -316,7 +322,7 @@ iMapApp.uiUtils = {
     },
 
     setObsAccuracy: function(acc) {
-        $('span[name="gpsAccuracy"]').text("Accuracy: " + ("0000" + acc).slice(-4) + ' m');
+        $('span[name="gpsAccuracy"]').text("GPS Accuracy: " + ("0000" + acc).slice(-4) + ' m');
     },
 
     uploadObservations: function() {
@@ -488,9 +494,9 @@ iMapApp.uiUtils = {
         var lnam = getDElem('input[name="lname"]').val();
         var unam = getDElem('input[name="uname"]').val();
         var pwor = getDElem('input[name="pword"]').val();
-        if (fnam == "" || lnam == "" || unam == "") {
-            $('p[name="prefError"]').text('Please fill out Preferences first');
-            //iMapApp.uiUtils.openDialog('#infoDialog', 'Empty Preferences');
+        var sname = getDElem('select[name="stateSelect"]').val();
+        if (fnam === "" || lnam === "" || unam === "" || sname === "") {
+            iMapApp.uiUtils.openInfoDialog('Preferences not set', 'Please fill in Preferences');
             return;
         }
         //iMapApp.uiUtils.openDialog('#waitDialog', "Saving Preferences");
@@ -510,7 +516,7 @@ iMapApp.uiUtils = {
         //    DBFuncs.loadProjectList();
         //}
 
-        iMapApp.iMapPrefs.params.CurrentState = getDElem('select[name="stateSelect"]').val();
+        iMapApp.iMapPrefs.params.CurrentState = sname;
         iMapApp.iMapPrefs.params.Plants.UseCommon = getDElem('input[name="checkbox-common"]').is(':checked');
         iMapApp.iMapPrefs.params.Plants.UseScientific = getDElem('input[name="checkbox-scientific"]').is(':checked');
         //iMapPrefs.params.Plants.MyPlants = $('#fname').val();
@@ -561,7 +567,17 @@ iMapApp.uiUtils = {
         iMapApp.uiUtils.loadSpeciesList();
     },
 
+    checkParamsNotSet: function() {
+        var ret = iMapApp.iMapPrefs.params.Firstname === "" || iMapApp.iMapPrefs.params.Lastname === "" ||
+            iMapApp.iMapPrefs.params.Username === "" || iMapApp.iMapPrefs.params.CurrentState === "";
+        if (ret) {
+            iMapApp.uiUtils.openInfoDialog('Preferences not set', 'Please fill in Preferences');
+        }
+        return ret;
+    },
+
     gotoMainPage: function() {
+        if (iMapApp.uiUtils.checkParamsNotSet()) return;
         iMapApp.iMapMap.stopGPSTimer();
         $.mobile.navigate("#mainPage");
         //iMapApp.uiUtils.checkIntroOverlay();
