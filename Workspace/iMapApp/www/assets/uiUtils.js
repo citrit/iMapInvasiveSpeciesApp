@@ -178,6 +178,9 @@ iMapApp.uiUtils = {
         getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType);
         iMapApp.iMapMap.startGPSTimer();
         iMapApp.iMapMap.setPosition([-73.4689, 42.7187]);
+
+        var sizeOfAreaElement = document.getElementById("sizeOfArea");
+        sizeOfAreaElement.className = iMapApp.iMapPrefs.params.Units == "USCustomary" ? "USCustomary" : "Metric"; // if the units are set to USCustomary, set the class to 'USCustomary', otherwise set it as 'Metric' 
         // Make the select searchable
         /*getDElem('select[name="obsProjects"]').select2({
                     placeholder: "Select a Project",
@@ -521,6 +524,7 @@ iMapApp.uiUtils = {
         iMapApp.iMapPrefs.params.PictureSize = getDElem("input[name=radio-choice-size]:checked").val();
         iMapApp.iMapPrefs.params.MapType = getDElem("input[name=map-type]:checked").val();
         iMapApp.iMapPrefs.params.DefaultZoom = getDElem('input[name=zoomToRange]').val();
+        iMapApp.iMapPrefs.params.Units = getDElem('#measurementSystem').val();
         iMapApp.iMapPrefs.params.WelcomePage = getDElem('input[name="checkbox-welcomepage"]').is(':checked');
 
         //alert($.toJSON(iMapPrefs));

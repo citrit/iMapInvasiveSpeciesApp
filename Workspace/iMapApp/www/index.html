@@ -124,6 +124,12 @@
             <label for='zoomToRange' class="sp-label">Default Zoom</label>
             <input type="range" name="zoomToRange" id="zoomToRange" value="12" min="0" max="18">
 
+            <label for='measurementSystem'>Measurement System</label>
+            <select id='measurementSystem' name='measurementSystem' data-role="none">
+                <option value="USCustomary" selected>US Customary (feet/acres)</option>
+                <option value="Metric">Metric (meters/hectares)</option>
+            </select>
+
             <!--<input data-type="search" id="searchForlistPrefProj"/> 
                     data-filter="true" data-input="#searchForlistPrefProj" -->
             <div data-role="fieldcontain">
@@ -193,10 +199,14 @@
                 <span>(or type precise area with units into Comments box)</span></p>
                 <select id='sizeOfArea' name='sizeOfArea' data-role="none">
                     <option value="o"></option>
-                    <option value="a">Up to 10 sq. ft</option>
-                    <option value="b">Up to 0.5 acre (21,780 sq. ft)</option>
-                    <option value="c">Up to 1 acre</option>
-                    <option value="d">More than 1 acre</option>
+                    <option value="a" class="USCustomary">Up to 10 sq. ft</option>
+                    <option value="b" class="USCustomary">Up to 0.5 acre (21,780 sq. ft)</option>
+                    <option value="c" class="USCustomary">Up to 1 acre</option>
+                    <option value="d" class="USCustomary">More than 1 acre</option>
+                    <option value="e" class="Metric">Up to 10 sq. meters</option>
+                    <option value="f" class="Metric">Up to 0.5 hectare (5,000 sq. m)</option>
+                    <option value="g" class="Metric">Up to 1 hectare</option>
+                    <option value="h" class="Metric">More than 1 hectare</option>
                 </select>
                 <p>Distribution of invasive:</p>
                 <select id='distribution' name='distribution' data-role="none">
