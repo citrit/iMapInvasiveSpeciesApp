@@ -27,6 +27,7 @@ iMapApp.App = {
         iMapApp.App.loadObservations();
         iMapApp.App.renderCards();
         iMapApp.App.checkUpdateDuration(iMapApp.iMapPrefs.params.StateUpdate);
+        iMapApp.App.checkUpdateDurationNewFields(iMapApp.iMapPrefs.params.StateUpdate); // if the last update to the states data was prior to 2018-03-03, display the notice to update the states data (overrides other notice)
         iMapApp.App.dataFolder = (cordova.file.documentsDirectory == null ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory);
     },
 
@@ -189,6 +190,14 @@ iMapApp.App = {
         var diffDays = parseInt((now - updDate) / (1000 * 60 * 60 * 24));
         if (diffDays > 90) {
             iMapApp.uiUtils.openInfoDialog('State Update needed', 'Your version of the state data is most likely out of date, please go to preferences and select update.');
+        }
+    },
+
+    checkUpdateDurationNewFields: function(dt) {
+        var updDate = Date.parse(dt);
+        var newSpeciesListDate = 1520035200000;
+        if (updDate < newSpeciesListDate) {
+            iMapApp.uiUtils.openInfoDialog('State Update needed', 'Your version of the State Species Data is not current. Thus, you will not be able to view the new insect and terrestrial plant survey fields. To correct this problem, please go to the Preferences page and select "Update States Data" at the bottom of the page.');
         }
     },
 
