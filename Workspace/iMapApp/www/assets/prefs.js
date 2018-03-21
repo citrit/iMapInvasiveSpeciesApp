@@ -18,6 +18,7 @@ iMapApp.iMapPrefs = {
         MapType: "Road",
         CurrentState: "",
         DefaultZoom: 12,
+        Units: "USCustomary",
         StateUpdate: '',
         WelcomePage: true
     },

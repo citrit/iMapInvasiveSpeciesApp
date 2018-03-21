@@ -83,14 +83,18 @@ iMapApp.uploadUtils = {
         var obsComment = obs.getComment();
         switch (iMapApp.App.getAssessmentType(obs.getSpeciesID())) {
             case "PT":
-                obsComment = "Abundance\n  Size of Area: " + $("#sizeOfArea option[value='" + obs.getSize() + "']").text() +
-                    "\n  Distribution: " + $("#distribution option[value='" + obs.getDist() + "']").text() +
+                if (obs.getSize() != "o" || obs.getDist() != 0) {
+                    obsComment = "Abundance\n  Size of Area: " + $("#sizeOfArea option[value='" + obs.getSize() + "']").text() +
+                    "\n  Distribution: " +  $("#distribution option[value='" + obs.getDist() + "']").text() +
                     "\nGeneral Comments: \n" + obs.getComment();
+                }
                 break;
             case "I":
-                obsComment = "Insect search effort - Number of trees/hosts surveyed: " + obs.getNumTrees() +
+                if (obs.getNumTrees() > 0 || obs.getTimeSurvey() > 0) {
+                    obsComment = "Insect search effort - Number of trees/hosts surveyed: " + obs.getNumTrees() +
                     "\n  Hours spent surveying: " + obs.getTimeSurvey() +
                     "\nGeneral Comments: \n" + obs.getComment();
+                }
                 break;
         }
         var postData = {

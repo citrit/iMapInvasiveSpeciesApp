@@ -171,8 +171,6 @@ iMapApp.uiUtils = {
         getDElem('[name="obsLoc"]').val([0.0, 0.0]);
         getDElem('[name="sizeOfArea"]').val('o');
         getDElem('[name="distribution"]').val('0');
-        getDElem('[name="numTreesSurveyed"]').val('0');
-        getDElem('[name="timeSurveying"]').val('0');
         getDElem('[name="obsComment"]').val('');
         iMapApp.uiUtils.setAssessmentType("Off");
         iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params.DefaultZoom);

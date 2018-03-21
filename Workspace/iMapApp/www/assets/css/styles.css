@@ -239,3 +239,7 @@ html {
 .image6 {
     background-image: url('http://farm4.staticflickr.com/3726/9522001276_21bb6fbd64_z.jpg');
 }
+
+.extraDataEntry {
+    margin: 1em 0;
+}
