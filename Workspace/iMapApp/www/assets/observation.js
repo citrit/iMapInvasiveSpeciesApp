@@ -18,6 +18,7 @@ iMapApp.Observation = function(od) {
         State: "",
         County: "",
         Size: "o",
+        SizeMetric: "oo",
         Dist: "0",
         NumTrees: 0,
         TimeSurvey: 0,
@@ -36,6 +37,7 @@ iMapApp.Observation = function(od) {
     this.getState = function() { return obsData.State; };
     this.getCounty = function() { return obsData.County; };
     this.getSize = function() { return obsData.Size; };
+    this.getSizeMetric = function() { return obsData.SizeMetric; };
     this.getDist = function() { return obsData.Dist; };
     this.getNumTrees = function() { return obsData.NumTrees; };
     this.getTimeSurvey = function() { return obsData.TimeSurvey; };
@@ -54,6 +56,7 @@ iMapApp.Observation = function(od) {
     this.setState = function(s) { obsData.State = s; };
     this.setCounty = function(c) { obsData.County = c; };
     this.setSize = function(s) { obsData.Size = s; };
+    this.setSizeMetric = function(sm) { obsData.SizeMetric = sm; };
     this.setDist = function(d) { obsData.Dist = d; };
     this.setNumTrees = function(n) { obsData.NumTrees = n; };
     this.setTimeSurvey = function(t) { obsData.TimeSurvey = t; };

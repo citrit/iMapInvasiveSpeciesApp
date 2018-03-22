@@ -83,8 +83,8 @@ iMapApp.uploadUtils = {
         var obsComment = obs.getComment();
         switch (iMapApp.App.getAssessmentType(obs.getSpeciesID())) {
             case "PT":
-                if (obs.getSize() != "o" || obs.getDist() != 0) {
-                    obsComment = "Abundance\n  Size of Area: " + $("#sizeOfArea option[value='" + obs.getSize() + "']").text() +
+                if (obs.getSize() != "o" || obs.getSizeMetric() != "oo" || obs.getDist() != 0) {
+                    obsComment = "Abundance\n  Size of Area: " + $("#sizeOfArea option[value='" + obs.getSize() + "']").text() + $("#sizeOfAreaMetric option[value='" + obs.getSizeMetric() + "']").text() +
                     "\n  Distribution: " +  $("#distribution option[value='" + obs.getDist() + "']").text() +
                     "\nGeneral Comments: \n" + obs.getComment();
                 }

@@ -244,10 +244,6 @@ html {
     margin: 1em 0;
 }
 
-#sizeOfArea.USCustomary .Metric {
-    display: none
-}
-
-#sizeOfArea.Metric .USCustomary {
-    display: none
+.hidden {
+    display: none;
 }

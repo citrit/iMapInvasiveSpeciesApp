@@ -170,6 +170,7 @@ iMapApp.uiUtils = {
         getDElem('[name="largeImage"]').prop("src", "assets/images/TakePhoto2.png");
         getDElem('[name="obsLoc"]').val([0.0, 0.0]);
         getDElem('[name="sizeOfArea"]').val('o');
+        getDElem('[name="sizeOfAreaMetric"]').val('oo');
         getDElem('[name="distribution"]').val('0');
         getDElem('[name="obsComment"]').val('');
         iMapApp.uiUtils.setAssessmentType("Off");
@@ -179,8 +180,8 @@ iMapApp.uiUtils = {
         iMapApp.iMapMap.startGPSTimer();
         iMapApp.iMapMap.setPosition([-73.4689, 42.7187]);
 
-        var sizeOfAreaElement = document.getElementById("sizeOfArea");
-        sizeOfAreaElement.className = iMapApp.iMapPrefs.params.Units == "USCustomary" ? "USCustomary" : "Metric"; // if the units are set to USCustomary, set the class to 'USCustomary', otherwise set it as 'Metric' 
+        this.toggleSizeUnits(); // initialize/display the correct units
+
         // Make the select searchable
         /*getDElem('select[name="obsProjects"]').select2({
                     placeholder: "Select a Project",
@@ -204,6 +205,7 @@ iMapApp.uiUtils = {
         getDElem('[name="obsProjects"]').val(obs.getProjectID()); //.selectmenu().selectmenu('refresh', true);;
         getDElem('[name="obsSpecies"]').val(obs.getSpeciesID()); //.selectmenu().selectmenu('refresh', true);;
         getDElem('[name="sizeOfArea"]').val(obs.getSize());
+        getDElem('#sizeOfAreaMetric').val(obs.getSizeMetric());
         getDElem('[name="distribution"]').val(obs.getDist());
         getDElem('[name="numTreesSurveyed"]').val(obs.getNumTrees());
         getDElem('[name="timeSurveying"]').val(obs.getTimeSurvey());
@@ -245,6 +247,18 @@ iMapApp.uiUtils = {
              });*/
         //iMapApp.iMapMap.startGPSTimer();
         //$( window ).height($( window ).height()-1);
+
+
+        // toggle the correct area dropdown to display based on what was entered in the observation
+        // sorry, this probably isn't the most elegant approach, but works
+        if (obs.getSize() != "o" || obs.getSizeMetric() != "oo") {
+            // if the units had been set when the observation was created, load those units
+            document.getElementById("sizeOfArea").className = obs.getSize() != "o" ? "visible" : "hidden"; // if the units are not set to USCustomary, set the class to 'hidden'
+            document.getElementById("sizeOfAreaMetric").className = obs.getSizeMetric() != "oo" ? "visible" : "hidden"; // if the units are not set to Metric, set the class to 'hidden'             
+        } else {
+            // otherwise load the units that are currently set in the settings
+            this.toggleSizeUnits();
+        }
     },
 
     deleteObs: function() {
@@ -291,6 +305,7 @@ iMapApp.uiUtils = {
         obs.setSpecies(getDElem('[name="obsSpecies"]').find(":selected").text());
         obs.setSpeciesID(getDElem('[name="obsSpecies"]').val());
         obs.setSize(getDElem('[name="sizeOfArea"]').val());
+        obs.setSizeMetric(getDElem('#sizeOfAreaMetric').val());
         obs.setDist(getDElem('[name="distribution"]').val());
         obs.setNumTrees(getDElem('[name="numTreesSurveyed"]').val());
         obs.setTimeSurvey(getDElem('[name="timeSurveying"]').val());
@@ -688,6 +703,12 @@ iMapApp.uiUtils = {
             default:
                 break;
         }
+    },
+
+    toggleSizeUnits: function () {
+        // initializes/displays the correct units for size of area survey question
+        document.getElementById("sizeOfArea").className = iMapApp.iMapPrefs.params.Units == "USCustomary" ? "visible" : "hidden"; // if the units are not set to USCustomary, set the class to 'hidden' 
+        document.getElementById("sizeOfAreaMetric").className = iMapApp.iMapPrefs.params.Units == "Metric" ? "visible" : "hidden"; // if the units are not set to Metric, set the class to 'hidden' 
     }
 
 };
