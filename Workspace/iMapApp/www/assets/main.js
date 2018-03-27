@@ -197,7 +197,7 @@ iMapApp.App = {
         var updDate = Date.parse(dt);
         var newSpeciesListDate = 1520035200000;
         if (updDate < newSpeciesListDate) {
-            iMapApp.uiUtils.openInfoDialog('State Update needed', 'Your version of the State Species Data is not current. Thus, you will not be able to view the new insect and terrestrial plant survey fields. To correct this problem, please go to the Preferences page and select "Update States Data" at the bottom of the page.');
+            iMapApp.uiUtils.openInfoDialog('State Update needed', 'Your version of the State Species Data is not current. Thus, you will not be able to view the new insect and terrestrial plant survey fields.<br><br> To correct this problem, please update your State Species Data by completing the following while connected to the Internet:<br><br>(1) Go to the Preferences page<br>(2) Scroll to the bottom<br>(3) Tap &quot;Update States Data&quot;<br>(4) Tap Save');
         }
     },
 
