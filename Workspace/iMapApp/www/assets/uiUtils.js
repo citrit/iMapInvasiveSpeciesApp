@@ -145,7 +145,7 @@ iMapApp.uiUtils = {
     },
 
     openInfoDialog: function(title, msg) {
-        $('p[name="infoDialText"]').text(msg);
+        $('p[name="infoDialText"]').html(msg);
         iMapApp.uiUtils.openDialog('#infoDialog', title);
     },
 
