@@ -83,10 +83,24 @@ iMapApp.uploadUtils = {
         var obsComment = obs.getComment();
         switch (iMapApp.App.getAssessmentType(obs.getSpeciesID())) {
             case "PT":
-                if (obs.getSize() != "o" || obs.getSizeMetric() != "oo" || obs.getDist() != 0) {
-                    obsComment = "Abundance\n  Size of Area: " + $("#sizeOfArea option[value='" + obs.getSize() + "']").text() + $("#sizeOfAreaMetric option[value='" + obs.getSizeMetric() + "']").text() +
-                    "\n  Distribution: " +  $("#distribution option[value='" + obs.getDist() + "']").text() +
-                    "\nGeneral Comments: \n" + obs.getComment();
+                obsComment = ''; // reset the obs comment
+                var obsCommentsAll = [];
+
+                // add the elements to the array if they are not the default value/empty
+                obs.getSize() != "o" ? obsCommentsAll.push("Abundance - Size of Area: " + $("#sizeOfArea option[value='" + obs.getSize() + "']").text()) : false;
+                obs.getSizeMetric() != "oo" ? obsCommentsAll.push("Abundance -  Size of Area: " + $("#sizeOfAreaMetric option[value='" + obs.getSizeMetric() + "']").text()) : false;
+                obs.getDist() != 0 ? obsCommentsAll.push("Abundance - Distribution: " +  $("#distribution option[value='" + obs.getDist() + "']").text()) : false;
+                obs.getAilanthusDBHGreaterSix() != 'null' ? obsCommentsAll.push("Ailanthus with DBH six inches or greater present: " + $("#ailanthusStemsGreaterSix option[value='" + obs.getAilanthusDBHGreaterSix() + "']").text()) : false;
+                obs.getComment() != '' ? obsCommentsAll.push("General Comments:\n" + obs.getComment()) : false;
+                var obsCommentsAllLen = obsCommentsAll.length;
+                for (var i = 0; i < obsCommentsAllLen; i++) {
+                    // loops through the ObsCommentsAll array and forms the obsComment string
+                    if (i < (obsCommentsAllLen - 1)) {
+                        obsComment += obsCommentsAll[i] + "\n";
+                    } else {
+                        // to prevent the comment ending on a new line
+                        obsComment += obsCommentsAll[i];
+                    }
                 }
                 break;
             case "I":

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="200451" id="com.ltc.imapapp" version="2.0.45" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="200461" id="com.ltc.imapapp" version="2.0.46" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>iMapApp</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -52,15 +52,11 @@
     </platform>
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
     <plugin name="cordova-plugin-battery-status" spec="^2.0.1" />
-    <plugin name="cordova-plugin-camera" spec="^4.0.2" />
-    <plugin name="cordova-plugin-compat" spec="^1.2.0" />
-    <plugin name="cordova-plugin-console" spec="~1.1.0" />
     <plugin name="cordova-plugin-device" spec="~2.0.1" />
     <plugin name="cordova-plugin-device-motion" spec="~1.2.5" />
     <plugin name="cordova-plugin-device-orientation" spec="~1.0.7" />
     <plugin name="cordova-plugin-dialogs" spec="~2.0.1" />
     <plugin name="cordova-plugin-file" spec="~6.0.1" />
-    <plugin name="cordova-plugin-geolocation" spec="~4.0.1" />
     <plugin name="cordova-plugin-media" spec="~5.0.2" />
     <plugin name="cordova-plugin-media-capture" spec="~3.0.1" />
     <plugin name="cordova-plugin-network-information" spec="~2.0.1" />
@@ -72,6 +68,14 @@
     <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
         <string>iMapInvasives needs access to camera to capture species images.</string>
     </edit-config>
-    <engine name="android" spec="^7.0.0" />
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+        <string>iMapInvasives needs to know your location to determine where the species is located.</string>
+    </edit-config>
+    <plugin name="cordova-plugin-compat" spec="^1.2.0" />
+    <plugin name="cordova-plugin-console" spec="^1.1.0" />
+    <plugin name="cordova-plugin-camera" spec="^4.0.2" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
     <engine name="ios" spec="^4.5.4" />
+    <engine name="android" spec="^7.0.0" />
 </widget>

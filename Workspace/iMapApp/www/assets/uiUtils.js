@@ -167,15 +167,17 @@ iMapApp.uiUtils = {
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
         var dt = now.getFullYear() + "-" + (month) + "-" + (day);
         getDElem('[name="obsDate"]').val(dt);
-        getDElem('[name="largeImage"]').prop("src", "assets/images/TakePhoto2.png");
+        getDElem('[name="largeImage"]').prop("src", "assets/images/TakePhoto3.png");
         getDElem('[name="obsLoc"]').val([0.0, 0.0]);
         getDElem('[name="sizeOfArea"]').val('o');
         getDElem('[name="sizeOfAreaMetric"]').val('oo');
         getDElem('[name="distribution"]').val('0');
         getDElem('[name="numTreesSurveyed"]').val('');
         getDElem('[name="timeSurveying"]').val('');
+        getDElem('#ailanthusStemsGreaterSix').val('null');        
         getDElem('[name="obsComment"]').val('');
         iMapApp.uiUtils.setAssessmentType("Off");
+        iMapApp.uiUtils.toggleAilanthusFields("Off");
         iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params.DefaultZoom);
         getDElem('input[name="toggleGPS"]').prop('checked', true);
         getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType);
@@ -211,6 +213,7 @@ iMapApp.uiUtils = {
         getDElem('[name="distribution"]').val(obs.getDist());
         getDElem('[name="numTreesSurveyed"]').val(obs.getNumTrees());
         getDElem('[name="timeSurveying"]').val(obs.getTimeSurvey());
+        getDElem('#ailanthusStemsGreaterSix').val(obs.getAilanthusDBHGreaterSix());
         getDElem('[name="obsComment"]').val(obs.getComment());
 
         var now = new Date(obs.getWhen());
@@ -224,7 +227,7 @@ iMapApp.uiUtils = {
         getDElem('[name="obsLoc"]').val(obs.getWhere());
         //console.log("Photo: " + obs.getPhotos());
 
-        var lim = (obs.getPhotos() == "" ? "assets/images/TakePhoto2.png" : obs.getPhotos());
+        var lim = (obs.getPhotos() == "" ? "assets/images/TakePhoto3.png" : obs.getPhotos());
         getDElem('[name="largeImage"]').attr("src", lim);
         //$('img[name="largeImage"]').src(obs.getPhotos());
 
@@ -311,6 +314,7 @@ iMapApp.uiUtils = {
         obs.setDist(getDElem('[name="distribution"]').val());
         obs.setNumTrees(getDElem('[name="numTreesSurveyed"]').val());
         obs.setTimeSurvey(getDElem('[name="timeSurveying"]').val());
+        obs.setAilanthusDBHGreaterSix(getDElem('#ailanthusStemsGreaterSix').val());
         obs.setComment(getDElem('[name="obsComment"]').val());
 
         var dt = getDElem('[name="obsDate"]').val();
@@ -406,6 +410,7 @@ iMapApp.uiUtils = {
 
     speciesChangeHandler: function(sel) {
         iMapApp.uiUtils.setAssessmentType(iMapApp.App.getAssessmentType(sel));
+        iMapApp.uiUtils.toggleAilanthusFields(sel);
     },
 
     loadProjectList: function() {
@@ -479,6 +484,7 @@ iMapApp.uiUtils = {
         $.mobile.navigate("#prefPage");
         //$( ":mobile-pagecontainer" ).pagecontainer( "change", "#prefPage" );
         //getDElem('input[name=zoomRange]').slider();
+        this.prefIntroToggler();
         getDElem('p[name="prefError"]').text(msg);
         getDElem('input[name="fname"]').val(iMapApp.iMapPrefs.params.Firstname);
         getDElem('input[name="lname"]').val(iMapApp.iMapPrefs.params.Lastname);
@@ -513,7 +519,7 @@ iMapApp.uiUtils = {
         var unam = getDElem('input[name="uname"]').val();
         var pwor = getDElem('input[name="pword"]').val();
         var sname = getDElem('select[name="stateSelect"]').val();
-        if (fnam === "" || lnam === "" || unam === "" || sname === "") {
+        if (fnam === "" || lnam === "" || sname === "") {
             iMapApp.uiUtils.openInfoDialog('Preferences not set', 'Please fill in Preferences');
             return;
         }
@@ -587,8 +593,7 @@ iMapApp.uiUtils = {
     },
 
     checkParamsNotSet: function() {
-        var ret = iMapApp.iMapPrefs.params.Firstname === "" || iMapApp.iMapPrefs.params.Lastname === "" ||
-            iMapApp.iMapPrefs.params.Username === "" || iMapApp.iMapPrefs.params.CurrentState === "";
+        var ret = iMapApp.iMapPrefs.params.Firstname === "" || iMapApp.iMapPrefs.params.Lastname === "" || iMapApp.iMapPrefs.params.CurrentState === "";
         if (ret) {
             iMapApp.uiUtils.openInfoDialog('Preferences not set', 'Please fill in Preferences');
         }
@@ -707,12 +712,31 @@ iMapApp.uiUtils = {
         }
     },
 
+    toggleAilanthusFields: function(species) {
+        // toggles additional assessment fieldsto display only for Ailanthus altissima
+        var ailanthusFields = document.getElementById("AilanthusEntryDiv");
+        ailanthusFields.classList.add("hidden");
+        if (species == 'NY-2-148863') {
+            ailanthusFields.classList.remove("hidden");
+        }
+    },
+
     toggleSizeUnits: function () {
         // initializes/displays the correct units for size of area survey question
         document.getElementById("sizeOfArea").className = iMapApp.iMapPrefs.params.Units == "USCustomary" ? "visible" : "hidden"; // if the units are not set to USCustomary, set the class to 'hidden' 
         document.getElementById("sizeOfAreaMetric").className = iMapApp.iMapPrefs.params.Units == "Metric" ? "visible" : "hidden"; // if the units are not set to Metric, set the class to 'hidden' 
-    }
+    },
 
+    userNameChecker: function() {
+        return (iMapApp.iMapPrefs.params.Username ? true : false);
+    },
+
+    prefIntroToggler: function() {
+        // if the username is set, remove the intro box in preferences
+        if (this.userNameChecker()) {
+            getDElem('#pref-intro').addClass("hidden");
+        }
+    }
 };
 
 //

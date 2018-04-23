@@ -72,6 +72,11 @@
         <div role="main" class="ui-content"><br>
             <strong>Preferences</strong>
             <div data-role="fieldcontain">
+                <p id="pref-intro">
+                    <span class="pref-intro-bold">You must have an iMapInvasives user account to upload data.</span>
+                    <span>If you do not have an iMapInvasives account, please visit the <a href="#" onclick="window.open('https://www.imapinvasives.org/login', '_system')">iMapInvasives website</a> to request an account.</span>
+                    <span>You can continue and collect data without entering a username and password, however a valid username and password must be entered prior to uploading data. <strong>At a minimum, fill in State, First Name, and Last Name. Then select Save to continue.</strong></span>
+                </p>
                 <p name="prefError" style="color: #ff0000;"></p>
                 <label for='stateSelect'>State:</label>
                 <select id='stateSelect' name='stateSelect' data-role="none">
@@ -159,9 +164,14 @@
 
                 <div id="takePic" data-role="fieldcontain">
                     <a onClick='iMapApp.Photo.getPhoto()'>
-                        <img src="assets/images/TakePhoto.png" name='largeImage' class='imgwrapper' />
+                        <img id="takePicImg" src="assets/images/TakePhoto.png" name='largeImage' class='imgwrapper' />
+                    </a>
+                <div id="takePicButtonContainer">
+                    <a onClick='iMapApp.Photo.getPhoto()'>
+                        <span id="takePicButton">Click Here To Take Photo</span>
                     </a>
                 </div>
+            </div>
 
                 <div data-role="fieldcontain">
                     <label for="obsProjects">Project: <small>(Optional)</small></label>
@@ -192,7 +202,18 @@
             <span name="gpsAccuracy" style="float:right;margin-right:10px;font-size:10px;color:blue">GPS Accuracy: 0000 m</span>
             <br>
             <div id="iMapMapdiv" class="iMapMapdiv"></div>
-            Location:<input type="text" id="obsLoc" name="obsLoc"></input>
+            Location (Longitude, Latitude):<input type="text" id="obsLoc" name="obsLoc"></input>
+            <div id="AilanthusEntryDiv" class="extraDataEntry hidden">
+                <h2>Tree-of-heaven (<em>Ailanthus altissima</em>) Assessment:</h2>
+                <span>Is a tree-of-heaven with a diameter at breast height (DBH) 6 inches or greater present?</span>
+                <span><em>For reference, a U.S. Dollar bill is approximately 6 inches in length.</em></span>
+                <select id='ailanthusStemsGreaterSix' name='ailanthusStemsGreaterSix' data-role="none">
+                    <option value="null"></option>
+                    <option value="y">Yes</option>
+                    <option value="n">No</option>
+                    <option value="u">Unknown</option>
+                </select>
+            </div>
             <div id="TerestrialPlantsEntryDiv" class="extraDataEntry" style="display: none">
                 <h2>Plant Assessment:</h2>
                 <p>Size of area containing invasive:<br>

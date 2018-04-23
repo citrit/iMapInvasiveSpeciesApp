@@ -22,6 +22,7 @@ iMapApp.Observation = function(od) {
         Dist: "0",
         NumTrees: 0,
         TimeSurvey: 0,
+        AilanthusDBHGreaterSix: 0,
         Comment: ""
     } : od);
 
@@ -41,6 +42,7 @@ iMapApp.Observation = function(od) {
     this.getDist = function() { return obsData.Dist; };
     this.getNumTrees = function() { return obsData.NumTrees; };
     this.getTimeSurvey = function() { return obsData.TimeSurvey; };
+    this.getAilanthusDBHGreaterSix = function() { return obsData.AilanthusDBHGreaterSix; };
     this.getComment = function() { return obsData.Comment; };
     this.getObsData = function() { return obsData; };
 
@@ -60,6 +62,7 @@ iMapApp.Observation = function(od) {
     this.setDist = function(d) { obsData.Dist = d; };
     this.setNumTrees = function(n) { obsData.NumTrees = n; };
     this.setTimeSurvey = function(t) { obsData.TimeSurvey = t; };
+    this.setAilanthusDBHGreaterSix = function(d) { obsData.AilanthusDBHGreaterSix = d; };
     this.setComment = function(c) { obsData.Comment = c; };
     this.setObsData = function(od) { obsData = od; };
 
