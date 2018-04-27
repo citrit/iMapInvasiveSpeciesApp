@@ -274,7 +274,8 @@ html {
     border-radius: 0.2em;
     display: block;
     margin: 0.25em auto 0.5em;
-    height: 4em;
+    max-height: 14em;
+    width: auto;
 }
 
 #takePicButtonContainer {
