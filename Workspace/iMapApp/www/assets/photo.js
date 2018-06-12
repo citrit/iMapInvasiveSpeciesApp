@@ -26,7 +26,9 @@ iMapApp.Photo = {
         navigator.camera.getPicture(iMapApp.Photo.onSuccess, iMapApp.Photo.onFail, {
             quality: qual,
             destinationType: Camera.DestinationType.DATA_URL,
-            saveToPhotoAlbum: false
+            saveToPhotoAlbum: false,
+            correctOrientation: true,
+            encodingType: Camera.EncodingType.JPEG
         });
     },
 

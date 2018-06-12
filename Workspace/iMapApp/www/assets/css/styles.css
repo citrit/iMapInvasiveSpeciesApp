@@ -175,6 +175,7 @@ html {
     background-repeat: no-repeat;
     position: relative;
     overflow: hidden;
+    image-orientation: from-image;
 }
 
 .card-image .banner {
@@ -276,6 +277,7 @@ html {
     margin: 0.25em auto 0.5em;
     max-height: 14em;
     width: auto;
+    image-orientation: from-image;
 }
 
 #takePicButtonContainer {
