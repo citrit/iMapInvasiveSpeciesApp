@@ -85,7 +85,7 @@ iMapApp.uiUtils = {
                 return;
             } else {
                 iMapApp.App.updateStateData(iMapApp.iMapPrefs.params.CurrentState);
-                getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
+                getDElem('p[name="lastUpdateDate"]').text('Last State Lists Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
             }
         });
         $("#obsLoc").change(function() {
@@ -405,7 +405,7 @@ iMapApp.uiUtils = {
     stateChangeHandler: function(sel) {
         console.log("Changing to state: " + sel);
         iMapApp.App.updateStateData(sel, true);
-        getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
+        getDElem('p[name="lastUpdateDate"]').text('Last State Lists Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
     },
 
     speciesChangeHandler: function(sel) {
@@ -499,7 +499,7 @@ iMapApp.uiUtils = {
         getDElem('input[value="' + iMapApp.iMapPrefs.params.MapType + '"]').prop('checked', true);
         //iMapApp.uiUtils.loadProjectList();
         getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project); //.selectmenu().selectmenu('refresh', true);
-        getDElem('p[name="lastUpdateDate"]').text('Last Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
+        getDElem('p[name="lastUpdateDate"]').text('Last State Lists Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
         getDElem('input[name="checkbox-welcomepage"]').prop('checked', iMapApp.iMapPrefs.params.WelcomePage);
 
         //getDElem('input[name=zoomToRange]').val(iMapApp.iMapPrefs.params['DefaultZoom']).trigger('create').slider('refresh', true);
