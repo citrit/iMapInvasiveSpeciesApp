@@ -163,13 +163,15 @@ iMapApp.uploadUtils = {
                         alert("Bad username or password");
                     } else {
                         console.log('Upload error: Code[' + ret.code + ']: ' + ret.msg);
-                        alert('Upload error: Code[' + ret.code + ']: ' + ret.msg);
+                        navigator.notification.alert("Please check that a valid username and password have been entered in the Preferences page and then try again.", iMapApp.uploadUtils.alertDismiss, "Upload failed");
+                        //alert('Upload error: Code[' + ret.code + ']: ' + ret.msg);
                         iMapApp.uploadUtils.errorCnt++;
                     }
                 } catch (err) {
                     iMapApp.uiUtils.waitDialogClose();
                     console.log('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
-                    alert('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
+                    navigator.notification.alert("Please check that a valid username and password have been entered in the Preferences page and then try again.", iMapApp.uploadUtils.alertDismiss, "Upload failed");
+                    //alert('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
                     iMapApp.uploadUtils.errorCnt++;
                 } finally {
                     iMapApp.uiUtils.waitDialogClose();
@@ -228,6 +230,10 @@ iMapApp.uploadUtils = {
     success: function(data, textStatus, jqXHR) {
         console.log('success: ' + JSON.stringify(data) + " -> " +
             JSON.stringify(textStatus));
+    },
+
+    alertDismiss: function() {
+        return;
     },
 
     getDateTime: function(useTime) {

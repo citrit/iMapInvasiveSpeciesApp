@@ -27,7 +27,6 @@ iMapApp.App = {
         iMapApp.App.loadObservations();
         iMapApp.App.renderCards();
         iMapApp.App.checkUpdateDuration(iMapApp.iMapPrefs.params.StateUpdate);
-        iMapApp.App.checkUpdateDurationNewFields(iMapApp.iMapPrefs.params.StateUpdate); // if the last update to the states data was prior to 2018-03-03, display the notice to update the states data (overrides other notice)
         iMapApp.App.dataFolder = (cordova.file.documentsDirectory == null ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory);
     },
 
@@ -143,7 +142,9 @@ iMapApp.App = {
         iMapApp.App.renderCards();
     },
 
-    updateStateData: function(stat, clearList) {
+    updateStateData: function(stat, clearList, loadSppList) {
+        var projUpdateSucc = false;
+        var sppUpdateSucc = false;
         iMapApp.uiUtils.waitDialogOpen('Updating Projects and Species', 2);
         console.log("Getting projects: " + iMapApp.App.ProjectsURL + stat);
         $.getJSON(iMapApp.App.ProjectsURL + stat, function(pdata) {
@@ -153,11 +154,21 @@ iMapApp.App = {
                 });
                 localStorage.setItem("projectList", JSON.stringify(iMapApp.App.projectList));
                 iMapApp.uiUtils.loadProjectList();
-            }).success(function() { console.log("Load project list second success"); })
-            .error(function(err) { alert("Update project list error: " + JSON.stringify(err)); })
+            }).success(function() {
+                console.log("Load project list second success");
+                projUpdateSucc = true;
+            })
+            .error(function(err) { navigator.notification.alert("The iMapInvasives projects list update failed. Please ensure that you have selected a state/province and that your device is connected to the internet. Then try again by selecting \"Refresh iMap Lists.\"\nIf the problem continues to occur, please try again later.", iMapApp.App.alertDismiss, "Projects List Update Failed"); })
             .complete(function() {
                 console.log("Load project list complete");
                 iMapApp.uiUtils.waitDialogClose();
+                if (projUpdateSucc == true && sppUpdateSucc == true) {
+                    // Update last lists update date to current date if lists both updated successfully
+                    iMapApp.App.listUpdateDateSetter();
+                    if (loadSppList) {
+                        iMapApp.uiUtils.loadSpeciesList();
+                    }
+                }
             });
 
         console.log("Getting species: " + iMapApp.App.SpeciesURL + stat);
@@ -168,19 +179,27 @@ iMapApp.App = {
                     iMapApp.App.speciesList[el.statespeciesid] = [el.statecommonname, el.state_scientific_name, el.imapassessmenttabletype];
                 });
                 localStorage.setItem("speciesList", JSON.stringify(iMapApp.App.speciesList));
-            }).success(function() { console.log("Load species list second success"); })
-            .error(function(err) { alert("Update species list error: " + JSON.stringify(err)); })
+            }).success(function() {
+                console.log("Load species list second success");
+                sppUpdateSucc = true;
+            })
+            .error(function(err) { navigator.notification.alert("The iMapInvasives state species list update failed. Please ensure that you have selected a state/province and that your device is connected to the internet. Then try again by selecting \"Refresh iMap Lists.\"\nIf the problem continues to occur, please try again later.", iMapApp.App.alertDismiss, "Species List Update Failed"); })
             .complete(function() {
                 console.log("Load species list complete");
                 iMapApp.uiUtils.waitDialogClose();
+                if (projUpdateSucc == true && sppUpdateSucc == true) {
+                    // Update last lists update date to current date if lists both updated successfully
+                    iMapApp.App.listUpdateDateSetter();
+                    if (loadSppList) {
+                        iMapApp.uiUtils.loadSpeciesList();
+                    }
+                }
             });
 
         // Clear out the preferences my species list
         if (clearList) {
             iMapApp.iMapPrefs.params.Plants.MyPlants.length = 0;
         }
-
-        iMapApp.iMapPrefs.params.StateUpdate = iMapApp.App.getDateString();
         iMapApp.iMapPrefs.saveParams();
     },
 
@@ -193,15 +212,7 @@ iMapApp.App = {
         var now = new Date();
         var diffDays = parseInt((now - updDate) / (1000 * 60 * 60 * 24));
         if (diffDays > 90) {
-            iMapApp.uiUtils.openInfoDialog('State Update needed', 'Your version of the state data is most likely out of date, please go to preferences and select update.');
-        }
-    },
-
-    checkUpdateDurationNewFields: function(dt) {
-        var updDate = Date.parse(dt);
-        var newSpeciesListDate = 1520035200000;
-        if (updDate < newSpeciesListDate) {
-            iMapApp.uiUtils.openInfoDialog('State Update needed', 'Your version of the State Species Data is not current. Thus, you will not be able to view the new insect and terrestrial plant survey fields.<br><br> To correct this problem, please update your State Species Data by completing the following while connected to the Internet:<br><br>(1) Go to the Preferences page<br>(2) Scroll to the bottom<br>(3) Tap &quot;Update State Lists&quot;<br>(4) Tap Save');
+            navigator.notification.confirm("Your version of the iMap Projects and Species Lists is most likely out of date. Would you like to attempt to refresh the iMap data now?", iMapApp.uiUtils.checkListsButtonActions, "iMap Lists Refresh Needed", ["Yes, Refresh iMap Data Now", "No, Wait to Refresh Later"]);
         }
     },
 
@@ -266,6 +277,10 @@ iMapApp.App = {
         fileEntry.remove();
     },
 
+    alertDismiss: function() {
+        return;
+    },
+
     // simple error handler
     errorHandler: function(e) {
         var msg = '';
@@ -307,6 +322,12 @@ iMapApp.App = {
         } catch (exx) {
             console.log("Check Disk Space: " + JSON.stringify(exx));
         }
+    },
+
+    listUpdateDateSetter: function () {
+        // Only update the last iMap Lists Refresh date if the update was successful
+        iMapApp.iMapPrefs.params.StateUpdate = iMapApp.App.getDateString();
+        getDElem('p[name="lastUpdateDate"]').text('Last iMap Lists Refresh: ' + iMapApp.uiUtils.lastListsUpdateDateFormatter(iMapApp.iMapPrefs.params.StateUpdate));
     }
 };
 

@@ -81,11 +81,10 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.addObs();
         });
         $('button[name="updateStateData"]').click(function() {
-            if (iMapApp.uiUtils.checkParamsNotSet()) {
+            if (iMapApp.uiUtils.checkStateNotSelected()) {
                 return;
             } else {
                 iMapApp.App.updateStateData(iMapApp.iMapPrefs.params.CurrentState);
-                getDElem('p[name="lastUpdateDate"]').text('Last State Lists Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
             }
         });
         $("#obsLoc").change(function() {
@@ -185,6 +184,8 @@ iMapApp.uiUtils = {
         iMapApp.iMapMap.setPosition([-73.4689, 42.7187]);
 
         this.toggleSizeUnits(); // initialize/display the correct units
+
+        iMapApp.uiUtils.checkLists(); // check that the iMap lists exist on the device
 
         // Make the select searchable
         /*getDElem('select[name="obsProjects"]').select2({
@@ -405,7 +406,6 @@ iMapApp.uiUtils = {
     stateChangeHandler: function(sel) {
         console.log("Changing to state: " + sel);
         iMapApp.App.updateStateData(sel, true);
-        getDElem('p[name="lastUpdateDate"]').text('Last State Lists Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
     },
 
     speciesChangeHandler: function(sel) {
@@ -499,7 +499,7 @@ iMapApp.uiUtils = {
         getDElem('input[value="' + iMapApp.iMapPrefs.params.MapType + '"]').prop('checked', true);
         //iMapApp.uiUtils.loadProjectList();
         getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project); //.selectmenu().selectmenu('refresh', true);
-        getDElem('p[name="lastUpdateDate"]').text('Last State Lists Update: ' + iMapApp.iMapPrefs.params.StateUpdate);
+        getDElem('p[name="lastUpdateDate"]').text('Last iMap Lists Refresh: ' + (iMapApp.iMapPrefs.params.StateUpdate ? iMapApp.uiUtils.lastListsUpdateDateFormatter(iMapApp.iMapPrefs.params.StateUpdate) : "Never"));
         getDElem('input[name="checkbox-welcomepage"]').prop('checked', iMapApp.iMapPrefs.params.WelcomePage);
 
         //getDElem('input[name=zoomToRange]').val(iMapApp.iMapPrefs.params['DefaultZoom']).trigger('create').slider('refresh', true);
@@ -511,6 +511,20 @@ iMapApp.uiUtils = {
                     allowClear: true
              });*/
         iMapApp.uiUtils.introOverlayClose();
+    },
+
+    checkLists: function() {
+        if (iMapApp.iMapPrefs.params.StateUpdate == '') {
+            navigator.notification.confirm("Your species and project lists have not yet been retrieved from iMapInvasives. Refresh the lists now to be able to select iMap Projects and Species. Or, you can wait until later if you cannot refresh the data now.", iMapApp.uiUtils.checkListsButtonActions, "No iMap Lists Found", ["Yes, Refresh iMap Data Now", "No, Wait to Refresh Later"]);
+        }
+    },
+
+    checkListsButtonActions: function(i) {
+        if (i === 1) {
+            iMapApp.App.updateStateData(iMapApp.iMapPrefs.params.CurrentState, false, true);
+        } else {
+            return;
+        }
     },
 
     savePrefs: function() {
@@ -598,6 +612,15 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.openInfoDialog('Preferences not set', 'Please fill in Preferences');
         }
         return ret;
+    },
+
+    checkStateNotSelected: function() {
+        if (iMapApp.iMapPrefs.params.CurrentState === "") {
+            iMapApp.uiUtils.openInfoDialog('Preferences not set', 'Please fill in Preferences');
+            return true;
+        } else {
+            return false;
+        }
     },
 
     gotoMainPage: function() {
@@ -725,6 +748,12 @@ iMapApp.uiUtils = {
         // initializes/displays the correct units for size of area survey question
         document.getElementById("sizeOfArea").className = iMapApp.iMapPrefs.params.Units == "USCustomary" ? "visible" : "hidden"; // if the units are not set to USCustomary, set the class to 'hidden' 
         document.getElementById("sizeOfAreaMetric").className = iMapApp.iMapPrefs.params.Units == "Metric" ? "visible" : "hidden"; // if the units are not set to Metric, set the class to 'hidden' 
+    },
+
+    lastListsUpdateDateFormatter: function (theDate) {
+       var lastUpdateDate = new Date(Date.parse(theDate));
+       var dateFormatOptions = { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' };
+       return lastUpdateDate.toLocaleDateString(false, dateFormatOptions);
     },
 
     userNameChecker: function() {
