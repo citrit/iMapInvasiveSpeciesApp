@@ -6,7 +6,7 @@
 
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, viewport-fit=cover"/>
 
     <link rel="stylesheet" href="assets/css/styles.css" type="text/css" />
     <link rel="stylesheet" href="assets/css/pgwmodal.css" type="text/css" />
@@ -60,7 +60,7 @@
         </div>
         <!-- /content -->
 
-        <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-hide-during-focus="input, textarea">
+        <div class="safe-bottom" data-role="footer" data-position="fixed" data-tap-toggle="false" data-hide-during-focus="input, textarea">
             <span id="statusBarMsg" style="float:left">Status:</span>
         </div>
         <!-- /footer -->
@@ -69,7 +69,7 @@
 
     <!-- preferences page -->
     <div id="prefPage" data-role="page">
-        <div role="main" class="ui-content"><br>
+        <div role="main" class="ui-content safe-bottom"><br>
             <strong>Preferences</strong>
             <div data-role="fieldcontain">
                 <p id="pref-intro">
@@ -246,13 +246,13 @@
                 <h2>Insect Search Effort:</h2>
                 <span>Number of trees/hosts surveyed:</span>
                 <input type="number" id="numTreesSurveyed" name="numTreesSurveyed">
-                <span>Hours spent surveying:</span>
+                <span>Minutes spent surveying:</span>
                 <input type="number" id="timeSurveying" name="timeSurveying">
             </div>
             <h2>Observation Comments:</h2>
             <textarea type="text" id="obsComment" name="obsComment" rows=3></textarea>
         </div>
-        <div data-role="controlgroup" data-type="horizontal">
+        <div data-role="controlgroup" data-type="horizontal" class="safe-bottom" style="margin-bottom: 2em;">
             <input type="button" value="Save" onclick="iMapApp.uiUtils.editObsOk()">
             <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()">
         </div>
@@ -292,7 +292,7 @@
     </div>
 
     <div id="introOverlay" class="modal-overlay">
-        <img class="img-overlay" id="img-intro" src="assets/images/iMapMobileHelpAcetate50PercentTransparent.png" />
+        <img class="img-overlay" id="img-intro" src="assets/images/iMapMobileHelpAcetate50PercentTransparent_07202018.png" />
     </div>
 
     <div id="selectSpeciesDialog" class="modal-box">

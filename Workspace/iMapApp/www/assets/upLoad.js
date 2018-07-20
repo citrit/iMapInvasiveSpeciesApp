@@ -106,7 +106,7 @@ iMapApp.uploadUtils = {
             case "I":
                 if (obs.getNumTrees() > 0 || obs.getTimeSurvey() > 0) {
                     obsComment = "Insect search effort - Number of trees/hosts surveyed: " + obs.getNumTrees() +
-                    "\n  Hours spent surveying: " + obs.getTimeSurvey() +
+                    "\nMinutes spent surveying: " + obs.getTimeSurvey() +
                     "\nGeneral Comments: \n" + obs.getComment();
                 }
                 break;
