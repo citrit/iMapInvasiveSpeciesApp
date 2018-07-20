@@ -163,14 +163,14 @@ iMapApp.uploadUtils = {
                         alert("Bad username or password");
                     } else {
                         console.log('Upload error: Code[' + ret.code + ']: ' + ret.msg);
-                        navigator.notification.alert("Please check that a valid username and password have been entered in the Preferences page and then try again.", iMapApp.uploadUtils.alertDismiss, "Upload failed");
+                        navigator.notification.alert("Please check that a valid iMapInvasives username and password have been entered in the Preferences page and then try again.\nTechnical Details: Code[" + ret.code + "]: " + ret.msg, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
                         //alert('Upload error: Code[' + ret.code + ']: ' + ret.msg);
                         iMapApp.uploadUtils.errorCnt++;
                     }
                 } catch (err) {
                     iMapApp.uiUtils.waitDialogClose();
                     console.log('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
-                    navigator.notification.alert("Please check that a valid username and password have been entered in the Preferences page and then try again.", iMapApp.uploadUtils.alertDismiss, "Upload failed");
+                    navigator.notification.alert("Please check that a valid iMapInvasives username and password have been entered in the Preferences page and then try again.\nException Details: [" + JSON.stringify(err) + "]: " + jqXHR, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
                     //alert('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
                     iMapApp.uploadUtils.errorCnt++;
                 } finally {
