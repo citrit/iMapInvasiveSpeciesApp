@@ -11,7 +11,20 @@
     <access origin="*" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
-    <splash src="res/drawable/imap.9.png" />
+    <platform name="android">
+        <splash density="land-hdpi" src="res/drawable-hdpi/splash-land-hdpi.png" />
+        <splash density="land-ldpi" src="res/drawable-ldpi/splash-land-ldpi.png" />
+        <splash density="land-mdpi" src="res/drawable-mdpi/splash-land-mdpi.png" />
+        <splash density="land-xhdpi" src="res/drawable-xhdpi/splash-land-xhdpi.png" />
+        <splash density="land-xxhdpi" src="res/drawable-xxhdpi/splash-land-xxhdpi.png" />
+        <splash density="land-xxxhdpi" src="res/drawable-xxxhdpi/splash-land-xxxhdpi.png" />
+        <splash density="port-hdpi" src="res/drawable-hdpi/splash-port-hdpi.png" />
+        <splash density="port-ldpi" src="res/drawable-ldpi/splash-port-ldpi.png" />
+        <splash density="port-mdpi" src="res/drawable-mdpi/splash-port-mdpi.png" />
+        <splash density="port-xhdpi" src="res/drawable-xhdpi/splash-port-xhdpi.png" />
+        <splash density="port-xxhdpi" src="res/drawable-xxhdpi/splash-port-xxhdpi.png" />
+        <splash density="port-xxxhdpi" src="res/drawable-xxxhdpi/splash-port-xxxhdpi.png" />
+    </platform>
     <preference name="SplashMaintainAspectRatio" value="false" />
     <icon src="res/drawable/icon.png" />
     <icon density="ldpi" src="res/drawable-ldpi/icon.png" />
