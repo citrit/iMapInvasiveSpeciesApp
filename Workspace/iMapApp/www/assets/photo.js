@@ -5,7 +5,7 @@ var iMapApp = iMapApp || {};
 iMapApp.Photo = {
     init: function() {},
 
-    getPhoto: function() {
+    getPhoto: function(library) {
         // Retrieve image file location from specified source
         var qual = 50;
         switch (iMapApp.iMapPrefs.params.PictureSize) {
@@ -26,10 +26,12 @@ iMapApp.Photo = {
         navigator.camera.getPicture(iMapApp.Photo.onSuccess, iMapApp.Photo.onFail, {
             quality: qual,
             destinationType: Camera.DestinationType.DATA_URL,
-            saveToPhotoAlbum: false,
+            saveToPhotoAlbum: ((library === true) ? false : true),
             correctOrientation: true,
+            sourceType: ((library === true) ? Camera.PictureSourceType.SAVEDPHOTOALBUM : Camera.PictureSourceType.CAMERA),
             encodingType: Camera.EncodingType.JPEG
         });
+        iMapApp.uiUtils.bottomBarHelper.bottomBarHelperAdd();
     },
 
     onSuccess: function(imageData) {

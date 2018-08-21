@@ -28,6 +28,10 @@ iMapApp.App = {
         iMapApp.App.renderCards();
         iMapApp.App.checkUpdateDuration(iMapApp.iMapPrefs.params.StateUpdate);
         iMapApp.App.dataFolder = (cordova.file.documentsDirectory == null ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory);
+        iMapApp.uiUtils.bottomBarHelper.bottomBarHelperRemove();
+        window.addEventListener("orientationchange", function(){
+            iMapApp.uiUtils.bottomBarHelper.bottomBarHelperRemove();
+        });
     },
 
     //

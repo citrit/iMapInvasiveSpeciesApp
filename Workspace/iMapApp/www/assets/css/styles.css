@@ -9,6 +9,39 @@ body {
     padding-top: env(safe-area-inset-top); /* iOS 11.2 */
 }
 
+/*
+.topHelper {
+    margin-top: 2em !important;
+}
+*/
+
+.ui-mobile [data-role="page"], .ui-mobile [data-role="dialog"], .ui-page {
+    position: relative !important;
+}
+
+#mainPage[style] {
+    top: 1.25em;
+    padding-top: 3em !important;
+}
+
+#navbar-container {
+    padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
+    padding-top: env(safe-area-inset-top); /* iOS 11.2 */
+    display: flex;
+}
+
+#addObs {
+    background-color:green;
+    color:white;
+    margin-left: auto;
+    margin-right: 1em;
+    display: block;
+    position: relative;
+    margin-top: auto;
+    margin-bottom: auto;
+    top: auto;
+}
+
 input[type=checkbox] {
     -ms-transform: scale(1.75);
     /* IE */
@@ -269,6 +302,24 @@ html {
     margin-bottom: 0.25em;
 }
 
+#takePic {
+    min-height: 16em;
+    margin-top: 0;
+}
+
+#takePicImgContainer {
+    height: 12em;
+    display: flex;
+}
+
+
+.takePicImgLink {
+    margin: auto;
+    position: relative;
+    max-height: 12em;
+    max-width: 100%;
+}
+
 #takePicImg {
     border: 1px solid #000000;
     padding: 0.25em;
@@ -276,19 +327,21 @@ html {
     box-shadow: 0px 0px 2px 1px rgb(189, 189, 189);
     border-radius: 0.2em;
     display: block;
-    margin: 0.25em auto 0.5em;
-    max-height: 14em;
-    width: auto;
     image-orientation: from-image;
+    image-orientation: from-image;
+    max-height: 95%;
+    max-width: 95%;
+    position: relative;
+    margin: auto;
 }
 
-#takePicButtonContainer {
+.takePicButtonContainer {
     display: block;
     text-align: center;
     margin: 0.5em 0;
 }
 
-#takePicButton {
+.takePicButton {
     display: inline-block;
     -webkit-border-radius: 0.2em;
     -moz-border-radius: 0.2em;
@@ -301,6 +354,7 @@ html {
     box-shadow: 0px 0px 2px 1px rgb(189, 189, 189);
     border: 2px solid #848484;
     font-weight: bold;
+    margin: 0.75em 0.5em;
 }
 
 #AilanthusEntryDiv span {
@@ -309,6 +363,11 @@ html {
 }
 
 .safe-bottom {
-    margin-bottom: constant(safe-area-inset-bottom) !important;
-    margin-bottom: env(safe-area-inset-bottom) !important;
+    padding-bottom: constant(safe-area-inset-bottom) !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+}
+
+.footer-status-bar.footer-status-bar-push {
+    padding-bottom: calc(2em + constant(safe-area-inset-bottom)) !important;
+    padding-bottom: calc(2em + env(safe-area-inset-bottom)) !important;
 }

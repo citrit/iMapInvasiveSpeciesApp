@@ -765,6 +765,18 @@ iMapApp.uiUtils = {
         if (this.userNameChecker()) {
             getDElem('#pref-intro').addClass("hidden");
         }
+    },
+
+    bottomBarHelper: {
+        bottomBarHelperAdd: function () {
+            var elem = document.getElementById("footer-status-bar");
+            if (!elem.classList.contains("footer-status-bar-push")) {
+                elem.classList.add("footer-status-bar-push");
+            }
+        },
+        bottomBarHelperRemove: function() {
+            document.getElementById("footer-status-bar").classList.remove("footer-status-bar-push");
+        }
     }
 };
 
