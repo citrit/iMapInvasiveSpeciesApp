@@ -159,11 +159,18 @@ iMapApp.uploadUtils = {
                         var img = iMapApp.App.dataFolder + obs.getPhotos().split('=').pop();
                         obs.setPhotos(img);
                         iMapApp.App.delObservation(obs.getObjectID());
+                    } else if (ret.code == 1 && ret.msg == "'NoneType' object has no attribute '__getitem__'") {
+                        navigator.notification.alert("Please check that a valid iMapInvasives username and password have been entered in the Preferences page and then try again.\nTechnical Details: Code[" + ret.code + "]: " + ret.msg, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
+                        iMapApp.uploadUtils.errorCnt++;
+                    } else if (ret.code == 1 && ret.msg == "list index out of range") {
+                        navigator.notification.alert("The point which you are attempting to upload is outside of boundaries of the state which has been selected in the Preferences page.\nTechnical Details: Code[" + ret.code + "]: " + ret.msg, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
+                        iMapApp.uploadUtils.errorCnt++;
                     } else if (ret.code == 2) {
-                        alert("Bad username or password");
+                        navigator.notification.alert("Please check that a valid iMapInvasives username and password have been entered in the Preferences page and then try again.\nTechnical Details: Code[" + ret.code + "]: " + ret.msg, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
+                        iMapApp.uploadUtils.errorCnt++;
                     } else {
                         console.log('Upload error: Code[' + ret.code + ']: ' + ret.msg);
-                        navigator.notification.alert("Please check that a valid iMapInvasives username and password have been entered in the Preferences page and then try again.\nTechnical Details: Code[" + ret.code + "]: " + ret.msg, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
+                        navigator.notification.alert("A problem occurred while uploading data to iMapInvasives. Please view the error message below and try to correct any issues before trying your upload again. If the problem persists, please contact iMapInvasives.\nTechnical Details: Code[" + ret.code + "]: " + ret.msg, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
                         //alert('Upload error: Code[' + ret.code + ']: ' + ret.msg);
                         iMapApp.uploadUtils.errorCnt++;
                     }
