@@ -501,6 +501,7 @@ iMapApp.uiUtils = {
         var picSize = (iMapApp.iMapPrefs.params.PictureSize ? iMapApp.iMapPrefs.params.PictureSize : "medium");
         console.log("**picSize: " + picSize);
         getDElem('input[value="' + picSize + '"]').prop('checked', true);
+        getDElem('input[name="checkbox-SaveOriginalPhotos"]').prop('checked', ((iMapApp.iMapPrefs.params.SaveOriginalPhotos === true || iMapApp.iMapPrefs.params.SaveOriginalPhotos == null) ? true : false)); // set save orginal photo to true if it is not explicitly set already
         getDElem('input[value="' + iMapApp.iMapPrefs.params.MapType + '"]').prop('checked', true);
         //iMapApp.uiUtils.loadProjectList();
         getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project); //.selectmenu().selectmenu('refresh', true);
@@ -564,6 +565,7 @@ iMapApp.uiUtils = {
         iMapApp.iMapPrefs.params.Plants.UseScientific = getDElem('input[name="checkbox-scientific"]').is(':checked');
         //iMapPrefs.params.Plants.MyPlants = $('#fname').val();
         iMapApp.iMapPrefs.params.PictureSize = getDElem("input[name=radio-choice-size]:checked").val();
+        iMapApp.iMapPrefs.params.SaveOriginalPhotos = getDElem('input[name="checkbox-SaveOriginalPhotos"]').is(':checked');
         iMapApp.iMapPrefs.params.MapType = getDElem("input[name=map-type]:checked").val();
         iMapApp.iMapPrefs.params.DefaultZoom = getDElem('input[name=zoomToRange]').val();
         iMapApp.iMapPrefs.params.Units = getDElem('#measurementSystem').val();

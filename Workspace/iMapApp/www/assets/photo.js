@@ -59,7 +59,7 @@ iMapApp.Photo = {
         navigator.camera.getPicture(iMapApp.Photo.onSuccess, iMapApp.Photo.onFail, {
             quality: qual,
             destinationType: Camera.DestinationType.DATA_URL,
-            saveToPhotoAlbum: ((library === true) ? false : true),
+            saveToPhotoAlbum: ((library === true) ? false : ((iMapApp.iMapPrefs.params.SaveOriginalPhotos === true || iMapApp.iMapPrefs.params.SaveOriginalPhotos == null) ? true : false)),
             correctOrientation: true,
             sourceType: ((library === true) ? Camera.PictureSourceType.SAVEDPHOTOALBUM : Camera.PictureSourceType.CAMERA),
             encodingType: Camera.EncodingType.JPEG

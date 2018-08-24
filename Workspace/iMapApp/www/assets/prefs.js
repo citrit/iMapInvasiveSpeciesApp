@@ -15,6 +15,7 @@ iMapApp.iMapPrefs = {
             MyPlants: []
         },
         PictureSize: "medium",
+        SaveOriginalPhotos: true,
         MapType: "Road",
         CurrentState: "",
         DefaultZoom: 12,
