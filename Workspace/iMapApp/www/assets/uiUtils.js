@@ -283,10 +283,16 @@ iMapApp.uiUtils = {
     },
 
     editObsOk: function(dial) { // Add new or save observation
+        var theCoords = JSON.parse('[' + getDElem('[name="obsLoc"]').val() + ']');
         iMapApp.iMapMap.stopGPSTimer();
+        if (theCoords[0] == 0 || theCoords[1] == 0) {
+            console.log("coordinates at 0,0");
+            iMapApp.uiUtils.openInfoDialog("Invalid Geographic Coordinates","This record cannot be saved because the geographic coordinates are located at a longitude of 0 and/or a latitude of 0. To correct this problem, please either enable location services for the iMapInvasives App or manually change the record coordinates in the Location field to something other than (0, 0).");
+            return;
+        };
         if (getDElem('[name="obsSpecies"]').val() == "-1") {
-            iMapApp.uiUtils.openOkCancelDialog('Save Species', 'You have not specified a species, save Observation?',
-                iMapApp.uiUtils.saveObs);
+            iMapApp.uiUtils.openOkCancelDialog('Save Species', 'You have not specified a species, save Observation?', iMapApp.uiUtils.saveObs);
+            return;
             /*var closeDiag = false;
             navigator.notification.confirm(
                     'You have not specified a species, save Observation?', // message
@@ -299,9 +305,8 @@ iMapApp.uiUtils = {
                     ['Yes', 'No']         // buttonLabels
                 );
             $('#infoDialog2').attr('open', true);*/
-        } else {
-            iMapApp.uiUtils.saveObs();
-        }
+        };
+        iMapApp.uiUtils.saveObs();
     },
 
     saveObs: function() {
