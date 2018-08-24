@@ -19,9 +19,10 @@ body {
     position: relative !important;
 }
 
-#mainPage[style] {
-    top: 1.25em;
-    padding-top: 3em !important;
+#mainContent {
+    margin-top: 4.5em !important;
+    z-index: 10;
+    position: relative;
 }
 
 #navbar-container {
@@ -93,6 +94,13 @@ select {
     background-image: url("../images/iMapBG.gif");
     background-repeat: no-repeat;
     background-size: 100%;
+    display: block;
+    position: absolute;
+    top: 1.25em;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
 
 html {
