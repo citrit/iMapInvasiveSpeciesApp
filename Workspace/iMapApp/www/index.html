@@ -75,9 +75,9 @@
             <strong>Preferences</strong>
             <div data-role="fieldcontain">
                 <p id="pref-intro">
-                    <span class="pref-intro-bold">You must have an iMapInvasives user account to upload data.</span>
+                    <span class="pref-intro-bold">Welcome! You must have an iMapInvasives user account to upload data.</span>
                     <span>If you do not have an iMapInvasives account, please visit the <a href="#" onclick="window.open('https://www.imapinvasives.org/login', '_system')">iMapInvasives website</a> to request an account.</span>
-                    <span>You can continue and collect data without entering a username and password, however a valid username and password must be entered prior to uploading data. <strong>At a minimum, fill in State, First Name, and Last Name. Then select Save to continue.</strong></span>
+                    <span>You can continue and collect data without entering a username and password, however once you are ready to upload data, a valid username and password must be entered in the Preferences page. <strong>At a minimum, fill in State, First Name, and Last Name. Then select Save to continue.</strong></span>
                 </p>
                 <p name="prefError" style="color: #ff0000;"></p>
                 <label for='stateSelect'>State:</label>
@@ -95,15 +95,15 @@
                         <option value="vt">Vermont</option>
                         <option value="wv">West Virginia</option>
                 </select>
-                <label for="fname">First:</label>
+                <label for="fname">First Name:</label>
                 <input type="text" name="fname" id="fname" value="" /> <br>
-                <label for="lname">Last:</label>
+                <label for="lname">Last Name:</label>
                 <input type="text" name="lname" id="lname" value="" /><br>
                 <label for="uname">iMapInvasives Username: <br></label>
-                <label for="uname" style="font-size:12px">(Must match online username)</label>
+                <label for="uname" style="font-size:12px">(Must match your username provided by iMapInvasives)</label>
                 <input type="text" name="uname" id="uname" value="" /> <br>
                 <label for="pword">iMapInvasives Password:</label>
-                <label for="pword" style="font-size:12px">(Must match online password)</label>
+                <label for="pword" style="font-size:12px">(Must match your iMapInvasives password)</label>
                 <input type="password" name="pword" id="pword" value="" />
             </div>
 
@@ -124,18 +124,18 @@
             </fieldset>
             <div data-role="fieldcontain">
                     <input type="checkbox" name="checkbox-SaveOriginalPhotos" id="checkbox-SaveOriginalPhotos" />
-                    <label for="checkbox-SaveOriginalPhotos">Save Photos Taken In iMapInvasives App To Device Photo Library</label>
+                    <label for="checkbox-SaveOriginalPhotos">Save Photos Taken In iMapInvasives App To Device Photo Library <span class="photo-library-permission-note">(If Permitted By Device)</span></label>
                 </div>
             <fieldset data-role='controlgroup' data-type='horizontal' id='mapType'>
-                <legend>MapType:</legend>
+                <legend>Basemap Type:</legend>
                 <input id='road' name='map-type' value='Road' data-theme='c' type='radio'> <label for='road' class="sp-label">Road</label>
                 <input id='aerial' name='map-type' value='AerialWithLabels' data-theme='c' type='radio'> <label for='aerial' class="sp-label">Satellite</label>
             </fieldset>
 
-            <label for='zoomToRange' class="sp-label">Default Zoom</label>
+            <label for='zoomToRange' class="sp-label">Default Map Zoom:</label>
             <input type="range" name="zoomToRange" id="zoomToRange" value="12" min="0" max="18">
 
-            <label for='measurementSystem'>Measurement System</label>
+            <label for='measurementSystem'>Measurement System:</label>
             <select id='measurementSystem' name='measurementSystem' data-role="none">
                 <option value="USCustomary" selected>US Customary (feet/acres)</option>
                 <option value="Metric">Metric (meters/hectares)</option>
@@ -158,7 +158,7 @@
             </div>
             <!-- <button name="checkDiskSpace" onclick="iMapApp.App.checkDiskSpace()">Check Disk Space</button> -->
 
-            <p name="lastUpdateDate"></p>
+            <p name="lastUpdateDate" class="safe-bottom-margin"></p>
         </div>
         <!-- /content -->
     </div>
@@ -261,7 +261,7 @@
             <h2>Observation Comments:</h2>
             <textarea type="text" id="obsComment" name="obsComment" rows=3></textarea>
         </div>
-        <div data-role="controlgroup" data-type="horizontal" class="safe-bottom" style="margin-bottom: 2em;">
+        <div data-role="controlgroup" data-type="horizontal" class="safe-bottom-margin">
             <input type="button" value="Save" onclick="iMapApp.uiUtils.editObsOk()">
             <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()">
         </div>

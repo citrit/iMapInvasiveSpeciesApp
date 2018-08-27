@@ -19,6 +19,10 @@ body {
     position: relative !important;
 }
 
+#mainPage {
+    padding-top: 4em !important;
+}
+
 #mainContent {
     margin-top: 4.5em !important;
     z-index: 10;
@@ -375,7 +379,18 @@ html {
     padding-bottom: env(safe-area-inset-bottom) !important;
 }
 
+.safe-bottom-margin {
+    margin-bottom: calc(2em + constant(safe-area-inset-bottom)) !important;
+    margin-bottom: calc(2em + env(safe-area-inset-bottom)) !important;
+}
+
 .footer-status-bar.footer-status-bar-push {
     padding-bottom: calc(2em + constant(safe-area-inset-bottom)) !important;
     padding-bottom: calc(2em + env(safe-area-inset-bottom)) !important;
+}
+
+.photo-library-permission-note {
+    font-weight: normal;
+    display: block;
+    font-size: 0.9em;
 }

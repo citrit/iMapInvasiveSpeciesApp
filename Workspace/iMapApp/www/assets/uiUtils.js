@@ -45,9 +45,7 @@ iMapApp.uiUtils = {
                     iMapApp.uiUtils.openDialog('#infoDialog', 'There is not network connection');
                     break;
                 default:
-                    iMapApp.uiUtils.openOkCancelDialog('Upload over Cellular',
-                        'You are about to upload using your data plan, continue?',
-                        iMapApp.uiUtils.checkForWifiBeforeUpload);
+                    navigator.notification.confirm("You are about to upload the selected records using your cellular data plan. Would you like to proceed with the upload?", iMapApp.uiUtils.checkForWifiBeforeUpload, "Not Connected To Wi-Fi", ["Yes", "No"]);
                     break;
             }
         });
@@ -133,12 +131,16 @@ iMapApp.uiUtils = {
         });
     },
 
-    checkForWifiBeforeUpload: function() {
+    checkForWifiBeforeUpload: function(buttonReturn) {
+        if (buttonReturn == 2) {
+            // if the user selects "No" to the cellular upload prompt, do not proceed with the upload
+            return;
+        };
         var n = iMapApp.uiUtils.getActiveCards().find("input:checkbox:checked").length;
         if (n == 0) {
             iMapApp.uiUtils.openInfoDialog('Nothing selected to upload', 'Please select cards.');
         } else {
-            iMapApp.uiUtils.openOkCancelDialog('Upload Observations', 'Are you sure you want to upload ' + n + ' Records?',
+            iMapApp.uiUtils.openOkCancelDialog('Upload Observations', 'Are you sure you want to upload ' + n + ' record(s)?',
                 iMapApp.uiUtils.uploadObservations);
         }
     },
