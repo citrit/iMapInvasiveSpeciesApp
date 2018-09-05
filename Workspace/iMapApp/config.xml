@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="200481" id="com.ltc.imapapp" ios-CFBundleVersion="201808271710" version="2.0.48" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="200483" id="com.ltc.imapapp" ios-CFBundleVersion="201809051731" version="2.0.48" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>iMapApp</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -66,6 +66,8 @@
         <custom-config-file parent="NSPhotoLibraryAddUsageDescription" platform="ios" target="*-Info.plist">
             <string>Save original photos captured in the iMapInvasives app to your device.</string>
         </custom-config-file>
+        <custom-config-file mode="delete" parent="NSLocationAlwaysUsageDescription" target="*-Info.plist" />
+        <custom-config-file mode="delete" parent="NSLocationAlwaysAndWhenInUseUsageDescription" target="*-Info.plist" />
     </platform>
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
     <plugin name="cordova-plugin-battery-status" spec="^2.0.1" />
@@ -90,7 +92,7 @@
         <string>iMapInvasives needs to know your location to determine where the species is located.</string>
     </edit-config>
     <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
-        <string>iMapInvasives needs to access the device's camera library to retrieve previously-captured species images.</string>
+        <string>iMapInvasives needs to access the device's camera library to retrieve previously-captured species images and to save original photos captured in the iMapInvasives app.</string>
     </edit-config>
     <plugin name="cordova-plugin-compat" spec="^1.2.0" />
     <plugin name="cordova-plugin-console" spec="^1.1.0" />
