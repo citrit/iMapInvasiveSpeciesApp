@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="200483" id="com.ltc.imapapp" ios-CFBundleVersion="201809051731" version="2.0.48" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="200484" id="com.ltc.imapapp" ios-CFBundleVersion="201809060938" version="2.0.48" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>iMapApp</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -66,8 +66,12 @@
         <custom-config-file parent="NSPhotoLibraryAddUsageDescription" platform="ios" target="*-Info.plist">
             <string>Save original photos captured in the iMapInvasives app to your device.</string>
         </custom-config-file>
-        <custom-config-file mode="delete" parent="NSLocationAlwaysUsageDescription" target="*-Info.plist" />
-        <custom-config-file mode="delete" parent="NSLocationAlwaysAndWhenInUseUsageDescription" target="*-Info.plist" />
+        <custom-config-file parent="NSLocationAlwaysUsageDescription" platform="ios" target="*-Info.plist">
+            <string>iMapInvasives needs to know your location to determine where the species is located.</string>
+        </custom-config-file>
+        <custom-config-file parent="NSLocationAlwaysAndWhenInUseUsageDescription" platform="ios" target="*-Info.plist">
+            <string>iMapInvasives needs to know your location to determine where the species is located.</string>
+        </custom-config-file>
     </platform>
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
     <plugin name="cordova-plugin-battery-status" spec="^2.0.1" />
