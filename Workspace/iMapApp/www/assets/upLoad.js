@@ -83,14 +83,32 @@ iMapApp.uploadUtils = {
         var obsComment = obs.getComment();
         switch (iMapApp.App.getAssessmentType(obs.getSpeciesID())) {
             case "PT":
-                obsComment = "Abundance\n  Size of Area: " + $("#sizeOfArea option[value='" + obs.getSize() + "']").text() +
-                    "\n  Distribution: " + $("#distribution option[value='" + obs.getDist() + "']").text() +
-                    "\nGeneral Comments: \n" + obs.getComment();
+                obsComment = ''; // reset the obs comment
+                var obsCommentsAll = [];
+
+                // add the elements to the array if they are not the default value/empty
+                obs.getSize() != "o" ? obsCommentsAll.push("Abundance - Size of Area: " + $("#sizeOfArea option[value='" + obs.getSize() + "']").text()) : false;
+                obs.getSizeMetric() != "oo" ? obsCommentsAll.push("Abundance -  Size of Area: " + $("#sizeOfAreaMetric option[value='" + obs.getSizeMetric() + "']").text()) : false;
+                obs.getDist() != 0 ? obsCommentsAll.push("Abundance - Distribution: " +  $("#distribution option[value='" + obs.getDist() + "']").text()) : false;
+                obs.getAilanthusDBHGreaterSix() != 'null' ? obsCommentsAll.push("Ailanthus with DBH six inches or greater present: " + $("#ailanthusStemsGreaterSix option[value='" + obs.getAilanthusDBHGreaterSix() + "']").text()) : false;
+                obs.getComment() != '' ? obsCommentsAll.push("General Comments:\n" + obs.getComment()) : false;
+                var obsCommentsAllLen = obsCommentsAll.length;
+                for (var i = 0; i < obsCommentsAllLen; i++) {
+                    // loops through the ObsCommentsAll array and forms the obsComment string
+                    if (i < (obsCommentsAllLen - 1)) {
+                        obsComment += obsCommentsAll[i] + "\n";
+                    } else {
+                        // to prevent the comment ending on a new line
+                        obsComment += obsCommentsAll[i];
+                    }
+                }
                 break;
             case "I":
-                obsComment = "Insect search effort - Number of trees/hosts surveyed: " + obs.getNumTrees() +
-                    "\n  Hours spent surveying: " + obs.getTimeSurvey() +
+                if (obs.getNumTrees() > 0 || obs.getTimeSurvey() > 0) {
+                    obsComment = "Insect search effort - Number of trees/hosts surveyed: " + obs.getNumTrees() +
+                    "\nMinutes spent surveying: " + obs.getTimeSurvey() +
                     "\nGeneral Comments: \n" + obs.getComment();
+                }
                 break;
         }
         var postData = {
@@ -141,17 +159,26 @@ iMapApp.uploadUtils = {
                         var img = iMapApp.App.dataFolder + obs.getPhotos().split('=').pop();
                         obs.setPhotos(img);
                         iMapApp.App.delObservation(obs.getObjectID());
+                    } else if (ret.code == 1 && ret.msg == "'NoneType' object has no attribute '__getitem__'") {
+                        navigator.notification.alert("Please check that a valid iMapInvasives username and password have been entered in the Preferences page and then try again.\nTechnical Details: Code[" + ret.code + "]: " + ret.msg, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
+                        iMapApp.uploadUtils.errorCnt++;
+                    } else if (ret.code == 1 && ret.msg == "list index out of range") {
+                        navigator.notification.alert("The point which you are attempting to upload is outside of boundaries of the state which has been selected in the Preferences page.\nTechnical Details: Code[" + ret.code + "]: " + ret.msg, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
+                        iMapApp.uploadUtils.errorCnt++;
                     } else if (ret.code == 2) {
-                        alert("Bad username or password");
+                        navigator.notification.alert("Please check that a valid iMapInvasives username and password have been entered in the Preferences page and then try again.\nTechnical Details: Code[" + ret.code + "]: " + ret.msg, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
+                        iMapApp.uploadUtils.errorCnt++;
                     } else {
                         console.log('Upload error: Code[' + ret.code + ']: ' + ret.msg);
-                        alert('Upload error: Code[' + ret.code + ']: ' + ret.msg);
+                        navigator.notification.alert("A problem occurred while uploading data to iMapInvasives. Please view the error message below and try to correct any issues before trying your upload again. If the problem persists, please contact iMapInvasives.\nTechnical Details: Code[" + ret.code + "]: " + ret.msg, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
+                        //alert('Upload error: Code[' + ret.code + ']: ' + ret.msg);
                         iMapApp.uploadUtils.errorCnt++;
                     }
                 } catch (err) {
                     iMapApp.uiUtils.waitDialogClose();
                     console.log('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
-                    alert('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
+                    navigator.notification.alert("Please check that a valid iMapInvasives username and password have been entered in the Preferences page and then try again.\nException Details: [" + JSON.stringify(err) + "]: " + jqXHR, iMapApp.uploadUtils.alertDismiss, "Upload Failed");
+                    //alert('Exception error[' + JSON.stringify(err) + ']: ' + jqXHR);
                     iMapApp.uploadUtils.errorCnt++;
                 } finally {
                     iMapApp.uiUtils.waitDialogClose();
@@ -210,6 +237,10 @@ iMapApp.uploadUtils = {
     success: function(data, textStatus, jqXHR) {
         console.log('success: ' + JSON.stringify(data) + " -> " +
             JSON.stringify(textStatus));
+    },
+
+    alertDismiss: function() {
+        return;
     },
 
     getDateTime: function(useTime) {

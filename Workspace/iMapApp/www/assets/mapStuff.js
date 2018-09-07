@@ -207,9 +207,10 @@ iMapApp.iMapMap = {
                 break;
             case 3:
                 if (iMapApp.iMapMap.timerOn == true) {
-                    iMapApp.iMapMap.timerVar = navigator.geolocation.watchPosition(iMapApp.iMapMap.getCurrentLocation, iMapApp.iMapMap.onError, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
+                    // if geolocation returns timeout error code, restart geolocation
+                    iMapApp.iMapMap.stopGPSTimer();
+                    iMapApp.iMapMap.startGPSTimer();
                 }
-                //iMapApp.iMapMap.startGPSTimer();
                 break;
             default:
                 break;

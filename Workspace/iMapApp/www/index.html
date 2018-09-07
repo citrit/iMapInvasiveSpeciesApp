@@ -6,7 +6,7 @@
 
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, viewport-fit=cover"/>
 
     <link rel="stylesheet" href="assets/css/styles.css" type="text/css" />
     <link rel="stylesheet" href="assets/css/pgwmodal.css" type="text/css" />
@@ -35,10 +35,10 @@
 <body>
 
     <!-- Start of main page -->
-    <div data-role="page" id="mainPage" class='bgimg'>
+    <div data-role="page" id="mainPage">
 
         <!--<div data-role="header" data-position="fixed" data-tap-toggle="false">-->
-        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-hide-during-focus="input, textarea">
+        <div id="navbar-container" data-role="header" data-position="fixed" data-tap-toggle="false" data-hide-during-focus="input, textarea">
             <ul class="navbar">
                 <li><a id="selectAll">Select All</a></li>
                 <li><a id="selectNone">Select None</a></li>
@@ -51,7 +51,7 @@
                 <li><a id="helpMenu">Help</a></li>
                 <!--                <li><a id="quitMenu">Quit</a></li>-->
             </ul>
-            <button id="addObs" style="float:right;right:.4em;left:auto;background-color:green;color:white">+Add Observation </button>
+            <button id="addObs">+ Add Observation</button>
         </div>
         <!-- /header -->
 
@@ -60,18 +60,25 @@
         </div>
         <!-- /content -->
 
-        <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-hide-during-focus="input, textarea">
+        <div id="footer-status-bar" class="safe-bottom footer-status-bar" data-role="footer" data-position="fixed" data-tap-toggle="false" data-hide-during-focus="input, textarea">
             <span id="statusBarMsg" style="float:left">Status:</span>
         </div>
         <!-- /footer -->
+
+        <div class='bgimg'></div>
     </div>
     <!-- /page -->
 
     <!-- preferences page -->
     <div id="prefPage" data-role="page">
-        <div role="main" class="ui-content"><br>
+        <div role="main" class="ui-content safe-bottom"><br>
             <strong>Preferences</strong>
             <div data-role="fieldcontain">
+                <p id="pref-intro">
+                    <span class="pref-intro-bold">Welcome! You must have an iMapInvasives user account to upload data.</span>
+                    <span>If you do not have an iMapInvasives account, please visit the <a href="#" onclick="window.open('https://www.imapinvasives.org/login', '_system')">iMapInvasives website</a> to request an account.</span>
+                    <span>You can continue and collect data without entering a username and password, however once you are ready to upload data, a valid username and password must be entered in the Preferences page. <strong>At a minimum, fill in State, First Name, and Last Name. Then select Save to continue.</strong></span>
+                </p>
                 <p name="prefError" style="color: #ff0000;"></p>
                 <label for='stateSelect'>State:</label>
                 <select id='stateSelect' name='stateSelect' data-role="none">
@@ -88,15 +95,15 @@
                         <option value="vt">Vermont</option>
                         <option value="wv">West Virginia</option>
                 </select>
-                <label for="fname">First:</label>
+                <label for="fname">First Name:</label>
                 <input type="text" name="fname" id="fname" value="" /> <br>
-                <label for="lname">Last:</label>
+                <label for="lname">Last Name:</label>
                 <input type="text" name="lname" id="lname" value="" /><br>
-                <label for="uname">iMap Username: <br></label>
-                <label for="uname" style="font-size:12px">(Must match online username)</label>
+                <label for="uname">iMapInvasives Username: <br></label>
+                <label for="uname" style="font-size:12px">(Must match your username provided by iMapInvasives)</label>
                 <input type="text" name="uname" id="uname" value="" /> <br>
-                <label for="pword">iMap Password:</label>
-                <label for="uname" style="font-size:12px">(Must match online password)</label>
+                <label for="pword">iMapInvasives Password:</label>
+                <label for="pword" style="font-size:12px">(Must match your iMapInvasives password)</label>
                 <input type="password" name="pword" id="pword" value="" />
             </div>
 
@@ -115,14 +122,24 @@
                 <input id='medium' name='radio-choice-size' value='medium' type='radio'> <label for='medium'>50%</label>
                 <input id='large' name='radio-choice-size' value='large' type='radio'> <label for='large'>100%</label>
             </fieldset>
+            <div data-role="fieldcontain">
+                    <input type="checkbox" name="checkbox-SaveOriginalPhotos" id="checkbox-SaveOriginalPhotos" />
+                    <label for="checkbox-SaveOriginalPhotos">Save Photos Taken In iMapInvasives App To Device Photo Library <span class="photo-library-permission-note">(If Permitted By Device)</span></label>
+                </div>
             <fieldset data-role='controlgroup' data-type='horizontal' id='mapType'>
-                <legend>MapType:</legend>
+                <legend>Basemap Type:</legend>
                 <input id='road' name='map-type' value='Road' data-theme='c' type='radio'> <label for='road' class="sp-label">Road</label>
                 <input id='aerial' name='map-type' value='AerialWithLabels' data-theme='c' type='radio'> <label for='aerial' class="sp-label">Satellite</label>
             </fieldset>
 
-            <label for='zoomToRange' class="sp-label">Default Zoom</label>
+            <label for='zoomToRange' class="sp-label">Default Map Zoom:</label>
             <input type="range" name="zoomToRange" id="zoomToRange" value="12" min="0" max="18">
+
+            <label for='measurementSystem'>Measurement System:</label>
+            <select id='measurementSystem' name='measurementSystem' data-role="none">
+                <option value="USCustomary" selected>US Customary (feet/acres)</option>
+                <option value="Metric">Metric (meters/hectares)</option>
+            </select>
 
             <!--<input data-type="search" id="searchForlistPrefProj"/> 
                     data-filter="true" data-input="#searchForlistPrefProj" -->
@@ -137,11 +154,11 @@
             <div data-role="controlgroup" data-type="horizontal">
                 <input type="button" value="Save" onclick="iMapApp.uiUtils.savePrefs()"></input>
                 <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()"></input>
-                <button name="updateStateData" style="float:right">Update States Data</button>
+                <button name="updateStateData" style="float:right">Refresh iMap Lists</button>
             </div>
             <!-- <button name="checkDiskSpace" onclick="iMapApp.App.checkDiskSpace()">Check Disk Space</button> -->
 
-            <p name="lastUpdateDate"></p>
+            <p name="lastUpdateDate" class="safe-bottom-margin"></p>
         </div>
         <!-- /content -->
     </div>
@@ -152,10 +169,18 @@
             <div data-role="fieldcontain">
 
                 <div id="takePic" data-role="fieldcontain">
-                    <a onClick='iMapApp.Photo.getPhoto()'>
-                        <img src="assets/images/TakePhoto.png" name='largeImage' class='imgwrapper' />
+                    <div id="takePicImgContainer">
+                         <img id="takePicImg" src="assets/images/TakePhoto.png" onClick='iMapApp.Photo.getPhoto(false)' name='largeImage' class='imgwrapper' />
+                </div>
+                <div class="takePicButtonContainer">
+                    <a onClick='iMapApp.Photo.getPhoto(false)'>
+                        <span class="takePicButton">Take Photo Using Camera</span>
+                    </a>
+                    <a onClick='iMapApp.Photo.getPhotoLibrary()'>
+                        <span class="takePicButton">Select Photo From Library</span>
                     </a>
                 </div>
+            </div>
 
                 <div data-role="fieldcontain">
                     <label for="obsProjects">Project: <small>(Optional)</small></label>
@@ -186,34 +211,57 @@
             <span name="gpsAccuracy" style="float:right;margin-right:10px;font-size:10px;color:blue">GPS Accuracy: 0000 m</span>
             <br>
             <div id="iMapMapdiv" class="iMapMapdiv"></div>
-            Location:<input type="text" id="obsLoc" name="obsLoc"></input>
-            <div id="TerestrialPlantsEntryDiv" style="display: none">
-                <p>Abundance:</p>
-                Size of Area: <select id='sizeOfArea' name='sizeOfArea' data-role="none">
-                                    <option value="o"></option>
-                                    <option value="a">Less than 1 sq. ft.</option>
-                                    <option value="b">Up to 10 sq. ft.</option>
-                                    <option value="c">Up to 1 acre</option>
-                                    <option value="d">More than 1 acre</option>
-                            </select> Distribution of individuals/infected:
+            Location (Longitude, Latitude):<input type="text" id="obsLoc" name="obsLoc"></input>
+            <div id="AilanthusEntryDiv" class="extraDataEntry hidden">
+                <h2>Tree-of-heaven (<em>Ailanthus altissima</em>) Assessment:</h2>
+                <span>Is a tree-of-heaven with a diameter at breast height (DBH) 6 inches or greater present?</span>
+                <span><em>For reference, a U.S. Dollar bill is approximately 6 inches in length.</em></span>
+                <select id='ailanthusStemsGreaterSix' name='ailanthusStemsGreaterSix' data-role="none">
+                    <option value="null"></option>
+                    <option value="y">Yes</option>
+                    <option value="n">No</option>
+                    <option value="u">Unknown</option>
+                </select>
+            </div>
+            <div id="TerestrialPlantsEntryDiv" class="extraDataEntry" style="display: none">
+                <h2>Plant Assessment:</h2>
+                <p>Size of area containing invasive:<br>
+                <span>(or type precise area with units into Comments box)</span></p>
+                <select id='sizeOfArea' name='sizeOfArea' data-role="none">
+                    <option value="o"></option>
+                    <option value="a" class="USCustomary">Up to 10 sq. ft</option>
+                    <option value="b" class="USCustomary">Up to 0.5 acre (21,780 sq. ft)</option>
+                    <option value="c" class="USCustomary">Up to 1 acre</option>
+                    <option value="d" class="USCustomary">More than 1 acre</option>
+                </select>
+                <select id='sizeOfAreaMetric' name='sizeOfAreaMetric' data-role="none">
+                    <option value="oo"></option>
+                    <option value="e" class="Metric">Up to 10 sq. meters</option>
+                    <option value="f" class="Metric">Up to 0.5 hectare (5,000 sq. m)</option>
+                    <option value="g" class="Metric">Up to 1 hectare</option>
+                    <option value="h" class="Metric">More than 1 hectare</option>
+                </select>
+                <p>Distribution of invasive:</p>
                 <select id='distribution' name='distribution' data-role="none">
-                                    <option value="0"></option>
-                                    <option value="1">One to three plants</option>
-                                    <option value="2">Scattered plants or one large patch</option>
-                                    <option value="3">Scattered dense patches</option>
-                                    <option value="4">Predominant cover in area</option>
-                            </select>
+                    <option value="0"></option>
+                    <option value="1">Single plant or clump</option>
+                    <option value="2">Scattered plants or clumps</option>
+                    <option value="3">Dense plants/clumps</option>
+                    <option value="4">Monoculture</option>
+                    <option value="5">Linearly scattered (e.g. along road/trail)</option>
+                </select>
             </div>
-            <div id="InsectsEntryDiv" style="display: none">
-                <p>Insect search effort:</p>
-                Number of trees/hosts surveyed:
-                <textarea id="numTreesSurveyed" name='numTreesSurveyed'></textarea> Hours spent surveying:
-                <textarea id="timeSurveying" name='timeSurveying'></textarea>
+            <div id="InsectsEntryDiv" class="extraDataEntry" style="display: none">
+                <h2>Insect Search Effort:</h2>
+                <span>Number of trees/hosts surveyed:</span>
+                <input type="number" id="numTreesSurveyed" name="numTreesSurveyed">
+                <span>Minutes spent surveying:</span>
+                <input type="number" id="timeSurveying" name="timeSurveying">
             </div>
-            Comment:
+            <h2>Observation Comments:</h2>
             <textarea type="text" id="obsComment" name="obsComment" rows=3></textarea>
         </div>
-        <div data-role="controlgroup" data-type="horizontal">
+        <div data-role="controlgroup" data-type="horizontal" class="safe-bottom-margin">
             <input type="button" value="Save" onclick="iMapApp.uiUtils.editObsOk()">
             <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()">
         </div>
@@ -253,7 +301,7 @@
     </div>
 
     <div id="introOverlay" class="modal-overlay">
-        <img class="img-overlay" id="img-intro" src="assets/images/iMapMobileHelpAcetate50PercentTransparent.png" />
+        <img class="img-overlay" id="img-intro" src="assets/images/iMapMobileHelpAcetate50PercentTransparent_07202018.png" />
     </div>
 
     <div id="selectSpeciesDialog" class="modal-box">

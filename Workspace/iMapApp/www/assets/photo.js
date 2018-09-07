@@ -5,7 +5,40 @@ var iMapApp = iMapApp || {};
 iMapApp.Photo = {
     init: function() {},
 
-    getPhoto: function() {
+    getPhotoLibrary: function() {
+        // If a photo from the photo library is requested, check for permission on iOS
+        if (device.platform == "iOS") {
+            cordova.plugins.diagnostic.getCameraRollAuthorizationStatus(function(status) {
+                switch (status) {
+                    case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
+                        console.log("Photo Library Permission not requested");
+                        cordova.plugins.diagnostic.requestCameraRollAuthorization(function(status) {
+                            console.log("Authorization request for camera roll was " + (status == cordova.plugins.diagnostic.permissionStatus.GRANTED ? "granted" : "denied"));
+                            if (status == cordova.plugins.diagnostic.permissionStatus.GRANTED) {
+                                iMapApp.Photo.getPhoto(true);
+                            }
+                        }, function(error){
+                            console.error(error);
+                        });
+                        break;
+                    case cordova.plugins.diagnostic.permissionStatus.DENIED:
+                        console.log("Photo Library Permission denied");
+                        navigator.notification.alert("iMapInvasives does not have permission to access to your photo library. Please enable Photo Library access to the iMapApp in the device Privacy Settings.", iMapApp.uploadUtils.alertDismiss, "Photo Library Permission Denied");
+                        break;
+                    case cordova.plugins.diagnostic.permissionStatus.GRANTED:
+                        console.log("Permission granted");
+                        iMapApp.Photo.getPhoto(true);
+                        break;
+                }
+            }, function(error){
+                console.error("The following error occurred: "+error);
+            });
+        } else {
+            iMapApp.Photo.getPhoto(true);
+        }
+    },
+
+    getPhoto: function(library) {
         // Retrieve image file location from specified source
         var qual = 50;
         switch (iMapApp.iMapPrefs.params.PictureSize) {
@@ -26,8 +59,12 @@ iMapApp.Photo = {
         navigator.camera.getPicture(iMapApp.Photo.onSuccess, iMapApp.Photo.onFail, {
             quality: qual,
             destinationType: Camera.DestinationType.DATA_URL,
-            saveToPhotoAlbum: false
+            saveToPhotoAlbum: ((library === true) ? false : ((iMapApp.iMapPrefs.params.SaveOriginalPhotos === true || iMapApp.iMapPrefs.params.SaveOriginalPhotos == null) ? true : false)),
+            correctOrientation: true,
+            sourceType: ((library === true) ? Camera.PictureSourceType.SAVEDPHOTOALBUM : Camera.PictureSourceType.CAMERA),
+            encodingType: Camera.EncodingType.JPEG
         });
+        iMapApp.uiUtils.bottomBarHelper.bottomBarHelperAdd();
     },
 
     onSuccess: function(imageData) {
