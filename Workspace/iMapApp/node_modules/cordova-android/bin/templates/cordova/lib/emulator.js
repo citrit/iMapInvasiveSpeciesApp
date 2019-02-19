@@ -187,7 +187,9 @@ module.exports.list_images = function () {
                 var api_level = avd.target.match(/\d+/);
                 if (api_level) {
                     var level = android_versions.get(api_level);
-                    avd.target = 'Android ' + level.semver + ' (API level ' + api_level + ')';
+                    if (level) {
+                        avd.target = 'Android ' + level.semver + ' (API level ' + api_level + ')';
+                    }
                 }
             }
             return avd;
@@ -342,7 +344,8 @@ module.exports.wait_for_emulator = function (port) {
         }, function (error) {
             if ((error && error.message &&
             (error.message.indexOf('not found') > -1)) ||
-            (error.message.indexOf('device offline') > -1)) {
+            (error.message.indexOf('device offline') > -1) ||
+            (error.message.indexOf('device still connecting') > -1)) {
                 // emulator not yet started, continue waiting
                 return self.wait_for_emulator(port);
             } else {
@@ -432,7 +435,12 @@ module.exports.resolveTarget = function (target) {
 module.exports.install = function (givenTarget, buildResults) {
 
     var target;
-    var manifest = new AndroidManifest(path.join(__dirname, '../../AndroidManifest.xml'));
+    // We need to find the proper path to the Android Manifest
+    var manifestPath = path.join(__dirname, '..', '..', 'app', 'src', 'main', 'AndroidManifest.xml');
+    if (buildResults.buildMethod === 'gradle') {
+        manifestPath = path.join(__dirname, '../../AndroidManifest.xml');
+    }
+    var manifest = new AndroidManifest(manifestPath);
     var pkgName = manifest.getPackageId();
 
     // resolve the target emulator
