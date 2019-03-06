@@ -6,9 +6,15 @@ iMapApp.iMapPrefs = {
     params: {
         Firstname: "",
         Lastname: "",
-        Username: "",
+        Email: "", // iMap 3 email address
+        Username: "", // depricated as of iMap 3
         Password: "",
+        personId: 0, // iMap 3 person ID
+        userId: 0, // iMap 3 user ID
+        dStateID: 0, // user's iMap 3 home jurisdiction
         Project: "",
+        iMap3Projects: [], // user's associated projects
+        iMap3Organizations: [], // user's associated organizations
         Plants: {
             UseCommon: true,
             UseScientific: false,
