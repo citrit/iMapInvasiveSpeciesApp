@@ -261,13 +261,13 @@ iMapApp.uiUtils = {
                 personRecord.organizationMembers.forEach(function (org) {
                     newOrganizations.push(org.organization);
                 });
-                iMapApp.iMapPrefs.params.Organizations = newOrganizations;
+                iMapApp.iMapPrefs.params.iMap3Organizations = newOrganizations;
 
                  // store the projects array in the iMap3 Prefs
                 personRecord.projectMembers.forEach(function (proj) {
                     newProjects.push(proj.project);
                 });
-                iMapApp.iMapPrefs.params.Projects = newProjects;
+                iMapApp.iMapPrefs.params.iMap3Projects = newProjects;
 
                 // get the user's "home jurisdiction"
                 iMapApp.iMapPrefs.params.dStateID = personRecord.userAccount.dstateId;
@@ -341,7 +341,7 @@ iMapApp.uiUtils = {
         $.mobile.navigate("#editObsPage");
         iMapApp.App.checkDiskSpace();
         iMapApp.uiUtils.params.curObs = null;
-        getDElem('[name="obsProjects"]').val(iMapApp.iMapPrefs.params.Project); //.selectmenu().selectmenu('refresh', true);
+        getDElem('[name="obsProjectsiMap3"]').val(iMapApp.iMapPrefs.params.Project);
         getDElem('[name="obsSpecies"]').val(-1); //.selectmenu().selectmenu('refresh', true);; 
         var now = new Date();
         var day = ("0" + now.getDate()).slice(-2);
@@ -627,6 +627,29 @@ iMapApp.uiUtils = {
         });
     },
 
+    loadProjectListNew: function() {
+        console.log("****Loading iMap 3 projects");
+        var projects = iMapApp.iMapPrefs.params.iMap3Projects;
+        if (projects == null) return;
+        var prjs = ['listPrefProj', 'obsProjectsiMap3'];
+        prjs.forEach(function(list) {
+            var selMen = $('select[name="' + list + '"]');
+            selMen.empty();
+            for (var i = 0; i < projects.length; i++) {
+                selMen
+                    .append($("<option></option>")
+                        .attr("value", projects[i]["id"])
+                        .text(projects[i]["name"]));
+            }
+            selMen.sortOptions();
+            selMen
+                .prepend($("<option></option>")
+                    .attr("value", -1)
+                    .text(""));
+            selMen.val(-1);
+        });
+    },
+
     loadSpeciesList: function() {
         var pdata = JSON.parse(localStorage.getItem("speciesList"));
         if (pdata == null) return;
@@ -734,7 +757,7 @@ iMapApp.uiUtils = {
 
         iMapApp.iMapPrefs.params.Email = email;
         iMapApp.iMapPrefs.params.Password = password;
-        //iMapApp.iMapPrefs.params.Project = getDElem('select[name="listPrefProj"] :selected').val();
+        iMapApp.iMapPrefs.params.Project = getDElem('select[name="listPrefProj"] :selected').val();
 
         /*
         if (iMapApp.iMapPrefs.params.Plants.UseCommon !== getDElem('input[name="checkbox-common"]').is(':checked') ||

@@ -141,7 +141,7 @@
             <!--<input data-type="search" id="searchForlistPrefProj"/> 
                     data-filter="true" data-input="#searchForlistPrefProj" -->
             <div data-role="fieldcontain">
-                <label for="listPrefProj">Default Project: (if applicable; contact iMap)</label>
+                <label for="listPrefProj">Default Project:</label>
                 <select id="listPrefProj" name="listPrefProj" data-role="none"><option>None</option></select>
             </div>
             <div data-role="fieldcontain">
@@ -183,6 +183,12 @@
                     <label for="obsProjects">Project: <small>(Optional)</small></label>
                     <select name="obsProjects" data-role="none"></select>
                 </div>
+
+                <div data-role="fieldcontain">
+                    <label for="obsProjectsiMap3">iMap 3 Project: <span>(Optional)</span></label>
+                    <select name="obsProjectsiMap3" id="obsProjectsiMap3" data-role="none"></select>
+                </div>
+
                 <div data-role="fieldcontain">
                     Species:
                     <input type="checkbox" checked=true name="custSpeciesCheck" id="custSpeciesCheck" style="transform: scale(1.5);" onchange="iMapApp.uiUtils.loadSpeciesList()" data-role="none"> Custom List</input>
