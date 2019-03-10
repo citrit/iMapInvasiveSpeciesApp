@@ -50,6 +50,7 @@
                 <!--<li> &#9679; </li>-->
                 <li><a id="helpMenu">Help</a></li>
                 <!--                <li><a id="quitMenu">Quit</a></li>-->
+                <li><a id="browserLogin">iMap 3 Login Page</a></li>
             </ul>
             <button id="addObs">+ Add Observation</button>
         </div>
@@ -95,13 +96,9 @@
                         <option value="vt">Vermont</option>
                         <option value="wv">West Virginia</option>
                 </select>
-                <label for="fname">First Name:</label>
-                <input type="text" name="fname" id="fname" value="" /> <br>
-                <label for="lname">Last Name:</label>
-                <input type="text" name="lname" id="lname" value="" /><br>
-                <label for="uname">iMapInvasives Username: <br></label>
-                <label for="uname" style="font-size:12px">(Must match your username provided by iMapInvasives)</label>
-                <input type="text" name="uname" id="uname" value="" /> <br>
+                <label for="email">iMapInvasives Email Address: <br></label>
+                <label for="email" style="font-size:12px">(Must match the email address on file in iMapInvasives)</label>
+                <input type="email" name="email" id="email" value="" /> <br>
                 <label for="pword">iMapInvasives Password:</label>
                 <label for="pword" style="font-size:12px">(Must match your iMapInvasives password)</label>
                 <input type="password" name="pword" id="pword" value="" />
@@ -298,6 +295,7 @@
         <img id="img-spinner" src="assets/images/Loading.gif" alt="Loading" />
         <br>
         <p name="waitDialogText">Please wait...</p>
+        <p id="waitDialogTextCustom"></p>
     </div>
 
     <div id="introOverlay" class="modal-overlay">

@@ -85,6 +85,9 @@ iMapApp.uiUtils = {
                 iMapApp.App.updateStateData(iMapApp.iMapPrefs.params.CurrentState);
             }
         });
+        $("#browserLogin").click(function() {
+            iMapApp.uiUtils.attemptIMapSignIn();
+        });
         $("#obsLoc").change(function() {
             var pos = JSON.parse('[' + $('input[name="obsLoc"]').val() + ']');
             iMapApp.iMapMap.setPosition(pos);
@@ -120,6 +123,183 @@ iMapApp.uiUtils = {
             } catch (ex) { console.log("Pageload exception: " + ex); }
         });
         iMapApp.uiUtils.checkIntroOverlay();
+    },
+
+    attemptIMapSignInPromise: function() {
+        /*
+
+        sign-in to iMap 3 to be able to interact with the iMap 3 REST services
+        returns a promise, resolved if authentiation appears successful,
+        otherwise rejected with error message displayed to the user
+
+        */
+        return new Promise((resolve, reject) => {
+            // to-do: add check to see if params are set
+            iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMapInvasives 3', 10);
+            var iMap3SignIn = cordova.InAppBrowser.open('https://imapdev.natureserve.org/imap/login.jsp', '_blank', 'location=no,hidden=yes');
+            iMap3SignIn.addEventListener('loadstop', function(event) {
+                var theRequestString = 'j_username=' + iMapApp.iMapPrefs.params.Email + '&j_password=' + iMapApp.iMapPrefs.params.Password;
+                theRequest = encodeURI(theRequestString),
+                xhr = new XMLHttpRequest();
+                xhr.open('POST', 'https://imapdev.natureserve.org/imap/j_spring_security_check');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onload = function() {
+                    var signInError = 0;
+                    if (xhr.status != 200) {
+                        iMap3SignIn.close();
+                        iMapApp.uiUtils.waitDialogClose(true);
+                        navigator.notification.alert("Sorry, an error occured when attempting to sign-in to iMapInvasives. Please try again later.", false, "iMap 3 Log-In Failure");
+                        signInError++;
+                        reject();
+                    };
+                    if (xhr.responseURL == 'https://imapdev.natureserve.org/imap/login.jsp?login_error=1') {
+                        iMap3SignIn.close();
+                        iMapApp.uiUtils.waitDialogClose(true);
+                        navigator.notification.alert("Sorry, the username and password combination you provided is incorrect. Please the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
+                        signInError++;
+                        reject();
+                    };
+                    if (signInError === 0) {
+                        console.log("iMap 3 auth appears OK");
+                        resolve();
+                    }
+                    iMap3SignIn.close();
+                    iMapApp.uiUtils.waitDialogClose(true);
+                };
+                xhr.send(theRequest);
+            });
+        })
+    },
+
+    attemptIMapSignIn: function() {
+        // to-do: add check to see if params are set
+        iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMapInvasives 3', 10);
+        var iMap3SignIn = cordova.InAppBrowser.open('https://imapdev.natureserve.org/imap/login.jsp', '_blank', 'location=no,hidden=yes');
+        iMap3SignIn.addEventListener('loadstop', function(event) {
+            var theRequestString = 'j_username=' + iMapApp.iMapPrefs.params.Email + '&j_password=' + iMapApp.iMapPrefs.params.Password;
+            theRequest = encodeURI(theRequestString),
+            xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://imapdev.natureserve.org/imap/j_spring_security_check');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                var signInError = 0;
+                if (xhr.status != 200) {
+                    iMap3SignIn.close();
+                    iMapApp.uiUtils.waitDialogClose(true);
+                    navigator.notification.alert("Sorry, an error occured when attempting to sign-in to iMapInvasives. Please try again later.", false, "iMap 3 Log-In Failure");
+                    signInError++;
+                };
+                if (xhr.responseURL == 'https://imapdev.natureserve.org/imap/login.jsp?login_error=1') {
+                    iMap3SignIn.close();
+                    iMapApp.uiUtils.waitDialogClose(true);
+                    navigator.notification.alert("Sorry, the username and password combination you provided is incorrect. Please the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
+                    signInError++;
+                };
+                if (signInError === 0) {
+                    console.log("iMap 3 auth appears OK");
+                }
+                iMap3SignIn.close();
+                iMapApp.uiUtils.waitDialogClose(true);
+            };
+            xhr.send(theRequest);
+        });
+    },
+
+    getPersonIDHandler: function() {
+        // checks if the user is signed-in before attempting to get user ID
+        iMapApp.uiUtils.checkIfSignedIn().then(function() {
+            iMapApp.uiUtils.getPersonID();
+        }).catch(function (e) {
+            // if promise rejected, the user is not signed-in
+            iMapApp.uiUtils.attemptIMapSignInPromise().then(function() {
+                iMapApp.uiUtils.getPersonID();
+            })
+        });
+    },
+
+    getPersonID: function() {
+        // use the new AOI utility to get the iMap3 personID and store it in the iMap Prefs params
+        var newAOIurl = 'https://imapdev.natureserve.org/imap/services/aoi/new';
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', newAOIurl);
+        xhr.onload = function() {
+            if (xhr.status != 200) {
+                console.log("An error occurred when attempting to get the Person ID");
+            } else {
+                var newAOI = JSON.parse(xhr.responseText);
+                iMapApp.iMapPrefs.params.personId = newAOI.createdBy.id; // store the personID in iMap Prefs
+                iMapApp.iMapPrefs.saveParams(); // save the changes
+            };
+        };
+        xhr.send();
+    },
+
+    getUserDetailsHandler: function() {
+        // checks if the user is signed-in before attempting to get user details
+
+        iMapApp.uiUtils.checkIfSignedIn().then(function() {
+            iMapApp.uiUtils.getUserDetails();
+        }).catch(function (e) {
+            // if promise rejected, the user is not signed-in
+            iMapApp.uiUtils.attemptIMapSignInPromise().then(function() {
+                iMapApp.uiUtils.getPersonID();
+            })
+        });
+    },
+
+    getUserDetails: function() {
+        var personRecordUrl = 'https://imapdev.natureserve.org/imap/services/person/' + iMapApp.iMapPrefs.params.personId;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', personRecordUrl);
+        xhr.onload = function() {
+            if (xhr.status == 200) {
+                var personRecord = JSON.parse(xhr.responseText),
+                newOrganizations = [],
+                newProjects = [];
+
+                // store the organizations array in iMap3 Prefs
+                personRecord.organizationMembers.forEach(function (org) {
+                    newOrganizations.push(org.organization);
+                });
+                iMapApp.iMapPrefs.params.Organizations = newOrganizations;
+
+                 // store the projects array in the iMap3 Prefs
+                personRecord.projectMembers.forEach(function (proj) {
+                    newProjects.push(proj.project);
+                });
+                iMapApp.iMapPrefs.params.Projects = newProjects;
+
+                // get the user's "home jurisdiction"
+                iMapApp.iMapPrefs.params.dStateID = personRecord.userAccount.dstateId;
+
+                // save the changes
+                iMapApp.iMapPrefs.saveParams();
+            } else {
+                console.log("An error occurred when attempting to get the person attributes");
+            };
+        };
+        xhr.send();
+    },
+
+    checkIfSignedIn: function() {
+        /*
+
+        use the create new AOI service to determine if the user is currently authenticated with iMap.
+        returns a promise, resolved if response is 200, otherwise rejected
+
+        */
+        var xhr = new XMLHttpRequest();
+        return new Promise(function (resolve, reject) {
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    resolve (xhr);
+                } else {
+                    reject (xhr.status);
+                };
+            };
+            xhr.open('GET', 'https://imapdev.natureserve.org/imap/services/aoi/new');
+            xhr.send();
+        });
     },
 
     //
@@ -536,6 +716,7 @@ iMapApp.uiUtils = {
     },
 
     savePrefs: function() {
+        /*
         var fnam = getDElem('input[name="fname"]').val();
         var lnam = getDElem('input[name="lname"]').val();
         var unam = getDElem('input[name="uname"]').val();
@@ -545,18 +726,22 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.openInfoDialog('Preferences not set', 'Please fill in Preferences');
             return;
         }
+        */
         //iMapApp.uiUtils.openDialog('#waitDialog', "Saving Preferences");
+        var sname = getDElem('select[name="stateSelect"]').val();
+        var email = $("#email").val(),
+        password = $("#pword").val();
 
-        iMapApp.iMapPrefs.params.Firstname = fnam;
-        iMapApp.iMapPrefs.params.Lastname = lnam;
-        iMapApp.iMapPrefs.params.Username = unam;
-        iMapApp.iMapPrefs.params.Password = pwor;
-        iMapApp.iMapPrefs.params.Project = getDElem('select[name="listPrefProj"] :selected').val();
+        iMapApp.iMapPrefs.params.Email = email;
+        iMapApp.iMapPrefs.params.Password = password;
+        //iMapApp.iMapPrefs.params.Project = getDElem('select[name="listPrefProj"] :selected').val();
 
+        /*
         if (iMapApp.iMapPrefs.params.Plants.UseCommon !== getDElem('input[name="checkbox-common"]').is(':checked') ||
             iMapApp.iMapPrefs.params.Plants.UseScientific !== getDElem('input[name="checkbox-scientific"]').is(':checked')) {
             //DBFuncs.loadSpeciesList();
         }
+        */
 
         //if (iMapPrefs.params.currentState !== $('#stateSelect').val()) {
         //    DBFuncs.loadProjectList();
@@ -659,7 +844,8 @@ iMapApp.uiUtils = {
         console.log("Modal Dialog...");
         //var appendthis =  ("<div class='modal-overlay js-modal-close'></div>");
         //$("body").append(appendthis);
-        $('#waitPopup[name="waitDialogText"]').text(msg);
+        //$('#waitPopup[name="waitDialogText"]').text(msg);
+        $('#waitDialogTextCustom').text(msg);
         $(".modal-overlay").fadeTo(500, 0.7);
         //$(".js-modalbox").fadeIn(500);
         //var modalBox = $(this).attr('data-modal-id');
