@@ -19,7 +19,7 @@ iMapApp.uiUtils = {
             breakPoint: 1024, // define manual breakpoint - set it to 0 means no manual breakpoint
             toggleSpeed: 0 // call your togglespeed here -- set it to 0 to turn it off
         });
-        iMapApp.uiUtils.loadProjectList();
+        iMapApp.uiUtils.loadProjectListNew();
         iMapApp.uiUtils.loadSpeciesList();
         if (window.device && window.device.platform == "iOS") {
             StatusBar.overlaysWebView(false);
@@ -696,9 +696,7 @@ iMapApp.uiUtils = {
         //getDElem('input[name=zoomRange]').slider();
         this.prefIntroToggler();
         getDElem('p[name="prefError"]').text(msg);
-        getDElem('input[name="fname"]').val(iMapApp.iMapPrefs.params.Firstname);
-        getDElem('input[name="lname"]').val(iMapApp.iMapPrefs.params.Lastname);
-        getDElem('input[name="uname"]').val(iMapApp.iMapPrefs.params.Username);
+        getDElem('#email').val(iMapApp.iMapPrefs.params.Email);
         getDElem('input[name="pword"]').val(iMapApp.iMapPrefs.params.Password);
         getDElem('select[name="stateSelect"]').val(iMapApp.iMapPrefs.params.CurrentState);
         getDElem('input[name="checkbox-common"]').prop('checked', iMapApp.iMapPrefs.params.Plants.UseCommon);
