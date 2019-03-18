@@ -3,6 +3,7 @@ var iMapApp = iMapApp || {};
 iMapApp.iMapMap = {
     olMap: null,
     locSource: null,
+    locSourcePoly: null,
     baseLayers: [],
     selectControl: null,
     mapLayer: null,
@@ -28,13 +29,34 @@ iMapApp.iMapMap = {
             }))
         });
 
+        var polygonStyleNew =  new ol.style.Style({
+            stroke: new ol.style.Stroke({
+              color: 'blue',
+              width: 3
+            }),
+            fill: new ol.style.Fill({
+              color: 'rgba(0, 0, 255, 0.1)'
+            })
+        })
+
         iMapApp.iMapMap.locSource = new ol.source.Vector({
             //features: iconFeatures //add an array of features
         });
 
+        var thePoly = new ol.geom.Polygon([[[-489196.981025,53811.667913],[-1966571.863721,-728903.501727],[234814.550892,-631064.105522]]]),
+        polyFeature = new ol.Feature(thePoly);
+
+        iMapApp.iMapMap.locSourcePoly = new ol.source.Vector({});
+
         var vectorLayer = new ol.layer.Vector({
             source: iMapApp.iMapMap.locSource,
-            style: iconStyle
+            style: iconStyle,
+            zIndex: 10
+        });
+
+        var vectorLayerPoly = new ol.layer.Vector({
+            source: iMapApp.iMapMap.locSourcePoly,
+            style: polygonStyleNew
         });
 
         for (i = 0, ii = mapStyles.length; i < ii; ++i) {
@@ -59,11 +81,12 @@ iMapApp.iMapMap = {
                 stroke: new ol.style.Stroke({
                     color: '#ffccff'
                 }),
-                radius: 10
+                radius: 15
             })
         });
         var select = new ol.interaction.Select({
             wrapX: false,
+            layers: [vectorLayer],
             style: [selectLocation]
         });
 
@@ -74,9 +97,11 @@ iMapApp.iMapMap = {
         modify.on('modifyend', function(e) {
             var features = e.features.getArray();
             features.forEach(function(el, idx, arr) {
+                var projectedCoords = el.getGeometry().getFirstCoordinate(),
+                unprojectedCoords = ol.proj.transform(projectedCoords,iMapApp.iMapMap.olView.getProjection(), 'EPSG:4326');
                 console.log("feature [" + idx + "] changed is ", el.getGeometryName());
-                iMapApp.uiUtils.setObsPosition(ol.proj.transform(el.getGeometry().getFirstCoordinate(),
-                    iMapApp.iMapMap.olView.getProjection(), 'EPSG:4326'));
+                iMapApp.iMapMap.setPoly(projectedCoords);
+                iMapApp.uiUtils.setObsPosition(unprojectedCoords);
             });
         });
 
@@ -89,6 +114,7 @@ iMapApp.iMapMap = {
         });
         iMapApp.iMapMap.selectControl = select;
         iMapApp.iMapMap.olMap.addLayer(vectorLayer);
+        iMapApp.iMapMap.olMap.addLayer(vectorLayerPoly);
 
         /*// Add a tile cache and cache writer, later we add configuration
         iMapApp.iMapMap.tileCache = new ol.Control.CacheRead();
@@ -108,8 +134,13 @@ iMapApp.iMapMap = {
 
     // Set the position pin in the map
     setPosition: function(pos) {
-        iMapApp.iMapMap.locSource.clear();
         var vPos = ol.proj.transform(pos, 'EPSG:4326', iMapApp.iMapMap.olView.getProjection());
+        iMapApp.iMapMap.setPin(vPos);
+        iMapApp.iMapMap.setPoly(vPos);
+    },
+
+    setPin: function (vPos) {
+        iMapApp.iMapMap.locSource.clear();
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point(vPos),
             name: 'You are Here'
@@ -118,9 +149,20 @@ iMapApp.iMapMap = {
         iMapApp.iMapMap.olView.setCenter(vPos);
     },
 
+    setPoly: function (vPos) {
+        iMapApp.iMapMap.locSourcePoly.clear();
+        var polyBuffer = iMapApp.iMapMap.bufferConstructor(5, vPos[0], vPos[1]),
+        polyBufferFeature = new ol.Feature({
+            geometry: new ol.geom.Polygon(polyBuffer),
+            name: '5 meter buffer'
+        });
+        iMapApp.iMapMap.locSourcePoly.addFeature(polyBufferFeature);
+    },
+
     clearMap: function() {
         console.log("====== ClearMap");
         iMapApp.iMapMap.locSource.clear();
+        iMapApp.iMapMap.locSourcePoly.clear();
     },
 
     getObsLocation: function() {
@@ -215,6 +257,38 @@ iMapApp.iMapMap = {
             default:
                 break;
         }
+    },
+
+    bufferConstructor: function(radius, origX, origY) {
+        var pi = Math.PI,
+            r = radius,
+            polygon = [],
+            piEightSinVal = (r * (Math.sin(pi / 8))),
+            piEightCosVal = (r * (Math.cos(pi / 8))),
+            piFourSinVal = (r * (Math.cos(pi / 4)));
+
+        // contsruct a polygon buffer from the given input coorindates
+        polygon.push(
+            [(origX + r), (origY + 0)],
+            [(origX + piEightCosVal), (origY + piEightSinVal)],
+            [(origX + piFourSinVal), (origY + piFourSinVal)],
+            [(origX + piEightSinVal), (origY + piEightCosVal)],
+            [(origX + 0), (origY + r)],
+            [(origX + -piEightSinVal), (origY + piEightCosVal)],
+            [(origX + -piFourSinVal), (origY + piFourSinVal)],
+            [(origX + -piEightCosVal), (origY + piEightSinVal)],
+            [(origX + -r), (origY + 0)],
+            [(origX + -piEightCosVal), (origY + -piEightSinVal)],
+            [(origX + -piFourSinVal), (origY + -piFourSinVal)],
+            [(origX + -piEightSinVal), (origY + -piEightCosVal)],
+            [(origX + 0), (origY + -r)],
+            [(origX + piEightSinVal), (origY + -piEightCosVal)],
+            [(origX + piFourSinVal), (origY + -piFourSinVal)],
+            [(origX + piEightCosVal), (origY + -piEightSinVal)],
+            [(origX + r), (origY + 0)]
+        )
+
+        return [polygon]
     }
 
 };
