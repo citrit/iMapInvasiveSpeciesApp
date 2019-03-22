@@ -20,7 +20,8 @@ iMapApp.uiUtils = {
             toggleSpeed: 0 // call your togglespeed here -- set it to 0 to turn it off
         });
         iMapApp.uiUtils.loadProjectListNew();
-        iMapApp.uiUtils.loadSpeciesList();
+        iMapApp.uiUtils.loadOrganizations();
+        iMapApp.uiUtils.loadSpeciesListNew('state');
         if (window.device && window.device.platform == "iOS") {
             StatusBar.overlaysWebView(false);
             console.log("Setting iOS top margin");
@@ -93,7 +94,7 @@ iMapApp.uiUtils = {
             iMapApp.iMapMap.setPosition(pos);
         });
         $("#stateSelect").on('change', function() { iMapApp.uiUtils.stateChangeHandler($("#stateSelect").val()); });
-        $("#obsSpecies").on('change', function() { iMapApp.uiUtils.speciesChangeHandler($("#obsSpecies").val()); });
+        $("#obsSpeciesiMap3").on('change', function() { iMapApp.uiUtils.speciesChangeHandler($("#obsSpeciesiMap3").val()); });
 
         $("#introOverlay").click(function() {
             iMapApp.uiUtils.introOverlayClose();
@@ -341,8 +342,9 @@ iMapApp.uiUtils = {
         $.mobile.navigate("#editObsPage");
         iMapApp.App.checkDiskSpace();
         iMapApp.uiUtils.params.curObs = null;
-        getDElem('[name="obsProjectsiMap3"]').val(iMapApp.iMapPrefs.params.Project);
-        getDElem('[name="obsSpecies"]').val(-1); //.selectmenu().selectmenu('refresh', true);; 
+        getDElem('[name="obsProjectiMap3"]').val(iMapApp.iMapPrefs.params.Project);
+        getDElem('#obsOrgiMap3').val(iMapApp.iMapPrefs.params.OrgDefault);
+        getDElem('[name="obsSpeciesiMap3"]').val(-1); //.selectmenu().selectmenu('refresh', true);; 
         var now = new Date();
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -364,6 +366,14 @@ iMapApp.uiUtils = {
         getDElem('select[name="flipMap"]').val(iMapApp.iMapPrefs.params.MapType);
         iMapApp.iMapMap.startGPSTimer();
         iMapApp.iMapMap.setPosition([-73.4689, 42.7187]);
+
+        // initialize the detected radio buttons
+        $('#radio-choice-species-detected').checkboxradio();
+        $('#radio-choice-species-not-detected').checkboxradio();
+        $('#radio-choice-species-detected').prop('checked',false);
+        $('#radio-choice-species-not-detected').prop('checked',false);
+        $('#radio-choice-species-detected').checkboxradio('refresh');
+        $('#radio-choice-species-not-detected').checkboxradio('refresh');
 
         this.toggleSizeUnits(); // initialize/display the correct units
 
@@ -389,8 +399,9 @@ iMapApp.uiUtils = {
         //iMapApp.uiUtils.openDialog('#editObsDialog', 'Edit Observation');
         var obs = iMapApp.App.getObservation(editCard.id);
         iMapApp.uiUtils.params.curObs = obs;
-        getDElem('[name="obsProjects"]').val(obs.getProjectID()); //.selectmenu().selectmenu('refresh', true);;
-        getDElem('[name="obsSpecies"]').val(obs.getSpeciesID()); //.selectmenu().selectmenu('refresh', true);;
+        getDElem('#obsProjectiMap3').val(obs.getiMap3ProjId()); //.selectmenu().selectmenu('refresh', true);;
+        getDElem('#obsOrgiMap3').val(obs.getiMap3Org());
+        getDElem('#obsSpeciesiMap3').val(obs.getiMap3SpeciesID()); //.selectmenu().selectmenu('refresh', true);;
         getDElem('[name="sizeOfArea"]').val(obs.getSize());
         getDElem('#sizeOfAreaMetric').val(obs.getSizeMetric());
         getDElem('[name="distribution"]').val(obs.getDist());
@@ -398,6 +409,17 @@ iMapApp.uiUtils = {
         getDElem('[name="timeSurveying"]').val(obs.getTimeSurvey());
         getDElem('#ailanthusStemsGreaterSix').val(obs.getAilanthusDBHGreaterSix());
         getDElem('[name="obsComment"]').val(obs.getComment());
+
+        if (obs.getDetected()) {
+            $('#radio-choice-species-detected').prop('checked',true);
+            $('#radio-choice-species-not-detected').prop('checked',false); 
+        } else {
+            $('#radio-choice-species-detected').prop('checked',false);
+            $('#radio-choice-species-not-detected').prop('checked',true); 
+        };
+
+        $('#radio-choice-species-detected').checkboxradio('refresh');
+        $('#radio-choice-species-not-detected').checkboxradio('refresh');
 
         var now = new Date(obs.getWhen());
         var day = ("0" + now.getDate()).slice(-2);
@@ -472,7 +494,7 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.openInfoDialog("Invalid Geographic Coordinates","This record cannot be saved because the geographic coordinates are located at a longitude of 0 and/or a latitude of 0. To correct this problem, please either enable location services for the iMapInvasives App or manually change the record coordinates in the Location field to something other than (0, 0).");
             return;
         };
-        if (getDElem('[name="obsSpecies"]').val() == "-1") {
+        if (getDElem('[name="obsSpeciesiMap3"]').val() == "-1") {
             iMapApp.uiUtils.openOkCancelDialog('Save Species', 'You have not specified a species, save Observation?', iMapApp.uiUtils.saveObs);
             return;
             /*var closeDiag = false;
@@ -488,15 +510,23 @@ iMapApp.uiUtils = {
                 );
             $('#infoDialog2').attr('open', true);*/
         };
+
+        // check to see if either the species detected or not detected toggle was selected, return an error message if so
+        if ($('#radio-choice-species-detected').prop('checked') === false && $('#radio-choice-species-not-detected').prop('checked') === false) {
+            iMapApp.uiUtils.openInfoDialog("Detected Status Not Selected","Please select either Species Detected or Not Detected.");
+            return;
+        }
         iMapApp.uiUtils.saveObs();
     },
 
     saveObs: function() {
-        var obs = (iMapApp.uiUtils.params.curObs == null ? new iMapApp.Observation() : iMapApp.uiUtils.params.curObs);
+        var obs = (iMapApp.uiUtils.params.curObs == null ? new iMapApp.Observation() : iMapApp.uiUtils.params.curObs),
+        detectedVal = ($('input[name="species-detected"]:checked').val() == 'detected' ? true : false);
         obs.setProject(getDElem('[name="obsProjects"]').find(":selected").text());
-        obs.setProjectID(getDElem('[name="obsProjects"]').val());
-        obs.setSpecies(getDElem('[name="obsSpecies"]').find(":selected").text());
-        obs.setSpeciesID(getDElem('[name="obsSpecies"]').val());
+        obs.setiMap3Org(getDElem('#obsOrgiMap3').val());
+        obs.setiMap3ProjId(getDElem('#obsProjectiMap3').val());
+        obs.setiMap3SpeciesID(getDElem('#obsSpeciesiMap3').val());
+        obs.setDetected(detectedVal);
         obs.setSize(getDElem('[name="sizeOfArea"]').val());
         obs.setSizeMetric(getDElem('#sizeOfAreaMetric').val());
         obs.setDist(getDElem('[name="distribution"]').val());
@@ -508,6 +538,7 @@ iMapApp.uiUtils = {
         var dt = getDElem('[name="obsDate"]').val();
         obs.setWhen(dt);
         obs.setWhere(JSON.parse('[' + getDElem('[name="obsLoc"]').val() + ']'));
+        obs.setSearchedArea(iMapApp.iMapMap.getPoly());
 
         var ims = getDElem('[name="largeImage"]').attr("src");
         //console.log("image " + ims + "  indexOf: " + ims.indexOf("TakePhoto"));
@@ -631,7 +662,7 @@ iMapApp.uiUtils = {
         console.log("****Loading iMap 3 projects");
         var projects = iMapApp.iMapPrefs.params.iMap3Projects;
         if (projects == null) return;
-        var prjs = ['listPrefProj', 'obsProjectsiMap3'];
+        var prjs = ['listPrefProj', 'obsProjectiMap3'];
         prjs.forEach(function(list) {
             var selMen = $('select[name="' + list + '"]');
             selMen.empty();
@@ -640,6 +671,29 @@ iMapApp.uiUtils = {
                     .append($("<option></option>")
                         .attr("value", projects[i]["id"])
                         .text(projects[i]["name"]));
+            }
+            selMen.sortOptions();
+            selMen
+                .prepend($("<option></option>")
+                    .attr("value", -1)
+                    .text(""));
+            selMen.val(-1);
+        });
+    },
+
+    loadOrganizations: function() {
+        console.log("****Loading iMap 3 Organizations");
+        var orgs = iMapApp.iMapPrefs.params.iMap3Organizations;
+        if (orgs == null) return;
+        var orgLists = ['listPrefOrg', 'obsOrgiMap3'];
+        orgLists.forEach(function(list) {
+            var selMen = $('#' + list);
+            selMen.empty();
+            for (var i = 0; i < orgs.length; i++) {
+                selMen
+                    .append($("<option></option>")
+                        .attr("value", orgs[i]["id"])
+                        .text(orgs[i]["name"]));
             }
             selMen.sortOptions();
             selMen
@@ -673,6 +727,43 @@ iMapApp.uiUtils = {
                     .append($("<option></option>")
                         .attr("value", key)
                         .text(lStr));
+            });
+        }
+        selMen.sortOptions();
+        selMen
+            .prepend($("<option></option>")
+                .attr("value", -1)
+                .text("None Selected"));
+        selMen.val(-1);
+        //selMen.selectmenu();
+        //selMen.selectmenu('refresh', true);
+    },
+
+    loadSpeciesListNew: function(listType) {
+        var listTypeFull = listType + 'SpeciesList',
+        pdata = JSON.parse(localStorage.getItem(listTypeFull));
+        if (pdata == null) return;
+        var selMen = $('select[name="obsSpeciesiMap3"]');
+        selMen.empty();
+        if ((iMapApp.iMapPrefs.params.Plants.MyPlants.length > 0) &&
+            (getDElem('input[name="custSpeciesCheck"]').is(':checked'))) {
+            iMapApp.iMapPrefs.params.Plants.MyPlants.forEach(function (p) {
+                var lStr = iMapApp.App.getSpeciesNameNew(pdata[p], true);
+                selMen //<input name="your_name" value="your_value" type="checkbox">
+                    .append($("<option></option>")
+                    .attr("value", p)
+                    .text(lStr));
+            });
+        } else {
+            Object.keys(pdata).forEach(function (sp) {
+                var theSp = pdata[Number(sp)],
+                state = (listType == 'state' ? true : false),
+                spName = iMapApp.App.getSpeciesNameNew(theSp, state),
+                spVal = sp;
+                selMen
+                    .append($("<option></option>")
+                        .attr("value", spVal)
+                        .text(spName));
             });
         }
         selMen.sortOptions();
@@ -756,6 +847,7 @@ iMapApp.uiUtils = {
         iMapApp.iMapPrefs.params.Email = email;
         iMapApp.iMapPrefs.params.Password = password;
         iMapApp.iMapPrefs.params.Project = getDElem('select[name="listPrefProj"] :selected').val();
+        iMapApp.iMapPrefs.params.OrgDefault = getDElem('select[name="listPrefOrg"] :selected').val();
 
         /*
         if (iMapApp.iMapPrefs.params.Plants.UseCommon !== getDElem('input[name="checkbox-common"]').is(':checked') ||
@@ -782,7 +874,7 @@ iMapApp.uiUtils = {
         //alert($.toJSON(iMapPrefs));
 
         iMapApp.iMapPrefs.saveParams();
-        iMapApp.uiUtils.loadSpeciesList();
+        iMapApp.uiUtils.loadSpeciesListNew('state');
         iMapApp.uiUtils.gotoMainPage();
         var fInit = localStorage.getItem("firstInit");
         if (fInit) {
@@ -792,16 +884,16 @@ iMapApp.uiUtils = {
     },
 
     chooseMySpecies: function() {
-        var pdata = JSON.parse(localStorage.getItem("speciesList"));
+        var pdata = JSON.parse(localStorage.getItem("stateSpeciesList"));
         if (pdata !== null) {
             iMapApp.uiUtils.openDialog('#selectSpeciesDialog', 'Select Your Species');
-            var skeys = getSortedKeys(pdata, iMapApp.App.getSpeciesName);
+            var skeys = getSortedKeys(pdata, iMapApp.App.getSpeciesNameNew);
             //console.log("sKeys: " + skeys);
             var selMen = $('div[name="speciesSelList"]');
             selMen.empty();
             selMen.data("role", "none");
             $.each(skeys, function(key, val) {
-                var lStr = iMapApp.App.getSpeciesName(val);
+                var lStr = iMapApp.App.getSpeciesNameNew(pdata[val], 'state');
                 //console.log( "Inserting Species id: " + val  + "  Name: " + lStr );
                 var chk = (iMapApp.iMapPrefs.params.Plants.MyPlants.indexOf(val) >= 0 ? 'checked' : '');
                 selMen
@@ -818,7 +910,7 @@ iMapApp.uiUtils = {
             iMapApp.iMapPrefs.params.Plants.MyPlants.push(val.getAttribute("value"));
         });
         iMapApp.uiUtils.closeDialog();
-        iMapApp.uiUtils.loadSpeciesList();
+        iMapApp.uiUtils.loadSpeciesListNew('state');
     },
 
     checkParamsNotSet: function() {
@@ -1025,12 +1117,13 @@ function getDElem(elem) {
 }
 
 function getSortedKeys(obj, getV) {
+    // returns a sorted array of iMap species IDs to use for list sorting
     var keys = [];
     for (var key in obj) keys.push(key);
     return keys.sort(function(a, b) {
-        if (getV(a) < getV(b))
+        if (getV(obj[a], true) < getV(obj[b], true))
             return -1;
-        if (getV(a) > getV(b))
+        if (getV(obj[a], true) > getV(obj[b], true))
             return 1;
         return 0;
     });

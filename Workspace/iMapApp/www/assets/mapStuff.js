@@ -159,6 +159,11 @@ iMapApp.iMapMap = {
         iMapApp.iMapMap.locSourcePoly.addFeature(polyBufferFeature);
     },
 
+    getPoly: function () {
+        // returns the polygon buffer geomtery
+        return iMapApp.iMapMap.locSourcePoly.getFeatures()[0].getGeometry().getCoordinates();
+    },
+
     clearMap: function() {
         console.log("====== ClearMap");
         iMapApp.iMapMap.locSource.clear();

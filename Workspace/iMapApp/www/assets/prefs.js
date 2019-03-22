@@ -13,6 +13,7 @@ iMapApp.iMapPrefs = {
         userId: 0, // iMap 3 user ID
         dStateID: 0, // user's iMap 3 home jurisdiction
         Project: null,
+        OrgDefault: null,
         iMap3Projects: [], // user's associated projects
         iMap3Organizations: [], // user's associated organizations
         Plants: {

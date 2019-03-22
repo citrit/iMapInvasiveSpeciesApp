@@ -5,8 +5,11 @@ iMapApp.App = {
     compiledCardTemplate: null,
     SpeciesURL: 'http://hermes.freac.fsu.edu/requests/state_species_pdg/species?state=',
     ProjectsURL: 'http://hermes.freac.fsu.edu/requests/state_species/project?state=',
+    iMap3BaseURL: 'https://imapinvasives.natureserve.org',
     projectList: null,
     speciesList: null,
+    nationalSpeciesList: null,
+    stateSpeciesList: null,
     version: 0.0,
     dataFolder: null,
 
@@ -20,8 +23,7 @@ iMapApp.App = {
         }
         iMapApp.App.compiledCardTemplate = Mustache.compile($("#card-template").html());
         iMapApp.iMapPrefs.init();
-        iMapApp.App.projectList = JSON.parse(localStorage.getItem("projectList"));
-        iMapApp.App.speciesList = JSON.parse(localStorage.getItem("speciesList"));
+        iMapApp.App.stateSpeciesList = JSON.parse(localStorage.getItem("stateSpeciesList"));
         iMapApp.uiUtils.init();
         //debugTest();
         iMapApp.App.loadObservations();
@@ -207,6 +209,56 @@ iMapApp.App = {
         iMapApp.iMapPrefs.saveParams();
     },
 
+    downloadJurisdictionSppList: function () {
+        // get the iMap species list for the user's home jurisdiction and store it in localStorage
+        var jurisdictionSpp = iMapApp.App.iMap3BaseURL + '/imap/services/stateSpecList/all/' + iMapApp.iMapPrefs.params.dStateID,
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', jurisdictionSpp);
+        xhr.onload = function() {
+            if (xhr.status == 200) {
+                var newJurisSppList = JSON.parse(xhr.responseText),
+                newJurisSppListObj = {};
+                for (let i = 0; i < newJurisSppList.length; i++) {
+                    newJurisSppListObj[newJurisSppList[i]['stateSpeciesListId']] = newJurisSppList[i]
+                }
+                localStorage.setItem("speciesListiMap3", JSON.stringify(newJurisSppListObj)); // update localStorage item for species list with new data
+            } else {
+                console.log("An error occurred when attempting to get the jurisdiction species list");
+            };
+        };
+        xhr.send();
+    },
+
+    downloadNatSppList: function () {
+        // get the iMap national species list and store it in localStorage
+        var natSpp = iMapApp.App.iMap3BaseURL + '/imap/services/natSpecList/all/',
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', natSpp);
+        xhr.onload = function() {
+            if (xhr.status == 200) {
+                var newNatSppList = JSON.parse(xhr.responseText);
+                iMapApp.App.sppListHandler(newNatSppList, 'nationalSpeciesList');
+            } else {
+                console.log("An error occurred when attempting to get the jurisdiction species list");
+            };
+        };
+        xhr.send();
+    },
+
+    sppListHandler: function (rawNewSppList, listType) {
+        /*
+
+        formats the input species lists to save them in localStorage
+
+        */
+        var newListObj = {},
+        sppId = listType + 'Id';
+        for (let i = 0; i < rawNewSppList.length; i++) {
+            newListObj[rawNewSppList[i][sppId]] = rawNewSppList[i]; // re-work the species list object to include a species Id as the key
+        };
+        localStorage.setItem(listType, JSON.stringify(newListObj)); // update localStorage item for species list with new data
+    },
+
     //
     // ** Utilities
     //
@@ -242,6 +294,22 @@ iMapApp.App = {
 
     getProjectName: function(id) {
         return iMapApp.App.projectList[id];
+    },
+
+    getSpeciesNameNew: function(sp, state) {
+        var common = (state ? 'stateCommonName' : 'commonName'),
+        sci = (state ? 'stateScientificName' : 'scientificName'),
+        lStr = "None Selected";
+        if (sp != -1) {
+            if (iMapApp.iMapPrefs.params.Plants.UseCommon)
+                lStr = sp[common];
+            if (iMapApp.iMapPrefs.params.Plants.UseCommon && iMapApp.iMapPrefs.params.Plants.UseScientific)
+                lStr += ": ";
+            if (iMapApp.iMapPrefs.params.Plants.UseScientific) {
+                lStr = (lStr == "None Selected" ? "" : lStr) + sp[sci];
+            }
+        }
+        return lStr;
     },
 
     getSpeciesName: function(id) {

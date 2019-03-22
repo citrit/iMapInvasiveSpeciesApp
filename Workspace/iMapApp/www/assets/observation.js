@@ -9,31 +9,40 @@ iMapApp.Observation = function(od) {
         Photos: null,
         Proj: "",
         ProjID: "",
+        iMap3ProjId: null,
+        iMap3Org: null,
         Species: new Array(),
         SpeciesID: "",
+        Detected: null,
+        iMap3SpeciesID: null,
         AssesmentType: "",
         When: Date.now(),
         Where: [0.0, 0.0],
+        SearchedArea: null,
         Objectid: iMapApp.App.guid(),
-        State: "",
-        County: "",
         Size: "o",
         SizeMetric: "oo",
         Dist: "0",
         NumTrees: 0,
         TimeSurvey: 0,
         AilanthusDBHGreaterSix: 0,
-        Comment: ""
+        Comment: "",
+        iMap3Compatible: true, // any new records will be iMap 3 compatible, otherwise older records will not have this field
     } : od);
 
     // Getters
     this.getPhotos = function() { return obsData.Photos; };
     this.getProject = function() { return obsData.Proj; };
     this.getProjectID = function() { return obsData.ProjID; };
+    this.getiMap3ProjId = function() { return obsData.iMap3ProjId; };
+    this.getiMap3Org = function() { return obsData.iMap3Org; };
     this.getSpecies = function() { return obsData.Species; };
     this.getSpeciesID = function() { return obsData.SpeciesID; };
+    this.getiMap3SpeciesID = function() { return obsData.iMap3SpeciesID; };
+    this.getDetected = function() { return obsData.Detected; };
     this.getWhen = function() { return obsData.When; };
     this.getWhere = function() { return obsData.Where; };
+    this.getSearchedArea = function() { return obsData.SearchedArea; };
     this.getObjectID = function() { return obsData.Objectid; };
     this.getState = function() { return obsData.State; };
     this.getCounty = function() { return obsData.County; };
@@ -50,11 +59,13 @@ iMapApp.Observation = function(od) {
     this.setPhotos = function(p) { obsData.Photos = p; };
     this.setProject = function(p) { obsData.Proj = p; };
     this.setProjectID = function(p) { obsData.ProjID = p; };
-    this.setSpecies = function(s) { obsData.Species = s; };
-    this.setSpeciesID = function(s) { obsData.SpeciesID = s; };
+    this.setiMap3ProjId = function(p) { obsData.iMap3ProjId = p; };
+    this.setiMap3Org = function(o) { obsData.iMap3Org = o; };
+    this.setiMap3SpeciesID = function(s) { obsData.iMap3SpeciesID = s; };
+    this.setDetected = function(d) { obsData.Detected = d; };
     this.setWhen = function(w) { obsData.When = w; };
     this.setWhere = function(w) { obsData.Where = w; };
-    //this.setObjectid = function(oi) { obsData.Objectid = oi; }
+    this.setSearchedArea = function(b) { obsData.SearchedArea = b; };
     this.setState = function(s) { obsData.State = s; };
     this.setCounty = function(c) { obsData.County = c; };
     this.setSize = function(s) { obsData.Size = s; };
