@@ -109,8 +109,9 @@ iMapApp.App = {
 
     //
     // UI Helpers
-    getAssessmentType: function(spec) {
-        return iMapApp.App.speciesList[spec][2];
+    getSpeciesRecord: function(stSpecID) {
+        // as of iMap 3, just return the entire species record instead of assessment 
+        return iMapApp.App.stateSpeciesList[stSpecID];
     },
 
     checkLastUpdate: function() {
@@ -216,12 +217,8 @@ iMapApp.App = {
         xhr.open('GET', jurisdictionSpp);
         xhr.onload = function() {
             if (xhr.status == 200) {
-                var newJurisSppList = JSON.parse(xhr.responseText),
-                newJurisSppListObj = {};
-                for (let i = 0; i < newJurisSppList.length; i++) {
-                    newJurisSppListObj[newJurisSppList[i]['stateSpeciesListId']] = newJurisSppList[i]
-                }
-                localStorage.setItem("speciesListiMap3", JSON.stringify(newJurisSppListObj)); // update localStorage item for species list with new data
+                var newJurisSppList = JSON.parse(xhr.responseText);
+                iMapApp.App.sppListHandler(newJurisSppList, 'stateSpeciesList')
             } else {
                 console.log("An error occurred when attempting to get the jurisdiction species list");
             };

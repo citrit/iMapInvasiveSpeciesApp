@@ -355,11 +355,11 @@ iMapApp.uiUtils = {
         getDElem('[name="sizeOfArea"]').val('o');
         getDElem('[name="sizeOfAreaMetric"]').val('oo');
         getDElem('[name="distribution"]').val('0');
-        getDElem('[name="numTreesSurveyed"]').val('');
+        getDElem('[name="plantsAffectedCount"]').val('');
         getDElem('[name="timeSurveying"]').val('');
         getDElem('#ailanthusStemsGreaterSix').val('null');        
         getDElem('[name="obsComment"]').val('');
-        iMapApp.uiUtils.setAssessmentType("Off");
+        iMapApp.uiUtils.setAdditionalFields("Off");
         iMapApp.uiUtils.toggleAilanthusFields("Off");
         iMapApp.iMapMap.setMapZoom(iMapApp.iMapPrefs.params.DefaultZoom);
         getDElem('input[name="toggleGPS"]').prop('checked', true);
@@ -405,7 +405,7 @@ iMapApp.uiUtils = {
         getDElem('[name="sizeOfArea"]').val(obs.getSize());
         getDElem('#sizeOfAreaMetric').val(obs.getSizeMetric());
         getDElem('[name="distribution"]').val(obs.getDist());
-        getDElem('[name="numTreesSurveyed"]').val(obs.getNumTrees());
+        getDElem('[name="plantsAffectedCount"]').val(obs.getNumTrees());
         getDElem('[name="timeSurveying"]').val(obs.getTimeSurvey());
         getDElem('#ailanthusStemsGreaterSix').val(obs.getAilanthusDBHGreaterSix());
         getDElem('[name="obsComment"]').val(obs.getComment());
@@ -436,7 +436,7 @@ iMapApp.uiUtils = {
         getDElem('[name="largeImage"]').attr("src", lim);
         //$('img[name="largeImage"]').src(obs.getPhotos());
 
-        iMapApp.uiUtils.setAssessmentType(iMapApp.App.getAssessmentType(obs.getSpeciesID()));
+        iMapApp.uiUtils.setAdditionalFields(iMapApp.App.getSpeciesRecord(obs.getiMap3SpeciesID()));
 
         iMapApp.uiUtils.setMapStuff();
 
@@ -530,7 +530,7 @@ iMapApp.uiUtils = {
         obs.setSize(getDElem('[name="sizeOfArea"]').val());
         obs.setSizeMetric(getDElem('#sizeOfAreaMetric').val());
         obs.setDist(getDElem('[name="distribution"]').val());
-        obs.setNumTrees(getDElem('[name="numTreesSurveyed"]').val());
+        obs.setNumTrees(getDElem('[name="plantsAffectedCount"]').val());
         obs.setTimeSurvey(getDElem('[name="timeSurveying"]').val());
         obs.setAilanthusDBHGreaterSix(getDElem('#ailanthusStemsGreaterSix').val());
         obs.setComment(getDElem('[name="obsComment"]').val());
@@ -627,7 +627,7 @@ iMapApp.uiUtils = {
     },
 
     speciesChangeHandler: function(sel) {
-        iMapApp.uiUtils.setAssessmentType(iMapApp.App.getAssessmentType(sel));
+        iMapApp.uiUtils.setAdditionalFields(iMapApp.App.getSpeciesRecord(sel));
         iMapApp.uiUtils.toggleAilanthusFields(sel);
     },
 
@@ -1023,24 +1023,19 @@ iMapApp.uiUtils = {
         $('#statusBarMsg').text(msg);
     },
 
-    setAssessmentType: function(assesType) {
-        console.log("Setting assesment type: " + assesType);
-        var x = document.getElementById("TerestrialPlantsEntryDiv");
-        x.style.display = "none";
-        x = document.getElementById("InsectsEntryDiv");
-        x.style.display = "none";
-        switch (assesType) {
-            case "PT":
-                x = document.getElementById("TerestrialPlantsEntryDiv");
-                x.style.display = "block";
-                break;
-            case "I":
-                x = document.getElementById("InsectsEntryDiv");
-                x.style.display = "block";
-                break;
-            default:
-                break;
-        }
+    setAdditionalFields: function(spRecord) {
+        var plantsEntry = document.getElementById("PlantsEntryDiv"),
+        insectEntry = document.getElementById("InsectsEntryDiv"),
+        kingdom = spRecord['kingdom'],
+        taxaClass = spRecord['taxaClass'];
+        plantsEntry.classList.add("hidden");
+        insectEntry.classList.add("hidden");
+        if (kingdom == 'Plantae') {
+            plantsEntry.classList.remove("hidden");
+        };
+        if (taxaClass == 'Insecta') {
+            insectEntry.classList.remove("hidden");
+        };
     },
 
     toggleAilanthusFields: function(species) {

@@ -229,6 +229,11 @@
                 <select name="obsOrgiMap3" id="obsOrgiMap3" data-role="none"></select>
             </div>
 
+            <div id='timeSurveying'>
+                <span>Time Searched (in minutes):</span>
+                <input type="number" id="timeSurveying" name="timeSurveying">
+            </div>
+
             <div id="AilanthusEntryDiv" class="extraDataEntry hidden">
                 <h2>Tree-of-heaven (<em>Ailanthus altissima</em>) Assessment:</h2>
                 <span>Is a tree-of-heaven with a diameter at breast height (DBH) 6 inches or greater present?</span>
@@ -240,8 +245,7 @@
                     <option value="u">Unknown</option>
                 </select>
             </div>
-            <div id="TerestrialPlantsEntryDiv" class="extraDataEntry" style="display: none">
-                <h2>Plant Assessment:</h2>
+            <div id="PlantsEntryDiv" class="extraDataEntry hidden">
                 <p>Size of area containing invasive:<br>
                 <span>(or type precise area with units into Comments box)</span></p>
                 <select id='sizeOfArea' name='sizeOfArea' data-role="none">
@@ -261,19 +265,16 @@
                 <p>Distribution of invasive:</p>
                 <select id='distribution' name='distribution' data-role="none">
                     <option value="0"></option>
-                    <option value="1">Single plant or clump</option>
-                    <option value="2">Scattered plants or clumps</option>
-                    <option value="3">Dense plants/clumps</option>
+                    <option value="1">Trace (Single plant/clump)</option>
+                    <option value="2">Sparse (Scattered plants/clumps)</option>
+                    <option value="5">Dense plants/clumps</option>
                     <option value="4">Monoculture</option>
-                    <option value="5">Linearly scattered (e.g. along road/trail)</option>
+                    <option value="3">Linearly scattered (e.g. along road/trail)</option>
                 </select>
             </div>
-            <div id="InsectsEntryDiv" class="extraDataEntry" style="display: none">
-                <h2>Insect Search Effort:</h2>
-                <span>Number of trees/hosts surveyed:</span>
-                <input type="number" id="numTreesSurveyed" name="numTreesSurveyed">
-                <span>Minutes spent surveying:</span>
-                <input type="number" id="timeSurveying" name="timeSurveying">
+            <div id="InsectsEntryDiv" class="extraDataEntry hidden">
+                <span>Plants Affected Count:</span>
+                <input type="number" id="plantsAffectedCount" name="plantsAffectedCount">
             </div>
             <h2>Observation Comments:</h2>
             <textarea type="text" id="obsComment" name="obsComment" rows=3></textarea>

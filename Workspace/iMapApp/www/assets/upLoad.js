@@ -81,7 +81,7 @@ iMapApp.uploadUtils = {
         getDElem('[name="sizeOfArea"]').val(obs.getSize());
         getDElem('[name="distribution"]').val(obs.getDist());
         var obsComment = obs.getComment();
-        switch (iMapApp.App.getAssessmentType(obs.getSpeciesID())) {
+        switch (iMapApp.App.getSpeciesRecord(obs.getSpeciesID())) {
             case "PT":
                 obsComment = ''; // reset the obs comment
                 var obsCommentsAll = [];
