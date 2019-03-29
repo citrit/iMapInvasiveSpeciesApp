@@ -136,27 +136,26 @@ iMapApp.uiUtils = {
         */
         return new Promise((resolve, reject) => {
             // to-do: add check to see if params are set
-            iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMapInvasives 3', 10);
-            var iMap3SignIn = cordova.InAppBrowser.open('https://imapdev.natureserve.org/imap/login.jsp', '_blank', 'location=no,hidden=yes');
+            var iMapSignInPage = iMapApp.App.iMap3BaseURL + '/imap/login.jsp',
+            iMap3SignIn = cordova.InAppBrowser.open(iMapSignInPage, '_blank', 'location=no,hidden=yes');
             iMap3SignIn.addEventListener('loadstop', function(event) {
-                var theRequestString = 'j_username=' + iMapApp.iMapPrefs.params.Email + '&j_password=' + iMapApp.iMapPrefs.params.Password;
+                var theRequestString = 'j_username=' + iMapApp.iMapPrefs.params.Email + '&j_password=' + iMapApp.iMapPrefs.params.Password,
+                loginUrl = iMapApp.App.iMap3BaseURL + '/imap/j_spring_security_check',
                 theRequest = encodeURI(theRequestString),
                 xhr = new XMLHttpRequest();
-                xhr.open('POST', 'https://imapdev.natureserve.org/imap/j_spring_security_check');
+                xhr.open('POST', loginUrl);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 xhr.onload = function() {
                     var signInError = 0;
                     if (xhr.status != 200) {
                         iMap3SignIn.close();
-                        iMapApp.uiUtils.waitDialogClose(true);
                         navigator.notification.alert("Sorry, an error occured when attempting to sign-in to iMapInvasives. Please try again later.", false, "iMap 3 Log-In Failure");
                         signInError++;
                         reject();
                     };
-                    if (xhr.responseURL == 'https://imapdev.natureserve.org/imap/login.jsp?login_error=1') {
+                    if (xhr.responseURL == iMapApp.App.iMap3BaseURL + '/imap/login.jsp?login_error=1') {
                         iMap3SignIn.close();
-                        iMapApp.uiUtils.waitDialogClose(true);
-                        navigator.notification.alert("Sorry, the username and password combination you provided is incorrect. Please the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
+                        navigator.notification.alert("Sorry, the username and password combination you provided is incorrect. Please check the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
                         signInError++;
                         reject();
                     };
@@ -165,22 +164,24 @@ iMapApp.uiUtils = {
                         resolve();
                     }
                     iMap3SignIn.close();
-                    iMapApp.uiUtils.waitDialogClose(true);
                 };
                 xhr.send(theRequest);
             });
         })
     },
 
+    /*
+    debug function
+    */
     attemptIMapSignIn: function() {
         // to-do: add check to see if params are set
         iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMapInvasives 3', 10);
-        var iMap3SignIn = cordova.InAppBrowser.open('https://imapdev.natureserve.org/imap/login.jsp', '_blank', 'location=no,hidden=yes');
+        var iMap3SignIn = cordova.InAppBrowser.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_blank', 'location=no,hidden=yes');
         iMap3SignIn.addEventListener('loadstop', function(event) {
             var theRequestString = 'j_username=' + iMapApp.iMapPrefs.params.Email + '&j_password=' + iMapApp.iMapPrefs.params.Password;
             theRequest = encodeURI(theRequestString),
             xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://imapdev.natureserve.org/imap/j_spring_security_check');
+            xhr.open('POST', 'https://imapinvasives.natureserve.org/imap/j_spring_security_check');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function() {
                 var signInError = 0;
@@ -190,7 +191,7 @@ iMapApp.uiUtils = {
                     navigator.notification.alert("Sorry, an error occured when attempting to sign-in to iMapInvasives. Please try again later.", false, "iMap 3 Log-In Failure");
                     signInError++;
                 };
-                if (xhr.responseURL == 'https://imapdev.natureserve.org/imap/login.jsp?login_error=1') {
+                if (xhr.responseURL == 'https://imapinvasives.natureserve.org/imap/login.jsp?login_error=1') {
                     iMap3SignIn.close();
                     iMapApp.uiUtils.waitDialogClose(true);
                     navigator.notification.alert("Sorry, the username and password combination you provided is incorrect. Please the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
@@ -218,12 +219,12 @@ iMapApp.uiUtils = {
         });
     },
 
-    getPersonID: function() {
+    getPersonID: function () {
         // use the new AOI utility to get the iMap3 personID and store it in the iMap Prefs params
-        var newAOIurl = 'https://imapdev.natureserve.org/imap/services/aoi/new';
-        var xhr = new XMLHttpRequest();
+        var newAOIurl = iMapApp.App.iMap3BaseURL + '/imap/services/aoi/new',
+            xhr = new XMLHttpRequest();
         xhr.open('GET', newAOIurl);
-        xhr.onload = function() {
+        xhr.onload = function () {
             if (xhr.status != 200) {
                 console.log("An error occurred when attempting to get the Person ID");
             } else {
@@ -249,7 +250,7 @@ iMapApp.uiUtils = {
     },
 
     getUserDetails: function() {
-        var personRecordUrl = 'https://imapdev.natureserve.org/imap/services/person/' + iMapApp.iMapPrefs.params.personId;
+        var personRecordUrl = iMapApp.App.iMap3BaseURL + '/imap/services/person/' + iMapApp.iMapPrefs.params.personId;
         var xhr = new XMLHttpRequest();
         xhr.open('GET', personRecordUrl);
         xhr.onload = function() {
@@ -282,23 +283,25 @@ iMapApp.uiUtils = {
         xhr.send();
     },
 
+    /**
+     * use the create new AOI service to determine if the user is currently authenticated with iMap.
+     * 
+     * @returns {Promise} resolved true if response is 200 (thus the user is already signed-in), resolved false if  response is 403 (user not signed-in), rejected if unexpected response recieved
+     */
     checkIfSignedIn: function() {
-        /*
-
-        use the create new AOI service to determine if the user is currently authenticated with iMap.
-        returns a promise, resolved if response is 200, otherwise rejected
-
-        */
-        var xhr = new XMLHttpRequest();
+        var newAOIurl = iMapApp.App.iMap3BaseURL + '/imap/services/aoi/new',
+        xhr = new XMLHttpRequest();
         return new Promise(function (resolve, reject) {
             xhr.onload = function () {
                 if (xhr.status == 200) {
-                    resolve (xhr);
+                    resolve (true);
+                } else if (xhr.status == 403) {
+                    resolve (false);
                 } else {
-                    reject (xhr.status);
+                    reject ('iMap returned an unexpected result when attempting to check if the user is signed-in. Response: ' + xhr.status);
                 };
             };
-            xhr.open('GET', 'https://imapdev.natureserve.org/imap/services/aoi/new');
+            xhr.open('GET', newAOIurl);
             xhr.send();
         });
     },

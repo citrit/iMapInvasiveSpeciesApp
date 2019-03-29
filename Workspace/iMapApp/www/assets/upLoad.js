@@ -55,17 +55,11 @@ iMapApp.uploadUtils = {
             obs = iMapApp.App.observ[iMapApp.uploadUtils.obsvs.get(0).id];
             iMapApp.uploadUtils.obsvs.splice(0, 1);
             console.log('Going to upload: ' + JSON.stringify(obs.getObsData()));
-            var imgURL = null;
-            if (obs.getPhotos() !== "") {
-                //console.log("Uploading image: " + obs.getPhotos());
-                iMapApp.uploadUtils.uploadImage(obs.getPhotos(), obs);
-            } else {
-                console.log("Uploading Observation");
-                iMapApp.uploadUtils.doSendToServer(obs);
-            }
+            iMapApp.uploadUtils.uploadHandleriMap3(obs);
         } else {
             $('p[name="infoDialText"]').text('Uploaded [' + (iMapApp.uploadUtils.numUploads - iMapApp.uploadUtils.errorCnt) + '] records.');
             iMapApp.uiUtils.openDialog('#infoDialog', 'Upload complete');
+            iMapApp.uiUtils.waitDialogClose();
         }
     },
 
@@ -274,5 +268,297 @@ iMapApp.uploadUtils = {
         }
         console.log("Current date: " + dateTime);
         return dateTime;
+    },
+
+    newPresentSpRecord: function(stateSpId) {
+        return new Promise((resolve, reject) => {
+            var theRequestString = iMapApp.App.iMap3BaseURL + '/imap/services/presentSpecies/new/' + stateSpId;
+            xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.open('GET', theRequestString);
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    var theResponse = JSON.parse(xhr.responseText);
+                    resolve(theResponse);
+                } else {
+                    reject();
+                };
+            };
+            xhr.send();
+        });
+    },
+
+    iMap3RecordFormatter: function(record, newPresentSpRecord, recordPhoto) {
+        /**
+         * Formats the record for submission to iMap 3
+         */
+        var dateYear = Number(record.getWhen().substring(0,4)),
+        dateMonth = record.getWhen().substring(5,7) - 1,
+        dateDay = record.getWhen().substring(8,10),
+        aoiTemplate = {
+            "areaOfInterestId": null,
+            "organization": (record.getiMap3Org() != '-1' ? {'id': Number(record.getiMap3Org())} : null),
+            "createdBy": {
+                "id": iMapApp.iMapPrefs.params.personId
+            },
+            "leadContactId": null,
+            "leadContact": null,
+            "comments": null,
+            "landscapeTypeComments": null,
+            "disturbanceComments": null,
+            "deletedInd": false,
+            "sensitiveInd": false,
+            "dataEntryDate": null,
+            "damageToHost": null,
+            "bulkUploadId": null,
+            "permissionReceived": null,
+            "siteAddress": null,
+            "sourceUniqueId": null,
+            "searchDate": new Date(dateYear, dateMonth, dateDay, 0, 0, 0).getTime(),
+            "targetTreatmentNeeded": null,
+            "searchGoals": null,
+            "followUp": null,
+            "ownershipComments": null,
+            "crewPaidHours": null,
+            "crewVolunteerHours": null,
+            "siteName": null,
+            "crewComments": null,
+            "crewVolunteerNum": null,
+            "crewNumPaid": null,
+            "airTemperature": null,
+            "waterTemperature": null,
+            "weatherComments": null,
+            "windSpeed": null,
+            "survey123Version": null,
+            "modifiedDate": null,
+            "modifiedBy": null,
+            "samplingDetails": null,
+            "searchedAreaPostTreatment": null,
+            "searchedAreaMaps": [],
+            "treatmentsInSearchedArea": [],
+            "searchedAreaAquatic": null,
+            "areaOfInterestPolygon": {
+                "shape": {
+                    "spatialReference": {
+                        "latestWkid": 3857,
+                        "wkid": 102100
+                    },
+                    "rings": record.getSearchedArea()
+                }
+            },
+            "photos": [],
+            "presences": [{
+                "presenceId": null,
+                "areaOfInterest": null,
+                "areaOfInterestId": null,
+                "observer": {
+                    "id": iMapApp.iMapPrefs.params.personId
+                },
+                "createdBy": {
+                    "id": iMapApp.iMapPrefs.params.personId
+                },
+                "observationDate": new Date(dateYear, dateMonth, dateDay, 0, 0, 0).getTime(),
+                "dataEntryDate": null,
+                "timeLengthSearched": (record.getTimeSurvey() ? (record.getTimeSurvey() * 60) : null),
+                "approximateInd": false,
+                "approximationNotes": null,
+                "bufferDistance": null,
+                "modifiedDate": null,
+                "modifiedBy": null,
+                "presenceLine": null,
+                "presencePoint": {
+                    "shape": {
+                        "spatialReference": {
+                            "wkid": 4326
+                        },
+                        "x" : record.getWhere()[0], 
+                        "y" : record.getWhere()[1]
+                    }
+                },
+                "presencePolygon": null,
+                "speciesList": [newPresentSpRecord],
+                "ddataEntryMethodId": 2,
+                "conservationLands": [],
+                "deleted": false,
+                "lazy": false,
+                "dremovedReasonId": null,
+                "ismas": [],
+                "waterbodies": [],
+                "counties": [],
+                "hydrobasins": [],
+                "usgsTopos": [],
+                "countries": [],
+                "states": [],
+                "imap2Id": null,
+                "shapeType": "point",
+                "bufferInfo": {
+                    "bufferUnits": "meters",
+                    "bufferSize": "5",
+                    "autoBuffered": false
+                }
+            }],
+            "presentSpeciesIds": [],
+            "absence": null,
+            "notDetectedSpeciesIds": [],
+            "treatments": [],
+            "treatmentIds": [],
+            "dwaterTemperatureUnitId": null,
+            "dwindSpeedUnitId": null,
+            "jsearchFocusAreasAquatic": [],
+            "jsearchFocusAreasTerrestrial": [],
+            "dairTemperatureUnitId": null,
+            "dwindDirectionId": null,
+            "jsamplingMethods": [],
+            "jwaterBodyTypes": [],
+            "dsiteDisturbanceTypeId": null,
+            "dsiteDisturbanceSeverityId": null,
+            "dlandscapeTypeId": null,
+            "dstateId": 32,
+            "lazy": false,
+            "dremovedReasonId": null,
+            "dcloudCoverId": null,
+            "dsurveyTypeId": null,
+            "jownerships": [],
+            "jhostSpecies": [],
+            "dnativeVegetationDistributionId": null,
+            "dpresenceDeterminationMethodId": null
+        };
+        if (record.getComment()) {
+            aoiTemplate['presences'][0]['speciesList'][0]['comments'] = record.getComment();
+        };
+        if (record.getDist() != '0') {
+            aoiTemplate['presences'][0]['speciesList'][0]['psPlant']['dplantDistributionId'] = Number(record.getDist());
+        };
+        if (record.getNumTrees() != 0) {
+            aoiTemplate['presences'][0]['speciesList'][0]['psAnimalInsect']['plantsAffectedCount'] = Number(record.getNumTrees());
+        };
+        if (record.getSize() != 'o' || record.getSizeMetric() != 'oo') {
+            aoiTemplate['presences'][0]['speciesList'][0]['comments'] += '\n\n' + $("#sizeOfAreaMetric option[value='" + record.getSizeMetric() + "']").text() + $("#sizeOfArea option[value='" + record.getSize() + "']").text();
+        };
+        if (record.getiMap3ProjId()) {
+            aoiTemplate['presences'][0]['speciesList'][0]['taggedProjects'] = [{"project":{"id": record.getiMap3ProjId()}}];
+        };
+        if (recordPhoto) {
+            aoiTemplate['presences'][0]['speciesList'][0]['photos'] = [{"presentSpeciesPhotoId":null,"presentSpeciesId":null,"photoUrl":recordPhoto,"photoCredit":null}];
+        }
+
+        return aoiTemplate;
+    },
+
+    uploadRecordiMap3: function (formattedRecord) {
+        return new Promise((resolve, reject) => {
+            var theRequest = encodeURIComponent("record") + "=" + encodeURIComponent(JSON.stringify(formattedRecord)),
+                xhr = new XMLHttpRequest(),
+                uploadURL = iMapApp.App.iMap3BaseURL + '/imap/services/aoi/update';
+            xhr.withCredentials = true;
+            xhr.open('POST', uploadURL);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 202) {
+                    console.log("MISSION SUCCESS");
+                    resolve();
+                }
+                else {
+                    alert('Request failed.  Returned status of ' + xhr.status);
+                    reject();
+                }
+            };
+            xhr.send(theRequest);
+        });
+    },
+
+    /**
+    * Adapted from Cordova Blog Article titled "Transition off of cordova-plugin-file-transfer"
+    * Published 18 Oct 2017 by Fil Maj
+    * 
+    * Uploads a photo to iMap 3
+    * @param {string} fileName The filename of the target photo to upload to iMap 3
+    * @returns {Promise} Promise object resolved if upload successful, rejected if an error occurs at any point during the upload.
+    */
+    uploadiMap3Photo: function (fileName) {
+        return new Promise((resolve, reject) => {
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+                console.log('file system open: ' + fs.name);
+                fs.root.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
+                    fileEntry.file(function (file) {
+                        var reader = new FileReader();
+                        reader.onloadend = function () {
+                            // Create a blob based on the FileReader ArrayBuffer "result"
+                            var blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" }),
+                                testFormData = new FormData(),
+                                fileName = String('imap_app_photo_' + Date.now() + '.jpg');
+                            testFormData.append('file', blob, fileName);
+
+                            var xhr = new XMLHttpRequest(),
+                                photoUploadUrl = iMapApp.App.iMap3BaseURL + '/imap/services/image';
+                            xhr.withCredentials = true;
+                            xhr.open("POST", photoUploadUrl, true);
+                            xhr.onload = function () {
+                                if (xhr.status === 200) {
+                                    // if a 200 response is returned, the upload was successful
+                                    // resolve the promise passing the resulting JSON 
+                                    resolve(xhr.responseText);
+                                } else {
+                                    reject('Request failed.  Returned status of ' + xhr.status);
+                                }
+                            };
+                            // Pass the blob in to XHR's send method
+                            xhr.send(testFormData);
+                        };
+                        // Read the file as an ArrayBuffer
+                        reader.readAsArrayBuffer(file);
+                    }, function (err) {
+                        console.error('error getting fileentry file!' + err);
+                        reject('An error occurred while retrieving the image.');
+                    });
+                }, function (err) {
+                    console.error('error getting file! ' + err);
+                    reject('An error occurred retrieving the image.');
+                });
+            }, function (err) {
+                console.error('error getting persistent fs! ' + err);
+                reject('An error occurred accessing the device file storage.');
+            });
+        });
+    },
+
+
+    uploadHandleriMap3: function (rawObs) {
+        var newPresentSpRecord = null;
+        iMapApp.uiUtils.checkIfSignedIn()
+        .then(function (signedInStatus) {
+            if (!signedInStatus) {
+                return iMapApp.uiUtils.attemptIMapSignInPromise();
+            } else {
+                return;
+            };
+        })
+        .then(function() {
+            return iMapApp.uploadUtils.newPresentSpRecord(rawObs.getiMap3SpeciesID());
+        })
+        .then(function (newRecord) {
+            newPresentSpRecord = newRecord;
+            if (rawObs.getPhotos() !== '') {
+                // if the record contains a photo, attempt to upload a photo
+                var filename = rawObs.getPhotos().replace(/^.*[\\\/]/, ''); //get just the file name
+                return iMapApp.uploadUtils.uploadiMap3Photo(filename);
+            } else {
+                // if no photo exists, simply return false
+                return false;
+            };
+        })
+        .then(function (newPhotoJSON) {
+            var newPhotoURL = (newPhotoJSON ? JSON.parse(newPhotoJSON)['url'] : false); // if newPhotoJSON is set, get the new photo URL
+            recordToUpload = iMapApp.uploadUtils.iMap3RecordFormatter(rawObs, newPresentSpRecord, newPhotoURL);
+            return iMapApp.uploadUtils.uploadRecordiMap3(recordToUpload);
+        })
+        .then(function () {
+            iMapApp.App.delObservation(obs.getObjectID());
+            iMapApp.uploadUtils.syncUploads();
+        })
+        .catch(function (e) {
+            console.log("An error occurred. Details, if available: " + e);
+            iMapApp.uiUtils.waitDialogClose(true);
+        });
     }
 };
