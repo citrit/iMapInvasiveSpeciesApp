@@ -270,7 +270,7 @@ iMapApp.uploadUtils = {
         return dateTime;
     },
 
-    newPresentSpRecord: function(stateSpId) {
+    getNewPresentSpRecord: function(stateSpId) {
         return new Promise((resolve, reject) => {
             var theRequestString = iMapApp.App.iMap3BaseURL + '/imap/services/presentSpecies/new/' + stateSpId;
             xhr = new XMLHttpRequest();
@@ -288,7 +288,25 @@ iMapApp.uploadUtils = {
         });
     },
 
-    iMap3RecordFormatter: function(record, newPresentSpRecord, recordPhoto) {
+    getNewNotDetectSpRecord: function(stateSpId) {
+        return new Promise((resolve, reject) => {
+            var theRequestString = iMapApp.App.iMap3BaseURL + '/imap/services/notDetectedSpecies/new/' + stateSpId;
+            xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.open('GET', theRequestString);
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    var theResponse = JSON.parse(xhr.responseText);
+                    resolve(theResponse);
+                } else {
+                    reject();
+                };
+            };
+            xhr.send();
+        });
+    },
+
+    iMap3RecordFormatter: function(record, newPresentSpRecord, notDetectedSpRecord, recordPhoto) {
         /**
          * Formats the record for submission to iMap 3
          */
@@ -347,7 +365,35 @@ iMapApp.uploadUtils = {
                 }
             },
             "photos": [],
-            "presences": [{
+            "presences": [],
+            "presentSpeciesIds": [],
+            "absence": null,
+            "notDetectedSpeciesIds": [],
+            "treatments": [],
+            "treatmentIds": [],
+            "dwaterTemperatureUnitId": null,
+            "dwindSpeedUnitId": null,
+            "jsearchFocusAreasAquatic": [],
+            "jsearchFocusAreasTerrestrial": [],
+            "dairTemperatureUnitId": null,
+            "dwindDirectionId": null,
+            "jsamplingMethods": [],
+            "jwaterBodyTypes": [],
+            "dsiteDisturbanceTypeId": null,
+            "dsiteDisturbanceSeverityId": null,
+            "dlandscapeTypeId": null,
+            "dstateId": iMapApp.iMapPrefs.params.dStateID,
+            "lazy": false,
+            "dremovedReasonId": null,
+            "dcloudCoverId": null,
+            "dsurveyTypeId": null,
+            "jownerships": [],
+            "jhostSpecies": [],
+            "dnativeVegetationDistributionId": null,
+            "dpresenceDeterminationMethodId": null
+        };
+        if (newPresentSpRecord) {
+            var presenceRecord = {
                 "presenceId": null,
                 "areaOfInterest": null,
                 "areaOfInterestId": null,
@@ -396,51 +442,89 @@ iMapApp.uploadUtils = {
                     "bufferSize": "5",
                     "autoBuffered": false
                 }
-            }],
-            "presentSpeciesIds": [],
-            "absence": null,
-            "notDetectedSpeciesIds": [],
-            "treatments": [],
-            "treatmentIds": [],
-            "dwaterTemperatureUnitId": null,
-            "dwindSpeedUnitId": null,
-            "jsearchFocusAreasAquatic": [],
-            "jsearchFocusAreasTerrestrial": [],
-            "dairTemperatureUnitId": null,
-            "dwindDirectionId": null,
-            "jsamplingMethods": [],
-            "jwaterBodyTypes": [],
-            "dsiteDisturbanceTypeId": null,
-            "dsiteDisturbanceSeverityId": null,
-            "dlandscapeTypeId": null,
-            "dstateId": 32,
-            "lazy": false,
-            "dremovedReasonId": null,
-            "dcloudCoverId": null,
-            "dsurveyTypeId": null,
-            "jownerships": [],
-            "jhostSpecies": [],
-            "dnativeVegetationDistributionId": null,
-            "dpresenceDeterminationMethodId": null
+            };
+            aoiTemplate['presences'].push(presenceRecord);
+
+            if (record.getComment()) {
+                aoiTemplate['presences'][0]['speciesList'][0]['comments'] = record.getComment();
+            };
+            if (record.getDist() != '0') {
+                aoiTemplate['presences'][0]['speciesList'][0]['psPlant']['dplantDistributionId'] = Number(record.getDist());
+            };
+            if (record.getNumTrees() != 0) {
+                aoiTemplate['presences'][0]['speciesList'][0]['psAnimalInsect']['plantsAffectedCount'] = Number(record.getNumTrees());
+            };
+            if (record.getSize() != 'o' || record.getSizeMetric() != 'oo') {
+                aoiTemplate['presences'][0]['speciesList'][0]['comments'] += '\n\n' + $("#sizeOfAreaMetric option[value='" + record.getSizeMetric() + "']").text() + $("#sizeOfArea option[value='" + record.getSize() + "']").text();
+            };
+            if (record.getiMap3ProjId()) {
+                aoiTemplate['presences'][0]['speciesList'][0]['taggedProjects'] = [{"project":{"id": record.getiMap3ProjId()}}];
+            };
+            if (recordPhoto) {
+                aoiTemplate['presences'][0]['speciesList'][0]['photos'] = [{"presentSpeciesPhotoId":null,"presentSpeciesId":null,"photoUrl":recordPhoto,"photoCredit":null}];
+            };
         };
-        if (record.getComment()) {
-            aoiTemplate['presences'][0]['speciesList'][0]['comments'] = record.getComment();
+        if (notDetectedSpRecord) {
+            var notDetectedRecord = {
+                "absenceId": null,
+                "areaOfInterest": null,
+                "areaOfInterestId": null,
+                "observer": {
+                    "id": iMapApp.iMapPrefs.params.personId
+                },
+                "createdBy": {
+                    "id": iMapApp.iMapPrefs.params.personId
+                },
+                "observationDate": new Date(dateYear, dateMonth, dateDay, 0, 0, 0).getTime(),
+                "dataEntryDate": null,
+                "timeLengthSearched": (record.getTimeSurvey() ? (record.getTimeSurvey() * 60) : null),
+                "modifiedDate": null,
+                "modifiedBy": null,
+                "absencePolygon": {
+                    "shape": {
+                        "spatialReference": {
+                            "latestWkid": 3857,
+                            "wkid": 102100
+                        },
+                        "rings": record.getSearchedArea()
+                    }
+                },
+                "speciesList": [notDetectedSpRecord],
+                "editableFields": [
+                    "dremovedReasonId",
+                    "deletedInd",
+                    "observer",
+                    "observationDate",
+                    "timeLengthSearched",
+                    "absencePolygon",
+                    "speciesList"
+                ],
+                "lazy": false,
+                "deleted": false,
+                "ddataEntryMethodId": null,
+                "dremovedReasonId": null,
+                "conservationLands": [],
+                "usgsTopos": [],
+                "countries": [],
+                "ismas": [],
+                "waterbodies": [],
+                "counties": [],
+                "states": [],
+                "hydrobasins": [],
+                "imap2Id": null
+            };
+            aoiTemplate['absence'] = notDetectedRecord;
+
+            if (record.getComment()) {
+                aoiTemplate['absence']['speciesList'][0]['comments'] = record.getComment();
+            };
+            if (record.getiMap3ProjId()) {
+                aoiTemplate['absence']['speciesList'][0]['taggedProjects'] = [{"project":{"id": record.getiMap3ProjId()}}];
+            };
+            if (recordPhoto) {
+                aoiTemplate['absence']['speciesList'][0]['photos'] = [{"presentSpeciesPhotoId":null,"presentSpeciesId":null,"photoUrl":recordPhoto,"photoCredit":null}];
+            }
         };
-        if (record.getDist() != '0') {
-            aoiTemplate['presences'][0]['speciesList'][0]['psPlant']['dplantDistributionId'] = Number(record.getDist());
-        };
-        if (record.getNumTrees() != 0) {
-            aoiTemplate['presences'][0]['speciesList'][0]['psAnimalInsect']['plantsAffectedCount'] = Number(record.getNumTrees());
-        };
-        if (record.getSize() != 'o' || record.getSizeMetric() != 'oo') {
-            aoiTemplate['presences'][0]['speciesList'][0]['comments'] += '\n\n' + $("#sizeOfAreaMetric option[value='" + record.getSizeMetric() + "']").text() + $("#sizeOfArea option[value='" + record.getSize() + "']").text();
-        };
-        if (record.getiMap3ProjId()) {
-            aoiTemplate['presences'][0]['speciesList'][0]['taggedProjects'] = [{"project":{"id": record.getiMap3ProjId()}}];
-        };
-        if (recordPhoto) {
-            aoiTemplate['presences'][0]['speciesList'][0]['photos'] = [{"presentSpeciesPhotoId":null,"presentSpeciesId":null,"photoUrl":recordPhoto,"photoCredit":null}];
-        }
 
         return aoiTemplate;
     },
@@ -524,7 +608,7 @@ iMapApp.uploadUtils = {
 
 
     uploadHandleriMap3: function (rawObs) {
-        var newPresentSpRecord = null;
+        var newSpRecord = null; // a variable to hold either the new present or not detected species
         iMapApp.uiUtils.checkIfSignedIn()
         .then(function (signedInStatus) {
             if (!signedInStatus) {
@@ -534,10 +618,16 @@ iMapApp.uploadUtils = {
             };
         })
         .then(function() {
-            return iMapApp.uploadUtils.newPresentSpRecord(rawObs.getiMap3SpeciesID());
+            if (rawObs.getDetected() === true) {
+                return iMapApp.uploadUtils.getNewPresentSpRecord(rawObs.getiMap3SpeciesID());
+            } else if (rawObs.getDetected() === false) {
+                return iMapApp.uploadUtils.getNewNotDetectSpRecord(rawObs.getiMap3SpeciesID());
+            } else {
+                throw "Detected or Not Detected Unset for Record";
+            };
         })
         .then(function (newRecord) {
-            newPresentSpRecord = newRecord;
+            newSpRecord = newRecord;
             if (rawObs.getPhotos() !== '') {
                 // if the record contains a photo, attempt to upload a photo
                 var filename = rawObs.getPhotos().replace(/^.*[\\\/]/, ''); //get just the file name
@@ -549,7 +639,14 @@ iMapApp.uploadUtils = {
         })
         .then(function (newPhotoJSON) {
             var newPhotoURL = (newPhotoJSON ? JSON.parse(newPhotoJSON)['url'] : false); // if newPhotoJSON is set, get the new photo URL
-            recordToUpload = iMapApp.uploadUtils.iMap3RecordFormatter(rawObs, newPresentSpRecord, newPhotoURL);
+
+            if (rawObs.getDetected() === true) {
+                recordToUpload = iMapApp.uploadUtils.iMap3RecordFormatter(rawObs, newSpRecord, null, newPhotoURL);
+            } else if (rawObs.getDetected() === false) {
+                recordToUpload = iMapApp.uploadUtils.iMap3RecordFormatter(rawObs, null, newSpRecord, newPhotoURL);
+            } else {
+                throw "Detected or Not Detected Unset for Record";
+            };
             return iMapApp.uploadUtils.uploadRecordiMap3(recordToUpload);
         })
         .then(function () {
