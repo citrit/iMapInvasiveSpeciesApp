@@ -376,7 +376,9 @@
                     <img src="{{ image }}" class="card-image" /> {{/image}}
                 </td>
                 <td>
-                    {{#species}} <span name="specVal">Species: {{species}}</span><br> {{/species}} {{#date}} <span>Date: {{date}}</span><br> {{/date}}
+                    {{#species}} <span name="specVal">Species: {{species}}</span><br>{{/species}}
+                    {{#detected}}<span><em>{{detected}}</em></span><br>{{/detected}}
+                    {{#date}} <span>Date: {{date}}</span>{{/date}}
                 </td>
                 <td style="width:20px">
                     {{#objidx}}

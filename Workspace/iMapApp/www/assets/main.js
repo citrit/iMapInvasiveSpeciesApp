@@ -126,7 +126,8 @@ iMapApp.App = {
             cards_data.unshift({
                 image: el.getPhotos(),
                 project: el.getProject(),
-                species: el.getSpecies(),
+                species: iMapApp.App.getSpeciesNameNew(iMapApp.App.getSpeciesRecord(el.getiMap3SpeciesID()), true),
+                detected: (el.getDetected() ? 'Detected' : 'Not Detected'),
                 date: el.getWhen(),
                 where: '' + el.getWhere(),
                 state: el.getState(),
