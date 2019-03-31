@@ -575,6 +575,7 @@ iMapApp.uiUtils = {
         obs.setTimeSurvey(getDElem('[name="timeSurveying"]').val());
         obs.setAilanthusDBHGreaterSix(getDElem('#ailanthusStemsGreaterSix').val());
         obs.setComment(getDElem('[name="obsComment"]').val());
+        obs.setiMap3Compatible(true);
 
         var dt = getDElem('[name="obsDate"]').val();
         obs.setWhen(dt);

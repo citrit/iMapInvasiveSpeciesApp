@@ -53,6 +53,7 @@ iMapApp.Observation = function(od) {
     this.getTimeSurvey = function() { return obsData.TimeSurvey; };
     this.getAilanthusDBHGreaterSix = function() { return obsData.AilanthusDBHGreaterSix; };
     this.getComment = function() { return obsData.Comment; };
+    this.getiMap3Compatible = function() { return obsData.iMap3Compatible; };
     this.getObsData = function() { return obsData; };
 
     // Setters
@@ -75,6 +76,7 @@ iMapApp.Observation = function(od) {
     this.setTimeSurvey = function(t) { obsData.TimeSurvey = t; };
     this.setAilanthusDBHGreaterSix = function(d) { obsData.AilanthusDBHGreaterSix = d; };
     this.setComment = function(c) { obsData.Comment = c; };
+    this.setiMap3Compatible = function(c) { obsData.iMap3Compatible = c; };
     this.setObsData = function(od) { obsData = od; };
 
     // Serialization

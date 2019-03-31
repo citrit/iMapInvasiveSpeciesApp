@@ -448,7 +448,7 @@ iMapApp.uploadUtils = {
             if (record.getSize() != 'o' || record.getSizeMetric() != 'oo') {
                 aoiTemplate['presences'][0]['speciesList'][0]['comments'] += '\n\n' + $("#sizeOfAreaMetric option[value='" + record.getSizeMetric() + "']").text() + $("#sizeOfArea option[value='" + record.getSize() + "']").text();
             };
-            if (record.getiMap3ProjId()) {
+            if (record.getiMap3ProjId() != '-1') {
                 aoiTemplate['presences'][0]['speciesList'][0]['taggedProjects'] = [{"project":{"id": record.getiMap3ProjId()}}];
             };
             if (recordPhoto) {
@@ -509,7 +509,7 @@ iMapApp.uploadUtils = {
             if (record.getComment()) {
                 aoiTemplate['absence']['speciesList'][0]['comments'] = record.getComment();
             };
-            if (record.getiMap3ProjId()) {
+            if (record.getiMap3ProjId() != '-1') {
                 aoiTemplate['absence']['speciesList'][0]['taggedProjects'] = [{"project":{"id": record.getiMap3ProjId()}}];
             };
             if (recordPhoto) {
@@ -609,6 +609,13 @@ iMapApp.uploadUtils = {
             };
         })
         .then(function() {
+            if(rawObs.getiMap3Compatible() === true) {
+                return;
+            } else {
+                throw "This record is not compatiable with iMap 3 because it was created with an older version of the iMap Mobile App. Please edit the record and re-save it before uploading again.";
+            }
+        })
+        .then(function() {
             if (rawObs.getDetected() === true) {
                 return iMapApp.uploadUtils.getNewPresentSpRecord(rawObs.getiMap3SpeciesID());
             } else if (rawObs.getDetected() === false) {
@@ -645,7 +652,8 @@ iMapApp.uploadUtils = {
             iMapApp.uploadUtils.syncUploads();
         })
         .catch(function (e) {
-            console.log("An error occurred. Details, if available: " + e);
+            console.log("An error occurred while uploading the selected record. Details, if available: " + e);
+            navigator.notification.alert("An error occurred while uploading the selected record. Details, if available: " + e, false, "iMap 3 Record Upload Failure");
             iMapApp.uiUtils.waitDialogClose(true);
         });
     }

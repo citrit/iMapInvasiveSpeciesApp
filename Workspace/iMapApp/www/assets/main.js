@@ -88,10 +88,6 @@ iMapApp.App = {
     },
 
     uploadObservations: function(obsIDs) {
-        if (!iMapApp.uiUtils.userNameChecker()) {
-            iMapApp.uiUtils.openInfoDialog('Invalid Credentials', 'Please enter a valid iMapInvasives username and password in the Preferences page prior to uploading data.');
-            return false;
-        }
         iMapApp.uiUtils.closeDialog();
         iMapApp.uiUtils.waitDialogOpen('Uploading Observations', obsIDs.length);
         iMapApp.uploadUtils.doUpload(obsIDs);
