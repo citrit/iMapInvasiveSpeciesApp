@@ -300,7 +300,30 @@ html {
     margin: 1em 0.25em;
     border: 0.1em solid black;
     padding: 0.5em;
-    background: #fffec9;
+    background: #e4ffb9;
+}
+
+.ui-controlgroup, fieldset.ui-controlgroup {
+    margin: 1em 0;
+}
+
+#stateSelect {
+    margin-bottom: 1em;
+}
+
+.helper-text {
+    font-size: 0.8em !important;
+    font-style: italic;
+}
+
+#updateStateData {
+    margin: 1em 0;
+    font-size: 1.1em
+}
+
+#customize-spp-list {
+    margin: 2em 0 0;
+    font-size: 1.05em;
 }
 
 #pref-intro span {

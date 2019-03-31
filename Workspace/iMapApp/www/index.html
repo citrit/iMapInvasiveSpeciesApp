@@ -76,32 +76,34 @@
             <strong>Preferences</strong>
             <div data-role="fieldcontain">
                 <p id="pref-intro">
-                    <span class="pref-intro-bold">Welcome! You must have an iMapInvasives user account to upload data.</span>
-                    <span>If you do not have an iMapInvasives account, please visit the <a href="#" onclick="window.open('https://www.imapinvasives.org/login', '_system')">iMapInvasives website</a> to request an account.</span>
-                    <span>You can continue and collect data without entering a username and password, however once you are ready to upload data, a valid username and password must be entered in the Preferences page. <strong>At a minimum, fill in State, First Name, and Last Name. Then select Save to continue.</strong></span>
+                    <span class="pref-intro-bold">Welcome to iMapInvasives 3!</span>
+                    <span>To create or manage your iMapInvasives 3 account, please visit the <a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">iMapInvasives website</a>.</span>
                 </p>
                 <p name="prefError" style="color: #ff0000;"></p>
-                <label for='stateSelect'>State:</label>
+                <label for='stateSelect'>Jursidction Species List:</label>
                 <select id='stateSelect' name='stateSelect' data-role="none">
                         <option value=""></option>
-                        <option value="az">Arizona</option>
-                        <option value="fl">Florida</option>
-                        <option value="me">Maine</option>
-                        <option value="nh">New Hampshire</option>
-                        <option value="ny">New York</option>
-                        <option value="or">Oregon</option>
-                        <option value="pa">Pennsylvania</option>
-                        <option value="sk">Saskatchewan</option>
-                        <option value="va">Virginia</option>
-                        <option value="vt">Vermont</option>
-                        <option value="wv">West Virginia</option>
+                        <option value="3">Arizona</option>
+                        <option value="9">Florida</option>
+                        <option value="17">Kentucky</option>
+                        <option value="19">Maine</option>
+                        <option value="29">New Hampshire</option>
+                        <option value="32">New York</option>
+                        <option value="37">Oregon</option>
+                        <option value="38">Pennsylvania</option>
+                        <option value="62">Saskatchewan</option>
+                        <option value="46">Virginia</option>
+                        <option value="45">Vermont</option>
+                        <option value="48">West Virginia</option>
                 </select>
                 <label for="email">iMapInvasives Email Address: <br></label>
-                <label for="email" style="font-size:12px">(Must match the email address on file in iMapInvasives)</label>
+                <label for="email" class="helper-text">(Enter the email address associated with your iMapInvasives account)</label>
                 <input type="email" name="email" id="email" value="" /> <br>
                 <label for="pword">iMapInvasives Password:</label>
-                <label for="pword" style="font-size:12px">(Must match your iMapInvasives password)</label>
+                <label for="pword" class="helper-text">(Must match your iMapInvasives password)</label>
                 <input type="password" name="pword" id="pword" value="" />
+                <span id="acct-mgmt"><a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">Create Account or Reset Password</a></span>
+                <button name="updateStateData" id="updateStateData">Retrieve iMap Lists</button>
             </div>
 
             <fieldset data-role="controlgroup" data-type='horizontal'>
@@ -112,7 +114,8 @@
                 <label for="checkbox-common">Common</label>
             </fieldset>
 
-            <button onClick="iMapApp.uiUtils.chooseMySpecies()">Customize Species List</button>
+            <button onClick="iMapApp.uiUtils.chooseMySpecies()" id="customize-spp-list">Customize Species List</button>
+
             <fieldset data-role='controlgroup' data-type='horizontal' id='pictureSize'>
                 <legend>Picture quality:</legend>
                 <input id='small' name='radio-choice-size' value='small' type='radio'> <label for='small'>25%</label>
@@ -124,7 +127,7 @@
                     <label for="checkbox-SaveOriginalPhotos">Save Photos Taken In iMapInvasives App To Device Photo Library <span class="photo-library-permission-note">(If Permitted By Device)</span></label>
                 </div>
             <fieldset data-role='controlgroup' data-type='horizontal' id='mapType'>
-                <legend>Basemap Type:</legend>
+                <legend>Default Basemap Type:</legend>
                 <input id='road' name='map-type' value='Road' data-theme='c' type='radio'> <label for='road' class="sp-label">Road</label>
                 <input id='aerial' name='map-type' value='AerialWithLabels' data-theme='c' type='radio'> <label for='aerial' class="sp-label">Satellite</label>
             </fieldset>
@@ -142,10 +145,12 @@
                     data-filter="true" data-input="#searchForlistPrefProj" -->
             <div data-role="fieldcontain">
                 <label for="listPrefProj">Default Project:</label>
+                <label for="listPrefProj" class="helper-text">iMap 3 Projects associated with your account appear in this list (after being retrieved). Select a Project here to automatically associate each new record with it (optional).</label>
                 <select id="listPrefProj" name="listPrefProj" data-role="none"><option>None</option></select>
             </div>
             <div data-role="fieldcontain">
                     <label for="listPrefOrg">Default Organization:</label>
+                    <label for="listPrefOrg" class="helper-text">iMap 3 Organizations associated with your account in this list (after being retrieved). Select an Organization here to automatically associate each new record with it (optional).</label>
                     <select id="listPrefOrg" name="listPrefOrg" data-role="none"><option>None</option></select>
                 </div>
             <div data-role="fieldcontain">
@@ -153,9 +158,8 @@
                 <label for="checkbox-welcomepage">Show Welcome Instructions</label>
             </div>
             <div data-role="controlgroup" data-type="horizontal">
-                <input type="button" value="Save" onclick="iMapApp.uiUtils.savePrefs()"></input>
+                <input type="button" value="Save" onclick="iMapApp.uiUtils.savePrefs('button')"></input>
                 <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()"></input>
-                <button name="updateStateData" style="float:right">Refresh iMap Lists</button>
             </div>
             <!-- <button name="checkDiskSpace" onclick="iMapApp.App.checkDiskSpace()">Check Disk Space</button> -->
 

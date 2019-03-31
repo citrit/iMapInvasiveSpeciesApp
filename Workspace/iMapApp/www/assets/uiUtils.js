@@ -80,11 +80,7 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.addObs();
         });
         $('button[name="updateStateData"]').click(function() {
-            if (iMapApp.uiUtils.checkStateNotSelected()) {
-                return;
-            } else {
-                iMapApp.App.updateStateData(iMapApp.iMapPrefs.params.CurrentState);
-            }
+            iMapApp.uiUtils.updateUserData();
         });
         $("#browserLogin").click(function() {
             iMapApp.uiUtils.attemptIMapSignIn();
@@ -93,8 +89,9 @@ iMapApp.uiUtils = {
             var pos = JSON.parse('[' + $('input[name="obsLoc"]').val() + ']');
             iMapApp.iMapMap.setPosition(pos);
         });
-        $("#stateSelect").on('change', function() { iMapApp.uiUtils.stateChangeHandler($("#stateSelect").val()); });
-        $("#obsSpeciesiMap3").on('change', function() { iMapApp.uiUtils.speciesChangeHandler($("#obsSpeciesiMap3").val()); });
+        $('#stateSelect').on('change', function() { iMapApp.uiUtils.jursidctionChangeHandler(); });
+        $("#obsSpeciesiMap3").on('change', function() { iMapApp.uiUtils.speciesChangeHandler($("#obsSpeciesiMap3").val(), ($('input[name="species-detected"]:checked').val() == 'detected' ? true : false)); });
+        $('input[name="species-detected"]').on('change', function() { iMapApp.uiUtils.speciesChangeHandler($("#obsSpeciesiMap3").val(), ($('input[name="species-detected"]:checked').val() == 'detected' ? true : false)); });
 
         $("#introOverlay").click(function() {
             iMapApp.uiUtils.introOverlayClose();
@@ -221,19 +218,24 @@ iMapApp.uiUtils = {
 
     getPersonID: function () {
         // use the new AOI utility to get the iMap3 personID and store it in the iMap Prefs params
-        var newAOIurl = iMapApp.App.iMap3BaseURL + '/imap/services/aoi/new',
-            xhr = new XMLHttpRequest();
-        xhr.open('GET', newAOIurl);
-        xhr.onload = function () {
-            if (xhr.status != 200) {
-                console.log("An error occurred when attempting to get the Person ID");
-            } else {
-                var newAOI = JSON.parse(xhr.responseText);
-                iMapApp.iMapPrefs.params.personId = newAOI.createdBy.id; // store the personID in iMap Prefs
-                iMapApp.iMapPrefs.saveParams(); // save the changes
+        return new Promise((resolve, reject) => {
+
+            var newAOIurl = iMapApp.App.iMap3BaseURL + '/imap/services/aoi/new',
+                xhr = new XMLHttpRequest();
+            xhr.open('GET', newAOIurl);
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    var newAOI = JSON.parse(xhr.responseText);
+                    iMapApp.iMapPrefs.params.personId = newAOI.createdBy.id; // store the personID in iMap Prefs
+                    iMapApp.iMapPrefs.saveParams(); // save the changes
+                    resolve();
+                } else {
+                    console.log("An error occurred when attempting to get the Person ID");
+                    reject("An error occurred when attempting to get the Person ID");
+                };
             };
-        };
-        xhr.send();
+            xhr.send();
+        })
     },
 
     getUserDetailsHandler: function() {
@@ -249,38 +251,42 @@ iMapApp.uiUtils = {
         });
     },
 
-    getUserDetails: function() {
-        var personRecordUrl = iMapApp.App.iMap3BaseURL + '/imap/services/person/' + iMapApp.iMapPrefs.params.personId;
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', personRecordUrl);
-        xhr.onload = function() {
-            if (xhr.status == 200) {
-                var personRecord = JSON.parse(xhr.responseText),
-                newOrganizations = [],
-                newProjects = [];
+    getUserDetails: function () {
+        return new Promise((resolve, reject) => {
+            var personRecordUrl = iMapApp.App.iMap3BaseURL + '/imap/services/person/' + iMapApp.iMapPrefs.params.personId;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', personRecordUrl);
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    var personRecord = JSON.parse(xhr.responseText),
+                        newOrganizations = [],
+                        newProjects = [];
 
-                // store the organizations array in iMap3 Prefs
-                personRecord.organizationMembers.forEach(function (org) {
-                    newOrganizations.push(org.organization);
-                });
-                iMapApp.iMapPrefs.params.iMap3Organizations = newOrganizations;
+                    // store the organizations array in iMap3 Prefs
+                    personRecord.organizationMembers.forEach(function (org) {
+                        newOrganizations.push(org.organization);
+                    });
+                    iMapApp.iMapPrefs.params.iMap3Organizations = newOrganizations;
 
-                 // store the projects array in the iMap3 Prefs
-                personRecord.projectMembers.forEach(function (proj) {
-                    newProjects.push(proj.project);
-                });
-                iMapApp.iMapPrefs.params.iMap3Projects = newProjects;
+                    // store the projects array in the iMap3 Prefs
+                    personRecord.projectMembers.forEach(function (proj) {
+                        newProjects.push(proj.project);
+                    });
+                    iMapApp.iMapPrefs.params.iMap3Projects = newProjects;
 
-                // get the user's "home jurisdiction"
-                iMapApp.iMapPrefs.params.dStateID = personRecord.userAccount.dstateId;
+                    // get the user's "home jurisdiction"
+                    iMapApp.iMapPrefs.params.dStateID = personRecord.userAccount.dstateId;
 
-                // save the changes
-                iMapApp.iMapPrefs.saveParams();
-            } else {
-                console.log("An error occurred when attempting to get the person attributes");
+                    // save the changes
+                    iMapApp.iMapPrefs.saveParams();
+                    resolve();
+                } else {
+                    console.log("An error occurred when attempting to get the person attributes");
+                    reject("An error occurred when attempting to get the person attributes");
+                };
             };
-        };
-        xhr.send();
+            xhr.send();
+        })
     },
 
     /**
@@ -304,6 +310,38 @@ iMapApp.uiUtils = {
             xhr.open('GET', newAOIurl);
             xhr.send();
         });
+    },
+
+    updateUserData: function () {
+        if (iMapApp.uiUtils.credentialsEntered()) {
+            iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMapInvasives 3 to update your species, project, and organization lists...', 10);
+            iMapApp.uiUtils.savePrefs();
+            iMapApp.uiUtils.attemptIMapSignInPromise()
+                .then(function () {
+                    return iMapApp.uiUtils.getPersonID()
+                })
+                .then(function () {
+                    return iMapApp.uiUtils.getUserDetails();
+                })
+                .then(function () {
+                    return iMapApp.App.downloadJurisdictionSppList(iMapApp.iMapPrefs.params.CurrentState);
+                })
+                .then(function () {
+                    iMapApp.uiUtils.loadSpeciesListNew('state');
+                    iMapApp.uiUtils.loadProjectListNew();
+                    iMapApp.uiUtils.loadOrganizations();
+                })
+                .catch(function (e) {
+                    if (e) {
+                        iMapApp.uiUtils.openInfoDialog('Error Updating Lists', 'An error occurred while attempting to update your species, project, and organization lists. Error details: ' + e);
+                    } else {
+                        iMapApp.uiUtils.openInfoDialog('Error Updating Lists', 'An error occurred while attempting to update your species, project, and organization lists.');
+                    }
+                })
+                .then(function() {
+                    iMapApp.uiUtils.waitDialogClose(true);
+                });
+        };
     },
 
     //
@@ -439,7 +477,7 @@ iMapApp.uiUtils = {
         getDElem('[name="largeImage"]').attr("src", lim);
         //$('img[name="largeImage"]').src(obs.getPhotos());
 
-        iMapApp.uiUtils.setAdditionalFields(iMapApp.App.getSpeciesRecord(obs.getiMap3SpeciesID()));
+        iMapApp.uiUtils.setAdditionalFields(iMapApp.App.getSpeciesRecord(obs.getiMap3SpeciesID(), obs.getDetected()));
 
         iMapApp.uiUtils.setMapStuff();
 
@@ -629,8 +667,8 @@ iMapApp.uiUtils = {
         iMapApp.App.updateStateData(sel, true);
     },
 
-    speciesChangeHandler: function(sel) {
-        iMapApp.uiUtils.setAdditionalFields(iMapApp.App.getSpeciesRecord(sel));
+    speciesChangeHandler: function(sel, detected) {
+        iMapApp.uiUtils.setAdditionalFields(iMapApp.App.getSpeciesRecord(sel), detected);
         iMapApp.uiUtils.toggleAilanthusFields(sel);
     },
 
@@ -817,20 +855,32 @@ iMapApp.uiUtils = {
     },
 
     checkLists: function() {
-        if (iMapApp.iMapPrefs.params.StateUpdate == '') {
-            navigator.notification.confirm("Your species and project lists have not yet been retrieved from iMapInvasives. Refresh the lists now to be able to select iMap Projects and Species. Or, you can wait until later if you cannot refresh the data now.", iMapApp.uiUtils.checkListsButtonActions, "No iMap Lists Found", ["Yes, Refresh iMap Data Now", "No, Wait to Refresh Later"]);
+        if (!iMapApp.iMapPrefs.params.personId) {
+            navigator.notification.confirm("It appears that your full iMap 3 user data (project and organization lists) have not yet been retrieved from iMapInvasives. Would you like to attempt to retrieve this data now? (Or you can manually retrieve this data later in the Preferences page.)", iMapApp.uiUtils.checkListsButtonActions, "Full iMap 3 Data Not Found", ["Yes, Retrieve iMap Data Now", "No, Wait to Retrieve Later"]);
         }
     },
 
     checkListsButtonActions: function(i) {
         if (i === 1) {
-            iMapApp.App.updateStateData(iMapApp.iMapPrefs.params.CurrentState, false, true);
+            iMapApp.App.downloadJurisdictionSppList(iMapApp.iMapPrefs.params.CurrentState);
         } else {
             return;
         }
     },
 
-    savePrefs: function() {
+    credentialsEntered: function() {
+        var sname = getDElem('select[name="stateSelect"]').val(),
+        email = $("#email").val(),
+        password = $("#pword").val();
+
+        if (email === "" || password === "" || sname === "") {
+            iMapApp.uiUtils.openInfoDialog('Credentials Not Entered', 'Please enter your iMap 3 credentials and ensure a jurisdiction is selected to retrieve your user data/lists.');
+            return false;
+        };
+        return true;
+    },
+
+    savePrefs: function(type) {
         /*
         var fnam = getDElem('input[name="fname"]').val();
         var lnam = getDElem('input[name="lname"]').val();
@@ -843,8 +893,8 @@ iMapApp.uiUtils = {
         }
         */
         //iMapApp.uiUtils.openDialog('#waitDialog', "Saving Preferences");
-        var sname = getDElem('select[name="stateSelect"]').val();
-        var email = $("#email").val(),
+        var sname = getDElem('select[name="stateSelect"]').val(),
+        email = $("#email").val(),
         password = $("#pword").val();
 
         iMapApp.iMapPrefs.params.Email = email;
@@ -878,11 +928,13 @@ iMapApp.uiUtils = {
 
         iMapApp.iMapPrefs.saveParams();
         iMapApp.uiUtils.loadSpeciesListNew('state');
-        iMapApp.uiUtils.gotoMainPage();
-        var fInit = localStorage.getItem("firstInit");
-        if (fInit) {
-            iMapApp.uiUtils.introOverlayOpen();
-            localStorage.removeItem("firstInit");
+        if (type == 'button') {
+            iMapApp.uiUtils.gotoMainPage();
+            var fInit = localStorage.getItem("firstInit");
+            if (fInit) {
+                iMapApp.uiUtils.introOverlayOpen();
+                localStorage.removeItem("firstInit");
+            }
         }
     },
 
@@ -934,7 +986,6 @@ iMapApp.uiUtils = {
     },
 
     gotoMainPage: function() {
-        if (iMapApp.uiUtils.checkParamsNotSet()) return;
         iMapApp.iMapMap.stopGPSTimer();
         $.mobile.navigate("#mainPage");
         //iMapApp.uiUtils.checkIntroOverlay();
@@ -1026,18 +1077,20 @@ iMapApp.uiUtils = {
         $('#statusBarMsg').text(msg);
     },
 
-    setAdditionalFields: function(spRecord) {
+    setAdditionalFields: function(spRecord, detected) {
         var plantsEntry = document.getElementById("PlantsEntryDiv"),
         insectEntry = document.getElementById("InsectsEntryDiv"),
         kingdom = spRecord['kingdom'],
         taxaClass = spRecord['taxaClass'];
         plantsEntry.classList.add("hidden");
         insectEntry.classList.add("hidden");
-        if (kingdom == 'Plantae') {
-            plantsEntry.classList.remove("hidden");
-        };
-        if (taxaClass == 'Insecta') {
-            insectEntry.classList.remove("hidden");
+        if (detected != false) {
+            if (kingdom == 'Plantae') {
+                plantsEntry.classList.remove("hidden");
+            };
+            if (taxaClass == 'Insecta') {
+                insectEntry.classList.remove("hidden");
+            };
         };
     },
 
@@ -1071,6 +1124,13 @@ iMapApp.uiUtils = {
         if (this.userNameChecker()) {
             getDElem('#pref-intro').addClass("hidden");
         }
+    },
+
+    jursidctionChangeHandler() {
+        var sname = getDElem('select[name="stateSelect"]').val();
+        if (sname) {
+            iMapApp.App.downloadJurisdictionSppList(sname);
+        };
     },
 
     bottomBarHelper: {

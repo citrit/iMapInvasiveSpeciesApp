@@ -13,15 +13,6 @@ iMapApp.uploadUtils = {
 
     },
 
-    login: function() {
-        //if (iMapPrefs.loginToMainSite()) {
-        //alert('logged in to main site');
-        //}
-        //else {
-        //alert('not logged in to main site');
-        //}
-    },
-
     reachableCallback: function(reachability) {
         // There is no consistency on the format of reachability
         var networkState = reachability.code || reachability;
@@ -49,7 +40,7 @@ iMapApp.uploadUtils = {
         //		iMapPrefs.init();
         //		iMapPrefs.Username = 'tomcitriniti';
         //		iMapPrefs.Password = '';
-        var ok = iMapApp.uploadUtils.obsvs.length > 0; //iMapPrefs.loginToMainSite();
+        var ok = iMapApp.uploadUtils.obsvs.length > 0;
         if (ok) {
             console.log("uploading " + iMapApp.uploadUtils.obsvs.length + " of " + iMapApp.uploadUtils.numUploads);
             obs = iMapApp.App.observ[iMapApp.uploadUtils.obsvs.get(0).id];

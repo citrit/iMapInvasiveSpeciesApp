@@ -210,20 +210,24 @@ iMapApp.App = {
         iMapApp.iMapPrefs.saveParams();
     },
 
-    downloadJurisdictionSppList: function () {
-        // get the iMap species list for the user's home jurisdiction and store it in localStorage
-        var jurisdictionSpp = iMapApp.App.iMap3BaseURL + '/imap/services/stateSpecList/all/' + iMapApp.iMapPrefs.params.dStateID,
-        xhr = new XMLHttpRequest();
-        xhr.open('GET', jurisdictionSpp);
-        xhr.onload = function() {
-            if (xhr.status == 200) {
-                var newJurisSppList = JSON.parse(xhr.responseText);
-                iMapApp.App.sppListHandler(newJurisSppList, 'stateSpeciesList')
-            } else {
-                console.log("An error occurred when attempting to get the jurisdiction species list");
+    downloadJurisdictionSppList: function (dState) {
+        return new Promise((resolve, reject) => {
+            // get the iMap species list for the specified jurisdiction and store it in localStorage
+            var jurisdictionSpp = iMapApp.App.iMap3BaseURL + '/imap/services/stateSpecList/all/' + dState,
+                xhr = new XMLHttpRequest();
+            xhr.open('GET', jurisdictionSpp);
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    var newJurisSppList = JSON.parse(xhr.responseText);
+                    iMapApp.App.sppListHandler(newJurisSppList, 'stateSpeciesList');
+                    resolve();
+                } else {
+                    console.log("An error occurred when attempting to get the jurisdiction species list");
+                    reject("An error occurred when attempting to get the jurisdiction species list");
+                };
             };
-        };
-        xhr.send();
+            xhr.send();
+        })
     },
 
     downloadNatSppList: function () {
@@ -254,6 +258,7 @@ iMapApp.App = {
             newListObj[rawNewSppList[i][sppId]] = rawNewSppList[i]; // re-work the species list object to include a species Id as the key
         };
         localStorage.setItem(listType, JSON.stringify(newListObj)); // update localStorage item for species list with new data
+        iMapApp.App.listType = newListObj;
     },
 
     //
@@ -265,7 +270,7 @@ iMapApp.App = {
         var now = new Date();
         var diffDays = parseInt((now - updDate) / (1000 * 60 * 60 * 24));
         if (diffDays > 90) {
-            navigator.notification.confirm("Your version of the iMap Projects and Species Lists is most likely out of date. Would you like to attempt to refresh the iMap data now?", iMapApp.uiUtils.checkListsButtonActions, "iMap Lists Refresh Needed", ["Yes, Refresh iMap Data Now", "No, Wait to Refresh Later"]);
+            navigator.notification.confirm("Your iMap 3 User Data (Project, Organization, and Species Lists) may be out of date. Would you like to attempt to retrieve this data from iMap now? (Or you can manually retrieve this data later in the Preferences page.)", iMapApp.uiUtils.checkListsButtonActions, "iMap Lists Update Needed", ["Yes, Refresh iMap Data Now", "No, Wait to Refresh Later"]);
         }
     },
 
