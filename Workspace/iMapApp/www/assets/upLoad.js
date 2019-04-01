@@ -652,8 +652,9 @@ iMapApp.uploadUtils = {
             iMapApp.uploadUtils.syncUploads();
         })
         .catch(function (e) {
-            console.log("An error occurred while uploading the selected record. Details, if available: " + e);
-            navigator.notification.alert("An error occurred while uploading the selected record. Details, if available: " + e, false, "iMap 3 Record Upload Failure");
+            var error = (e ? "An error occurred while uploading the selected record. Details: " + e : "An unexpected error occurred while uploading the selected record.");
+            console.log(error);
+            navigator.notification.alert(error, false, "iMap 3 Record Upload Failure");
             iMapApp.uiUtils.waitDialogClose(true);
         });
     }

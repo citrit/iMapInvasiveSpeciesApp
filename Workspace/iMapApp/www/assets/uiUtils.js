@@ -191,7 +191,7 @@ iMapApp.uiUtils = {
                 if (xhr.responseURL == 'https://imapinvasives.natureserve.org/imap/login.jsp?login_error=1') {
                     iMap3SignIn.close();
                     iMapApp.uiUtils.waitDialogClose(true);
-                    navigator.notification.alert("Sorry, the username and password combination you provided is incorrect. Please the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
+                    navigator.notification.alert("Sorry, the email address and password combination is incorrect. Please the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
                     signInError++;
                 };
                 if (signInError === 0) {
@@ -330,6 +330,7 @@ iMapApp.uiUtils = {
                     iMapApp.uiUtils.loadSpeciesListNew('state');
                     iMapApp.uiUtils.loadProjectListNew();
                     iMapApp.uiUtils.loadOrganizations();
+                    iMapApp.App.listUpdateDateSetter();
                 })
                 .catch(function (e) {
                     if (e) {
@@ -857,13 +858,14 @@ iMapApp.uiUtils = {
 
     checkLists: function() {
         if (!iMapApp.iMapPrefs.params.personId) {
-            navigator.notification.confirm("It appears that your full iMap 3 user data (project and organization lists) have not yet been retrieved from iMapInvasives. Would you like to attempt to retrieve this data now? (Or you can manually retrieve this data later in the Preferences page.)", iMapApp.uiUtils.checkListsButtonActions, "Full iMap 3 Data Not Found", ["Yes, Retrieve iMap Data Now", "No, Wait to Retrieve Later"]);
+            navigator.notification.confirm("It appears that your full iMap 3 user data (project and organization lists) has not yet been retrieved from iMapInvasives. Would you like to attempt to retrieve this data now? (Or you can manually retrieve this data later in the Preferences page.)", iMapApp.uiUtils.checkListsButtonActions, "Full iMap 3 Data Not Found", ["Yes, Retrieve iMap Data Now", "No, Wait to Retrieve Later"]);
         }
     },
 
     checkListsButtonActions: function(i) {
         if (i === 1) {
             iMapApp.App.downloadJurisdictionSppList(iMapApp.iMapPrefs.params.CurrentState);
+            iMapApp.uiUtils.updateUserData();
         } else {
             return;
         }
@@ -875,7 +877,7 @@ iMapApp.uiUtils = {
         password = $("#pword").val();
 
         if (email === "" || password === "" || sname === "") {
-            iMapApp.uiUtils.openInfoDialog('Credentials Not Entered', 'Please enter your iMap 3 credentials and ensure a jurisdiction is selected to retrieve your user data/lists.');
+            iMapApp.uiUtils.openInfoDialog('Credentials Not Entered', 'In the Preferences Page, please enter your iMap 3 email address and password and select a jurisdiction to retrieve your user data/lists.');
             return false;
         };
         return true;
@@ -1045,7 +1047,7 @@ iMapApp.uiUtils = {
         console.log("Open Welcome Page: " + iMapApp.iMapPrefs.params.WelcomePage);
         //if (localStorage.getItem("introDone") != "true") {
         if ((iMapApp.iMapPrefs.params.WelcomePage == true) &&
-            (!localStorage.getItem("firstInit"))) {
+            (!localStorage.getItem("firstInit")) && (iMapApp.iMapPrefs.params.Email)) {
             iMapApp.uiUtils.introOverlayOpen();
             console.log('Opened Welcome PAge');
         }
@@ -1116,13 +1118,13 @@ iMapApp.uiUtils = {
        return lastUpdateDate.toLocaleDateString(false, dateFormatOptions);
     },
 
-    userNameChecker: function() {
-        return (iMapApp.iMapPrefs.params.Username ? true : false);
+    personIdChecker: function() {
+        return (iMapApp.iMapPrefs.params.personId > 0 ? true : false);
     },
 
     prefIntroToggler: function() {
         // if the username is set, remove the intro box in preferences
-        if (this.userNameChecker()) {
+        if (iMapApp.uiUtils.personIdChecker()) {
             getDElem('#pref-intro').addClass("hidden");
         }
     },

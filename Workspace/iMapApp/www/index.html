@@ -50,7 +50,6 @@
                 <!--<li> &#9679; </li>-->
                 <li><a id="helpMenu">Help</a></li>
                 <!--                <li><a id="quitMenu">Quit</a></li>-->
-                <li><a id="browserLogin">iMap 3 Login Page</a></li>
             </ul>
             <button id="addObs">+ Add Observation</button>
         </div>
@@ -78,6 +77,7 @@
                 <p id="pref-intro">
                     <span class="pref-intro-bold">Welcome to iMapInvasives 3!</span>
                     <span>To create or manage your iMapInvasives 3 account, please visit the <a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">iMapInvasives website</a>.</span>
+                    <span>If you used iMapInvasives prior to version 3, please first reset your password (at the <a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">iMapInvasives website</a>). Once complete, enter the email address and new password associated with your iMap account here to upload data.</span>
                 </p>
                 <p name="prefError" style="color: #ff0000;"></p>
                 <label for='stateSelect'>Jursidction Species List:</label>
@@ -143,12 +143,12 @@
 
             <!--<input data-type="search" id="searchForlistPrefProj"/> 
                     data-filter="true" data-input="#searchForlistPrefProj" -->
-            <div data-role="fieldcontain">
+            <div class="pref-page-container">
                 <label for="listPrefProj">Default Project:</label>
                 <label for="listPrefProj" class="helper-text">iMap 3 Projects associated with your account appear in this list (after being retrieved). Select a Project here to automatically associate each new record with it (optional).</label>
                 <select id="listPrefProj" name="listPrefProj" data-role="none"><option>None</option></select>
             </div>
-            <div data-role="fieldcontain">
+            <div class="pref-page-container">
                     <label for="listPrefOrg">Default Organization:</label>
                     <label for="listPrefOrg" class="helper-text">iMap 3 Organizations associated with your account in this list (after being retrieved). Select an Organization here to automatically associate each new record with it (optional).</label>
                     <select id="listPrefOrg" name="listPrefOrg" data-role="none"><option>None</option></select>

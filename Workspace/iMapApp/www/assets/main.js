@@ -255,7 +255,9 @@ iMapApp.App = {
             newListObj[rawNewSppList[i][sppId]] = rawNewSppList[i]; // re-work the species list object to include a species Id as the key
         };
         localStorage.setItem(listType, JSON.stringify(newListObj)); // update localStorage item for species list with new data
-        iMapApp.App.listType = newListObj;
+        if (listType == 'stateSpeciesList') {
+            iMapApp.App.stateSpeciesList = newListObj;
+        }
     },
 
     //
@@ -399,6 +401,7 @@ iMapApp.App = {
         // Only update the last iMap Lists Refresh date if the update was successful
         iMapApp.iMapPrefs.params.StateUpdate = iMapApp.App.getDateString();
         getDElem('p[name="lastUpdateDate"]').text('Last iMap Lists Refresh: ' + iMapApp.uiUtils.lastListsUpdateDateFormatter(iMapApp.iMapPrefs.params.StateUpdate));
+        iMapApp.iMapPrefs.saveParams();
     }
 };
 

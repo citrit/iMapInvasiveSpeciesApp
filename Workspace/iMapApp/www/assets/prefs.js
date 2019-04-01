@@ -32,13 +32,16 @@ iMapApp.iMapPrefs = {
     },
     init: function() {
         var parms = localStorage.getItem("userParams");
-        if (parms !== null) {
-            iMapApp.iMapPrefs.loadParams();
-            iMapApp.uiUtils.gotoMainPage();
-        } else {
+        if (parms === null) {
             iMapApp.uiUtils.editPrefs("Initialization: Please fill in the preferences.");
             localStorage.setItem("firstInit", true);
-            //iMapApp.iMapPrefs.saveParams();
+        } else {
+            iMapApp.iMapPrefs.loadParams();
+            if (iMapApp.iMapPrefs.params.Email == '') {
+                iMapApp.uiUtils.editPrefs();
+            } else {
+                iMapApp.uiUtils.gotoMainPage();
+            }
         }
     },
     // Save the current prefs to localstorage

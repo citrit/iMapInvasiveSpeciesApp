@@ -154,7 +154,7 @@ html {
     position: absolute;
     z-index: 9020;
     width: 98%;
-    height: 200px;
+    min-height: 200px;
     background: white;
     border-bottom: 1px solid #aaa;
     border-radius: 4px;
@@ -321,9 +321,20 @@ html {
     font-size: 1.1em
 }
 
+#acct-mgmt {
+    margin: 1em 0;
+    display: block;
+    font-weight: normal;
+    font-size: 0.85em;
+}
+
 #customize-spp-list {
-    margin: 2em 0 0;
+    margin: 2em 0;
     font-size: 1.05em;
+}
+
+.pref-page-container {
+    margin: 1.5em 0;
 }
 
 #pref-intro span {
