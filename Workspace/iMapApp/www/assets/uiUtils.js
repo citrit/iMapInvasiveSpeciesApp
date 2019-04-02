@@ -331,6 +331,7 @@ iMapApp.uiUtils = {
                     iMapApp.uiUtils.loadProjectListNew();
                     iMapApp.uiUtils.loadOrganizations();
                     iMapApp.App.listUpdateDateSetter();
+                    iMapApp.uiUtils.openInfoDialog('iMap Data Retrieval Successful', 'Your iMapInvasives data was retrieved successfully (which includes your Species, Project, and Organization lists).');
                 })
                 .catch(function (e) {
                     if (e) {
@@ -842,6 +843,7 @@ iMapApp.uiUtils = {
         getDElem('input[value="' + iMapApp.iMapPrefs.params.MapType + '"]').prop('checked', true);
         //iMapApp.uiUtils.loadProjectList();
         getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project); //.selectmenu().selectmenu('refresh', true);
+        getDElem('select[name="listPrefOrg"]').val(iMapApp.iMapPrefs.params.OrgDefault); //.selectmenu().selectmenu('refresh', true);
         getDElem('p[name="lastUpdateDate"]').text('Last iMap Lists Refresh: ' + (iMapApp.iMapPrefs.params.StateUpdate ? iMapApp.uiUtils.lastListsUpdateDateFormatter(iMapApp.iMapPrefs.params.StateUpdate) : "Never"));
         getDElem('input[name="checkbox-welcomepage"]').prop('checked', iMapApp.iMapPrefs.params.WelcomePage);
 
@@ -876,8 +878,8 @@ iMapApp.uiUtils = {
         email = $("#email").val(),
         password = $("#pword").val();
 
-        if (email === "" || password === "" || sname === "") {
-            iMapApp.uiUtils.openInfoDialog('Credentials Not Entered', 'In the Preferences Page, please enter your iMap 3 email address and password and select a jurisdiction to retrieve your user data/lists.');
+        if (email === "" || password === "" || sname === "" || sname === null) {
+            iMapApp.uiUtils.openInfoDialog('Jurisdiction or Credentials Not Entered', 'In the Preferences Page, please select a jurisdiction and enter your iMap 3 email address and password to retrieve your user data/lists.');
             return false;
         };
         return true;

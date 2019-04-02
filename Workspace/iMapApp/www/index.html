@@ -103,7 +103,7 @@
                 <label for="pword" class="helper-text">(Must match your iMapInvasives password)</label>
                 <input type="password" name="pword" id="pword" value="" />
                 <span id="acct-mgmt"><a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">Create Account or Reset Password</a></span>
-                <button name="updateStateData" id="updateStateData">Retrieve iMap Lists</button>
+                <button name="updateStateData" id="updateStateData" class="button-emphasis">Retrieve iMap Lists</button>
             </div>
 
             <fieldset data-role="controlgroup" data-type='horizontal'>
@@ -114,7 +114,7 @@
                 <label for="checkbox-common">Common</label>
             </fieldset>
 
-            <button onClick="iMapApp.uiUtils.chooseMySpecies()" id="customize-spp-list">Customize Species List</button>
+            <button onClick="iMapApp.uiUtils.chooseMySpecies()" id="customize-spp-list" class="button-emphasis">Customize Species List</button>
 
             <fieldset data-role='controlgroup' data-type='horizontal' id='pictureSize'>
                 <legend>Picture quality:</legend>
@@ -158,8 +158,8 @@
                 <label for="checkbox-welcomepage">Show Welcome Instructions</label>
             </div>
             <div data-role="controlgroup" data-type="horizontal">
-                <input type="button" value="Save" onclick="iMapApp.uiUtils.savePrefs('button')"></input>
-                <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()"></input>
+                <input type="button" value="Save" onclick="iMapApp.uiUtils.savePrefs('button')" class="button-emphasis"></input>
+                <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()" class="button-emphasis"></input>
             </div>
             <!-- <button name="checkDiskSpace" onclick="iMapApp.App.checkDiskSpace()">Check Disk Space</button> -->
 
@@ -316,11 +316,11 @@
     </div>
 
     <div id="waitPopup" class="modal-box">
-        <br><br><br>
+        <div class="waitPopupInner">
         <img id="img-spinner" src="assets/images/Loading.gif" alt="Loading" />
-        <br>
-        <p name="waitDialogText">Please wait...</p>
+        <p name="waitDialogText" class="waitDialogText">Please wait...</p>
         <p id="waitDialogTextCustom"></p>
+        </div>
     </div>
 
     <div id="introOverlay" class="modal-overlay">

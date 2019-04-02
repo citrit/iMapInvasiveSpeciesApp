@@ -316,9 +316,26 @@ html {
     font-style: italic;
 }
 
+#waitPopup {
+    padding: 1em 0;
+}
+
+.waitPopupInner {
+    margin: 2em 0;
+    display: block;
+}
+
+#waitDialogTextCustom {
+    margin-top: 2em;
+}
+
 #updateStateData {
     margin: 1em 0;
     font-size: 1.1em
+}
+
+.button-emphasis {
+    border-color: #909090 !important;
 }
 
 #acct-mgmt {

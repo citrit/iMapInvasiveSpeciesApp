@@ -37,7 +37,7 @@ iMapApp.iMapPrefs = {
             localStorage.setItem("firstInit", true);
         } else {
             iMapApp.iMapPrefs.loadParams();
-            if (iMapApp.iMapPrefs.params.Email == '') {
+            if (!iMapApp.iMapPrefs.params.Email) {
                 iMapApp.uiUtils.editPrefs();
             } else {
                 iMapApp.uiUtils.gotoMainPage();

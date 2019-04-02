@@ -50,7 +50,7 @@ iMapApp.uploadUtils = {
         } else {
             $('p[name="infoDialText"]').text('Uploaded [' + (iMapApp.uploadUtils.numUploads - iMapApp.uploadUtils.errorCnt) + '] records.');
             iMapApp.uiUtils.openDialog('#infoDialog', 'Upload complete');
-            iMapApp.uiUtils.waitDialogClose();
+            iMapApp.uiUtils.waitDialogClose(true);
         }
     },
 
