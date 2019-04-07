@@ -43,7 +43,7 @@ iMapApp.iMapMap = {
             //features: iconFeatures //add an array of features
         });
 
-        var thePoly = new ol.geom.Polygon([[[-489196.981025,53811.667913],[-1966571.863721,-728903.501727],[234814.550892,-631064.105522]]]),
+        var thePoly = new ol.geom.Polygon(),
         polyFeature = new ol.Feature(thePoly);
 
         iMapApp.iMapMap.locSourcePoly = new ol.source.Vector({});
@@ -151,7 +151,7 @@ iMapApp.iMapMap = {
 
     setPoly: function (vPos) {
         iMapApp.iMapMap.locSourcePoly.clear();
-        var polyBuffer = iMapApp.iMapMap.bufferConstructor(5, vPos[0], vPos[1]),
+        var polyBuffer = iMapApp.iMapMap.bufferConstructor(6.5, vPos[0], vPos[1]),
         polyBufferFeature = new ol.Feature({
             geometry: new ol.geom.Polygon(polyBuffer),
             name: '5 meter buffer'

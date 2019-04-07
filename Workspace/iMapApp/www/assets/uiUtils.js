@@ -329,7 +329,15 @@ iMapApp.uiUtils = {
                 .then(function () {
                     iMapApp.uiUtils.loadSpeciesListNew('state');
                     iMapApp.uiUtils.loadProjectListNew();
+                    if (iMapApp.iMapPrefs.params.Project) {
+                        // if the default project is already set, attempt to re-select it
+                        getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project);
+                    }
                     iMapApp.uiUtils.loadOrganizations();
+                    if (iMapApp.iMapPrefs.params.OrgDefault) {
+                        // if the default organization is already set, attempt to re-select it
+                        getDElem('select[name="listPrefOrg"]').val(iMapApp.iMapPrefs.params.OrgDefault);
+                    }
                     iMapApp.App.listUpdateDateSetter();
                     iMapApp.uiUtils.openInfoDialog('iMap Data Retrieval Successful', 'Your iMapInvasives data was retrieved successfully (which includes your Species, Project, and Organization lists).');
                 })
@@ -362,7 +370,7 @@ iMapApp.uiUtils = {
         };
         var n = iMapApp.uiUtils.getActiveCards().find("input:checkbox:checked").length;
         if (n == 0) {
-            iMapApp.uiUtils.openInfoDialog('Nothing selected to upload', 'Please select cards.');
+            iMapApp.uiUtils.openInfoDialog('No active cards selected', 'Please select cards (which include a species selection) and try again.');
         } else {
             iMapApp.uiUtils.openOkCancelDialog('Upload Observations', 'Are you sure you want to upload ' + n + ' record(s)?',
                 iMapApp.uiUtils.uploadObservations);

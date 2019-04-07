@@ -100,7 +100,7 @@ iMapApp.App = {
         });*/
     },
 
-    numObservations: function() { return iMapApp.App.observ.length; },
+    numObservations: function() { return Object.keys(iMapApp.App.observ).length; },
     getObservation: function(idx) { return iMapApp.App.observ[idx]; },
 
     //
@@ -301,7 +301,7 @@ iMapApp.App = {
         var common = (state ? 'stateCommonName' : 'commonName'),
         sci = (state ? 'stateScientificName' : 'scientificName'),
         lStr = "None Selected";
-        if (sp != -1) {
+        if (sp != -1 && sp) {
             if (iMapApp.iMapPrefs.params.Plants.UseCommon)
                 lStr = sp[common];
             if (iMapApp.iMapPrefs.params.Plants.UseCommon && iMapApp.iMapPrefs.params.Plants.UseScientific)
