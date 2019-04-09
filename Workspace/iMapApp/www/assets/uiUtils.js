@@ -102,7 +102,7 @@ iMapApp.uiUtils = {
                 iMapApp.uiUtils.openOkCancelDialog('iMapInvasives', 'Exit iMapInvasives?',
                     navigator.app.exitApp);
             } else {
-                if (iMapApp.uiUtils.checkParamsNotSet()) {
+                if (!iMapApp.uiUtils.credentialsEntered()) {
                     return;
                 }
                 navigator.app.backHistory();
