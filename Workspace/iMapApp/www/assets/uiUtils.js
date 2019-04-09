@@ -508,6 +508,9 @@ iMapApp.uiUtils = {
         getDElem('#ailanthusStemsGreaterSix').val(obs.getAilanthusDBHGreaterSix());
         getDElem('[name="obsComment"]').val(obs.getComment());
 
+        $('#radio-choice-species-detected').checkboxradio();
+        $('#radio-choice-species-not-detected').checkboxradio();
+
         if (obs.getDetected()) {
             $('#radio-choice-species-detected').prop('checked',true);
             $('#radio-choice-species-not-detected').prop('checked',false); 
