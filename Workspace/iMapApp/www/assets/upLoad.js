@@ -552,9 +552,9 @@ iMapApp.uploadUtils = {
     */
     uploadiMap3Photo: function (fileName) {
         return new Promise((resolve, reject) => {
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+            window.resolveLocalFileSystemURL(iMapApp.App.dataFolder, function (fs) {
                 console.log('file system open: ' + fs.name);
-                fs.root.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
+                fs.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
                     fileEntry.file(function (file) {
                         var reader = new FileReader();
                         reader.onloadend = function () {
