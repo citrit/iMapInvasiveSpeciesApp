@@ -312,6 +312,53 @@ iMapApp.uiUtils = {
         });
     },
 
+    updateUserDataPromise: function () {
+        return new Promise((resolve, reject) => {
+            iMapApp.uiUtils.savePrefs();
+            if (iMapApp.uiUtils.credentialsEntered()) {
+                iMapApp.uiUtils.checkIfSignedIn()
+                    .then(function (signedInStatus) {
+                        if (!signedInStatus) {
+                            return iMapApp.uiUtils.attemptIMapSignInPromise();
+                        } else {
+                            return;
+                        };
+                    })
+                    .then(function () {
+                        return iMapApp.uiUtils.getPersonID()
+                    })
+                    .then(function () {
+                        return iMapApp.uiUtils.getUserDetails();
+                    })
+                    .then(function () {
+                        return iMapApp.App.downloadJurisdictionSppList(iMapApp.iMapPrefs.params.CurrentState);
+                    })
+                    .then(function () {
+                        iMapApp.uiUtils.loadSpeciesListNew('state');
+                        iMapApp.uiUtils.loadProjectListNew();
+                        if (iMapApp.iMapPrefs.params.Project) {
+                            // if the default project is already set, attempt to re-select it
+                            getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project);
+                        }
+                        iMapApp.uiUtils.loadOrganizations();
+                        if (iMapApp.iMapPrefs.params.OrgDefault) {
+                            // if the default organization is already set, attempt to re-select it
+                            getDElem('select[name="listPrefOrg"]').val(iMapApp.iMapPrefs.params.OrgDefault);
+                        }
+                        iMapApp.App.listUpdateDateSetter();
+                        resolve();
+                    })
+                    .catch(function (e) {
+                        if (e) {
+                            reject('An error occurred while attempting to update your species, project, and organization lists. Error details: ' + e);
+                        } else {
+                            reject('An error occurred while attempting to update your species, project, and organization lists.');
+                        }
+                    });
+            }
+        });
+    },
+
     updateUserData: function () {
         if (iMapApp.uiUtils.credentialsEntered()) {
             iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMapInvasives 3 to update your species, project, and organization lists...', 10);

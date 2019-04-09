@@ -609,6 +609,16 @@ iMapApp.uploadUtils = {
             };
         })
         .then(function() {
+            // check if the user data has yet been retrieved
+            if (!iMapApp.iMapPrefs.params.dStateID || !iMapApp.iMapPrefs.params.personId) {
+                // download user details if user data has not yet been retrieved
+                return iMapApp.uiUtils.updateUserDataPromise();
+            } else {
+                // otherwise, continue execution
+                return;
+            }
+        })
+        .then(function() {
             if(rawObs.getiMap3Compatible() === true) {
                 return;
             } else {
