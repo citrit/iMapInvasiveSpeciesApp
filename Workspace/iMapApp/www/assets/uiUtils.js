@@ -533,9 +533,12 @@ iMapApp.uiUtils = {
         getDElem('[name="obsLoc"]').val(obs.getWhere());
         //console.log("Photo: " + obs.getPhotos());
 
-        var lim = (obs.getPhotos() == "" ? "assets/images/TakePhoto3.png" : obs.getPhotos());
-        getDElem('[name="largeImage"]').attr("src", lim);
-        //$('img[name="largeImage"]').src(obs.getPhotos());
+        if (obs.getPhotosFileName()) {
+            var activePhotoUrl = iMapApp.App.dataFolder + obs.getPhotosFileName();
+            getDElem('[name="largeImage"]').attr("src", activePhotoUrl);
+        } else {
+            getDElem('[name="largeImage"]').attr("src", "assets/images/TakePhoto3.png");
+        }
 
         iMapApp.uiUtils.setAdditionalFields(iMapApp.App.getSpeciesRecord(obs.getiMap3SpeciesID(), obs.getDetected()));
 

@@ -32,6 +32,7 @@ iMapApp.Observation = function(od) {
 
     // Getters
     this.getPhotos = function() { return obsData.Photos; };
+    this.getPhotosFileName = function() { return obsData.Photos.replace(/^.*[\\\/]/, ''); }; //get just the file name
     this.getProject = function() { return obsData.Proj; };
     this.getProjectID = function() { return obsData.ProjID; };
     this.getiMap3ProjId = function() { return obsData.iMap3ProjId; };

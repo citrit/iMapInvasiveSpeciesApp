@@ -47,8 +47,8 @@ iMapApp.App = {
 
     delObservation: function(idx) {
         console.log("Going to delete: " + idx);
-        if (iMapApp.App.observ[idx].getPhotos() !== "") {
-            var img = iMapApp.App.observ[idx].getPhotos();
+        if (iMapApp.App.observ[idx].getPhotosFileName() !== "") {
+            var img = iMapApp.App.dataFolder + iMapApp.App.observ[idx].getPhotosFileName();
             console.log("Deleteing image: " + img);
             iMapApp.App.removeImage(img);
         }
@@ -123,8 +123,12 @@ iMapApp.App = {
         for (var key in iMapApp.App.observ) {
             var el = iMapApp.App.observ[key];
             var ph = new Date(el.getWhen());
+            var activePhotoUrl = null;
+            if (el.getPhotosFileName()) {
+                activePhotoUrl = iMapApp.App.dataFolder + el.getPhotosFileName();
+            }
             cards_data.unshift({
-                image: el.getPhotos(),
+                image: activePhotoUrl,
                 project: el.getProject(),
                 species: iMapApp.App.getSpeciesNameNew(iMapApp.App.getSpeciesRecord(el.getiMap3SpeciesID()), true),
                 detected: (el.getDetected() ? 'Detected' : 'Not Detected'),
