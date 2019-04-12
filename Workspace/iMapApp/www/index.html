@@ -287,6 +287,10 @@
             <input type="button" value="Save" onclick="iMapApp.uiUtils.editObsOk()">
             <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()">
         </div>
+        <div id="emergency-ios-bottom-space">
+            <!-- This is empty space to prevent keyboard from covering obs comments.
+            See here: https://github.com/apache/cordova-ios/issues/472 or https://github.com/apache/cordova-ios/issues/417  -->
+        </div>
     </div>
 
     <div id="uploadDialog" style="display: none;">

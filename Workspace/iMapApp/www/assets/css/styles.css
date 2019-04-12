@@ -303,6 +303,11 @@ html {
     background: #e4ffb9;
 }
 
+#emergency-ios-bottom-space {
+    display: block;
+    height: 275px;
+}
+
 .ui-controlgroup, fieldset.ui-controlgroup {
     margin: 1em 0;
 }
