@@ -306,7 +306,7 @@ iMapApp.uploadUtils = {
         dateDay = record.getWhen().substring(8,10),
         aoiTemplate = {
             "areaOfInterestId": null,
-            "organization": (record.getiMap3Org() != '-1' ? {'id': Number(record.getiMap3Org())} : null),
+            "organization": (record.getiMap3Org() > 0 ? {'id': Number(record.getiMap3Org())} : null),
             "createdBy": {
                 "id": iMapApp.iMapPrefs.params.personId
             },
@@ -448,7 +448,7 @@ iMapApp.uploadUtils = {
             if (record.getSize() != 'o' || record.getSizeMetric() != 'oo') {
                 aoiTemplate['presences'][0]['speciesList'][0]['comments'] += '\n\n' + $("#sizeOfAreaMetric option[value='" + record.getSizeMetric() + "']").text() + $("#sizeOfArea option[value='" + record.getSize() + "']").text();
             };
-            if (record.getiMap3ProjId() != '-1') {
+            if (record.getiMap3ProjId() > 0) {
                 aoiTemplate['presences'][0]['speciesList'][0]['taggedProjects'] = [{"project":{"id": record.getiMap3ProjId()}}];
             };
             if (recordPhoto) {
@@ -509,7 +509,7 @@ iMapApp.uploadUtils = {
             if (record.getComment()) {
                 aoiTemplate['absence']['speciesList'][0]['comments'] = record.getComment();
             };
-            if (record.getiMap3ProjId() != '-1') {
+            if (record.getiMap3ProjId() > 0) {
                 aoiTemplate['absence']['speciesList'][0]['taggedProjects'] = [{"project":{"id": record.getiMap3ProjId()}}];
             };
             if (recordPhoto) {
