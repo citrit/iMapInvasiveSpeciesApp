@@ -79,7 +79,14 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.params.navbar.disableDropDown();
             iMapApp.uiUtils.addObs();
         });
-        $('button[name="updateStateData"]').click(function() {
+        $('button[name="updateStateData"]').click(function () {
+            var sname = getDElem('select[name="stateSelect"]').val(),
+                email = $("#email").val(),
+                password = $("#pword").val();
+            iMapApp.iMapPrefs.params.Email = email;
+            iMapApp.iMapPrefs.params.Password = password;
+            iMapApp.iMapPrefs.params.CurrentState = sname;
+            iMapApp.iMapPrefs.saveParams();
             iMapApp.uiUtils.updateUserData();
         });
         $("#browserLogin").click(function() {
@@ -123,7 +130,7 @@ iMapApp.uiUtils = {
         iMapApp.uiUtils.checkIntroOverlay();
     },
 
-    attemptIMapSignInPromise: function() {
+    attemptIMapSignInPromise: function () {
         /*
 
         sign-in to iMap 3 to be able to interact with the iMap 3 REST services
@@ -133,37 +140,41 @@ iMapApp.uiUtils = {
         */
         return new Promise((resolve, reject) => {
             // to-do: add check to see if params are set
-            var iMapSignInPage = iMapApp.App.iMap3BaseURL + '/imap/login.jsp',
-            iMap3SignIn = cordova.InAppBrowser.open(iMapSignInPage, '_blank', 'location=no,hidden=yes');
-            iMap3SignIn.addEventListener('loadstop', function(event) {
-                var theRequestString = 'j_username=' + iMapApp.iMapPrefs.params.Email + '&j_password=' + iMapApp.iMapPrefs.params.Password,
-                loginUrl = iMapApp.App.iMap3BaseURL + '/imap/j_spring_security_check',
-                theRequest = encodeURI(theRequestString),
-                xhr = new XMLHttpRequest();
-                xhr.open('POST', loginUrl);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.onload = function() {
-                    var signInError = 0;
-                    if (xhr.status != 200) {
+            if (iMapApp.uiUtils.validUserParams()) {
+                var iMapSignInPage = iMapApp.App.iMap3BaseURL + '/imap/login.jsp',
+                    iMap3SignIn = cordova.InAppBrowser.open(iMapSignInPage, '_blank', 'location=no,hidden=yes');
+                iMap3SignIn.addEventListener('loadstop', function (event) {
+                    var theRequestString = 'j_username=' + iMapApp.iMapPrefs.params.Email + '&j_password=' + iMapApp.iMapPrefs.params.Password,
+                        loginUrl = iMapApp.App.iMap3BaseURL + '/imap/j_spring_security_check',
+                        theRequest = encodeURI(theRequestString),
+                        xhr = new XMLHttpRequest();
+                    xhr.open('POST', loginUrl);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onload = function () {
+                        var signInError = 0;
+                        if (xhr.status != 200) {
+                            iMap3SignIn.close();
+                            navigator.notification.alert("Sorry, an error occured when attempting to sign-in to iMapInvasives. Please try again later.", false, "iMap 3 Log-In Failure");
+                            signInError++;
+                            reject();
+                        };
+                        if (xhr.responseURL == iMapApp.App.iMap3BaseURL + '/imap/login.jsp?login_error=1') {
+                            iMap3SignIn.close();
+                            navigator.notification.alert("Sorry, the username and password combination you provided is incorrect. Please check the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
+                            signInError++;
+                            reject();
+                        };
+                        if (signInError === 0) {
+                            console.log("iMap 3 auth appears OK");
+                            resolve();
+                        }
                         iMap3SignIn.close();
-                        navigator.notification.alert("Sorry, an error occured when attempting to sign-in to iMapInvasives. Please try again later.", false, "iMap 3 Log-In Failure");
-                        signInError++;
-                        reject();
                     };
-                    if (xhr.responseURL == iMapApp.App.iMap3BaseURL + '/imap/login.jsp?login_error=1') {
-                        iMap3SignIn.close();
-                        navigator.notification.alert("Sorry, the username and password combination you provided is incorrect. Please check the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
-                        signInError++;
-                        reject();
-                    };
-                    if (signInError === 0) {
-                        console.log("iMap 3 auth appears OK");
-                        resolve();
-                    }
-                    iMap3SignIn.close();
-                };
-                xhr.send(theRequest);
-            });
+                    xhr.send(theRequest);
+                });
+            } else {
+                reject('An error occurred while attempting to update your species, project, and organization lists.');
+            }
         })
     },
 
@@ -314,8 +325,7 @@ iMapApp.uiUtils = {
 
     updateUserDataPromise: function () {
         return new Promise((resolve, reject) => {
-            iMapApp.uiUtils.savePrefs();
-            if (iMapApp.uiUtils.credentialsEntered()) {
+            if (iMapApp.uiUtils.validUserParams()) {
                 iMapApp.uiUtils.checkIfSignedIn()
                     .then(function (signedInStatus) {
                         if (!signedInStatus) {
@@ -355,14 +365,15 @@ iMapApp.uiUtils = {
                             reject('An error occurred while attempting to update your species, project, and organization lists.');
                         }
                     });
+            } else {
+                reject('An error occurred while attempting to update your species, project, and organization lists.');
             }
         });
     },
 
     updateUserData: function () {
-        if (iMapApp.uiUtils.credentialsEntered()) {
+        if (iMapApp.uiUtils.validUserParams()) {
             iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMapInvasives 3 to update your species, project, and organization lists...', 10);
-            iMapApp.uiUtils.savePrefs();
             iMapApp.uiUtils.attemptIMapSignInPromise()
                 .then(function () {
                     return iMapApp.uiUtils.getPersonID()
@@ -941,6 +952,14 @@ iMapApp.uiUtils = {
 
         if (email === "" || password === "" || sname === "" || sname === null) {
             iMapApp.uiUtils.openInfoDialog('Jurisdiction or Credentials Not Entered', 'In the Preferences Page, please select a jurisdiction and enter your iMap 3 email address and password to retrieve your user data/lists.');
+            return false;
+        };
+        return true;
+    },
+
+    validUserParams: function() {
+        if (!iMapApp.iMapPrefs.params.Email || !iMapApp.iMapPrefs.params.Password || !iMapApp.iMapPrefs.params.CurrentState || !(jQuery.isNumeric(iMapApp.iMapPrefs.params.CurrentState))) {
+            iMapApp.uiUtils.openInfoDialog('Jurisdiction or Credentials Not Entered', 'In the Preferences Page, please select a jurisdiction, enter your iMap 3 email address, and save the Preferences. Then try your request again.');
             return false;
         };
         return true;
