@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="201903312325" id="com.ltc.imapapp" ios-CFBundleVersion="201903312325" version="3.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="300000" id="com.ltc.imapapp" ios-CFBundleVersion="201904112233" version="3.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>iMapApp</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
