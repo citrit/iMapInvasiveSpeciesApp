@@ -446,7 +446,11 @@ iMapApp.uploadUtils = {
                 aoiTemplate['presences'][0]['speciesList'][0]['psAnimalInsect']['plantsAffectedCount'] = Number(record.getNumTrees());
             };
             if (record.getSize() != 'o' || record.getSizeMetric() != 'oo') {
-                aoiTemplate['presences'][0]['speciesList'][0]['comments'] += '\n\n' + $("#sizeOfAreaMetric option[value='" + record.getSizeMetric() + "']").text() + $("#sizeOfArea option[value='" + record.getSize() + "']").text();
+                if (aoiTemplate['presences'][0]['speciesList'][0]['comments']) {
+                    (aoiTemplate['presences'][0]['speciesList'][0]['comments']) += '\n\n' + $("#sizeOfAreaMetric option[value='" + record.getSizeMetric() + "']").text() + $("#sizeOfArea option[value='" + record.getSize() + "']").text();
+                } else {
+                    (aoiTemplate['presences'][0]['speciesList'][0]['comments']) = $("#sizeOfAreaMetric option[value='" + record.getSizeMetric() + "']").text() + $("#sizeOfArea option[value='" + record.getSize() + "']").text();
+                }
             };
             if (record.getiMap3ProjId() > 0) {
                 aoiTemplate['presences'][0]['speciesList'][0]['taggedProjects'] = [{"project":{"id": record.getiMap3ProjId()}}];
@@ -492,7 +496,7 @@ iMapApp.uploadUtils = {
                 ],
                 "lazy": false,
                 "deleted": false,
-                "ddataEntryMethodId": null,
+                "ddataEntryMethodId": 2,
                 "dremovedReasonId": null,
                 "conservationLands": [],
                 "usgsTopos": [],
