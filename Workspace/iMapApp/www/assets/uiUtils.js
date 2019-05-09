@@ -138,7 +138,7 @@ iMapApp.uiUtils = {
         otherwise rejected with error message displayed to the user
 
         */
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             // to-do: add check to see if params are set
             if (iMapApp.uiUtils.validUserParams()) {
                 var iMapSignInPage = iMapApp.App.iMap3BaseURL + '/imap/login.jsp',
@@ -229,7 +229,7 @@ iMapApp.uiUtils = {
 
     getPersonID: function () {
         // use the new AOI utility to get the iMap3 personID and store it in the iMap Prefs params
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
 
             var newAOIurl = iMapApp.App.iMap3BaseURL + '/imap/services/aoi/new',
                 xhr = new XMLHttpRequest();
@@ -263,7 +263,7 @@ iMapApp.uiUtils = {
     },
 
     getUserDetails: function () {
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             var personRecordUrl = iMapApp.App.iMap3BaseURL + '/imap/services/person/' + iMapApp.iMapPrefs.params.personId;
             var xhr = new XMLHttpRequest();
             xhr.open('GET', personRecordUrl);
@@ -324,7 +324,7 @@ iMapApp.uiUtils = {
     },
 
     updateUserDataPromise: function () {
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             if (iMapApp.uiUtils.validUserParams()) {
                 iMapApp.uiUtils.checkIfSignedIn()
                     .then(function (signedInStatus) {
@@ -1211,7 +1211,7 @@ iMapApp.uiUtils = {
         }
     },
 
-    jursidctionChangeHandler() {
+    jursidctionChangeHandler: function() {
         var sname = getDElem('select[name="stateSelect"]').val();
         if (sname) {
             iMapApp.App.downloadJurisdictionSppList(sname);

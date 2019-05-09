@@ -262,7 +262,7 @@ iMapApp.uploadUtils = {
     },
 
     getNewPresentSpRecord: function(stateSpId) {
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             var theRequestString = iMapApp.App.iMap3BaseURL + '/imap/services/presentSpecies/new/' + stateSpId;
             xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
@@ -280,7 +280,7 @@ iMapApp.uploadUtils = {
     },
 
     getNewNotDetectSpRecord: function(stateSpId) {
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             var theRequestString = iMapApp.App.iMap3BaseURL + '/imap/services/notDetectedSpecies/new/' + stateSpId;
             xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
@@ -525,7 +525,7 @@ iMapApp.uploadUtils = {
     },
 
     uploadRecordiMap3: function (formattedRecord) {
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             var theRequest = encodeURIComponent("record") + "=" + encodeURIComponent(JSON.stringify(formattedRecord)),
                 xhr = new XMLHttpRequest(),
                 uploadURL = iMapApp.App.iMap3BaseURL + '/imap/services/aoi/update';
@@ -555,7 +555,7 @@ iMapApp.uploadUtils = {
     * @returns {Promise} Promise object resolved if upload successful, rejected if an error occurs at any point during the upload.
     */
     uploadiMap3Photo: function (fileName) {
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             window.resolveLocalFileSystemURL(iMapApp.App.dataFolder, function (fs) {
                 console.log('file system open: ' + fs.name);
                 fs.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {

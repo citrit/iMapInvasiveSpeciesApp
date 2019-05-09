@@ -212,7 +212,7 @@ iMapApp.App = {
     },
 
     downloadJurisdictionSppList: function (dState) {
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             // get the iMap species list for the specified jurisdiction and store it in localStorage
             var jurisdictionSpp = iMapApp.App.iMap3BaseURL + '/imap/services/stateSpecList/all/' + dState,
                 xhr = new XMLHttpRequest();
@@ -255,7 +255,7 @@ iMapApp.App = {
         */
         var newListObj = {},
         sppId = listType + 'Id';
-        for (let i = 0; i < rawNewSppList.length; i++) {
+        for (var i = 0; i < rawNewSppList.length; i++) {
             newListObj[rawNewSppList[i][sppId]] = rawNewSppList[i]; // re-work the species list object to include a species Id as the key
         };
         localStorage.setItem(listType, JSON.stringify(newListObj)); // update localStorage item for species list with new data
