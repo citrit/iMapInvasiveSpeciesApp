@@ -906,8 +906,12 @@ iMapApp.uiUtils = {
         getDElem('#email').val(iMapApp.iMapPrefs.params.Email);
         getDElem('input[name="pword"]').val(iMapApp.iMapPrefs.params.Password);
         getDElem('select[name="stateSelect"]').val(iMapApp.iMapPrefs.params.CurrentState);
+        getDElem('input[name="checkbox-common"]').checkboxradio();
         getDElem('input[name="checkbox-common"]').prop('checked', iMapApp.iMapPrefs.params.Plants.UseCommon);
+        getDElem('input[name="checkbox-common"]').checkboxradio('refresh');
+        getDElem('input[name="checkbox-scientific"]').checkboxradio();
         getDElem('input[name="checkbox-scientific"]').prop('checked', iMapApp.iMapPrefs.params.Plants.UseScientific);
+        getDElem('input[name="checkbox-scientific"]').checkboxradio('refresh');
         var picSize = (iMapApp.iMapPrefs.params.PictureSize ? iMapApp.iMapPrefs.params.PictureSize : "medium");
         console.log("**picSize: " + picSize);
         getDElem('input[value="' + picSize + '"]').prop('checked', true);
@@ -998,6 +1002,12 @@ iMapApp.uiUtils = {
         //    DBFuncs.loadProjectList();
         //}
 
+        if (!iMapApp.uiUtils.sciCommonButtonSelected()) {
+            // if neither scientific or common name is selected, return an error
+            iMapApp.uiUtils.openInfoDialog('Species Name Display Not Set', 'Please select to display either Scientific or Common species names (or both).');
+            return
+        }
+
         iMapApp.iMapPrefs.params.CurrentState = sname;
         iMapApp.iMapPrefs.params.Plants.UseCommon = getDElem('input[name="checkbox-common"]').is(':checked');
         iMapApp.iMapPrefs.params.Plants.UseScientific = getDElem('input[name="checkbox-scientific"]').is(':checked');
@@ -1020,6 +1030,14 @@ iMapApp.uiUtils = {
                 iMapApp.uiUtils.introOverlayOpen();
                 localStorage.removeItem("firstInit");
             }
+        }
+    },
+
+    sciCommonButtonSelected: function() {
+        if (getDElem('input[name="checkbox-common"]').is(':checked') === true || getDElem('input[name="checkbox-scientific"]').is(':checked') === true) {
+            return true;
+        } else {
+            return false;
         }
     },
 
