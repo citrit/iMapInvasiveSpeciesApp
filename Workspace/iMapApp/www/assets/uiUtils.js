@@ -397,7 +397,7 @@ iMapApp.uiUtils = {
                         getDElem('select[name="listPrefOrg"]').val(iMapApp.iMapPrefs.params.OrgDefault);
                     }
                     iMapApp.App.listUpdateDateSetter();
-                    iMapApp.uiUtils.openInfoDialog('iMap Data Retrieval Successful', 'Your iMapInvasives data was retrieved successfully (which includes your Species, Project, and Organization lists).');
+                    iMapApp.uiUtils.openInfoDialog('iMap Data Retrieval Successful', '<span class="success">Your iMapInvasives data was retrieved successfully (which includes your Species, Project, and Organization lists).</span>');
                 })
                 .catch(function (e) {
                     if (e) {
