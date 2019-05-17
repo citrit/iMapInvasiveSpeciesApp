@@ -983,12 +983,13 @@ iMapApp.uiUtils = {
         var lnam = getDElem('input[name="lname"]').val();
         var unam = getDElem('input[name="uname"]').val();
         var pwor = getDElem('input[name="pword"]').val();
+        */
         var sname = getDElem('select[name="stateSelect"]').val();
-        if (fnam === "" || lnam === "" || sname === "") {
-            iMapApp.uiUtils.openInfoDialog('Preferences not set', 'Please fill in Preferences');
+        
+        if (!sname) {
+            iMapApp.uiUtils.openInfoDialog('Jurisdiction Not Selected', 'Please select a jurisdiction before proceeding.');
             return;
         }
-        */
         //iMapApp.uiUtils.openDialog('#waitDialog', "Saving Preferences");
         var sname = getDElem('select[name="stateSelect"]').val(),
         email = $("#email").val(),
