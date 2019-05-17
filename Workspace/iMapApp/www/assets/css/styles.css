@@ -163,6 +163,10 @@ html {
     background-clip: padding-box;
 }
 
+.success {
+    color: #0e7a0c;
+}
+
 .modal-overlay {
     visibility: hidden;
     position: absolute;

@@ -75,12 +75,12 @@
             <h2>Preferences</h2>
             <div class="pref-top-container">
                 <p id="pref-intro">
-                    <span class="pref-intro-bold">Welcome to iMapInvasives 3!</span>
-                    <span>To create or manage your iMapInvasives 3 account, please visit the <a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">iMapInvasives website</a>.</span>
-                    <span>If you used iMapInvasives prior to version 3, please first reset your password (at the <a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">iMapInvasives website</a>). Once complete, enter the email address and new password associated with your iMap account here to upload data.</span>
+                    <span class="pref-intro-bold">Welcome to the new version of the iMapInvasives Mobile App, designed specifically for iMap3.</span>
+                    <span>Please ensure that you have an <a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">active iMap3 account on iMapInvasives online</a> prior to uploading data.</span>
+                    <span>Select your jurisdiction and enter your iMap3 username and password to begin.</span>
                 </p>
                 <p name="prefError" style="color: #ff0000;"></p>
-                <label for='stateSelect'>Jursidction Species List:</label>
+                <label for='stateSelect'>Jurisdiction Species List:</label>
                 <select id='stateSelect' name='stateSelect' data-role="none">
                         <option value=""></option>
                         <option value="3">Arizona</option>
@@ -96,7 +96,7 @@
                         <option value="45">Vermont</option>
                         <option value="48">West Virginia</option>
                 </select>
-                <label for="email">iMapInvasives Email Address: <br></label>
+                <label for="email">iMapInvasives Username (Your Email Address): <br></label>
                 <label for="email" class="helper-text">(Enter the email address associated with your iMapInvasives account)</label>
                 <input type="email" name="email" id="email" value="" /> <br>
                 <label for="pword">iMapInvasives Password:</label>
@@ -107,7 +107,7 @@
             </div>
 
             <fieldset data-role="controlgroup" data-type='horizontal'>
-                <legend>Species Name:</legend>
+                <legend>Species Name Display:</legend>
                 <input type="checkbox" checked name="checkbox-scientific" id="checkbox-scientific" />
                 <label for="checkbox-scientific">Scientific</label>
                 <input type="checkbox" name="checkbox-common" id="checkbox-common" />
