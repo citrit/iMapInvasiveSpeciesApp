@@ -373,7 +373,7 @@ iMapApp.uploadUtils = {
             "dsiteDisturbanceTypeId": null,
             "dsiteDisturbanceSeverityId": null,
             "dlandscapeTypeId": null,
-            "dstateId": iMapApp.iMapPrefs.params.dStateID,
+            "dstateId": null,
             "lazy": false,
             "dremovedReasonId": null,
             "dcloudCoverId": null,
@@ -435,6 +435,8 @@ iMapApp.uploadUtils = {
                 }
             };
             aoiTemplate['presences'].push(presenceRecord);
+
+            aoiTemplate['dstateId'] = presenceRecord['speciesList'][0]['stateSpeciesList']['dstateId'];
 
             if (record.getComment()) {
                 aoiTemplate['presences'][0]['speciesList'][0]['comments'] = record.getComment();
@@ -509,6 +511,8 @@ iMapApp.uploadUtils = {
                 "imap2Id": null
             };
             aoiTemplate['absence'] = notDetectedRecord;
+
+            aoiTemplate['dstateId'] = notDetectedRecord['speciesList'][0]['stateSpeciesList']['dstateId'];
 
             if (record.getComment()) {
                 aoiTemplate['absence']['speciesList'][0]['comments'] = record.getComment();
