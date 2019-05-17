@@ -864,6 +864,10 @@ iMapApp.uiUtils = {
         if ((iMapApp.iMapPrefs.params.Plants.MyPlants.length > 0) &&
             (getDElem('input[name="custSpeciesCheck"]').is(':checked'))) {
             iMapApp.iMapPrefs.params.Plants.MyPlants.forEach(function (p) {
+                // filter out iMap3 "untracked" species
+                if (pdata[p]['trackedInd'] === false) {
+                    return;
+                };
                 var lStr = iMapApp.App.getSpeciesNameNew(pdata[p], true);
                 selMen //<input name="your_name" value="your_value" type="checkbox">
                     .append($("<option></option>")
@@ -876,6 +880,10 @@ iMapApp.uiUtils = {
                 state = (listType == 'state' ? true : false),
                 spName = iMapApp.App.getSpeciesNameNew(theSp, state),
                 spVal = sp;
+                // filter out iMap3 "untracked" species
+                if (pdata[Number(sp)]['trackedInd'] === false) {
+                    return;
+                };
                 selMen
                     .append($("<option></option>")
                         .attr("value", spVal)
@@ -1051,6 +1059,9 @@ iMapApp.uiUtils = {
             selMen.empty();
             selMen.data("role", "none");
             $.each(skeys, function(key, val) {
+                if (pdata[val]['trackedInd'] === false) {
+                    return;
+                };
                 var lStr = iMapApp.App.getSpeciesNameNew(pdata[val], 'state');
                 //console.log( "Inserting Species id: " + val  + "  Name: " + lStr );
                 var chk = (iMapApp.iMapPrefs.params.Plants.MyPlants.indexOf(val) >= 0 ? 'checked' : '');
