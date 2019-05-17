@@ -33,13 +33,19 @@ iMapApp.iMapPrefs = {
     init: function() {
         var parms = localStorage.getItem("userParams");
         if (parms === null) {
+            // if app preferences have never been initialized, direct user to the Preferences page
             iMapApp.uiUtils.editPrefs("Initialization: Please fill in the preferences.");
             localStorage.setItem("firstInit", true);
         } else {
             iMapApp.iMapPrefs.loadParams();
             if (!iMapApp.iMapPrefs.params.Email) {
+                // if app preferences have been initialized but the iMap3 user account info is empty, direct user to the Preferences page
+                // reset some Preferences for iMap3
+                iMapApp.iMapPrefs.params.Password = "";
+                iMapApp.iMapPrefs.params.Plants.MyPlants = [];
                 iMapApp.uiUtils.editPrefs();
             } else {
+                // if app preferences appear OK, direct user to the main screen
                 iMapApp.uiUtils.gotoMainPage();
             }
         }
