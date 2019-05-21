@@ -104,14 +104,11 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.introOverlayClose();
         });
         // Handle back button.
-        document.addEventListener("backbutton", function(e) {
-            if ($.mobile.activePage.is('#mainPage')) {
+        document.addEventListener("backbutton", function() {
+            if ($.mobile.activePage.is('#mainPage') || ($.mobile.activePage.is('#prefPage') && localStorage.getItem("firstInit") == 'true')) {
                 iMapApp.uiUtils.openOkCancelDialog('iMapInvasives', 'Exit iMapInvasives?',
                     navigator.app.exitApp);
             } else {
-                if (!iMapApp.uiUtils.credentialsEntered()) {
-                    return;
-                }
                 navigator.app.backHistory();
                 iMapApp.iMapMap.stopGPSTimer();
             }
