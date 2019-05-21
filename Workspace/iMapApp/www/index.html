@@ -75,7 +75,7 @@
             <h2>Preferences</h2>
             <div class="pref-top-container">
                 <p id="pref-intro">
-                    <span class="pref-intro-bold">Welcome to the new version of the iMapInvasives Mobile App, designed specifically for iMap3.</span>
+                    <span class="pref-intro-bold">Welcome to the new version of the iMapInvasives Mobile App, now compatible with iMap3.</span>
                     <span>Please ensure that you have an <a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">active iMap3 account on iMapInvasives online</a> prior to uploading data.</span>
                     <span>Select your jurisdiction and enter your iMap3 username and password to begin.</span>
                 </p>
@@ -159,7 +159,7 @@
             </div>
             <div data-role="controlgroup" data-type="horizontal">
                 <input type="button" value="Save" onclick="iMapApp.uiUtils.savePrefs('button')" class="button-emphasis"></input>
-                <input type="button" value="Cancel" onclick="iMapApp.uiUtils.gotoMainPage()" class="button-emphasis"></input>
+                <input type="button" value="Cancel" onclick="iMapApp.uiUtils.prefsCancelButtonHandler()" class="button-emphasis"></input>
             </div>
             <!-- <button name="checkDiskSpace" onclick="iMapApp.App.checkDiskSpace()">Check Disk Space</button> -->
 

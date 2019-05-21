@@ -987,7 +987,7 @@ iMapApp.uiUtils = {
         var sname = getDElem('select[name="stateSelect"]').val();
         
         if (!sname) {
-            iMapApp.uiUtils.openInfoDialog('Jurisdiction Not Selected', 'Please select a jurisdiction before proceeding.');
+            iMapApp.uiUtils.openInfoDialog('Jurisdiction Not Selected', 'Please select a Jurisdiction, then Save Preferences to proceed.');
             return;
         }
         //iMapApp.uiUtils.openDialog('#waitDialog', "Saving Preferences");
@@ -1091,12 +1091,12 @@ iMapApp.uiUtils = {
         return ret;
     },
 
-    checkStateNotSelected: function() {
-        if (iMapApp.iMapPrefs.params.CurrentState === "") {
-            iMapApp.uiUtils.openInfoDialog('Preferences not set', 'Please fill in Preferences');
-            return true;
+    prefsCancelButtonHandler: function() {
+        if (iMapApp.iMapPrefs.params.CurrentState) {
+            iMapApp.uiUtils.gotoMainPage();
         } else {
-            return false;
+            iMapApp.uiUtils.openInfoDialog('Jurisdiction Not Selected', 'Please select a Jurisdiction, then Save Preferences to proceed.');
+            return;
         }
     },
 
