@@ -230,6 +230,7 @@ iMapApp.uiUtils = {
 
             var newAOIurl = iMapApp.App.iMap3BaseURL + '/imap/services/aoi/new',
                 xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
             xhr.open('GET', newAOIurl);
             xhr.onload = function () {
                 if (xhr.status == 200) {
@@ -263,6 +264,7 @@ iMapApp.uiUtils = {
         return new Promise(function (resolve, reject) {
             var personRecordUrl = iMapApp.App.iMap3BaseURL + '/imap/services/person/' + iMapApp.iMapPrefs.params.personId;
             var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
             xhr.open('GET', personRecordUrl);
             xhr.onload = function () {
                 if (xhr.status == 200) {
