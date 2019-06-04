@@ -272,7 +272,7 @@ iMapApp.App = {
         var updDate = new Date(dts[0], parseInt(dts[1]) - 1, dts[2]);
         var now = new Date();
         var diffDays = parseInt((now - updDate) / (1000 * 60 * 60 * 24));
-        if (diffDays > 90) {
+        if (diffDays > 30) {
             navigator.notification.confirm("Your iMap 3 User Data (Project, Organization, and Species Lists) may be out of date. Would you like to attempt to retrieve this data from iMap now? (Or you can manually retrieve this data later in the Preferences page.)", iMapApp.uiUtils.checkListsButtonActions, "iMap Lists Update Needed", ["Yes, Refresh iMap Data Now", "No, Wait to Refresh Later"]);
         }
     },
