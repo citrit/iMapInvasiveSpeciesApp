@@ -364,8 +364,8 @@ html {
 }
 
 #pref-intro span {
-    display: block;
-    margin: 0.5em 0;
+    font-size: 14px;
+    font-style: italic;
 }
 
 .pref-intro-bold {

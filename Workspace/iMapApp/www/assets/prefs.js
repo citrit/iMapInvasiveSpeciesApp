@@ -34,7 +34,7 @@ iMapApp.iMapPrefs = {
         var parms = localStorage.getItem("userParams");
         if (parms === null) {
             // if app preferences have never been initialized, direct user to the Preferences page
-            iMapApp.uiUtils.editPrefs("Initialization: Please fill in the preferences.");
+            iMapApp.uiUtils.editPrefs();
             localStorage.setItem("firstInit", true);
         } else {
             iMapApp.iMapPrefs.loadParams();
