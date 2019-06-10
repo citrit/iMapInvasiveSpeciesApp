@@ -48,9 +48,8 @@ iMapApp.uploadUtils = {
             console.log('Going to upload: ' + JSON.stringify(obs.getObsData()));
             iMapApp.uploadUtils.uploadHandleriMap3(obs);
         } else {
-            $('p[name="infoDialText"]').text('Uploaded [' + (iMapApp.uploadUtils.numUploads - iMapApp.uploadUtils.errorCnt) + '] records.');
-            iMapApp.uiUtils.openDialog('#infoDialog', 'Upload complete');
             iMapApp.uiUtils.waitDialogClose(true);
+            iMapApp.uiUtils.openInfoDialog('iMap Data Upload Successful', '<span class="success">Uploaded [' + (iMapApp.uploadUtils.numUploads - iMapApp.uploadUtils.errorCnt) + '] record(s).<br><br>Visit <a href="#" onclick="window.open(\'https://imapinvasives.natureserve.org/imap/login.jsp\', \'_system\')">iMap3 online</a> and log in to view your uploaded record(s).</span>');
         }
     },
 
