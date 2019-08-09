@@ -141,9 +141,8 @@ iMapApp.uiUtils = {
                 var iMapSignInPage = iMapApp.App.iMap3BaseURL + '/imap/login.jsp',
                     iMap3SignIn = cordova.InAppBrowser.open(iMapSignInPage, '_blank', 'location=no,hidden=yes');
                 iMap3SignIn.addEventListener('loadstop', function (event) {
-                    var theRequestString = 'j_username=' + iMapApp.iMapPrefs.params.Email + '&j_password=' + iMapApp.iMapPrefs.params.Password,
+                    var theRequest = 'j_username=' + encodeURIComponent(iMapApp.iMapPrefs.params.Email) + '&j_password=' + encodeURIComponent(iMapApp.iMapPrefs.params.Password),
                         loginUrl = iMapApp.App.iMap3BaseURL + '/imap/j_spring_security_check',
-                        theRequest = encodeURI(theRequestString),
                         xhr = new XMLHttpRequest();
                     xhr.open('POST', loginUrl);
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
