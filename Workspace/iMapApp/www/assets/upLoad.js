@@ -49,7 +49,7 @@ iMapApp.uploadUtils = {
             iMapApp.uploadUtils.uploadHandleriMap3(obs);
         } else {
             iMapApp.uiUtils.waitDialogClose(true);
-            iMapApp.uiUtils.openInfoDialog('iMap Data Upload Successful', '<span class="success">Uploaded [' + (iMapApp.uploadUtils.numUploads - iMapApp.uploadUtils.errorCnt) + '] record(s).<br><br>Visit <a href="#" onclick="window.open(\'https://imapinvasives.natureserve.org/imap/login.jsp\', \'_system\')">iMap3 online</a> and log in to view your uploaded record(s).</span>');
+            iMapApp.uiUtils.openInfoDialog('iMap Data Upload Successful', '<span class="success">Uploaded [' + (iMapApp.uploadUtils.numUploads - iMapApp.uploadUtils.errorCnt) + '] record(s).<br><br>Visit <a href="#" onclick="iMapApp.uiUtils.externalUrlHandler(\'map\',\'https://imapinvasives.natureserve.org/imap/login.jsp\')">iMap3 online</a> and log in to view your uploaded record(s).</span>');
         }
     },
 

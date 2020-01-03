@@ -78,7 +78,7 @@
                     <p class="pref-intro-bold">Welcome to the new version of the iMapInvasives Mobile App, now compatible with iMap3.</p>
                     <p>Uploading data to iMap3 requires the following:</p>
                         <ul>
-                            <li>An active iMap3 account<br><span>(<a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">To create/manage your account, visit iMap3 online</a>)</span></li>
+                            <li>An active iMap3 account<br><span>(<a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('acct','https://imapinvasives.natureserve.org/imap/login.jsp')">To create/manage your account, visit iMap3 online</a>)</span></li>
                             <li>Jurisdiction Species List selected below</li>
                             <li>Your active iMap3 Username and Password entered below</li>
                         </ul>
@@ -110,7 +110,7 @@
                 <label for="pword">iMapInvasives Password:</label>
                 <label for="pword" class="helper-text">(Must match your iMapInvasives password)</label>
                 <input type="password" name="pword" id="pword" value="" />
-                <span id="acct-mgmt"><a href="#" onclick="window.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_system')">Create Account or Reset Password</a></span>
+                <span id="acct-mgmt"><a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('acct','https://imapinvasives.natureserve.org/imap/login.jsp')">Create Account or Reset Password</a></span>
                 <button name="updateStateData" id="updateStateData" class="button-emphasis">Retrieve iMap Lists</button>
             </div>
 
@@ -354,7 +354,7 @@
             <h1>Introduction:</h1>
 
             <p class=MsoNormal><span class=SpellE><span class=GramE>iMapInvasives</span></span>
-                Mobile has been developed to facilitate reporting of invasive species observations from your Android or Apple device. To be able to upload data, please create a free account on the <a href="#" onclick="window.open('https://www.imapinvasives.org/', '_system')">iMapInvasives website</a>.</p>
+                Mobile has been developed to facilitate reporting of invasive species observations from your Android or Apple device. To be able to upload data, please create a free account on the <a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('acct','https://imapinvasives.natureserve.org/imap/login.jsp')">iMapInvasives website</a>.</p>
 
             <h1>Preferences:</h1>
 
@@ -370,9 +370,9 @@
             <p class=MsoNormal>The Observation Record is where a new observation can be recorded or an existing record can be modified prior to upload.</p>
             <img class="imgwrapper" src="Help_files/image006.png" width="350" />
             
-            <p>To view your uploaded data, visit the <a href="#" onclick="window.open('https://imapinvasives.natureserve.org', '_system')">iMapInvasives web application</a>. Once there, pan the map to the area in which you uploaded the records. Note that if you uploaded a record with a "Detected" species, the record will most likely be contained within the "Unconfirmed Presence" layer on the map.</p>
+            <p>To view your uploaded data, visit the <a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('map','https://imapinvasives.natureserve.org/imap/login.jsp')">iMapInvasives web application</a>. Once there, sign-in, and pan the map to the area in which you uploaded the records. Note that if you uploaded a record with a "Detected" species, the record will most likely be contained within the "Unconfirmed Presence" layer on the map.</p>
 
-            <p>To view the latest updates to iMapInvasives help documentation, please visit the <a href="#" onclick="window.open('https://www.imapinvasives.org/help', '_system')">iMapInvasives website help page</a>.</p>
+            <p>To view the latest updates to iMapInvasives help documentation, please visit the <a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('help','https://www.imapinvasives.org/help')">iMapInvasives website help page</a>.</p>
 
         </div>
         <br><br><input type="button" value="OK" onclick="iMapApp.uiUtils.closeDialog()"></input>

@@ -1256,6 +1256,22 @@ iMapApp.uiUtils = {
         bottomBarHelperRemove: function() {
             document.getElementById("footer-status-bar").classList.remove("footer-status-bar-push");
         }
+    },
+
+    externalUrlHandler: function(notice, theUrl) {
+        var notices = {
+            "acct": "You are now leaving the iMap Mobile App to visit the iMap account management page in your web browser. Return to the app when complete.",
+            "map": "You are now leaving the iMap Mobile App to sign-in to iMap in a web browser to explore iMap data.",
+            "help": "You are now leaving the iMap Mobile App to view help documentation on the iMap website."
+        };
+
+        navigator.notification.confirm(notices[notice], function(buttonIndex) {iMapApp.uiUtils.externalUrlHandlerResponse(buttonIndex, theUrl);}, "Leaving iMap Mobile App");
+    },
+
+    externalUrlHandlerResponse(theButtonResponse, theUrl) {
+        if (theButtonResponse === 1) {
+            window.open(theUrl, '_system');
+        }
     }
 };
 
