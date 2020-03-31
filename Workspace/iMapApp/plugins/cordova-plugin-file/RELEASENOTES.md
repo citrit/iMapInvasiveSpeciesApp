@@ -7,9 +7,9 @@
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
-# 
+#
 # http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing,
 # software distributed under the License is distributed on an
 # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -20,19 +20,98 @@
 -->
 # Release Notes
 
+### 6.0.2 (Jun 27, 2019)
+
+-   fix: manually fix line endings of some files that were using CRLF ([`e8e06c3`](https://github.com/apache/cordova-plugin-file/commit/e8e06c3))
+-   chore: fix repo and issue urls and license in package.json and plugin.xml ([`1bca166`](https://github.com/apache/cordova-plugin-file/commit/1bca166))
+-   docs: remove outdated translations ([`a898b85`](https://github.com/apache/cordova-plugin-file/commit/a898b85))
+-   build: add `.gitattributes` to force LF (instead of possible CRLF on Windows) ([`d691a04`](https://github.com/apache/cordova-plugin-file/commit/d691a04))
+-   build: add `.npmignore` to remove unneeded files from npm package ([`a255202`](https://github.com/apache/cordova-plugin-file/commit/a255202))
+-   ci(travis): Update Travis CI configuration for new paramedic ([#314](https://github.com/apache/cordova-plugin-file/issues/314)) ([`2b93a67`](https://github.com/apache/cordova-plugin-file/commit/2b93a67))
+-   fix(browser): support safari private browsing mode by using base64 text instead of blob ([#301](https://github.com/apache/cordova-plugin-file/issues/301)) ([`c609ff6`](https://github.com/apache/cordova-plugin-file/commit/c609ff6))
+-   chore(github): Add or update GitHub pull request and issue template ([`b762743`](https://github.com/apache/cordova-plugin-file/commit/b762743))
+-   fix(types): CB-13569: fix inverted LocalFileSystem enum ([#274](https://github.com/apache/cordova-plugin-file/issues/274)) ([`d135cd0`](https://github.com/apache/cordova-plugin-file/commit/d135cd0))
+-   docs: remove JIRA link ([`341fa9c`](https://github.com/apache/cordova-plugin-file/commit/341fa9c))
+-   fix(types): CB-13850: Fix spelling in typed-file: property name filesystem (wrong… ([#229](https://github.com/apache/cordova-plugin-file/issues/229)) ([`4642fde`](https://github.com/apache/cordova-plugin-file/commit/4642fde))
+-   fix(types): CB-13960: fix FileWriter.write argument type definition for typescript ([#231](https://github.com/apache/cordova-plugin-file/issues/231)) ([`5353b84`](https://github.com/apache/cordova-plugin-file/commit/5353b84))
+-   ci(travis): also accept terms for android sdk `android-27` ([`6e7871b`](https://github.com/apache/cordova-plugin-file/commit/6e7871b))
+-   docs: add details for `applicationDirectory` on android ([#234](https://github.com/apache/cordova-plugin-file/issues/234)) ([`c2f5216`](https://github.com/apache/cordova-plugin-file/commit/c2f5216))
+-   fix: require FileReader in FileWriter to fix 'write' exec not being called ([#237](https://github.com/apache/cordova-plugin-file/issues/237)) ([`4a92bbb`](https://github.com/apache/cordova-plugin-file/commit/4a92bbb))
+-   fix(android): CB-14181: (android) Fix bug - Cannot read property 'filesystemName' of null ([#235](https://github.com/apache/cordova-plugin-file/issues/235)) ([`cc3aedb`](https://github.com/apache/cordova-plugin-file/commit/cc3aedb))
+-   ci(travis): CB-13753: Add build-tools-26.0.2 to travis ([#228](https://github.com/apache/cordova-plugin-file/issues/228)) ([`d8cc0fd`](https://github.com/apache/cordova-plugin-file/commit/d8cc0fd), [`5e12b5e`](https://github.com/apache/cordova-plugin-file/commit/5e12b5e))
+-   chore: Fix release notes ([#227](https://github.com/apache/cordova-plugin-file/issues/227)) ([`c248827`](https://github.com/apache/cordova-plugin-file/commit/c248827))
+
+
+### 6.0.1 (Dec 27, 2017)
+* [CB-13704](https://issues.apache.org/jira/browse/CB-13704) Fix to allow 6.0.0 version install
+
+### 6.0.0 (Dec 15, 2017)
+* [CB-13668](https://issues.apache.org/jira/browse/CB-13668) Remove deprecated platforms
+
+### 5.0.0 (Nov 06, 2017)
+* [CB-13481](https://issues.apache.org/jira/browse/CB-13481) (android) Don't ask for permission to read `file:///android_asset/`
+* [CB-13518](https://issues.apache.org/jira/browse/CB-13518) Add 'protective' entry to `cordovaDependencies`
+* [CB-13472](https://issues.apache.org/jira/browse/CB-13472) (CI) Fixed Travis **Android** builds again
+* [CB-13294](https://issues.apache.org/jira/browse/CB-13294) Remove `cordova-plugin-compat`
+* fixing `README` in use of `window.resolveLocalFileSystemURL`
+* [CB-12895](https://issues.apache.org/jira/browse/CB-12895) setup `eslint` and took out `jshint`
+* [CB-13028](https://issues.apache.org/jira/browse/CB-13028) (CI) **Browser** builds on Travis
+* [CB-13000](https://issues.apache.org/jira/browse/CB-13000) (CI) Speed up **Android** builds
+* [CB-12355](https://issues.apache.org/jira/browse/CB-12355) (iOS) add desciption about the `mimeTypeForFileAtPath` method
+* [CB-12355](https://issues.apache.org/jira/browse/CB-12355) (iOS) fix `FileEntry.file.type`
+* [CB-12847](https://issues.apache.org/jira/browse/CB-12847) added `bugs` entry to `package.json`.
+
+### 4.3.3 (Apr 27, 2017)
+* [CB-12622](https://issues.apache.org/jira/browse/CB-12622) Added **Android 6.0** build badge to `README`
+* [CB-12685](https://issues.apache.org/jira/browse/CB-12685) added `package.json` to tests folder
+
+### 4.3.2 (Feb 28, 2017)
+* [CB-12353](https://issues.apache.org/jira/browse/CB-12353) Corrected merges usage in `plugin.xml`
+* [CB-12369](https://issues.apache.org/jira/browse/CB-12369) Add plugin typings from `DefinitelyTyped`
+* [CB-12363](https://issues.apache.org/jira/browse/CB-12363) Added build badges for **iOS 9.3** and **iOS 10.0**
+* [CB-12230](https://issues.apache.org/jira/browse/CB-12230) Removed **Windows 8.1** build badges
+
+### 4.3.1 (Dec 07, 2016)
+* [CB-12224](https://issues.apache.org/jira/browse/CB-12224) Updated version and RELEASENOTES.md for release 4.3.1
+* [CB-12112](https://issues.apache.org/jira/browse/CB-12112) windows: Make available to move folder trees
+* fix ENCODING_ERR for applicationDirectory
+* [CB-11848](https://issues.apache.org/jira/browse/CB-11848) windows: Remove duplicate slash after file system path
+* [CB-11917](https://issues.apache.org/jira/browse/CB-11917) - Remove pull request template checklist item: "iCLA has been submitted…"
+* [CB-11947](https://issues.apache.org/jira/browse/CB-11947) fixed typo that occurs when adding file-transfer plugin
+* [CB-11832](https://issues.apache.org/jira/browse/CB-11832) Incremented plugin version.
+
+### 4.3.0 (Sep 08, 2016)
+* [CB-11795](https://issues.apache.org/jira/browse/CB-11795) Add 'protective' entry to cordovaDependencies
+* Add handling for `SecurityException`
+* [CB-11368](https://issues.apache.org/jira/browse/CB-11368) **android**: Resolve content `URLs` produced by contacts plugin
+* Plugin uses `Android Log class` and not `Cordova LOG class`
+* [CB-11693](https://issues.apache.org/jira/browse/CB-11693) **ios**: Run copy and move operations in the background thread
+* [CB-11699](https://issues.apache.org/jira/browse/CB-11699) Read files as Data URLs properly
+* [CB-11305](https://issues.apache.org/jira/browse/CB-11305) Enable `cdvfile: assets fs root` for `DOM` requests
+* [CB-11385](https://issues.apache.org/jira/browse/CB-11385) android: Import java.nio.charset.Charset in LocalFileSystem class
+* Add badges for paramedic builds on Jenkins
+* [CB-11407](https://issues.apache.org/jira/browse/CB-11407) ios: added extern keyword to constants to fix phonegap-webview-ios template issue.
+* [CB-11385](https://issues.apache.org/jira/browse/CB-11385) **android**: Does not pass sonarqube scan
+* Add pull request template.
+* Minor edits to the `README.md`
+* [CB-11142](https://issues.apache.org/jira/browse/CB-11142) Fix the `NeedPermission` code for the case when external media is not mounted in Android
+* [CB-11003](https://issues.apache.org/jira/browse/CB-11003) Adding samples to Readme.
+* [CB-10996](https://issues.apache.org/jira/browse/CB-10996) Adding front matter to README.md
+* [CB-11115](https://issues.apache.org/jira/browse/CB-11115) **android**: Removing dependency on FileDescriptor toString in content provider tests
+
 ### 4.2.0 (Apr 15, 2016)
-* CB-10960 Uncaught `#<FileError>` in `write()` when `readyState != WRITING ?`
+* [CB-10960](https://issues.apache.org/jira/browse/CB-10960) Uncaught `#<FileError>` in `write()` when `readyState != WRITING ?`
 * Replace `PermissionHelper.java` with `cordova-plugin-compat`
-* CB-10977 **Android** Removing global state used for permission requests
-* CB-10798, CB-10384 Fixing permissions for **Marshmallow**.
+* [CB-10977](https://issues.apache.org/jira/browse/CB-10977) **Android** Removing global state used for permission requests
+* CB-10798, [CB-10384](https://issues.apache.org/jira/browse/CB-10384) Fixing permissions for **Marshmallow**.
 * Fix test failure on **WP 8.1**
-* CB-10577 **Windows** `resolveLocalFileSystemURL` should omit trailing slash for file
-* CB-7862 `FileReader` reads large files in chunks with progress.
-* CB-10577 **Android** `resolveLocalFileSystemURL` should detect directory vs file.
-* CB-9753 index out of bounds on `requestFileSystem`.
+* [CB-10577](https://issues.apache.org/jira/browse/CB-10577) **Windows** `resolveLocalFileSystemURL` should omit trailing slash for file
+* [CB-7862](https://issues.apache.org/jira/browse/CB-7862) `FileReader` reads large files in chunks with progress.
+* [CB-10577](https://issues.apache.org/jira/browse/CB-10577) **Android** `resolveLocalFileSystemURL` should detect directory vs file.
+* [CB-9753](https://issues.apache.org/jira/browse/CB-9753) index out of bounds on `requestFileSystem`.
 * Remove `warning` emoji, as it doesn't correctly display in the docs website: cordova.apache.org/docs/en/dev/cordova-plugin-file/index.html. This closes #166
-* CB-10636 Add `JSHint` for plugins
-* CB-10411 Error in `file.spec.129` of `cordova-plugin-file`
+* [CB-10636](https://issues.apache.org/jira/browse/CB-10636) Add `JSHint` for plugins
+* [CB-10411](https://issues.apache.org/jira/browse/CB-10411) Error in `file.spec.129` of `cordova-plugin-file`
 
 ### 4.1.1 (Feb 09, 2016)
 * Edit package.json license to match SPDX id
@@ -40,9 +119,9 @@
 
 ### 4.1.0 (Jan 15, 2016)
 * added `.ratignore` file
-* CB-10319 **android** Adding reflective helper methods for permission requests
-* CB-10023 Fix `proxy not found error` on Chrome.
-* CB-8863 **ios** Fix block usage of self
+* [CB-10319](https://issues.apache.org/jira/browse/CB-10319) **android** Adding reflective helper methods for permission requests
+* [CB-10023](https://issues.apache.org/jira/browse/CB-10023) Fix `proxy not found error` on Chrome.
+* [CB-8863](https://issues.apache.org/jira/browse/CB-8863) **ios** Fix block usage of self
 
 ### 4.0.0 (Nov 18, 2015)
 * [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Updated `RELEASENOTES` to be newest to oldest

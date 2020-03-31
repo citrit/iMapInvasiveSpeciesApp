@@ -71,7 +71,7 @@ are not available until after the `deviceready` event.
     }
 
 ```
-## <a id="reference"></a>Reference
+
 ## Installation
 
 This requires cordova 5.0+ ( current stable 1.0.0 )

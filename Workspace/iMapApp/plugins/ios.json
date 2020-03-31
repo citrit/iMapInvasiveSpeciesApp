@@ -8,70 +8,62 @@
   },
   "installed_plugins": {
     "cordova-custom-config": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-app-version": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-battery-status": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-camera": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-compat": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-device": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-device-motion": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "cordova-plugin-device-orientation": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-dialogs": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-file-transfer": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-geolocation": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-media": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-media-capture": {
-      "CAMERA_USAGE_DESCRIPTION": "ImapInvasives needs accces to the camera, photos, and for future the microphone .",
-      "MICROPHONE_USAGE_DESCRIPTION": "ImapInvasives needs accces for future features to the microphone .",
-      "PHOTOLIBRARY_USAGE_DESCRIPTION": "ImapInvasives needs accces to photos.",
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-network-information": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-vibration": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "cordova.plugins.diagnostic": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-battery-status": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-compat": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-media": {
+      "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-media-capture": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     }
   },
   "dependent_plugins": {}

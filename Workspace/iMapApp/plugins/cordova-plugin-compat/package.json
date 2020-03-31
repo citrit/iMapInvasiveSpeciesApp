@@ -1,19 +1,19 @@
 {
-  "_from": "cordova-plugin-compat@1.2.0",
+  "_from": "cordova-plugin-compat@latest",
   "_id": "cordova-plugin-compat@1.2.0",
   "_inBundle": false,
   "_integrity": "sha1-C8ZXVyduvZIMASzpIOJ0F3V2Nz4=",
   "_location": "/cordova-plugin-compat",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "cordova-plugin-compat@1.2.0",
+    "raw": "cordova-plugin-compat@latest",
     "name": "cordova-plugin-compat",
     "escapedName": "cordova-plugin-compat",
-    "rawSpec": "1.2.0",
+    "rawSpec": "latest",
     "saveSpec": null,
-    "fetchSpec": "1.2.0"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
     "#USER",
@@ -21,7 +21,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-compat/-/cordova-plugin-compat-1.2.0.tgz",
   "_shasum": "0bc65757276ebd920c012ce920e274177576373e",
-  "_spec": "cordova-plugin-compat@1.2.0",
+  "_spec": "cordova-plugin-compat@latest",
   "_where": "/Users/nynhp/apps/iMapInvasiveSpeciesApp/Workspace/iMapApp",
   "author": {
     "name": "Apache Software Foundation"

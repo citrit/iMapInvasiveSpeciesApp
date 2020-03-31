@@ -1,33 +1,33 @@
 {
-  "_from": "cordova-plugin-geolocation@4.0.1",
-  "_id": "cordova-plugin-geolocation@4.0.1",
+  "_from": "cordova-plugin-geolocation@latest",
+  "_id": "cordova-plugin-geolocation@4.0.2",
   "_inBundle": false,
-  "_integrity": "sha1-RwP6ZJ0kBdJamnMsmev4aHVKLAQ=",
+  "_integrity": "sha512-QGThnPKzPxESHkruZlpE0+5aFBVOet8al0vIJ7laSUOQHIC1dd/JY6peVIbtLboKi5Dap1wCKRubOqPqH8xcQA==",
   "_location": "/cordova-plugin-geolocation",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "cordova-plugin-geolocation@4.0.1",
+    "raw": "cordova-plugin-geolocation@latest",
     "name": "cordova-plugin-geolocation",
     "escapedName": "cordova-plugin-geolocation",
-    "rawSpec": "4.0.1",
+    "rawSpec": "latest",
     "saveSpec": null,
-    "fetchSpec": "4.0.1"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-geolocation/-/cordova-plugin-geolocation-4.0.1.tgz",
-  "_shasum": "4703fa649d2405d25a9a732c99ebf868754a2c04",
-  "_spec": "cordova-plugin-geolocation@4.0.1",
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-geolocation/-/cordova-plugin-geolocation-4.0.2.tgz",
+  "_shasum": "4668a01ae8a49e27c5515f8b81880983e96d7eb3",
+  "_spec": "cordova-plugin-geolocation@latest",
   "_where": "/Users/nynhp/apps/iMapInvasiveSpeciesApp/Workspace/iMapApp",
   "author": {
     "name": "Apache Software Foundation"
   },
   "bugs": {
-    "url": "https://issues.apache.org/jira/browse/CB"
+    "url": "https://github.com/apache/cordova-plugin-geolocation/issues"
   },
   "bundleDependencies": false,
   "cordova": {
@@ -78,5 +78,5 @@
     "eslint": "node node_modules/eslint/bin/eslint www && node node_modules/eslint/bin/eslint src && node node_modules/eslint/bin/eslint tests",
     "test": "npm run eslint"
   },
-  "version": "4.0.1"
+  "version": "4.0.2"
 }

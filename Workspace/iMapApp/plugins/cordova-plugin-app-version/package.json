@@ -1,14 +1,38 @@
 {
-  "name": "cordova-plugin-app-version",
-  "version": "0.1.9",
+  "_from": "cordova-plugin-app-version",
+  "_id": "cordova-plugin-app-version@0.1.9",
+  "_inBundle": false,
+  "_integrity": "sha1-nbBgeGMzenEEiTAuX1CpBPFEm9s=",
+  "_location": "/cordova-plugin-app-version",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-app-version",
+    "name": "cordova-plugin-app-version",
+    "escapedName": "cordova-plugin-app-version",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-app-version/-/cordova-plugin-app-version-0.1.9.tgz",
+  "_shasum": "9db0607863337a710489302e5f50a904f1449bdb",
+  "_spec": "cordova-plugin-app-version",
+  "_where": "/Users/nynhp/apps/iMapInvasiveSpeciesApp/Workspace/iMapApp",
+  "author": {
+    "name": "whiteoctober"
+  },
+  "bugs": {
+    "url": "https://github.com/whiteoctober/cordova-plugin-app-version/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "Cordova plugin to return the version number of the current app",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/whiteoctober/cordova-plugin-app-version.git"
-  },
+  "homepage": "https://github.com/whiteoctober/cordova-plugin-app-version#readme",
   "keywords": [
     "cordova",
     "ecosystem:cordova",
@@ -17,10 +41,14 @@
     "appversion",
     "plugin"
   ],
-  "author": "whiteoctober",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/whiteoctober/cordova-plugin-app-version/issues"
+  "name": "cordova-plugin-app-version",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whiteoctober/cordova-plugin-app-version.git"
   },
-  "homepage": "https://github.com/whiteoctober/cordova-plugin-app-version#readme"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.1.9"
 }

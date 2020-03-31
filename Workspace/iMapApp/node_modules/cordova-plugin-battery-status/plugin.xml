@@ -20,18 +20,18 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
       id="cordova-plugin-battery-status"
-      version="1.1.2">
+      version="2.0.3">
     <name>Battery</name>
     <description>Cordova Battery Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,battery</keywords>
-    <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-battery-status.git</repo>
-    <issue>https://issues.apache.org/jira/browse/CB/component/12320643</issue>
+    <repo>https://github.com/apache/cordova-plugin-battery-status</repo>
+    <issue>https://github.com/apache/cordova-plugin-battery-status/issues</issue>
 
     <js-module src="www/battery.js" name="battery">
         <clobbers target="navigator.battery" />
     </js-module>
-    
+
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
@@ -43,87 +43,26 @@
         <source-file src="src/android/BatteryListener.java" target-dir="src/org/apache/cordova/batterystatus" />
     </platform>
 
-    <!-- amazon-fireos -->
-    <platform name="amazon-fireos">
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="Battery" >
-                <param name="android-package" value="org.apache.cordova.batterystatus.BatteryListener"/>
-            </feature>
-        </config-file>
-
-        <source-file src="src/android/BatteryListener.java" target-dir="src/org/apache/cordova/batterystatus" />
-    </platform>
-    
-    <!-- ubuntu -->
-    <platform name="ubuntu">
-        <header-file src="src/ubuntu/battery.h" />
-        <source-file src="src/ubuntu/battery.cpp" />
-    </platform>
-
     <!-- ios -->
-    <platform name="ios">    
+    <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="Battery">
-                <param name="ios-package" value="CDVBattery" /> 
+                <param name="ios-package" value="CDVBattery" />
             </feature>
         </config-file>
         <header-file src="src/ios/CDVBattery.h" />
 	    <source-file src="src/ios/CDVBattery.m" />
     </platform>
 
-    <!-- blackberry10 -->
-    <platform name="blackberry10">
-    <source-file src="src/blackberry10/index.js" target-dir="Battery" />
-        <config-file target="www/config.xml" parent="/widget">
-            <feature name="Battery" value="Battery"/>
-        </config-file>
-    </platform>
-
-    <!-- wp7 -->
-    <platform name="wp7">
-        <config-file target="config.xml" parent="/*">
-            <feature name="Battery">
-                <param name="wp-package" value="Battery"/>
-            </feature>
-        </config-file>
-
-        <source-file src="src/wp/Battery.cs" />
-    </platform>
-
-    <!-- wp8 -->
-    <platform name="wp8">
-        <config-file target="config.xml" parent="/*">
-            <feature name="Battery">
-                <param name="wp-package" value="Battery"/>
-            </feature>
-        </config-file>
-
-        <source-file src="src/wp/Battery.cs" />
-    </platform>
-
     <!-- windows -->
-    <platform name="windows">	
+    <platform name="windows">
         <js-module src="src/windows/BatteryProxy.js" name="Battery">
             <runs />
         </js-module>
-        
+
         <framework src="src/windows/BatteryStatus.winmd" custom="true" target="phone"/>
     </platform>
 
-    <!-- tizen -->
-    <platform name="tizen">
-        <js-module src="src/tizen/BatteryStatusProxy.js" name="BatteryStatusProxy">
-            <runs/>
-        </js-module>
-    </platform>
-
-    <!-- firefoxos -->
-    <platform name="firefoxos">
-        <js-module src="src/firefoxos/BatteryProxy.js" name="Battery">
-            <runs />
-        </js-module>
-    </platform>
-	
     <!-- browser -->
     <platform name="browser">
         <js-module src="src/browser/BatteryProxy.js" name="Battery">

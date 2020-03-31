@@ -7,9 +7,9 @@
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
-# 
+#
 # http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing,
 # software distributed under the License is distributed on an
 # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,11 +18,72 @@
 # under the License.
 #
 -->
+
 # Release Notes
 
+### 2.0.3 (Jun 19, 2019)
+
+-   build: add `.gitattributes` to force LF (instead of possible CRLF on Windows) ([`aded849`](https://github.com/apache/cordova-plugin-battery-status/commit/aded849))
+-   build: add `.npmignore` to remove unneeded files from npm package ([`55bca62`](https://github.com/apache/cordova-plugin-battery-status/commit/55bca62))
+-   fix(types): remove version number ([`56b3d6c`](https://github.com/apache/cordova-plugin-battery-status/commit/56b3d6c))
+-   chore: update github repo and issue link in plugin.xml ([`9c5c510`](https://github.com/apache/cordova-plugin-battery-status/commit/9c5c510))
+-   docs: remove outdated translations ([`fb13300`](https://github.com/apache/cordova-plugin-battery-status/commit/fb13300))
+-   ci(travis): Update Travis CI configuration for new paramedic ([#75](https://github.com/apache/cordova-plugin-battery-status/issues/75)) ([`58a3c2d`](https://github.com/apache/cordova-plugin-battery-status/commit/58a3c2d))
+-   feat: update typings ([#72](https://github.com/apache/cordova-plugin-battery-status/issues/72)) ([`41d35b7`](https://github.com/apache/cordova-plugin-battery-status/commit/41d35b7))
+-   chore: drop Node.js v4 support ([#73](https://github.com/apache/cordova-plugin-battery-status/issues/73)) ([`83c6e44`](https://github.com/apache/cordova-plugin-battery-status/commit/83c6e44))
+-   chore(github): Add or update GitHub pull request and issue template ([`9c272a6`](https://github.com/apache/cordova-plugin-battery-status/commit/9c272a6))
+-   ci(travis): add android-27 to `android update sdk -u --filter` ([`53beb6d`](https://github.com/apache/cordova-plugin-battery-status/commit/53beb6d))
+
+### 2.0.2 (Apr 12, 2018)
+* [CB-10645](https://issues.apache.org/jira/browse/CB-10645) The battery status handler doesn't reinitialize on **Android** after `window.location.reload()`. Instead of throwing an error, rather remove the status handler and re-initialize.
+
+### 2.0.1 (Dec 27, 2017)
+* [CB-13700](https://issues.apache.org/jira/browse/CB-13700) Fix to allow 2.0.0 version install (#62)
+
+### 2.0.0 (Dec 15, 2017)
+* [CB-13667](https://issues.apache.org/jira/browse/CB-13667): Remove deprecated platforms
+
+### 1.2.5 (Nov 06, 2017)
+* [CB-13299](https://issues.apache.org/jira/browse/CB-13299) (CI) Fix **Android** builds
+* [CB-12895](https://issues.apache.org/jira/browse/CB-12895) added `eslint` and removed `jshint`
+* [CB-13028](https://issues.apache.org/jira/browse/CB-13028) (CI) Added **Browser** platform to Travis
+* [CB-13000](https://issues.apache.org/jira/browse/CB-13000) (CI) Speed up **Android** builds
+* [CB-12991](https://issues.apache.org/jira/browse/CB-12991) (CI) Updated CI badges
+* [CB-12847](https://issues.apache.org/jira/browse/CB-12847) added `bugs` entry to `package.json`.
+
+### 1.2.4 (Apr 27, 2017)
+* [CB-12622](https://issues.apache.org/jira/browse/CB-12622) (Android) Added **Android 6.0** build badge
+* [CB-12685](https://issues.apache.org/jira/browse/CB-12685) added `package.json` to tests folder
+* [CB-12639](https://issues.apache.org/jira/browse/CB-12639) (all) Tests: console.err() -> console.error()
+
+### 1.2.3 (Feb 28, 2017)
+* [CB-12369](https://issues.apache.org/jira/browse/CB-12369) Add plugin typings from `DefinitelyTyped`
+* [CB-12363](https://issues.apache.org/jira/browse/CB-12363) Added build badges for **iOS 9.3** and **iOS 10.0**
+
+### 1.2.2 (Dec 12, 2016)
+* [CB-12227](https://issues.apache.org/jira/browse/CB-12227) (windows) Fixed Browserify error
+* [CB-12236](https://issues.apache.org/jira/browse/CB-12236) - Fix RELEASENOTES.md for cordova-plugin-battery-status
+* [CB-12230](https://issues.apache.org/jira/browse/CB-12230) Removed Windows 8.1 build badges
+* [CB-12224](https://issues.apache.org/jira/browse/CB-12224) Incremented plugin version.
+
+### 1.2.1 (Dec 07, 2016)
+
+* [CB-12224](https://issues.apache.org/jira/browse/CB-12224) Updated version and RELEASENOTES.md for release 1.2.1
+* [CB-8929](https://issues.apache.org/jira/browse/CB-8929) Fix failing tests on iOS
+* [CB-8929](https://issues.apache.org/jira/browse/CB-8929) Use PowerManager to get battery state on Win 10
+* [CB-11917](https://issues.apache.org/jira/browse/CB-11917) - Remove pull request template checklist item: "iCLA has been submitted…"
+* [CB-11832](https://issues.apache.org/jira/browse/CB-11832) Incremented plugin version.
+
+### 1.2.0 (Sep 08, 2016)
+* [CB-11795](https://issues.apache.org/jira/browse/CB-11795) Add 'protective' entry to cordovaDependencies
+* Plugin uses Android Log class and not Cordova LOG class
+* Add badges for paramedic builds on Jenkins
+* Add pull request template.
+* [CB-10996](https://issues.apache.org/jira/browse/CB-10996) Adding front matter to README.md
+
 ### 1.1.2 (Apr 15, 2016)
-* CB-10720 Reorganizing and rewording docs.
-* CB-10636 Add JSHint for plugins
+* [CB-10720](https://issues.apache.org/jira/browse/CB-10720) Reorganizing and rewording docs.
+* [CB-10636](https://issues.apache.org/jira/browse/CB-10636) Add JSHint for plugins
 
 ### 1.1.1 (Nov 18, 2015)
 * [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Updated `RELEASENOTES` to be newest to oldest

@@ -1,53 +1,83 @@
 {
-  "name": "cordova-plugin-network-information",
-  "version": "1.2.1",
-  "description": "Cordova Network Information Plugin",
+  "_from": "cordova-plugin-network-information@latest",
+  "_id": "cordova-plugin-network-information@2.0.2",
+  "_inBundle": false,
+  "_integrity": "sha512-NwO3qDBNL/vJxUxBTPNOA1HvkDf9eTeGH8JSZiwy1jq2W2mJKQEDBwqWkaEQS19Yd/MQTiw0cykxg5D7u4J6cQ==",
+  "_location": "/cordova-plugin-network-information",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-network-information@latest",
+    "name": "cordova-plugin-network-information",
+    "escapedName": "cordova-plugin-network-information",
+    "rawSpec": "latest",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-network-information/-/cordova-plugin-network-information-2.0.2.tgz",
+  "_shasum": "f48a92cbd7cccb63cb0a5e5a00030001b8ac4fea",
+  "_spec": "cordova-plugin-network-information@latest",
+  "_where": "/Users/nynhp/apps/iMapInvasiveSpeciesApp/Workspace/iMapApp",
+  "author": {
+    "name": "Apache Software Foundation"
+  },
+  "bugs": {
+    "url": "https://github.com/apache/cordova-plugin-network-information/issues"
+  },
+  "bundleDependencies": false,
   "cordova": {
     "id": "cordova-plugin-network-information",
     "platforms": [
-      "firefoxos",
       "android",
-      "amazon-fireos",
-      "ubuntu",
       "ios",
-      "blackberry10",
-      "wp7",
-      "wp8",
-      "windows8",
       "windows",
-      "tizen",
       "browser"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/apache/cordova-plugin-network-information"
+  "deprecated": false,
+  "description": "Cordova Network Information Plugin",
+  "devDependencies": {
+    "eslint": "^4.0.0",
+    "eslint-config-semistandard": "^11.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^5.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
   },
+  "engines": {
+    "cordovaDependencies": {
+      "3.0.0": {
+        "cordova": ">100"
+      }
+    }
+  },
+  "homepage": "https://github.com/apache/cordova-plugin-network-information#readme",
   "keywords": [
     "cordova",
     "network",
     "information",
     "ecosystem:cordova",
-    "cordova-firefoxos",
     "cordova-android",
-    "cordova-amazon-fireos",
-    "cordova-ubuntu",
     "cordova-ios",
-    "cordova-blackberry10",
-    "cordova-wp7",
-    "cordova-wp8",
-    "cordova-windows8",
     "cordova-windows",
-    "cordova-tizen",
     "cordova-browser"
   ],
-  "scripts": {
-    "test": "npm run jshint",
-    "jshint": "jshint www && jshint src && jshint tests"
-  },
-  "author": "Apache Software Foundation",
   "license": "Apache-2.0",
-  "devDependencies": {
-    "jshint": "^2.6.0"
-  }
+  "name": "cordova-plugin-network-information",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apache/cordova-plugin-network-information.git"
+  },
+  "scripts": {
+    "eslint": "eslint www && eslint src && eslint tests",
+    "test": "npm run eslint"
+  },
+  "types": "./types/index.d.ts",
+  "version": "2.0.2"
 }

@@ -6,86 +6,12 @@
       "subdir": "."
     }
   },
-  "cordova-plugin-splashscreen": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-splashscreen"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "ru.mcler.phonegap.plugins.SpinnerDialog": {
     "source": {
       "type": "git",
       "url": "https://github.com/mcler/SpinnerDialog.git",
       "subdir": "."
     }
-  },
-  "cordova-plugin-whitelist": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-whitelist"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-device": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-device"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-file": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-file"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-file-transfer": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-file-transfer"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-media": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-media"
-    },
-    "is_top_level": true,
-    "variables": {
-      "CAMERA_USAGE_DESCRIPTION": "ImapInvasives needs accces to the camera, photos, and for future the microphone ."
-    }
-  },
-  "cordova-plugin-network-information": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-network-information"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-battery-status": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-battery-status"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-device-motion": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-device-motion"
-    },
-    "is_top_level": true,
-    "variables": {}
   },
   "cordova-plugin-device-orientation": {
     "source": {
@@ -95,41 +21,21 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-dialogs": {
+  "cordova-custom-config": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-dialogs@~1.2.1"
+      "id": "cordova-custom-config@latest"
     },
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-vibration": {
+  "cordova.plugins.diagnostic": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-vibration"
+      "id": "cordova.plugins.diagnostic@latest"
     },
     "is_top_level": true,
     "variables": {}
-  },
-  "cordova-plugin-statusbar": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-statusbar@2.2.1"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-media-capture": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-media-capture@~1.4.1"
-    },
-    "is_top_level": true,
-    "variables": {
-      "CAMERA_USAGE_DESCRIPTION": "ImapInvasives needs accces to the camera, photos, and for future the microphone .",
-      "MICROPHONE_USAGE_DESCRIPTION": "ImapInvasives needs accces for future features to the microphone .",
-      "PHOTOLIBRARY_USAGE_DESCRIPTION": "ImapInvasives needs accces to photos."
-    }
   },
   "cordova-plugin-app-version": {
     "source": {
@@ -139,50 +45,10 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-compat": {
+  "cordova-plugin-battery-status": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-compat@^1.2.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-console": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-console"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-geolocation": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-geolocation@4.0.1"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-inappbrowser": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-inappbrowser@3.0.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-custom-config": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-custom-config@^5.0.2"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova.plugins.diagnostic": {
-    "source": {
-      "type": "registry",
-      "id": "cordova.plugins.diagnostic@^4.0.8"
+      "id": "cordova-plugin-battery-status@latest"
     },
     "is_top_level": true,
     "variables": {}
@@ -190,7 +56,111 @@
   "cordova-plugin-camera": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-camera@^4.0.3"
+      "id": "cordova-plugin-camera@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-compat": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-compat@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-device": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-device@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-file": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-file@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-file-transfer": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-file-transfer@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-geolocation": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-geolocation@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-inappbrowser": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-inappbrowser@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-media": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-media@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-media-capture": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-media-capture@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-network-information": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-network-information@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-splashscreen": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-splashscreen@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-statusbar": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-statusbar@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-whitelist": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-whitelist@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-dialogs": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-dialogs@^2.0.2"
     },
     "is_top_level": true,
     "variables": {}

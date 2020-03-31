@@ -1,55 +1,88 @@
 {
-  "name": "cordova-plugin-media-capture",
-  "version": "1.4.2",
-  "description": "Cordova Media Capture Plugin",
-  "types": "./types/index.d.ts",
+  "_from": "cordova-plugin-media-capture@latest",
+  "_id": "cordova-plugin-media-capture@3.0.3",
+  "_inBundle": false,
+  "_integrity": "sha512-pVQOrNM7VAuVUMXibAlMGIArrftHPrRs4dUCoE+e2HEFUp3LmN3Yj539LjdUxcWmz/A/cHC65m9E3DS56YJhcg==",
+  "_location": "/cordova-plugin-media-capture",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-media-capture@latest",
+    "name": "cordova-plugin-media-capture",
+    "escapedName": "cordova-plugin-media-capture",
+    "rawSpec": "latest",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-media-capture/-/cordova-plugin-media-capture-3.0.3.tgz",
+  "_shasum": "9e04494245ad620f27fef49850fce2bfb342426e",
+  "_spec": "cordova-plugin-media-capture@latest",
+  "_where": "/Users/nynhp/apps/iMapInvasiveSpeciesApp/Workspace/iMapApp",
+  "author": {
+    "name": "Apache Software Foundation"
+  },
+  "bugs": {
+    "url": "https://github.com/apache/cordova-plugin-media-capture/issues"
+  },
+  "bundleDependencies": false,
   "cordova": {
     "id": "cordova-plugin-media-capture",
     "platforms": [
       "android",
-      "amazon-fireos",
-      "ubuntu",
       "ios",
-      "blackberry10",
-      "wp7",
-      "wp8",
-      "windows8",
-      "windows"
+      "windows",
+      "browser"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/apache/cordova-plugin-media-capture"
+  "deprecated": false,
+  "description": "Cordova Media Capture Plugin",
+  "devDependencies": {
+    "eslint": "^4.0.0",
+    "eslint-config-semistandard": "^11.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^5.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
   },
+  "engines": {
+    "cordovaDependencies": {
+      "2.0.0": {
+        "cordova-android": ">=6.3.0"
+      },
+      "4.0.0": {
+        "cordova": ">100"
+      },
+      ">=1.4.4": {
+        "cordova-ios": ">=4.0.0"
+      }
+    }
+  },
+  "homepage": "https://github.com/apache/cordova-plugin-media-capture#readme",
   "keywords": [
     "cordova",
     "media",
     "capture",
     "ecosystem:cordova",
     "cordova-android",
-    "cordova-amazon-fireos",
-    "cordova-ubuntu",
     "cordova-ios",
-    "cordova-blackberry10",
-    "cordova-wp7",
-    "cordova-wp8",
-    "cordova-windows8",
     "cordova-windows"
   ],
-  "scripts": {
-    "test": "npm run jshint",
-    "jshint": "jshint www && jshint src && jshint tests"
-  },
-  "author": "Apache Software Foundation",
   "license": "Apache-2.0",
-  "engines": {
-    "cordovaDependencies": {
-      "2.0.0": {
-        "cordova": ">100"
-      }
-    }
+  "name": "cordova-plugin-media-capture",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apache/cordova-plugin-media-capture.git"
   },
-  "devDependencies": {
-    "jshint": "^2.6.0"
-  }
+  "scripts": {
+    "eslint": "eslint www && eslint src && eslint tests",
+    "test": "npm run eslint"
+  },
+  "types": "./types/index.d.ts",
+  "version": "3.0.3"
 }
