@@ -277,6 +277,25 @@ iMapApp.uiUtils = {
                     });
                     iMapApp.iMapPrefs.params.iMap3Organizations = newOrganizations;
 
+                    // handle the Primary Organization
+                    if (personRecord.userAccount.primaryOrganizationId) {
+                        primaryOrgExists = checkOrganizationExists(newOrganizations, personRecord.userAccount.primaryOrganizationId);
+                        // if iMap Primary Org is set, toggle the default organization in the app
+                        if (primaryOrgExists) {
+                            // check to ensure the organization actually exists
+                            // bug in iMap REST API: a user's default org can not exist in the user's list of orgs
+                            iMapApp.iMapPrefs.params.OrgDefault = personRecord.userAccount.primaryOrganizationId
+                        } else if (iMapApp.iMapPrefs.params.OrgDefault > 0) {
+                            // if the Primary org is not listed in the new list of orgs, check that the existing Default Org exists in the new org list
+                            defaultOrgExists = checkOrganizationExists(newOrganizations, iMapApp.iMapPrefs.params.OrgDefault);
+                            iMapApp.iMapPrefs.params.OrgDefault = (defaultOrgExists ? iMapApp.iMapPrefs.params.OrgDefault : null);
+                        };
+                    } else if (iMapApp.iMapPrefs.params.OrgDefault > 0) {
+                            // if the iMap Primary Org is not set, ensure that the org is still present in the user's newly-downloaded list of orgs
+                            defaultOrgExists = checkOrganizationExists(newOrganizations, iMapApp.iMapPrefs.params.OrgDefault);
+                            iMapApp.iMapPrefs.params.OrgDefault = (defaultOrgExists ? iMapApp.iMapPrefs.params.OrgDefault : null);
+                    };
+
                     // store the projects array in the iMap3 Prefs
                     personRecord.projectMembers.forEach(function (proj) {
                         newProjects.push(proj.project);
@@ -1314,4 +1333,14 @@ function getSortedKeys(obj, getV) {
             return 1;
         return 0;
     });
+}
+
+function checkOrganizationExists(orgList, orgId) {
+    exists = false;
+    orgList.forEach(function (org) {
+        if (org.id === orgId) {
+            exists = true;
+        };
+    });
+    return exists;
 }
