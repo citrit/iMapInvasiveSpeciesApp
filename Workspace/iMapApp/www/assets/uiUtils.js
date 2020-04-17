@@ -108,6 +108,8 @@ iMapApp.uiUtils = {
             if ($.mobile.activePage.is('#mainPage') || ($.mobile.activePage.is('#prefPage') && localStorage.getItem("firstInit") == 'true')) {
                 iMapApp.uiUtils.openOkCancelDialog('iMapInvasives', 'Exit iMapInvasives?',
                     navigator.app.exitApp);
+            } else if ($.mobile.activePage.is("#editObsPage")) {
+                iMapApp.uiUtils.confirmCancel();
             } else {
                 navigator.app.backHistory();
                 iMapApp.iMapMap.stopGPSTimer();
@@ -689,6 +691,20 @@ iMapApp.uiUtils = {
         iMapApp.uiUtils.closeDialog();
         iMapApp.uiUtils.gotoMainPage();
         //iMapApp.App.renderCards();
+    },
+
+    confirmCancel: function() {
+        navigator.notification.confirm("Are you sure you want to discard changes to this record and exit?", iMapApp.uiUtils.confirmCancelHandler, "Discard Changes?", ["Yes, Discard Changes", "No, Remain on Page"]);
+    },
+
+    confirmCancelHandler: function(responseValue) {
+        switch (responseValue) {
+            case 1:
+                iMapApp.uiUtils.gotoMainPage();
+                break;
+            case 2:
+                return;
+        }
     },
 
     setObsPosition: function(pos) {
