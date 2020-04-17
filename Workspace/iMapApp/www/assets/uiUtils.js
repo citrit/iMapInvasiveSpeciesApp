@@ -959,6 +959,7 @@ iMapApp.uiUtils = {
         getDElem('input[name="checkbox-SaveOriginalPhotos"]').prop('checked', ((iMapApp.iMapPrefs.params.SaveOriginalPhotos === true || iMapApp.iMapPrefs.params.SaveOriginalPhotos == null) ? true : false)); // set save orginal photo to true if it is not explicitly set already
         getDElem('input[value="' + iMapApp.iMapPrefs.params.MapType + '"]').prop('checked', true);
         //iMapApp.uiUtils.loadProjectList();
+        getDElem('#measurementSystem').val(iMapApp.iMapPrefs.params.Units);
         getDElem('select[name="listPrefProj"]').val(iMapApp.iMapPrefs.params.Project); //.selectmenu().selectmenu('refresh', true);
         getDElem('select[name="listPrefOrg"]').val(iMapApp.iMapPrefs.params.OrgDefault); //.selectmenu().selectmenu('refresh', true);
         getDElem('p[name="lastUpdateDate"]').text('Last iMap Lists Refresh: ' + (iMapApp.iMapPrefs.params.StateUpdate ? iMapApp.uiUtils.lastListsUpdateDateFormatter(iMapApp.iMapPrefs.params.StateUpdate) : "Never"));
