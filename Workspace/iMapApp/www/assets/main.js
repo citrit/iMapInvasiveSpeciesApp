@@ -8,8 +8,8 @@ iMapApp.App = {
     iMap3BaseURL: 'https://imapinvasives.natureserve.org',
     projectList: null,
     speciesList: null,
-    nationalSpeciesList: null,
-    stateSpeciesList: null,
+    nationalSpeciesList: {},
+    stateSpeciesList: {},
     version: 0.0,
     dataFolder: null,
 
@@ -23,7 +23,7 @@ iMapApp.App = {
         }
         iMapApp.App.compiledCardTemplate = Mustache.compile($("#card-template").html());
         iMapApp.iMapPrefs.init();
-        iMapApp.App.stateSpeciesList = JSON.parse(localStorage.getItem("stateSpeciesList"));
+        iMapApp.App.stateSpeciesList = (JSON.parse(localStorage.getItem("stateSpeciesList")) ? JSON.parse(localStorage.getItem("stateSpeciesList")) : {}); // if the state species list exists, load it, otherwise set it to an empty object
         iMapApp.uiUtils.init();
         //debugTest();
         iMapApp.App.loadObservations();

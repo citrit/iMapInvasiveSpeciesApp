@@ -98,7 +98,12 @@ iMapApp.uiUtils = {
         });
         $('#stateSelect').on('change', function() { iMapApp.uiUtils.jursidctionChangeHandler(); });
         $("#obsSpeciesiMap3").on('change', function() { iMapApp.uiUtils.speciesChangeHandler($("#obsSpeciesiMap3").val(), ($('input[name="species-detected"]:checked').val() == 'detected' ? true : false)); });
-        $('input[name="species-detected"]').on('change', function() { iMapApp.uiUtils.speciesChangeHandler($("#obsSpeciesiMap3").val(), ($('input[name="species-detected"]:checked').val() == 'detected' ? true : false)); });
+        $('input[name="species-detected"]').on('change', function() {
+            if (parseInt($("#obsSpeciesiMap3").val()) > 0) {
+                // detect whether a valid species is selected – if so, pass into the speciesChangeHandler to toggle additional fields
+                iMapApp.uiUtils.speciesChangeHandler($("#obsSpeciesiMap3").val(), ($('input[name="species-detected"]:checked').val() == 'detected' ? true : false));
+            };
+        });
 
         $("#introOverlay").click(function() {
             iMapApp.uiUtils.introOverlayClose();
