@@ -346,8 +346,11 @@ html {
 }
 
 #updateStateData {
-    margin: 1em 0;
-    font-size: 1.1em
+    margin: 1em auto;
+    font-size: 1.1em;
+    background-color: #e4ffb9;
+    display: block;
+    width: auto;
 }
 
 .button-emphasis {
@@ -362,8 +365,10 @@ html {
 }
 
 #customize-spp-list {
-    margin: 2em 0;
     font-size: 1.05em;
+    display: block;
+    width: auto;
+    margin: 1.5em auto;
 }
 
 .pref-page-container {
@@ -371,7 +376,7 @@ html {
 }
 
 #pref-intro span {
-    font-size: 14px;
+    font-size: 0.9em;
     font-style: italic;
 }
 

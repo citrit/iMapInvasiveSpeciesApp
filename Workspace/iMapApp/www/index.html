@@ -76,13 +76,10 @@
             <h2>Preferences</h2>
             <div class="pref-top-container">
                 <div id="pref-intro">
-                    <p class="pref-intro-bold">Welcome to the new version of the iMapInvasives Mobile App, now compatible with iMap3.</p>
-                    <p>Uploading data to iMap3 requires the following:</p>
-                        <ul>
-                            <li>An active iMap3 account<br><span>(<a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('acct','https://imapinvasives.natureserve.org/imap/login.jsp')">To create/manage your account, visit iMap3 online</a>)</span></li>
-                            <li>Jurisdiction Species List selected below</li>
-                            <li>Your active iMap3 Username and Password entered below</li>
-                        </ul>
+                    <p class="pref-intro-bold">Welcome to the iMapInvasives Mobile App, the companion mobile app for iMap3.</p>
+                    <p>Select a Jurisdiction Species List and enter your iMap3 Username and Password to upload data.</p>
+                    <p>Don&rsquo;t have an iMap3 account? <a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('acct','https://imapinvasives.natureserve.org/imap/login.jsp')">Visit iMap3 Online.</a></p>
+                    <p><span>(If you do not have an iMap3 account and are currently unable to create one, select a Jurisdiction Species List and continue.)</span></p>
                 </div>
                 <p name="prefError" style="color: #ff0000;"></p>
                 <label for='stateSelect'>
@@ -355,26 +352,26 @@
     <div id="helpDialog" data-role="page">
         <div>
             <p name="versionText" />
-            <h1>Introduction:</h1>
+            <h1>Introduction</h1>
 
             <p class=MsoNormal><span class=SpellE><span class=GramE>iMapInvasives</span></span>
-                Mobile has been developed to facilitate reporting of invasive species observations from your Android or Apple device. To be able to upload data, please create a free account on the <a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('acct','https://imapinvasives.natureserve.org/imap/login.jsp')">iMapInvasives website</a>.</p>
+                Mobile has been developed to facilitate the reporting of invasive species observations from your Android or iOS device. To be able to upload observations, please create a free account on the <a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('acct','https://imapinvasives.natureserve.org/imap/login.jsp')">iMapInvasives website</a>.</p>
 
-            <h1>Preferences:</h1>
+            <h1>Preferences</h1>
 
-            <p>Preferences allow you to customize your experience using iMapInvasives Mobile. To upload data, at a minimum, please select a jurisdiction and enter your iMapInvasives email address and password. All other Preferences fields are optional.</p>
+            <p>Preferences allow a customizable experience using iMapInvasives Mobile. To upload data, at a minimum, please select a jurisdiction (the jurisdiction in which you will collect records) and enter your iMapInvasives email address and password. Select "Retrieve iMap Lists" to download the iMap Projects and Organizations associated with your account.</p>
 
-            <h1>Home Page:</h1>
+            <h1>Home Page</h1>
 
-            <p class=MsoNormal>From the home page, users can add a new observation record, view records already collected and access all other functionality via the Menu.</p>
-            <img class="imgwrapper" src="Help_files/image005.png" width="350" />
+            <p class=MsoNormal>From the home page, users can add a new observation record, view records collected in the app that are pending upload, and access all other functionality via the Menu.</p>
+            <img class="imgwrapper" src="Help_files/imap_app_homescreen_2019.png">
 
-            <h1><span style='mso-no-proof:yes'>Observation Record:<o:p></o:p></span></h1>
+            <h1><span style='mso-no-proof:yes'>Observation Record<o:p></o:p></span></h1>
 
-            <p class=MsoNormal>The Observation Record is where a new observation can be recorded or an existing record can be modified prior to upload.</p>
-            <img class="imgwrapper" src="Help_files/image006.png" width="350" />
+            <p class=MsoNormal>The Observation Record is where a new observation can be created or an existing record can be modified prior to upload.</p>
+            <img class="imgwrapper" src="Help_files/imap_app_obs_page_2019.png">
             
-            <p>To view your uploaded data, visit the <a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('map','https://imapinvasives.natureserve.org/imap/login.jsp')">iMapInvasives web application</a>. Once there, sign-in, and pan the map to the area in which you uploaded the records. Note that if you uploaded a record with a "Detected" species, the record will most likely be contained within the "Unconfirmed Presence" layer on the map.</p>
+            <p>To view your uploaded data, visit the <a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('map','https://imapinvasives.natureserve.org/imap/login.jsp')">iMapInvasives web application</a>. Once there, sign-in, and pan the map to the area in which you recorded the observations. Be sure to enable the correct layer(s) in the map, as any records uploaded as "Detected" will appear in the "Unconfirmed Presence" layer on the map, whereas any "Not Detected" records will appear in the "Not Detected" layer.</p>
 
             <p>To view the latest updates to iMapInvasives help documentation, please visit the <a href="#" onclick="iMapApp.uiUtils.externalUrlHandler('help','https://www.imapinvasives.org/help')">iMapInvasives website help page</a>.</p>
 

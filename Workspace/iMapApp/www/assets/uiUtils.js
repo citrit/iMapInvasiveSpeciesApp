@@ -73,7 +73,7 @@ iMapApp.uiUtils = {
         $("#helpMenu").click(function() {
             iMapApp.uiUtils.params.navbar.disableDropDown();
             $('p[name="versionText"]').text('Version: ' + iMapApp.App.version);
-            iMapApp.uiUtils.openDialog('#helpDialog', 'Need Help?');
+            iMapApp.uiUtils.openDialog('#helpDialog', 'Need Help?', true);
         });
         $("#addObs").click(function() {
             iMapApp.uiUtils.params.navbar.disableDropDown();
@@ -1146,11 +1146,11 @@ iMapApp.uiUtils = {
         //$( ":mobile-pagecontainer" ).pagecontainer( "change", "#mainPage");
     },
 
-    openDialog: function(d, t) {
+    openDialog: function(d, t, closable) {
         $.pgwModal({
             target: d,
             title: t,
-            closable: false,
+            closable: (closable === true ? true : false),
             maxWidth: 350
         });
     },
