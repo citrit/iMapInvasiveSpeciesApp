@@ -633,6 +633,13 @@ iMapApp.uiUtils = {
             iMapApp.uiUtils.openInfoDialog("Invalid Geographic Coordinates","This record cannot be saved because the geographic coordinates are located at a longitude of 0 and/or a latitude of 0. To correct this problem, please either enable location services for the iMapInvasives App or manually change the record coordinates in the Location field to something other than (0, 0).");
             return;
         };
+
+        // check to see if either the species detected or not detected toggle was selected, return an error message if so
+        if ($('#radio-choice-species-detected').prop('checked') === false && $('#radio-choice-species-not-detected').prop('checked') === false) {
+            iMapApp.uiUtils.openInfoDialog("Detected Status Not Selected","Please select either Species Detected or Not Detected.");
+            return;
+        };
+
         if (getDElem('[name="obsSpeciesiMap3"]').val() == "-1") {
             iMapApp.uiUtils.openOkCancelDialog('Save Species', 'You have not specified a species, save Observation?', iMapApp.uiUtils.saveObs);
             return;
@@ -650,11 +657,6 @@ iMapApp.uiUtils = {
             $('#infoDialog2').attr('open', true);*/
         };
 
-        // check to see if either the species detected or not detected toggle was selected, return an error message if so
-        if ($('#radio-choice-species-detected').prop('checked') === false && $('#radio-choice-species-not-detected').prop('checked') === false) {
-            iMapApp.uiUtils.openInfoDialog("Detected Status Not Selected","Please select either Species Detected or Not Detected.");
-            return;
-        }
         iMapApp.uiUtils.saveObs();
     },
 
@@ -1309,10 +1311,10 @@ iMapApp.uiUtils = {
         navigator.notification.confirm(notices[notice], function(buttonIndex) {iMapApp.uiUtils.externalUrlHandlerResponse(buttonIndex, theUrl);}, "Leaving iMap Mobile App");
     },
 
-    externalUrlHandlerResponse(theButtonResponse, theUrl) {
+    externalUrlHandlerResponse: function(theButtonResponse, theUrl) {
         if (theButtonResponse === 1) {
             window.open(theUrl, '_system');
-        }
+        };
     }
 };
 
