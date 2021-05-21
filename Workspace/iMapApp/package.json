@@ -15,9 +15,6 @@
       },
       "cordova-plugin-app-version": {},
       "cordova-plugin-battery-status": {},
-      "cordova-plugin-camera": {
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      },
       "cordova-plugin-compat": {},
       "cordova-plugin-device": {},
       "cordova-plugin-file": {},
@@ -32,7 +29,10 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-statusbar": {},
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-dialogs": {}
+      "cordova-plugin-dialogs": {},
+      "cordova-plugin-camera": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      }
     }
   },
   "dependencies": {

@@ -15,7 +15,7 @@ iMapApp.Photo = {
                         cordova.plugins.diagnostic.requestCameraRollAuthorization(function(status) {
                             console.log("Authorization request for camera roll was " + (status == cordova.plugins.diagnostic.permissionStatus.GRANTED ? "granted" : "denied"));
                             if (status == cordova.plugins.diagnostic.permissionStatus.GRANTED) {
-                                iMapApp.Photo.getPhoto(true);
+                                iMapApp.Photo.getPhotoFromLibrary();
                             }
                         }, function(error){
                             console.error(error);
@@ -27,18 +27,18 @@ iMapApp.Photo = {
                         break;
                     case cordova.plugins.diagnostic.permissionStatus.GRANTED:
                         console.log("Permission granted");
-                        iMapApp.Photo.getPhoto(true);
+                        iMapApp.Photo.getPhotoFromLibrary();
                         break;
                 }
             }, function(error){
                 console.error("The following error occurred: "+error);
             });
         } else {
-            iMapApp.Photo.getPhoto(true);
+            iMapApp.Photo.getPhotoFromLibrary();
         }
     },
 
-    getPhoto: function(library) {
+    getPhotoQuality() {
         // Retrieve image file location from specified source
         var qual = 50;
         switch (iMapApp.iMapPrefs.params.PictureSize) {
@@ -56,15 +56,37 @@ iMapApp.Photo = {
                 qual = 50;
         }
         console.log("Getting image with quality: " + qual);
-        navigator.camera.getPicture(iMapApp.Photo.onSuccess, iMapApp.Photo.onFail, {
-            quality: qual,
-            destinationType: Camera.DestinationType.DATA_URL,
+        return qual;
+    },
+
+    getPhoto: function(library) {
+        navigator.camera.getPicture(iMapApp.Photo.photoSuccessHandler, iMapApp.Photo.onFail, {
+            quality: iMapApp.Photo.getPhotoQuality(),
+            destinationType: Camera.DestinationType.FILE_URI,
             saveToPhotoAlbum: ((library === true) ? false : ((iMapApp.iMapPrefs.params.SaveOriginalPhotos === true || iMapApp.iMapPrefs.params.SaveOriginalPhotos == null) ? true : false)),
             correctOrientation: true,
-            sourceType: ((library === true) ? Camera.PictureSourceType.SAVEDPHOTOALBUM : Camera.PictureSourceType.CAMERA),
+            sourceType: Camera.PictureSourceType.CAMERA,
             encodingType: Camera.EncodingType.JPEG
         });
         iMapApp.uiUtils.bottomBarHelper.bottomBarHelperAdd();
+    },
+
+    getPhotoFromLibrary: function() {
+        navigator.camera.getPicture(iMapApp.Photo.onSuccessLibrary, iMapApp.Photo.onFail, {
+            destinationType: Camera.DestinationType.FILE_URI,
+            saveToPhotoAlbum: false,
+            correctOrientation: false,
+            sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+            encodingType: Camera.EncodingType.JPEG
+        });
+    },
+
+    onSuccessLibrary: function(imageData) {
+        // if photo selected from library, attempt to read the EXIF data
+        iMapApp.Photo.onPhotoDataSuccessReadFile(imageData);
+        // iMapApp.Photo.photoLoadExifBlob(imageData);
+
+        iMapApp.Photo.photoSuccessHandler(imageData);
     },
 
     onSuccess: function(imageData) {
@@ -72,7 +94,7 @@ iMapApp.Photo = {
         var imgFile = getDElem('[name="largeImage"]').attr('src');
         if (imgFile != null) {
             iMapApp.App.removeImage(imgFile);
-        }
+        };
         var filename = iMapApp.App.guid() + ".jpg";
         console.log("Captured image: " + filename);
         //getDElem('[name="largeImage"]').attr('src', imageURI);
@@ -84,14 +106,115 @@ iMapApp.Photo = {
         console.log("Got image: " + folderpath + filename);
     },
 
+    photoSuccessHandler: function(imageData) {
+        var imgFile = getDElem('[name="largeImage"]').attr('src');
+        if (imgFile != null) {
+            iMapApp.App.removeImage(imgFile);
+        };
+
+        iMapApp.Photo.saveLibraryPhotoToStorage(iMapApp.App.dataFolder, imageData);
+    },
+
     onFail: function(message) {
         alert('Failed because: ' + message);
     },
 
-    onPhotoDataSuccess: function(imageData) {
-        var smallImage = getDElem('smallImage');
-        smallImage.style().display = 'block';
-        smallImage.src("data:image/jpeg;base64," + imageData);
+    onPhotoDataSuccessReadFile: function(imageData) {
+        window.resolveLocalFileSystemURL(imageData, function (entry) {
+            entry.file(function(theFile) {
+                EXIF.getData(theFile, function() {
+                    iMapApp.iMapMap.stopGPSTimer();
+
+                    console.log(EXIF.getAllTags(this));
+
+                    let photoLat = iMapApp.Photo.prepareLatExif(this),
+                    photoLong = iMapApp.Photo.prepareLongExif(this),
+                    photoDate = iMapApp.Photo.prepareDateExif(this);
+
+                    if (photoLat && photoLong) {
+                        iMapApp.iMapMap.setPosition([photoLong, photoLat]);
+                        iMapApp.uiUtils.setObsPosition([photoLong, photoLat]);
+                    };
+
+                    if (photoDate) {
+                        iMapApp.uiUtils.setObsDate(photoDate);
+                    };
+
+                    if (!photoLat || !photoLong || !photoDate) {
+                        iMapApp.uiUtils.openInfoDialog("Unable to read photo metadata", "The date and location could not automatically be determined from the selected photo. Please adjust this record's date and location if necessary.");
+                    };
+                });
+            });
+        });
+    },
+
+    photoLoadExif: function(imageData) {
+        document.getElementById("exifIMG").onload = function() {
+            EXIF.getData(document.getElementById("exifIMG"), function() {
+                console.log(EXIF.getAllTags(this));
+            });
+        };
+
+        document.getElementById("exifIMG").src = imageData;
+    },
+
+    photoLoadExifBlob: function(imageData) {
+        window.resolveLocalFileSystemURL(imageData, function (entry) {
+            entry.file(function(theFile) {
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    iMapApp.Photo.processFile((new Blob([new Uint8Array(this.result)], {type: theFile.contentType})));
+                };
+                reader.readAsArrayBuffer(theFile);
+            });
+        });
+    },
+
+    processFile(blob) {
+        console.log("attempting to display some exif data");
+        EXIF.getData(blob, function() {
+            console.log(EXIF.getAllTags(this));
+        });
+    },
+
+    prepareDateExif: function(EXIFdata) {
+        let rawDate = EXIF.getTag(EXIFdata, "DateTime"), // attempt to get the photo date
+        dateAsString = null;
+        if (rawDate) {
+            // if a value was returned, convert the date to a string
+            year = rawDate.slice(0,4),
+            month = rawDate.slice(5,7),
+            day = rawDate.slice(8,10),
+            dateAsString = year + "-" + month + "-" + day;
+        };
+
+        return dateAsString;
+    },
+
+    prepareLatExif: function(EXIFdata) {
+        let rawLat = EXIF.getTag(EXIFdata, "GPSLatitude"), // attempt to get the photo latitude
+        lat = null;
+        if (rawLat) {
+            // if a value was returned, convert the latitude to decimal degrees
+            latDD = iMapApp.Photo.DMStoDDExif(rawLat),
+            lat = ((EXIF.getTag(EXIFdata, "GPSLatitudeRef") === "N") ? 1 : -1) * latDD;
+        };
+        return lat;
+    },
+
+    prepareLongExif: function(EXIFdata) {
+        let rawLong = EXIF.getTag(EXIFdata, "GPSLongitude"), // attempt to get the photo longitude
+        long = null;
+        if (rawLong) {
+            // if a value was returned, convert the longitude to decimal degrees
+            longDD = iMapApp.Photo.DMStoDDExif(rawLong),
+            long = ((EXIF.getTag(EXIFdata, "GPSLongitudeRef") === "W") ? -1 : 1) * longDD;
+        };
+        return long;
+    },
+
+    DMStoDDExif: function(coords) {
+        return coords[0] + (coords[1] / 60) + (coords[2] / 3600);
     },
 
     previewPhoto: function() {
@@ -99,6 +222,25 @@ iMapApp.Photo = {
         var largeImage = getDElem('largeImage');
         largeImage.style.display = 'block';
         largeImage.src = container;
+    },
+
+    saveLibraryPhotoToStorage: function(folderpath, file) {
+        // attempt to get the file from the library
+        window.resolveLocalFileSystemURL(file, function(libraryFile) {
+            // once the photo is retrieved, attempt to copy it to persistent storage available to the app
+            // TO-DO: split out error handling function
+            window.resolveLocalFileSystemURL(folderpath, function(appStorage) {
+                let photoFileName = iMapApp.App.guid() + ".jpg";
+                libraryFile.copyTo(appStorage, photoFileName, iMapApp.Photo.saveLibraryPhotoToStorageSuccess, function(e) {
+                    console.log("error saving photo");
+                    console.log(e);
+                });
+            });
+        });
+    },
+
+    saveLibraryPhotoToStorageSuccess: function(response) {
+        document.getElementById("takePicImg").src = response.nativeURL;
     },
 
     /**

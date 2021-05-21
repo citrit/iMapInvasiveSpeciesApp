@@ -169,9 +169,9 @@ iMapApp.uiUtils = {
                         };
                         if (signInError === 0) {
                             console.log("iMap 3 auth appears OK");
+                            window.setTimeout(iMap3SignIn.close, 3000);
                             resolve();
                         }
-                        iMap3SignIn.close();
                     };
                     xhr.send(theRequest);
                 });
@@ -184,39 +184,39 @@ iMapApp.uiUtils = {
     /*
     debug function
     */
-    attemptIMapSignIn: function() {
-        // to-do: add check to see if params are set
-        iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMapInvasives 3', 10);
-        var iMap3SignIn = cordova.InAppBrowser.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_blank', 'location=no,hidden=yes');
-        iMap3SignIn.addEventListener('loadstop', function(event) {
-            var theRequestString = 'j_username=' + iMapApp.iMapPrefs.params.Email + '&j_password=' + iMapApp.iMapPrefs.params.Password;
-            theRequest = encodeURI(theRequestString),
-            xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://imapinvasives.natureserve.org/imap/j_spring_security_check');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                var signInError = 0;
-                if (xhr.status != 200) {
-                    iMap3SignIn.close();
-                    iMapApp.uiUtils.waitDialogClose(true);
-                    navigator.notification.alert("Sorry, an error occured when attempting to sign-in to iMapInvasives. Please try again later.", false, "iMap 3 Log-In Failure");
-                    signInError++;
-                };
-                if (xhr.responseURL == 'https://imapinvasives.natureserve.org/imap/login.jsp?login_error=1') {
-                    iMap3SignIn.close();
-                    iMapApp.uiUtils.waitDialogClose(true);
-                    navigator.notification.alert("Sorry, the email address and password combination is incorrect. Please the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
-                    signInError++;
-                };
-                if (signInError === 0) {
-                    console.log("iMap 3 auth appears OK");
-                }
-                iMap3SignIn.close();
-                iMapApp.uiUtils.waitDialogClose(true);
-            };
-            xhr.send(theRequest);
-        });
-    },
+    // attemptIMapSignIn: function() {
+    //     // to-do: add check to see if params are set
+    //     iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMapInvasives 3', 10);
+    //     var iMap3SignIn = cordova.InAppBrowser.open('https://imapinvasives.natureserve.org/imap/login.jsp', '_blank', 'location=no,hidden=yes');
+    //     iMap3SignIn.addEventListener('loadstop', function(event) {
+    //         var theRequestString = 'j_username=' + iMapApp.iMapPrefs.params.Email + '&j_password=' + iMapApp.iMapPrefs.params.Password;
+    //         theRequest = encodeURI(theRequestString),
+    //         xhr = new XMLHttpRequest();
+    //         xhr.open('POST', 'https://imapinvasives.natureserve.org/imap/j_spring_security_check');
+    //         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    //         xhr.onload = function() {
+    //             var signInError = 0;
+    //             if (xhr.status != 200) {
+    //                 iMap3SignIn.close();
+    //                 iMapApp.uiUtils.waitDialogClose(true);
+    //                 navigator.notification.alert("Sorry, an error occured when attempting to sign-in to iMapInvasives. Please try again later.", false, "iMap 3 Log-In Failure");
+    //                 signInError++;
+    //             };
+    //             if (xhr.responseURL == 'https://imapinvasives.natureserve.org/imap/login.jsp?login_error=1') {
+    //                 iMap3SignIn.close();
+    //                 iMapApp.uiUtils.waitDialogClose(true);
+    //                 navigator.notification.alert("Sorry, the email address and password combination is incorrect. Please the credentials in the Preferences page and try again.", false, "Incorrect iMap 3 Credentials");
+    //                 signInError++;
+    //             };
+    //             if (signInError === 0) {
+    //                 console.log("iMap 3 auth appears OK");
+    //             }
+    //             iMap3SignIn.close();
+    //             iMapApp.uiUtils.waitDialogClose(true);
+    //         };
+    //         xhr.send(theRequest);
+    //     });
+    // },
 
     getPersonIDHandler: function() {
         // checks if the user is signed-in before attempting to get user ID
@@ -712,6 +712,10 @@ iMapApp.uiUtils = {
             case 2:
                 return;
         }
+    },
+
+    setObsDate: function(date) {
+        document.getElementById("obsDate").value = date;
     },
 
     setObsPosition: function(pos) {

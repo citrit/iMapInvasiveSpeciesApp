@@ -53,14 +53,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-camera": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-camera@latest"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-compat": {
     "source": {
       "type": "registry",
@@ -161,6 +153,14 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-dialogs@^2.0.2"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-camera": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-camera@4.1.0"
     },
     "is_top_level": true,
     "variables": {}
