@@ -466,3 +466,22 @@ html {
     display: block;
     font-size: 0.9em;
 }
+
+#toggleGPS {
+    margin: 0.5em 0.75em 0.5em 0.5em;
+}
+
+.toggleGPS-helper-text {
+    margin-left: 0.5em;
+}
+
+.gpsAccuracy {
+    float: right;
+    margin-right: 0.2em;
+    font-size: 0.65em;
+    color: blue;
+}
+
+.basemap-helper-text {
+    margin: 0.5em 0.1em;
+}

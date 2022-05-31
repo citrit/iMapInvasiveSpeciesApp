@@ -95,6 +95,7 @@
                         <option value="17">Kentucky</option>
                         <option value="19">Maine</option>
                         <option value="29">New Hampshire</option>
+                        <option value="30">New Jersey</option>
                         <option value="32">New York</option>
                         <option value="37">Oregon</option>
                         <option value="38">Pennsylvania</option>
@@ -136,7 +137,7 @@
             <fieldset data-role='controlgroup' data-type='horizontal' id='mapType'>
                 <legend>Default Basemap Type:</legend>
                 <input id='road' name='map-type' value='Road' data-theme='c' type='radio'> <label for='road' class="sp-label">Road</label>
-                <input id='aerial' name='map-type' value='AerialWithLabels' data-theme='c' type='radio'> <label for='aerial' class="sp-label">Satellite</label>
+                <input id='aerial' name='map-type' value='AerialWithLabels' data-theme='c' type='radio'> <label for='aerial' class="sp-label">Satellite/Aerial Imagery</label>
             </fieldset>
 
             <label for='zoomToRange' class="sp-label">Default Map Zoom:</label>
@@ -152,12 +153,12 @@
                     data-filter="true" data-input="#searchForlistPrefProj" -->
             <div class="pref-page-container">
                 <label for="listPrefProj">Default Project:</label>
-                <label for="listPrefProj" class="helper-text">iMap 3 Projects associated with your account appear in this list (after being retrieved). Select a Project here to automatically associate each new record with it (optional).</label>
+                <label for="listPrefProj" class="helper-text">iMap3 Projects associated with your account appear in this list (after being retrieved). Select a Project here to automatically associate each new record with it (optional).</label>
                 <select id="listPrefProj" name="listPrefProj" data-role="none"><option>None</option></select>
             </div>
             <div class="pref-page-container">
                     <label for="listPrefOrg">Default Organization:</label>
-                    <label for="listPrefOrg" class="helper-text">iMap 3 Organizations associated with your account in this list (after being retrieved). Select an Organization here to automatically associate each new record with it (optional).</label>
+                    <label for="listPrefOrg" class="helper-text">iMap3 Organizations associated with your account in this list (after being retrieved). Select an Organization here to automatically associate each new record with it (optional).</label>
                     <select id="listPrefOrg" name="listPrefOrg" data-role="none"><option>None</option></select>
                 </div>
             <div data-role="fieldcontain">
@@ -212,39 +213,43 @@
                     </label>
                 </div>
 
-                <label for="obsDate">Date: </label>
+                <label for="obsDate">Observation Date:</label>
                 <input type="date" id="obsDate" name="obsDate"></input>
                 <!-- <span>County: <input type="text" name="obsCounty" ></input></span><br><br>
                 <span>State: <input type="text" name="obsState" ></input></span><br><br> -->
             </div>
-            <input checked=true type="checkbox" id="toggleGPS" name="toggleGPS" style="transform: scale(1.5);" onchange="iMapApp.uiUtils.toggleGPS()" data-role="none"> GPS:
-            <font size="2"> Uncheck to manually move location</font>
-            </input><br><br>
+            <label>
+                <input checked=true type="checkbox" id="toggleGPS" name="toggleGPS" onchange="iMapApp.uiUtils.toggleGPS()" data-role="none">GPS <span class="helper-text toggleGPS-helper-text">Uncheck to manually set location</span></label>
+            </label>
             <select name="flipMap" id="flipMap" data-role="none" onchange="iMapApp.uiUtils.toggleMapType()">
-                    <option value="Road">Road</option>
-                    <option value="AerialWithLabels">Satellite</option>
+                    <option value="Road">Road Basemap</option>
+                    <option value="AerialWithLabels">Satellite/Aerial Imagery Basemap</option>
                 </select>
-            <span style="font-size:10px">
-                    Viewing the map requires an internet connection, if you do not see the map check your connection and restart 
-                        iMapInvasives Mobile. <br>GPS will work without the map.
-                </span>
-            <span name="gpsAccuracy" style="float:right;margin-right:10px;font-size:10px;color:blue">GPS Accuracy: 0000 m</span>
-            <br>
+            <div>
+                <p class="helper-text basemap-helper-text">Viewing the basemap requires an internet connection, however GPS will continue to function even if the basemap does not display.
+                    <span name="gpsAccuracy" class="gpsAccuracy" style="float:right;margin-right:10px;font-size:10px;color:blue">GPS Accuracy: 0000 m</span>
+                </p>
+            </div>
+
             <div id="iMapMapdiv" class="iMapMapdiv"></div>
-            Location (Longitude, Latitude):<input type="text" id="obsLoc" name="obsLoc"></input>
 
             <div data-role="fieldcontain">
-                <label for="obsProjectiMap3">iMap 3 Project: <span>(Optional)</span></label>
+                <span>Location: <span class="helper-text">(Longitude, Latitude)</span></span>
+                <input type="text" id="obsLoc" name="obsLoc"></input>
+            </div>
+
+            <div data-role="fieldcontain">
+                <label for="obsProjectiMap3">iMap 3 Project: <span class="helper-text">(Optional)</span></label>
                 <select name="obsProjectiMap3" id="obsProjectiMap3" data-role="none"></select>
             </div>
 
             <div data-role="fieldcontain">
-                <label for="obsOrgiMap3">iMap 3 Organization: <span>(Optional)</span></label>
+                <label for="obsOrgiMap3">iMap 3 Organization: <span class="helper-text">(Optional)</span></label>
                 <select name="obsOrgiMap3" id="obsOrgiMap3" data-role="none"></select>
             </div>
 
             <div id='timeSurveying'>
-                <span>Time Searched (in minutes):</span>
+                <span>Time Searched: <span class="helper-text">(In Minutes)</span></span>
                 <input type="number" id="timeSurveying" name="timeSurveying">
             </div>
 
@@ -261,7 +266,7 @@
             </div>
             <div id="PlantsEntryDiv" class="extraDataEntry hidden">
                 <p>Size of area containing invasive:<br>
-                <span>(or type precise area with units into Comments box)</span></p>
+                <span class="helper-text">(or type precise area with units into Comments box)</span></p>
                 <select id='sizeOfArea' name='sizeOfArea' data-role="none">
                     <option value="o"></option>
                     <option value="a" class="USCustomary">Up to 10 sq. ft</option>

@@ -1,27 +1,27 @@
 {
-  "_from": "cordova-plugin-geolocation@latest",
-  "_id": "cordova-plugin-geolocation@4.0.2",
+  "_from": "cordova-plugin-geolocation@4.1.0",
+  "_id": "cordova-plugin-geolocation@4.1.0",
   "_inBundle": false,
-  "_integrity": "sha512-QGThnPKzPxESHkruZlpE0+5aFBVOet8al0vIJ7laSUOQHIC1dd/JY6peVIbtLboKi5Dap1wCKRubOqPqH8xcQA==",
+  "_integrity": "sha512-y5io/P10xGMxSn2KEqfv/fExK47eA1pmSonJdmDqDsaSADV9JpgdPx0mUSA08+5pzma/OS9R0LoODeDPx7Jvjg==",
   "_location": "/cordova-plugin-geolocation",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "cordova-plugin-geolocation@latest",
+    "raw": "cordova-plugin-geolocation@4.1.0",
     "name": "cordova-plugin-geolocation",
     "escapedName": "cordova-plugin-geolocation",
-    "rawSpec": "latest",
+    "rawSpec": "4.1.0",
     "saveSpec": null,
-    "fetchSpec": "latest"
+    "fetchSpec": "4.1.0"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-geolocation/-/cordova-plugin-geolocation-4.0.2.tgz",
-  "_shasum": "4668a01ae8a49e27c5515f8b81880983e96d7eb3",
-  "_spec": "cordova-plugin-geolocation@latest",
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-geolocation/-/cordova-plugin-geolocation-4.1.0.tgz",
+  "_shasum": "dfea55e212ed1c46e9d82a373e90b45b9887d1f3",
+  "_spec": "cordova-plugin-geolocation@4.1.0",
   "_where": "/Users/nynhp/apps/iMapInvasiveSpeciesApp/Workspace/iMapApp",
   "author": {
     "name": "Apache Software Foundation"
@@ -41,13 +41,7 @@
   "deprecated": false,
   "description": "Cordova Geolocation Plugin",
   "devDependencies": {
-    "eslint": "^4.0.0",
-    "eslint-config-semistandard": "^11.0.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.3.0",
-    "eslint-plugin-node": "^5.0.0",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "@cordova/eslint-config": "^3.0.0"
   },
   "engines": {
     "cordovaDependencies": {
@@ -75,8 +69,8 @@
     "url": "git+https://github.com/apache/cordova-plugin-geolocation.git"
   },
   "scripts": {
-    "eslint": "node node_modules/eslint/bin/eslint www && node node_modules/eslint/bin/eslint src && node node_modules/eslint/bin/eslint tests",
-    "test": "npm run eslint"
+    "lint": "eslint .",
+    "test": "npm run lint"
   },
-  "version": "4.0.2"
+  "version": "4.1.0"
 }

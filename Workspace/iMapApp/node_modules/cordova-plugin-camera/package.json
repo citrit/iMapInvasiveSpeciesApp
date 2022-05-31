@@ -1,27 +1,24 @@
 {
-  "_from": "cordova-plugin-camera@4.1.0",
-  "_id": "cordova-plugin-camera@4.1.0",
+  "_from": "git+https://github.com/ryaa/cordova-plugin-camera.git",
+  "_id": "cordova-plugin-camera@4.2.0-dev",
   "_inBundle": false,
-  "_integrity": "sha512-fCLhWjWYn49q3X5xaypAPgTz6MAWSKFFQvD2Gpi5SuVlrRPRphtX2jIqR2zCBuDTBR082QVnlc+yUDXt65Mjgw==",
+  "_integrity": "",
   "_location": "/cordova-plugin-camera",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "cordova-plugin-camera@4.1.0",
-    "name": "cordova-plugin-camera",
-    "escapedName": "cordova-plugin-camera",
-    "rawSpec": "4.1.0",
-    "saveSpec": null,
-    "fetchSpec": "4.1.0"
+    "type": "git",
+    "raw": "https://github.com/ryaa/cordova-plugin-camera.git",
+    "rawSpec": "https://github.com/ryaa/cordova-plugin-camera.git",
+    "saveSpec": "git+https://github.com/ryaa/cordova-plugin-camera.git",
+    "fetchSpec": "https://github.com/ryaa/cordova-plugin-camera.git",
+    "gitCommittish": null
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-camera/-/cordova-plugin-camera-4.1.0.tgz",
-  "_shasum": "6474a3e080c4662aa00fd7425705d301c693ddc0",
-  "_spec": "cordova-plugin-camera@4.1.0",
+  "_resolved": "git+https://github.com/ryaa/cordova-plugin-camera.git#4208f81bc27bbcc19fe89a785d98a195f8a5e658",
+  "_spec": "https://github.com/ryaa/cordova-plugin-camera.git",
   "_where": "/Users/nynhp/apps/iMapInvasiveSpeciesApp/Workspace/iMapApp",
   "author": {
     "name": "Apache Software Foundation"
@@ -87,5 +84,5 @@
     "test": "npm run eslint"
   },
   "types": "./types/index.d.ts",
-  "version": "4.1.0"
+  "version": "4.2.0-dev"
 }

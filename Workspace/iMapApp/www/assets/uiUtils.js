@@ -170,7 +170,7 @@ iMapApp.uiUtils = {
                         if (signInError === 0) {
                             console.log("iMap 3 auth appears OK");
                             window.setTimeout(iMap3SignIn.close, 3000);
-                            resolve();
+                            window.setTimeout(resolve, 3000);
                         }
                     };
                     xhr.send(theRequest);
@@ -397,7 +397,7 @@ iMapApp.uiUtils = {
 
     updateUserData: function () {
         if (iMapApp.uiUtils.validUserParams()) {
-            iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMapInvasives 3 to update your species, project, and organization lists...', 10);
+            iMapApp.uiUtils.waitDialogOpen('Attempting to authenticate with iMap3 to retrieve your species, project, and organization lists...', 10);
             iMapApp.uiUtils.attemptIMapSignInPromise()
                 .then(function () {
                     return iMapApp.uiUtils.getPersonID()
@@ -569,8 +569,9 @@ iMapApp.uiUtils = {
         //console.log("Photo: " + obs.getPhotos());
 
         if (obs.getPhotosFileName()) {
-            var activePhotoUrl = iMapApp.App.dataFolder + obs.getPhotosFileName();
-            getDElem('[name="largeImage"]').attr("src", activePhotoUrl);
+            let activePhotoUrl = iMapApp.App.dataFolder + obs.getPhotosFileName(),
+            formattedURL = iMapApp.Photo.handlePhoto(activePhotoUrl);
+            getDElem('[name="largeImage"]').attr("src", formattedURL);
         } else {
             getDElem('[name="largeImage"]').attr("src", "assets/images/TakePhoto3.png");
         }
@@ -989,7 +990,7 @@ iMapApp.uiUtils = {
 
     checkLists: function() {
         if (!iMapApp.iMapPrefs.params.personId) {
-            navigator.notification.confirm("It appears that your full iMap 3 user data (project and organization lists) has not yet been retrieved from iMapInvasives. Would you like to attempt to retrieve this data now? (Or you can manually retrieve this data later in the Preferences page.)", iMapApp.uiUtils.checkListsButtonActions, "Full iMap 3 Data Not Found", ["Yes, Retrieve iMap Data Now", "No, Wait to Retrieve Later"]);
+            navigator.notification.confirm("It appears that your full iMap3 user data (project and organization lists) has not yet been retrieved from iMapInvasives. Would you like to attempt to retrieve this data now? (Or you can manually retrieve this data later in the Preferences page.)", iMapApp.uiUtils.checkListsButtonActions, "Full iMap 3 Data Not Found", ["Yes, Retrieve iMap Data Now", "No, Wait to Retrieve Later"]);
         }
     },
 
@@ -1317,7 +1318,7 @@ iMapApp.uiUtils = {
 
     externalUrlHandlerResponse: function(theButtonResponse, theUrl) {
         if (theButtonResponse === 1) {
-            window.open(theUrl, '_system');
+            cordova.InAppBrowser.open(theUrl, "_system");
         };
     }
 };

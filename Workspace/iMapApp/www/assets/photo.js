@@ -73,10 +73,11 @@ iMapApp.Photo = {
 
     getPhotoFromLibrary: function() {
         navigator.camera.getPicture(iMapApp.Photo.onSuccessLibrary, iMapApp.Photo.onFail, {
+            quality: iMapApp.Photo.getPhotoQuality(),
             destinationType: Camera.DestinationType.FILE_URI,
             saveToPhotoAlbum: false,
             correctOrientation: false,
-            sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
             encodingType: Camera.EncodingType.JPEG
         });
     },
@@ -123,24 +124,30 @@ iMapApp.Photo = {
         window.resolveLocalFileSystemURL(imageData, function (entry) {
             entry.file(function(theFile) {
                 EXIF.getData(theFile, function() {
-                    iMapApp.iMapMap.stopGPSTimer();
-
-                    console.log(EXIF.getAllTags(this));
-
                     let photoLat = iMapApp.Photo.prepareLatExif(this),
                     photoLong = iMapApp.Photo.prepareLongExif(this),
                     photoDate = iMapApp.Photo.prepareDateExif(this);
 
                     if (photoLat && photoLong) {
+                        // photo coordinates read successfully
+
+                        // disable further collection of GPS location
+                        iMapApp.iMapMap.stopGPSTimer();
+                        getDElem('input[name="toggleGPS"]').prop('checked', false);
+
+                        // set the record location at the photo coordinates
                         iMapApp.iMapMap.setPosition([photoLong, photoLat]);
                         iMapApp.uiUtils.setObsPosition([photoLong, photoLat]);
                     };
 
                     if (photoDate) {
+                        // photo date was returned successfully
+                        // set the record date to the date taken
                         iMapApp.uiUtils.setObsDate(photoDate);
                     };
 
                     if (!photoLat || !photoLong || !photoDate) {
+                        // if either the location or date was unable to be read from the photo, display a warning
                         iMapApp.uiUtils.openInfoDialog("Unable to read photo metadata", "The date and location could not automatically be determined from the selected photo. Please adjust this record's date and location if necessary.");
                     };
                 });
@@ -240,7 +247,9 @@ iMapApp.Photo = {
     },
 
     saveLibraryPhotoToStorageSuccess: function(response) {
-        document.getElementById("takePicImg").src = response.nativeURL;
+        // attempt to modify URL for iOS
+        let formattedURL = iMapApp.Photo.handlePhoto(response.nativeURL);
+        document.getElementById("takePicImg").src = formattedURL;
     },
 
     /**
@@ -310,5 +319,13 @@ iMapApp.Photo = {
 
         var blob = new Blob(byteArrays, { type: contentType });
         return blob;
+    },
+
+    handlePhoto: function(nativeFileURL) {
+        let finalFileURL = nativeFileURL
+        if (device.platform === "iOS") {
+            finalFileURL = window.WkWebView.convertFilePath(nativeFileURL);
+        };
+        return finalFileURL;
     }
 };

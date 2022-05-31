@@ -29,30 +29,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova.plugins.diagnostic": {
-    "source": {
-      "type": "registry",
-      "id": "cordova.plugins.diagnostic@latest"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-app-version": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-app-version"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-battery-status": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-battery-status@latest"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-compat": {
     "source": {
       "type": "registry",
@@ -77,30 +53,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-file-transfer": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-file-transfer@latest"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-geolocation": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-geolocation@latest"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-inappbrowser": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-inappbrowser@latest"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-media": {
     "source": {
       "type": "registry",
@@ -109,26 +61,10 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-media-capture": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-media-capture@latest"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-network-information": {
     "source": {
       "type": "registry",
       "id": "cordova-plugin-network-information@latest"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-splashscreen": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-splashscreen@latest"
     },
     "is_top_level": true,
     "variables": {}
@@ -157,10 +93,74 @@
     "is_top_level": true,
     "variables": {}
   },
+  "cordova-plugin-geolocation": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-geolocation@4.1.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-inappbrowser": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-inappbrowser@5.0.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-splashscreen": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-splashscreen@6.0.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-app-version": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-app-version"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova.plugins.diagnostic": {
+    "source": {
+      "type": "registry",
+      "id": "cordova.plugins.diagnostic@6.0.3"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
   "cordova-plugin-camera": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-camera@4.1.0"
+      "id": "https://github.com/ryaa/cordova-plugin-camera.git"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-wkwebview-file-xhr": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-wkwebview-file-xhr"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-androidx-adapter": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-androidx-adapter"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-migrate-localstorage": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/viglino/cordova-plugin-migrate-localstorage"
     },
     "is_top_level": true,
     "variables": {}

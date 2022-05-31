@@ -10,38 +10,33 @@
     "cordova-custom-config": {
       "PACKAGE_NAME": "com.ltc.imapapp"
     },
-    "cordova-plugin-device-orientation": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova.plugins.diagnostic": {
-      "ANDROID_SUPPORT_VERSION": "28.+",
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
     "cordova-plugin-app-version": {
       "PACKAGE_NAME": "com.ltc.imapapp"
     },
-    "cordova-plugin-battery-status": {
+    "cordova-plugin-camera": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "com.ltc.imapapp"
     },
     "cordova-plugin-device": {
       "PACKAGE_NAME": "com.ltc.imapapp"
     },
+    "cordova-plugin-device-orientation": {
+      "PACKAGE_NAME": "com.ltc.imapapp"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "com.ltc.imapapp"
+    },
     "cordova-plugin-file": {
       "PACKAGE_NAME": "com.ltc.imapapp"
     },
-    "cordova-plugin-file-transfer": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
     "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
       "PACKAGE_NAME": "com.ltc.imapapp"
     },
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.ltc.imapapp"
     },
     "cordova-plugin-media": {
-      "PACKAGE_NAME": "com.ltc.imapapp"
-    },
-    "cordova-plugin-media-capture": {
       "PACKAGE_NAME": "com.ltc.imapapp"
     },
     "cordova-plugin-network-information": {
@@ -56,11 +51,17 @@
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.ltc.imapapp"
     },
-    "cordova-plugin-dialogs": {
+    "cordova-plugin-wkwebview-file-xhr": {
       "PACKAGE_NAME": "com.ltc.imapapp"
     },
-    "cordova-plugin-camera": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+    "cordova.plugins.diagnostic": {
+      "ANDROIDX_VERSION": "1.+",
+      "PACKAGE_NAME": "com.ltc.imapapp"
+    },
+    "cordova-plugin-androidx-adapter": {
+      "PACKAGE_NAME": "com.ltc.imapapp"
+    },
+    "cordova-plugin-migrate-localstorage": {
       "PACKAGE_NAME": "com.ltc.imapapp"
     }
   },

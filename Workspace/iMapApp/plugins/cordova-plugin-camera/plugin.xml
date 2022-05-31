@@ -21,7 +21,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="cordova-plugin-camera"
-    version="4.1.0">
+    version="4.2.0-dev">
     <name>Camera</name>
     <description>Cordova Camera Plugin</description>
     <license>Apache 2.0</license>
@@ -59,7 +59,7 @@
         <config-file target="AndroidManifest.xml" parent="application">
           <provider
               android:name="org.apache.cordova.camera.FileProvider"
-              android:authorities="${applicationId}.provider"
+              android:authorities="${applicationId}.provider.CameraFilesProvider"
               android:exported="false"
               android:grantUriPermissions="true" >
               <meta-data

@@ -123,12 +123,13 @@ iMapApp.App = {
         for (var key in iMapApp.App.observ) {
             var el = iMapApp.App.observ[key];
             var ph = new Date(el.getWhen());
-            var activePhotoUrl = null;
+            var activePhotoFormattedURL = null;
             if (el.getPhotosFileName()) {
-                activePhotoUrl = iMapApp.App.dataFolder + el.getPhotosFileName();
+                let activePhotoUrl = iMapApp.App.dataFolder + el.getPhotosFileName();
+                activePhotoFormattedURL = iMapApp.Photo.handlePhoto(activePhotoUrl);
             }
             cards_data.unshift({
-                image: activePhotoUrl,
+                image: activePhotoFormattedURL,
                 project: el.getProject(),
                 species: iMapApp.App.getSpeciesNameNew(iMapApp.App.getSpeciesRecord(el.getiMap3SpeciesID()), true),
                 detected: (el.getDetected() ? 'Detected' : 'Not Detected'),
@@ -447,14 +448,14 @@ function debugTest() {
 
 }
 
-if (navigator.platform == 'MacIntel') {
-    console.log("Setting Chrome Debug vars");
-    var Connection = {};
-    Connection.WIFI = 1;
-    navigator.connection = {};
-    navigator.connection.type = Connection.WIFI;
-    navigator.notification = { alert: alert };
-}
+// if (navigator.platform == 'MacIntel') {
+//     console.log("Setting Chrome Debug vars");
+//     var Connection = {};
+//     Connection.WIFI = 1;
+//     navigator.connection = {};
+//     navigator.connection.type = Connection.WIFI;
+//     navigator.notification = { alert: alert };
+// }
 
 
 //page load initialization
@@ -462,6 +463,6 @@ $(document).ready(function() {
     console.log("Onload " + navigator.platform);
     document.addEventListener('deviceready', iMapApp.App.init, false);
 
-    if (navigator.platform == 'MacIntel')
-        iMapApp.App.init();
+    // if (navigator.platform == 'MacIntel')
+    //     iMapApp.App.init();
 });
